@@ -1,18 +1,99 @@
-function fnOnLoad() {
-	//alert(window.location.pathname);
-	fnCreateBackButton();
-	
-	if (window.location.pathname == "/en/ios/home/profile") {
-		fnProfile();
+// Tools
+
+function fnArrayHasItem(originalArray, itemToDetect) {
+	var j = 0;
+	while (j < originalArray.length) {
+		if (originalArray[j] === itemToDetect) {
+			return true;
+		} else { j++; }		
 	}
-	if (window.location.pathname == "/en/ios/friends/profile") {
-		fnFriendProfile();
+	return false;
+}
+
+function fnArrayRemoveItem(originalArray, itemToRemove) {
+	var j = 0;
+	while (j < originalArray.length) {
+	//	alert(originalArray[j]);
+		if (originalArray[j] === itemToRemove) {
+			originalArray.splice(j, 1);
+		} else { j++; }
 	}
+	//	assert('hi');
+	return originalArray;
+}
+
+function fnSetCookie(c_name,value)
+{
+	var exdays = 99999;
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
+	document.cookie=c_name + "=" + c_value;
+}
+
+function fnGetCookie(c_name)
+{
+	var i,x,y,ARRcookies=document.cookie.split(";");
+	for (i=0;i<ARRcookies.length;i++)
+	{
+		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x=x.replace(/^\s+|\s+$/g,"");
+		if (x===c_name)
+		{
+			return unescape(y);
+		}
+	}
+	return null;
+}
+
+// book mark function
+
+function fnGetSeparator() {
+    var div, ta, text;
+
+    div = document.createElement("div");
+    div.innerHTML = "<textarea>one\ntwo</textarea>";
+    ta = div.firstChild;
+    text = ta.value;
+    return text.indexOf("\r") >= 0 ? "\r\n" : "\n";
+}
+
+function fnGetConnector() {
+    return "DS_5kyp3_Cl@n";
+}
+
+function fnGetBookmarkFriendArray() {
+	var aFriendArray;
+	var aFriendArrayText = fnGetCookie("friendBookmark");
+	if (aFriendArrayText == null) {
+		aFriendArray = [];
+	}
+	else {
+		aFriendArray = aFriendArrayText.split(fnGetSeparator());
+	}
+	return aFriendArray;
+}
+
+function fnBookmarkFriend() {
+	var aFriendArray = fnGetBookmarkFriendArray();
+	if (!fnArrayHasItem(aFriendArray, friendship.pid + fnGetConnector() + friendship.nickname )) {
+		aFriendArray.push(friendship.pid + fnGetConnector() + friendship.nickname);
+	}
+	var aFriendArrayText = aFriendArray.join(fnGetSeparator());
+	fnSetCookie("friendBookmark",aFriendArrayText);
+}
+
+function fnUnBookmarkFriend() {
+	var aFriendArray = fnGetBookmarkFriendArray();
+	fnArrayRemoveItem(aFriendArray, friendship.pid + fnGetConnector() + friendship.nickname);
+	var aFriendArrayText = aFriendArray.join(fnGetSeparator());
+	fnSetCookie("friendBookmark",aFriendArrayText);
 }
 
 // Global
 
-function fnCreateBackButton() { 
+function fnCreateBackButton() {
 	var divTag = document.createElement("div"); 
 
 	divTag.id = "backButtonDiv"; 
@@ -29,10 +110,6 @@ function fnCreateBackButton() {
 }
 
 // Profile section /en/ios/friends/profile
-
-function fnProfile() {
-	fnProfileAddWallBookmarkSelector();
-}
 
 function fnProfileAddWallBookmarkSelector() {
 	var divTag = document.createElement("div"); 
@@ -57,16 +134,15 @@ function fnProfileAddWallBookmarkSelector() {
 	document.body.appendChild(divTag);
 }
 
+function fnProfile() {
+	fnProfileAddWallBookmarkSelector();
+}
+
 // Friend section /en/ios/friends/profile
 
 function fnFriendProfile() {
 	fnProfileAddFriendWallBookmarkSelector();
 	fnProfileAddFriendWallBookmarkButtons();
-}
-
-function fnProfileAddFriendWallBookmarkSelector() {
-	fnProfileAddWallBookmarkSelector();
-	document.getElementById('wallBookmarkDiv').style.top = "210px";
 }
 
 function fnProfileAddFriendWallBookmarkButtons() {
@@ -89,93 +165,19 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	document.body.appendChild(divTag);
 }
 
-function fnGetSeparator() {
-    var div, ta, text;
-
-    div = document.createElement("div");
-    div.innerHTML = "<textarea>one\ntwo</textarea>";
-    ta = div.firstChild;
-    text = ta.value;
-    return text.indexOf("\r") >= 0 ? "\r\n" : "\n";
+function fnProfileAddFriendWallBookmarkSelector() {
+	fnProfileAddWallBookmarkSelector();
+	document.getElementById('wallBookmarkDiv').style.top = "210px";
 }
 
-function fnGetConnector() {
-    return "DS_5kyp3_Cl@n";
-}
-
-function fnBookmarkFriend() {
-	var aFriendArray = fnGetBookmarkFriendArray();
-	if (fnArrayHasItem(aFriendArray, friendship.pid + fnGetConnector() + friendship.nickname )) {
+function fnOnLoad() {
+	//alert(window.location.pathname);
+	fnCreateBackButton();
+	
+	if (window.location.pathname === "/en/ios/home/profile") {
+		fnProfile();
 	}
-	else {
-		aFriendArray.push(friendship.pid + fnGetConnector() + friendship.nickname);
+	if (window.location.pathname === "/en/ios/friends/profile") {
+		fnFriendProfile();
 	}
-	aFriendArrayText = aFriendArray.join(fnGetSeparator());
-	fnSetCookie("friendBookmark",aFriendArrayText);
-}
-
-function fnUnBookmarkFriend() {
-	var aFriendArray = fnGetBookmarkFriendArray();
-	fnArrayRemoveItem(aFriendArray, friendship.pid + fnGetConnector() + friendship.nickname ));
-	aFriendArrayText = aFriendArray.join(fnGetSeparator());
-	fnSetCookie("friendBookmark",aFriendArrayText);
-}
-
-function fnGetBookmarkFriendArray() {
-	var aFriendArray;
-	var aFriendArrayText = fnGetCookie("friendBookmark");
-	if (aFriendArrayText == null) {
-		aFriendArray = [];
-	}
-	else {
-		aFriendArray = aFriendArrayText.split(fnGetSeparator());
-	}
-	return aFriendArray;
-}
-
-function fnArrayHasItem(originalArray, itemToDetect) {
-	var j = 0;
-	while (j < originalArray.length) {
-		if (originalArray[j] == itemToDetect) {
-			return true;
-		} else { j++; }		
-	}
-	return false;
-}
-
-function fnArrayRemoveItem(originalArray, itemToRemove) {
-	var j = 0;
-	while (j < originalArray.length) {
-	//	alert(originalArray[j]);
-		if (originalArray[j] == itemToRemove) {
-			originalArray.splice(j, 1);
-		} else { j++; }
-	}
-	//	assert('hi');
-	return originalArray;
-}
-
-function fnSetCookie(c_name,value)
-{
-	var exdays = 99999;
-	var exdate=new Date();
-	exdate.setDate(exdate.getDate() + exdays);
-	var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
-	document.cookie=c_name + "=" + c_value;
-}
-
-function fnGetCookie(c_name)
-{
-	var i,x,y,ARRcookies=document.cookie.split(";");
-	for (i=0;i<ARRcookies.length;i++)
-	{
-		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
-		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
-		x=x.replace(/^\s+|\s+$/g,"");
-		if (x==c_name)
-		{
-			return unescape(y);
-		}
-	}
-	return null;
 }
