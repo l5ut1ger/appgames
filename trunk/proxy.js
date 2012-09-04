@@ -28,7 +28,7 @@ function fnProfile() {
 }
 
 function fnProfileAddWallBookmarkSelector() {
-	var divTag = document.createElement("div"); 
+	/*var divTag = document.createElement("div"); 
 
 	divTag.id = "wallBookmarkDiv"; 
 
@@ -45,5 +45,5 @@ function fnProfileAddWallBookmarkSelector() {
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
-	document.body.appendChild(divTag); 
+	document.body.appendChild(divTag); */
 }
