@@ -22,13 +22,13 @@ function fnCreateBackButton() {
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:history.go(-1);">Back</button>'; 
 	document.body.appendChild(divTag); 
 }
-
+/*
 function fnProfile() {
 	fnProfileAddWallBookmarkSelector();
 }
 
 function fnProfileAddWallBookmarkSelector() {
-	/*var divTag = document.createElement("div"); 
+	var divTag = document.createElement("div"); 
 
 	divTag.id = "wallBookmarkDiv"; 
 
@@ -45,5 +45,5 @@ function fnProfileAddWallBookmarkSelector() {
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
-	document.body.appendChild(divTag); */
-}
+	document.body.appendChild(divTag);
+}*/
