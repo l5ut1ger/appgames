@@ -22,23 +22,27 @@ function fnArrayRemoveItem(originalArray, itemToRemove) {
 	return originalArray;
 }
 
-function fnSetCookie(name,value) {
-	if (true) {
-		var date = new Date();
-		date.setTime(date.getTime()+(99999*24*60*60*1000));
-		var expires = "; expires="+date.toGMTString();
-	}
-	else var expires = "";
-	document.cookie = name+"="+value+expires+"; path=/";
+function fnSetCookie(c_name,value)
+{
+	var exdays = 99999;
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
+	document.cookie=c_name + "=" + c_value+ ";path=/";
 }
 
-function fnGetCookie(name) {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') c = c.substring(1,c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+function fnGetCookie(c_name)
+{
+	var i,x,y,ARRcookies=document.cookie.split(";");
+	for (i=0;i<ARRcookies.length;i++)
+	{
+		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x=x.replace(/^\s+|\s+$/g,"");
+		if (x===c_name)
+		{
+			return unescape(y);
+		}
 	}
 	return null;
 }
@@ -59,7 +63,7 @@ function fnGetConnector() {
     return "DS_5kyp3_Cl@n";
 }
 
-var friendBookmarkString = "ds_friend_bookmark";
+var friendBookmarkString = "ds_friends_bookmark";
 
 function fnGetBookmarkFriendArray() {
 	var aFriendArray;
