@@ -82,7 +82,6 @@ function fnBookmarkFriend() {
 	}
 	var aFriendArrayText = aFriendArray.join(fnGetSeparator());
 	fnSetCookie("friendBookmark",aFriendArrayText);
-	alert(aFriendArrayText);
 }
 
 function fnUnBookmarkFriend() {
