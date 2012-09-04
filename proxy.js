@@ -1,10 +1,10 @@
 function fnOnLoad() {
 	//alert(window.location.pathname);
 	fnCreateBackButton();
-	/*
+	
 	if (window.location.pathname == "/en/ios/home/profile") {
-		//fnProfile();
-	}*/
+		fnProfile();
+	}
 }
 
 function fnCreateBackButton() { 
@@ -22,7 +22,7 @@ function fnCreateBackButton() {
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:history.go(-1);">Back</button>'; 
 	document.body.appendChild(divTag); 
 }
-/*
+
 function fnProfile() {
 	fnProfileAddWallBookmarkSelector();
 }
@@ -46,4 +46,4 @@ function fnProfileAddWallBookmarkSelector() {
 
 	divTag.innerHTML = selectorHTML;
 	document.body.appendChild(divTag);
-}*/
+}
