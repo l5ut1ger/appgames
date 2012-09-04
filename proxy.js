@@ -3,7 +3,7 @@ function fnOnLoad() {
 	fnCreateBackButton();
 	
 	if (window.location.pathname == "/en/ios/home/profile") {
-		fnProfile();
+		//fnProfile();
 	}
 }
 
