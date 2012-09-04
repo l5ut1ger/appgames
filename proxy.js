@@ -84,7 +84,7 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.style["z-index"] = 1000; 
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "150px"; 
-	divTag.style.top = "250px"; 
+	divTag.style.top = "210px"; 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnUnBookmarkFriend();">Del</button>'; 
 	document.body.appendChild(divTag);
 }
