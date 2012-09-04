@@ -197,6 +197,9 @@ function fnOnLoad() {
 	if (window.location.pathname === "/en/ios/home/profile") {
 		fnProfile();
 	}
+   if (window.location.pathname === "/en/ios/home") {
+                fnProfile();
+  }
 	if (window.location.pathname === "/en/ios/friends/profile") {
 		fnFriendProfile();
 	}
