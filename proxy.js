@@ -36,10 +36,10 @@ function fnProfileAddWallBookmarkSelector() {
 
 	divTag.style.position = "absolute"; 
 
-	divTag.style.left = "280px"; 
-	divTag.style.top = "80px"; 
+	divTag.style.left = "180px"; 
+	divTag.style.top = "100px"; 
 
-	var selectorHTML = '<select name=sel onchange="if (this.options[this.options.selectedIndex].value>0) window.location=\"/en/ios/friends/profile?pid=\"+(this.options[this.options.selectedIndex].value);"><option value="0">---';
+	var selectorHTML = '<select name=sel onchange="if (this.options[this.options.selectedIndex].value!=0) window.location=\"/en/ios/friends/profile?pid=\"+(this.options[this.options.selectedIndex].value);"><option selected value="0">---';
 	selectorHTML+='<option value="2398072562">aafds';
 	selectorHTML+='<option value="1563407917">Item 1';
 	selectorHTML+='</select>'; 
