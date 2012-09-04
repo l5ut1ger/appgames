@@ -83,6 +83,7 @@ function fnBookmarkFriend() {
 		aFriendArray.push(friendship.pid + fnGetConnector() + friendship.nickname);
 	}
 	var aFriendArrayText = aFriendArray.join(fnGetSeparator());
+	alert(aFriendArrayText);
 	fnSetCookie(friendBookmarkString,aFriendArrayText);
 }
 
