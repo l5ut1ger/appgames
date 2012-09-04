@@ -74,7 +74,7 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "100px"; 
 	divTag.style.top = "210px"; 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnSetCookie(\'testVar\',\'hey\');">Add</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnSetCookie(\'testVar\',\'hey\');alert(friendship.nickname);">Add</button>'; 
 	document.body.appendChild(divTag);
 	
 	divTag = document.createElement("div"); 
