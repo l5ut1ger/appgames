@@ -96,7 +96,6 @@ function fnUnBookmarkFriend() {
 	else {
 		aFriendArrayText = aFriendArray.join(fnGetSeparator());
 	}
-	alert(aFriendArrayText);
 	fnSetCookie(friendBookmarkString,aFriendArrayText);
 }
 
@@ -136,6 +135,7 @@ function fnProfileAddWallBookmarkSelector() {
 	var selectorHTML = '<select name="sel" onchange="window.location=\'/en/ios/friends/profile?pid=\'+this.options[this.options.selectedIndex].value;"><option selected value="0">Wall Bookmark</option>';
 	var aFriendArray = fnGetBookmarkFriendArray();
 	for (i=0;i<aFriendArray.length;i++) {
+		if (aFriendArray[i].split(fnGetConnector())[1] == 'undefined') continue;
 		selectorHTML+='<option value="' + aFriendArray[i].split(fnGetConnector())[0] + '">' + aFriendArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	selectorHTML+='</select>'; 
