@@ -74,7 +74,7 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "100px"; 
 	divTag.style.top = "210px"; 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:alert(\'yes\');">Add</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnSetCookie(\'testVar\',\'hey\');">Add</button>'; 
 	document.body.appendChild(divTag);
 	
 	divTag = document.createElement("div"); 
@@ -83,12 +83,13 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "150px"; 
 	divTag.style.top = "250px"; 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:alert(\'hi\');">Del</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:alert(fnGetCookie(\'testVar\'));">Del</button>'; 
 	document.body.appendChild(divTag);
 }
 
-function fnSetCookie(c_name,value,exdays)
+function fnSetCookie(c_name,value)
 {
+	var exdays = 99999;
 	var exdate=new Date();
 	exdate.setDate(exdate.getDate() + exdays);
 	var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
