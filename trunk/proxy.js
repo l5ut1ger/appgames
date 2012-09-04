@@ -85,9 +85,15 @@ function fnBookmarkFriend() {
 }
 
 function fnUnBookmarkFriend() {
+	var aFriendArrayText = null;
 	var aFriendArray = fnGetBookmarkFriendArray();
 	fnArrayRemoveItem(aFriendArray, friendship.pid + fnGetConnector() + friendship.nickname);
-	var aFriendArrayText = aFriendArray.join(fnGetSeparator());
+	if (aFriendArray.length == 0) {
+		aFriendArrayText = null;
+	}
+	else {
+		aFriendArrayText = aFriendArray.join(fnGetSeparator());
+	}
 	fnSetCookie("friendBookmark",aFriendArrayText);
 }
 
@@ -147,7 +153,7 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.style["z-index"] = 1000; 
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "100px"; 
-	divTag.style.top = "210px"; 
+	divTag.style.top = "230px"; 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnBookmarkFriend();">Add</button>'; 
 	document.body.appendChild(divTag);
 	
@@ -156,14 +162,14 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.style["z-index"] = 1000; 
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "150px"; 
-	divTag.style.top = "210px"; 
+	divTag.style.top = "230px"; 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnUnBookmarkFriend();">Del</button>'; 
 	document.body.appendChild(divTag);
 }
 
 function fnProfileAddFriendWallBookmarkSelector() {
 	fnProfileAddWallBookmarkSelector();
-	document.getElementById('wallBookmarkDiv').style.top = "210px";
+	document.getElementById('wallBookmarkDiv').style.top = "230px";
 }
 
 function fnFriendProfile() {
