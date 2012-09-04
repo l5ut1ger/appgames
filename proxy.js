@@ -141,6 +141,14 @@ function fnProfileAddWallBookmarkSelector() {
 	document.body.appendChild(divTag);
 }
 
+function fnProfileRemoveWallBookmarkSelector() {
+	var i;
+	var divTag = document.getElementById('wallBookmarkDiv');
+	if (divTag != null) {
+		document.body.removeChild(divTag);
+	}
+}
+
 function fnProfile() {
 	fnProfileAddWallBookmarkSelector();
 }
@@ -154,7 +162,7 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "100px"; 
 	divTag.style.top = "230px"; 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnBookmarkFriend();">Add</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnBookmarkFriend();fnProfileRemoveWallBookmarkSelector();fnProfileAddFriendWallBookmarkSelector();">Add</button>'; 
 	document.body.appendChild(divTag);
 	
 	divTag = document.createElement("div"); 
@@ -163,7 +171,7 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "150px"; 
 	divTag.style.top = "230px"; 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnUnBookmarkFriend();">Del</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnUnBookmarkFriend();fnProfileRemoveWallBookmarkSelector();fnProfileAddFriendWallBookmarkSelector();">Del</button>'; 
 	document.body.appendChild(divTag);
 }
 
