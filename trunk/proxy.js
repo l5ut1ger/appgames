@@ -43,7 +43,7 @@ function fnProfileAddWallBookmarkSelector() {
 
 	divTag.style.position = "absolute"; 
 
-	divTag.style.left = "180px"; 
+	divTag.style.left = "200px"; 
 	divTag.style.top = "100px"; 
 
 	var selectorHTML = '<select name="sel" onchange="window.location=\'/en/ios/friends/profile?pid=\'+this.options[this.options.selectedIndex].value;"><option selected value="0">Wall Bookmark</option>';
@@ -64,7 +64,7 @@ function fnFriendProfile() {
 
 function fnProfileAddFriendWallBookmarkSelector() {
 	fnProfileAddWallBookmarkSelector();
-	document.getElementById('wallBookmarkDiv').style.top = "200px";
+	document.getElementById('wallBookmarkDiv').style.top = "210px";
 }
 
 function fnProfileAddWallBookmarkButtons() {
@@ -74,7 +74,7 @@ function fnProfileAddWallBookmarkButtons() {
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "100px"; 
 	divTag.style.top = "200px"; 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="alert(\"hi\");">Add</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:history.go(-1);">Add</button>'; 
 	document.body.appendChild(divTag);
 	
 	divTag = document.createElement("div"); 
@@ -83,6 +83,6 @@ function fnProfileAddWallBookmarkButtons() {
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "130px"; 
 	divTag.style.top = "200px"; 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="alert(\"ha\");">Del</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:history.go(-1);">Del</button>'; 
 	document.body.appendChild(divTag);
 }
