@@ -1,10 +1,10 @@
 function fnOnLoad() {
 	//alert(window.location.pathname);
 	fnCreateBackButton();
-	
+	/*
 	if (window.location.pathname == "/en/ios/home/profile") {
 		//fnProfile();
-	}
+	}*/
 }
 
 function fnCreateBackButton() { 
