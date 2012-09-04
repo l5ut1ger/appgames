@@ -65,7 +65,7 @@ function fnGetConnector() {
 
 function fnGetBookmarkFriendArray() {
 	var aFriendArray;
-	var aFriendArrayText = fnGetCookie("friendBookmark");
+	var aFriendArrayText = fnGetCookie("dsFriendBookmark");
 	if (aFriendArrayText == null) {
 		aFriendArray = [];
 	}
@@ -81,7 +81,7 @@ function fnBookmarkFriend() {
 		aFriendArray.push(friendship.pid + fnGetConnector() + friendship.nickname);
 	}
 	var aFriendArrayText = aFriendArray.join(fnGetSeparator());
-	fnSetCookie("friendBookmark",aFriendArrayText);
+	fnSetCookie("dsFriendBookmark",aFriendArrayText);
 }
 
 function fnUnBookmarkFriend() {
@@ -94,7 +94,7 @@ function fnUnBookmarkFriend() {
 	else {
 		aFriendArrayText = aFriendArray.join(fnGetSeparator());
 	}
-	fnSetCookie("friendBookmark",aFriendArrayText);
+	fnSetCookie("dsFriendBookmark",aFriendArrayText);
 }
 
 // Global
