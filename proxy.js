@@ -82,6 +82,7 @@ function fnBookmarkFriend() {
 	}
 	var aFriendArrayText = aFriendArray.join(fnGetSeparator());
 	fnSetCookie("friendBookmark",aFriendArrayText);
+	alert(aFriendArrayText);
 }
 
 function fnUnBookmarkFriend() {
@@ -112,6 +113,7 @@ function fnCreateBackButton() {
 // Profile section /en/ios/friends/profile
 
 function fnProfileAddWallBookmarkSelector() {
+	var i;
 	var divTag = document.createElement("div"); 
 
 	divTag.id = "wallBookmarkDiv"; 
@@ -125,7 +127,7 @@ function fnProfileAddWallBookmarkSelector() {
 
 	var selectorHTML = '<select name="sel" onchange="window.location=\'/en/ios/friends/profile?pid=\'+this.options[this.options.selectedIndex].value;"><option selected value="0">Wall Bookmark</option>';
 	var aFriendArray = fnGetBookmarkFriendArray();
-	for (var i=0;i<aFriendArray.length;i++) {
+	for (i=0;i<aFriendArray.length;i++) {
 		selectorHTML+='<option value="' + aFriendArray[i].split(fnGetConnector())[0] + '">' + aFriendArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	selectorHTML+='</select>'; 
@@ -139,11 +141,6 @@ function fnProfile() {
 }
 
 // Friend section /en/ios/friends/profile
-
-function fnFriendProfile() {
-	fnProfileAddFriendWallBookmarkSelector();
-	fnProfileAddFriendWallBookmarkButtons();
-}
 
 function fnProfileAddFriendWallBookmarkButtons() {
 	var divTag = document.createElement("div"); 
@@ -169,6 +166,13 @@ function fnProfileAddFriendWallBookmarkSelector() {
 	fnProfileAddWallBookmarkSelector();
 	document.getElementById('wallBookmarkDiv').style.top = "210px";
 }
+
+function fnFriendProfile() {
+	fnProfileAddFriendWallBookmarkSelector();
+	fnProfileAddFriendWallBookmarkButtons();
+}
+
+// on load
 
 function fnOnLoad() {
 	//alert(window.location.pathname);
