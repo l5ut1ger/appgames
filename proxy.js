@@ -73,7 +73,7 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.style["z-index"] = 1000; 
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "100px"; 
-	divTag.style.top = "210px"; 
+	divTag.style.top = "220px"; 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="alert(\"hi\");">Add</button>'; 
 	document.body.appendChild(divTag);
 	
