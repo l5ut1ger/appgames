@@ -39,9 +39,9 @@ function fnProfileAddWallBookmarkSelector() {
 	divTag.style.left = "180px"; 
 	divTag.style.top = "100px"; 
 
-	var selectorHTML = '<select name="sel" onchange="alert(this.options[this.options.selectedIndex].value);"><option selected value="0">---</option>';
-	selectorHTML+='<option value="2398072562">aafds</option>';
-	selectorHTML+='<option value="1563407917">Item 1</option>';
+	var selectorHTML = '<select name="sel" onchange="window.location=\'/en/ios/friends/profile?pid=\'+this.options[this.options.selectedIndex].value;"><option selected value="0">Wall Bookmark</option>';
+	selectorHTML+='<option value="2398072562">abc</option>';
+	selectorHTML+='<option value="1563407917">cde</option>';
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
