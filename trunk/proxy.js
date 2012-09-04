@@ -74,7 +74,7 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "100px"; 
 	divTag.style.top = "250px"; 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="alert(\"hi\");">Add</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:alert(\"hi\");">Add</button>'; 
 	document.body.appendChild(divTag);
 	
 	divTag = document.createElement("div"); 
@@ -83,6 +83,6 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "150px"; 
 	divTag.style.top = "210px"; 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="alert(\"ha\");">Del</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:alert(\"ha\");">Del</button>'; 
 	document.body.appendChild(divTag);
 }
