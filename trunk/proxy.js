@@ -73,7 +73,7 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.style["z-index"] = 1000; 
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "100px"; 
-	divTag.style.top = "200px"; 
+	divTag.style.top = "210px"; 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="alert(\"hi\");">Add</button>'; 
 	document.body.appendChild(divTag);
 	
@@ -81,8 +81,8 @@ function fnProfileAddFriendWallBookmarkButtons() {
 	divTag.id = "wallBookmarkRemoveDiv"; 
 	divTag.style["z-index"] = 1000; 
 	divTag.style.position = "absolute"; 
-	divTag.style.left = "130px"; 
-	divTag.style.top = "200px"; 
+	divTag.style.left = "150px"; 
+	divTag.style.top = "210px"; 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="alert(\"ha\");">Del</button>'; 
 	document.body.appendChild(divTag);
 }
