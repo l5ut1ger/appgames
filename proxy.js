@@ -5,7 +5,12 @@ function fnOnLoad() {
 	if (window.location.pathname == "/en/ios/home/profile") {
 		fnProfile();
 	}
+	if (window.location.pathname == "/en/ios/friends/profile") {
+		fnFriendProfile();
+	}
 }
+
+// Global
 
 function fnCreateBackButton() { 
 	var divTag = document.createElement("div"); 
@@ -22,6 +27,8 @@ function fnCreateBackButton() {
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:history.go(-1);">Back</button>'; 
 	document.body.appendChild(divTag); 
 }
+
+// Profile section /en/ios/friends/profile
 
 function fnProfile() {
 	fnProfileAddWallBookmarkSelector();
@@ -45,5 +52,37 @@ function fnProfileAddWallBookmarkSelector() {
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
+	document.body.appendChild(divTag);
+}
+
+// Friend section /en/ios/friends/profile
+
+function fnFriendProfile() {
+	fnProfileAddFriendWallBookmarkSelector();
+	fnProfileAddFriendWallBookmarkButtons();
+}
+
+function fnProfileAddFriendWallBookmarkSelector() {
+	fnProfileAddWallBookmarkSelector();
+	document.getElementById('wallBookmarkDiv').style.top = "200px";
+}
+
+function fnProfileAddWallBookmarkButtons() {
+	var divTag = document.createElement("div"); 
+	divTag.id = "wallBookmarkAddDiv"; 
+	divTag.style["z-index"] = 1000; 
+	divTag.style.position = "absolute"; 
+	divTag.style.left = "100px"; 
+	divTag.style.top = "200px"; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="alert(\"hi\");">Add</button>'; 
+	document.body.appendChild(divTag);
+	
+	divTag = document.createElement("div"); 
+	divTag.id = "wallBookmarkRemoveDiv"; 
+	divTag.style["z-index"] = 1000; 
+	divTag.style.position = "absolute"; 
+	divTag.style.left = "130px"; 
+	divTag.style.top = "200px"; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="alert(\"ha\");">Del</button>'; 
 	document.body.appendChild(divTag);
 }
