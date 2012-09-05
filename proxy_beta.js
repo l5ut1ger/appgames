@@ -213,10 +213,7 @@ function fnOnLoad() {
 	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.js", "js");
 
 
-	jQuery.noticeAdd({
-                        text: 'This is a notification that does not stay',
-                        stay: false
-                });
+	//jQuery.noticeAdd({          text: 'This is a notification that does not stay',  stay: false        });
 
 	//alert(window.location.pathname);
 	fnCreateBackButton();
