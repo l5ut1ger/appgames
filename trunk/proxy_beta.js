@@ -208,10 +208,9 @@ function fnFriendProfile() {
 
 function fnOnLoad() {
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
-	loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.pnotify.default.css", "css");	
+	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css", "css");	
 
-	//loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.pnotify.js", "js");
-	document.write("<script src='http://skypeclan.googlecode.com/svn/trunk/jquery.pnotify.js'><\/script>");
+	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.js", "js");
 
 
 	/*$.pnotify({
