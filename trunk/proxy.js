@@ -1,5 +1,26 @@
 // Tools
 
+function loadjscssfile(filename, filetype){
+	if (filetype=="js"){ //if filename is a external JavaScript file
+		var fileref=document.createElement('script')
+		fileref.setAttribute("type","text/javascript")
+		fileref.setAttribute("src", filename)
+	}
+	else if (filetype=="css"){ //if filename is an external CSS file
+		var fileref=document.createElement("link")
+		fileref.setAttribute("rel", "stylesheet")
+		fileref.setAttribute("type", "text/css")
+		fileref.setAttribute("href", filename)
+	}
+	if (typeof fileref!="undefined")
+		document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+
+function fnGrowl(msg) {
+	var notice = '<div class="notice"><div class="notice-body"><p>' + msg + '</p></div><div class="notice-bottom"></div></div>';							  
+	$( notice ).purr({usingTransparentPNG: true, fadeInSpeed: 200,  fadeOutSpeed: 200,      removeTimer: 1000});
+}
+
 function fnArrayHasItem(originalArray, itemToDetect) {
 	var j = 0;
 	while (j < originalArray.length) {
@@ -84,6 +105,7 @@ function fnBookmarkFriend() {
 	}
 	var aFriendArrayText = aFriendArray.join(fnGetSeparator());
 	fnSetCookie(friendBookmarkString,aFriendArrayText);
+	fnGrowl("Bookmarked " + friendship.nickname );
 }
 
 function fnUnBookmarkFriend() {
@@ -97,6 +119,7 @@ function fnUnBookmarkFriend() {
 		aFriendArrayText = aFriendArray.join(fnGetSeparator());
 	}
 	fnSetCookie(friendBookmarkString,aFriendArrayText);
+	fnGrowl("Removed " + friendship.nickname );
 }
 
 // Global
@@ -190,8 +213,20 @@ function fnFriendProfile() {
 
 // on load
 
+function fnSetupPurrCSS() {
+	var sheet = document.createElement('style')
+	sheet.innerHTML = "#purr-container {z-index:9999;			position: fixed;			top: 0;			right: 0;		}				.notice {			position: relative;			width: 324px;		}			.notice .close	{position: absolute; top: 12px; right: 12px; display: block; width: 18px; height: 17px; text-indent: -9999px; background: url(http://kitchen.net-perspective.com/purr-example/purrClose.png) no-repeat 0 10px;}			.notice-body {			min-height: 5px;			padding: 5px 5px 0 5px;			background: url(http://kitchen.net-perspective.com/purr-example/purrTop.png) no-repeat left top;			color: #f9f9f9;		}			.notice-body img	{width: 50px; margin: 0 10px 0 0; float: left;}			.notice-body h3	{margin: 0; font-size: 1.1em;}			.notice-body p		{margin: 10px 0px 0 15px;font-size: 0.8em; line-height: 1.4em;}				.notice-bottom {			height: 5px;			background: url(http://kitchen.net-perspective.com/purr-example/purrBottom.png) no-repeat left top;		}";
+	document.body.appendChild(sheet);	
+}
+
+
+
 function fnOnLoad() {
-	//alert(window.location.pathname);
+	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
+
+	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
+	fnSetupPurrCSS();
+
 	fnCreateBackButton();
 	
 	if (window.location.pathname === "/en/ios/home/profile") {
