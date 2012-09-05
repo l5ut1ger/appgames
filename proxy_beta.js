@@ -210,12 +210,12 @@ function fnOnLoad() {
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
 	loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.pnotify.default.css", "css");	
 
-	loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.pnotify.js", "js");
+	//loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.pnotify.js", "js");
 
-	$.pnotify({
+	/*$.pnotify({
     title: 'Regular Notice',
     text: 'Check me out! I\'m a notice.'
-});
+});*/
 
 	//alert(window.location.pathname);
 	fnCreateBackButton();
