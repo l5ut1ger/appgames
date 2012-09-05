@@ -208,13 +208,14 @@ function fnFriendProfile() {
 
 function fnOnLoad() {
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
-	loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.jgrowl.css", "css");	
+	loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.pnotify.default.css", "css");	
 
-	loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery-1.4.2.js", "js");
-	loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.ui.all.js", "js");
-	loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.jgrowl.js", "js");
+	loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.pnotify.js", "js");
 
-	$.jGrowl('Hello world!');
+	$.pnotify({
+    title: 'Regular Notice',
+    text: 'Check me out! I\'m a notice.'
+});
 
 	//alert(window.location.pathname);
 	fnCreateBackButton();
