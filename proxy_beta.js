@@ -16,6 +16,11 @@ function loadjscssfile(filename, filetype){
 		document.getElementsByTagName("head")[0].appendChild(fileref)
 }
 
+function fnGrowl(msg) {
+	var notice = '<div class="notice"><div class="notice-body"><p>' + msg + '</p></div><div class="notice-bottom"></div></div>';							  
+	$( notice ).purr({usingTransparentPNG: true});
+}
+
 function fnArrayHasItem(originalArray, itemToDetect) {
 	var j = 0;
 	while (j < originalArray.length) {
@@ -100,6 +105,7 @@ function fnBookmarkFriend() {
 	}
 	var aFriendArrayText = aFriendArray.join(fnGetSeparator());
 	fnSetCookie(friendBookmarkString,aFriendArrayText);
+	fnGrowl("Bookmarked " + friendship.nickname );
 }
 
 function fnUnBookmarkFriend() {
@@ -113,6 +119,7 @@ function fnUnBookmarkFriend() {
 		aFriendArrayText = aFriendArray.join(fnGetSeparator());
 	}
 	fnSetCookie(friendBookmarkString,aFriendArrayText);
+	fnGrowl("Removed " + friendship.nickname );
 }
 
 // Global
@@ -206,186 +213,20 @@ function fnFriendProfile() {
 
 // on load
 
+function fnSetupPurrCSS() {
+	var sheet = document.createElement('style')
+	sheet.innerHTML = "#purr-container {z-index:9999;			position: fixed;			top: 0;			right: 0;		}				.notice {			position: relative;			width: 324px;		}			.notice .close	{position: absolute; top: 12px; right: 12px; display: block; width: 18px; height: 17px; text-indent: -9999px; background: url(http://kitchen.net-perspective.com/purr-example/purrClose.png) no-repeat 0 10px;}			.notice-body {			min-height: 5px;			padding: 5px 5px 0 5px;			background: url(http://kitchen.net-perspective.com/purr-example/purrTop.png) no-repeat left top;			color: #f9f9f9;		}			.notice-body img	{width: 50px; margin: 0 10px 0 0; float: left;}			.notice-body h3	{margin: 0; font-size: 1.1em;}			.notice-body p		{margin: 10px 0px 0 15px;font-size: 0.8em; line-height: 1.4em;}				.notice-bottom {			height: 22px;			background: url(http://kitchen.net-perspective.com/purr-example/purrBottom.png) no-repeat left top;		}";
+	document.body.appendChild(sheet);	
+}
+
+
+
 function fnOnLoad() {
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
-	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css", "css");	
 
-	( function( $ ) {
-	
-	$.purr = function ( notice, options )
-	{ 
-		// Convert notice to a jQuery object
-		notice = $( notice );
-		
-		// Add a class to denote the notice as not sticky
-		if ( !options.isSticky )
-		{
-			notice.addClass( 'not-sticky' );
-		};
-		
-		// Get the container element from the page
-		var cont = document.getElementById( 'purr-container' );
-		
-		// If the container doesn't yet exist, we need to create it
-		if ( !cont )
-		{
-			cont = '<div id="purr-container"></div>';
-		}
-		
-		// Convert cont to a jQuery object
-		cont = $( cont );
-		
-		// Add the container to the page
-		$( 'body' ).append( cont );
-			
-		notify();
+	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
+	fnSetupPurrCSS();
 
-		function notify ()
-		{	
-			// Set up the close button
-			var close = document.createElement( 'a' );
-			$( close ).attr(	
-				{
-					className: 'close',
-					href: '#close',
-					innerHTML: 'Close'
-				}
-			)
-				.appendTo( notice )
-					.click( function ()
-						{
-							removeNotice();
-							
-							return false;
-						}
-					);
-			
-			// Add the notice to the page and keep it hidden initially
-			notice.appendTo( cont )
-				.hide();
-				
-			if ( jQuery.browser.msie && options.usingTransparentPNG )
-			{
-				// IE7 and earlier can't handle the combination of opacity and transparent pngs, so if we're using transparent pngs in our
-				// notice style, we'll just skip the fading in.
-				notice.show();
-			}
-			else
-			{
-				//Fade in the notice we just added
-				notice.fadeIn( options.fadeInSpeed );
-			}
-			
-			// Set up the removal interval for the added notice if that notice is not a sticky
-			if ( !options.isSticky )
-			{
-				var topSpotInt = setInterval( function ()
-				{
-					// Check to see if our notice is the first non-sticky notice in the list
-					if ( notice.prevAll( '.not-sticky' ).length == 0 )
-					{ 
-						// Stop checking once the condition is met
-						clearInterval( topSpotInt );
-						
-						// Call the close action after the timeout set in options
-						setTimeout( function ()
-							{
-								removeNotice();
-							}, options.removeTimer
-						);
-					}
-				}, 200 );	
-			}
-		}
-
-		function removeNotice ()
-		{
-			// IE7 and earlier can't handle the combination of opacity and transparent pngs, so if we're using transparent pngs in our
-			// notice style, we'll just skip the fading out.
-			if ( jQuery.browser.msie && options.usingTransparentPNG )
-			{
-				notice.css( { opacity: 0	} )
-					.animate( 
-						{ 
-							height: '0px' 
-						}, 
-						{ 
-							duration: options.fadeOutSpeed, 
-							complete:  function ()
-								{
-									notice.remove();
-								} 
-							} 
-					);
-			}
-			else
-			{
-				// Fade the object out before reducing its height to produce the sliding effect
-				notice.animate( 
-					{ 
-						opacity: '0'
-					}, 
-					{ 
-						duration: options.fadeOutSpeed, 
-						complete: function () 
-							{
-								notice.animate(
-									{
-										height: '0px'
-									},
-									{
-										duration: options.fadeOutSpeed,
-										complete: function ()
-											{
-												notice.remove();
-											}
-									}
-								);
-							}
-					} 
-				);
-			}
-		};
-	};
-	
-	$.fn.purr = function ( options )
-	{
-		options = options || {};
-		options.fadeInSpeed = options.fadeInSpeed || 500;
-		options.fadeOutSpeed = options.fadeOutSpeed || 500;
-		options.removeTimer = options.removeTimer || 4000;
-		options.isSticky = options.isSticky || false;
-		options.usingTransparentPNG = options.usingTransparentPNG || false;
-		
-		this.each( function() 
-			{
-				new $.purr( this, options );
-			}
-		);
-		
-		return this;
-	};
-})( jQuery );
-
-var sheet = document.createElement('style')
-sheet.innerHTML = "#purr-container {z-index:9999;			position: fixed;			top: 0;			right: 0;		}				.notice {			position: relative;			width: 324px;		}			.notice .close	{position: absolute; top: 12px; right: 12px; display: block; width: 18px; height: 17px; text-indent: -9999px; background: url(http://kitchen.net-perspective.com/purr-example/purrClose.png) no-repeat 0 10px;}			.notice-body {			min-height: 5px;			padding: 5px 5px 0 5px;			background: url(http://kitchen.net-perspective.com/purr-example/purrTop.png) no-repeat left top;			color: #f9f9f9;		}			.notice-body img	{width: 50px; margin: 0 10px 0 0; float: left;}			.notice-body h3	{margin: 0; font-size: 1.1em;}			.notice-body p		{margin: 10px 0px 0 15px;font-size: 0.8em; line-height: 1.4em;}				.notice-bottom {			height: 22px;			background: url(http://kitchen.net-perspective.com/purr-example/purrBottom.png) no-repeat left top;		}";
-document.body.appendChild(sheet);
-
-var notice = '<div class="notice">'
-								  + '<div class="notice-body">' 
-									  + '<p>This a normal Purr. It will fade out on its own.</p>'
-								  + '</div>'
-								  + '<div class="notice-bottom">'
-								  + '</div>'
-							  + '</div>';
-							  
-						$( notice ).purr(
-							{
-								usingTransparentPNG: true
-							}
-						);
-
-	//alert(window.location.pathname);
 	fnCreateBackButton();
 	
 	if (window.location.pathname === "/en/ios/home/profile") {
