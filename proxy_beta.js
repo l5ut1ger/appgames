@@ -213,10 +213,10 @@ function fnOnLoad() {
 	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.js", "js");
 
 
-	/*$.pnotify({
-    title: 'Regular Notice',
-    text: 'Check me out! I\'m a notice.'
-});*/
+	jQuery.noticeAdd({
+                        text: 'This is a notification that does not stay',
+                        stay: false
+                });
 
 	//alert(window.location.pathname);
 	fnCreateBackButton();
