@@ -214,7 +214,7 @@ function fnOnLoad() {
 	loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.ui.all.js", "js");
 	loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.jgrowl.js", "js");
 
-	//$.jGrowl('Hello world!');
+	$.jGrowl('Hello world!');
 
 	//alert(window.location.pathname);
 	fnCreateBackButton();
