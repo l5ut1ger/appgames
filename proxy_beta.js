@@ -211,6 +211,8 @@ function fnOnLoad() {
 	loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.pnotify.default.css", "css");	
 
 	//loadjscssfile("http://skypeclan.googlecode.com/svn/trunk/jquery.pnotify.js", "js");
+	document.write("<script src='http://skypeclan.googlecode.com/svn/trunk/jquery.pnotify.js'><\/script>");
+
 
 	/*$.pnotify({
     title: 'Regular Notice',
