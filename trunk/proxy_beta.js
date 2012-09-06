@@ -209,7 +209,8 @@ function fnProfileAddFriendWallBookmarkSelector() {
 // friend actions
 
 function fnFriendActionGiftC() {
-	$.getJSON('/en/ios/fusion/list', { types:0, sort:sort, api:'json' }, function(data) {
+	fnGrowl("fnFriendActionGiftC " );
+	$.ajax_ex(false, '/en/ios/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 
 		var monsters = data.payload;
