@@ -209,7 +209,7 @@ function fnProfileAddFriendWallBookmarkSelector() {
 // friend actions
 
 function fnFriendActionGiftC() {
-	fnGrowl("fnFriendActionGiftC ver 10" );
+	fnGrowl("fnFriendActionGiftC ver 11" );
 	$.ajax_ex(false, '/en/ios/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
 		if ( (data == null) || (data.status != 0) ) {fnGrowl("data=0 " + data); return; }
 
@@ -221,20 +221,12 @@ function fnFriendActionGiftC() {
 			if (monster.grade <= 1) {
 				fnGrowl("monster grade " + monster.grade );
 				$.ajax({url: '/en/ios/present/suggest', cache: false, type:"GET", data:{'pid' : friendship.pid },
-  dataType: "html"}).done(function(result) { 
-					
-				});
+  dataType: "html"});
 				fnGrowl("suggesting" );
 				$.ajax({url: '/en/ios/present/confirm', cache: false, type:"GET", data:{'ctg':2, 'amt':1, 'pid' : monster.unique_no },
-dataType: "html"}).done(function(result2) { 
-					
-				});
+dataType: "html"});
 				fnGrowl("confirm" );
-				$.ajax({url: '/en/ios/present/request', cache: false, type:"GET", data:{'msg' : '' },
-dataType: "html"}).done(function(result3) { 
-					fnGrowl("Gifted " + monster.m.name );
-					return;
-				});
+				$.ajax({url: '/en/ios/present/request', cache: false, type:"GET", data:{'msg' : '' },dataType: "html"});
 			}
 		}
 	});
