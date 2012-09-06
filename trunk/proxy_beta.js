@@ -247,7 +247,7 @@ function fnProfileAddFriendActionSelector() {
 	divTag.style.position = "absolute"; 
 
 	divTag.style.left = "200px"; 
-	divTag.style.top = "150px"; 
+	divTag.style.top = "350px"; 
 
 	var selectorHTML = '<select name="sel" onchange="fnFriendActionSelect(this.options[this.options.selectedIndex].value);"><option selected value="0">Friend Action</option>';
 	selectorHTML += '<option value="GiftC">Gift All C/C+</option>'
