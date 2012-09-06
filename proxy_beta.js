@@ -209,7 +209,7 @@ function fnProfileAddFriendWallBookmarkSelector() {
 // friend actions
 
 function fnFriendActionGiftC() {
-	fnGrowl("fnFriendActionGiftC ver 14" );
+	fnGrowl("fnFriendActionGiftC ver 15" );
 	$.ajax_ex(false, '/en/ios/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 
@@ -217,18 +217,15 @@ function fnFriendActionGiftC() {
 		if (monsters.length < 1) {return; }
 		for (var i=0;i<monsters.length;i++) {
 			var monster = monsters[i];
-			if (monster.grade <= 1) {
-				fnGrowl("Gifting " + monster.m.name + " grade " + monster.grade );
-				$.ajax({url: '/en/ios/present/suggest', cache: false, type:"GET", data:{'pid' : friendship.pid, 'mid' : monster.unique_no },
-  dataType: "html"}).done(function(result) { 
-					$.ajax({url: '/en/ios/present/confirm', cache: false, type:"GET", data:{'ctg':2, 'amt':1, 'pid' : monster.unique_no },
-  dataType: "html"}).done(function(result2) { 
-						$.ajax({url: '/en/ios/present/request', cache: false, type:"GET", data:{'msg' : '' },
-  dataType: "html"});
-					});
-				});
+			if (monster.grade <= 1) {				
+				$.ajax({url: '/en/ios/present/suggest', cache: false, type:"GET", data:{'pid' : friendship.pid },dataType: "html"});
+				$.ajax({url: '/en/ios/present/confirm', cache: false, type:"GET", data:{'ctg':2, 'amt':1, 'pid' : monster.unique_no}, dataType: "html"});
+				$.ajax({url: '/en/ios/present/request', cache: false, type:"GET", data:{'msg' : '' }, dataType: "html"});
+				fnGrowl("Gifted " + monster.m.name);
+				return;
 			}
 		}
+		fnGrowl("No C/C+");
 	});
 }
 
@@ -252,7 +249,7 @@ function fnProfileAddFriendActionSelector() {
 	divTag.style.top = "350px"; 
 
 	var selectorHTML = '<select name="sel" onchange="javascript:fnFriendActionSelect(this.options[this.options.selectedIndex].value);"><option selected value="0">Friend Action</option>';
-	selectorHTML += '<option value="GiftC">Gift All C/C+</option>'
+	selectorHTML += '<option value="GiftC">Gift a C/C+</option>'
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
