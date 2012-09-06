@@ -231,6 +231,7 @@ function fnFriendActionGiftC() {
 }
 
 function fnFriendActionSelect(pAction) {
+	fnGrowl("fnFriendActionSelect " + pAction );
 	if (pAction == "GiftC") {
 		fnFriendActionGiftC();
 	}
@@ -240,7 +241,7 @@ function fnProfileAddFriendActionSelector() {
 	var i;
 	var divTag = document.createElement("div"); 
 
-	divTag.id = "wallBookmarkDiv"; 
+	divTag.id = "friendActionDiv"; 
 
 	divTag.style["z-index"] = 1000; 
 
@@ -249,7 +250,7 @@ function fnProfileAddFriendActionSelector() {
 	divTag.style.left = "200px"; 
 	divTag.style.top = "350px"; 
 
-	var selectorHTML = '<select name="sel" onchange="fnFriendActionSelect(this.options[this.options.selectedIndex].value);"><option selected value="0">Friend Action</option>';
+	var selectorHTML = '<select name="sel" onchange="javascript:fnFriendActionSelect(this.options[this.options.selectedIndex].value);"><option selected value="0">Friend Action</option>';
 	selectorHTML += '<option value="GiftC">Gift All C/C+</option>'
 	selectorHTML+='</select>'; 
 
