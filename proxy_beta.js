@@ -211,10 +211,10 @@ function fnProfileAddFriendWallBookmarkSelector() {
 function fnFriendActionGiftC() {
 	fnGrowl("fnFriendActionGiftC " );
 	$.ajax_ex(false, '/en/ios/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
-		if ( (data == null) || (data.status != 0) ) { return; }
+		if ( (data == null) || (data.status != 0) ) {fnGrowl("data=0 " + data); return; }
 
 		var monsters = data.payload;
-		if (monsters.length < 1) { return; }
+		if (monsters.length < 1) {fnGrowl("monster length <0 " + data ); return; }
 		for (var i=0;i<monsters.length;i++) {
 			var monster = monsters[i];
 			if (monster.grade <= 1) {
@@ -232,7 +232,6 @@ function fnFriendActionGiftC() {
 }
 
 function fnFriendActionSelect(pAction) {
-	fnGrowl("fnFriendActionSelect " + pAction );
 	if (pAction == "GiftC") {
 		fnFriendActionGiftC();
 	}
