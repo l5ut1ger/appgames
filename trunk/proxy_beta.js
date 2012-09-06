@@ -206,9 +206,61 @@ function fnProfileAddFriendWallBookmarkSelector() {
 	document.getElementById('wallBookmarkDiv').style.top = "230px";
 }
 
+// friend actions
+
+function fnFriendActionGiftC() {
+	$.getJSON('/en/ios/fusion/list', { types:0, sort:sort, api:'json' }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+
+		var monsters = data.payload;
+		if (monsters.length < 1) { return; }
+		for (var i=0;i<monsters.length;i++) {
+			var monster = monsters[i];
+			if (monster.grade <= 1) {
+				$.ajax_ex(false, '/en/ios/present/suggest', {'pid' : friendship.pid },function(result) { 
+					$.ajax_ex(false, '/en/ios/present/confirm', {'ctg':2, 'amt':1, 'pid' : monster.unique_no },function(result2) { 
+						$.ajax_ex(false, '/en/ios/present/request', {'msg' : '' },function(result3) { 
+							fnGrowl("Gifted " + monster.m.name );
+							return;
+						});
+					});
+				});
+			}
+		}
+	});
+}
+
+function fnFriendActionSelect(pAction) {
+	if (pAction == "GiftC") {
+		fnFriendActionGiftC();
+	}
+}
+
+function fnProfileAddFriendActionSelector() {
+	var i;
+	var divTag = document.createElement("div"); 
+
+	divTag.id = "wallBookmarkDiv"; 
+
+	divTag.style["z-index"] = 1000; 
+
+	divTag.style.position = "absolute"; 
+
+	divTag.style.left = "200px"; 
+	divTag.style.top = "150px"; 
+
+	var selectorHTML = '<select name="sel" onchange="fnFriendActionSelect(this.options[this.options.selectedIndex].value);"><option selected value="0">Friend Action</option>';
+	selectorHTML += '<option value="GiftC">Gift All C/C+</option>'
+	selectorHTML+='</select>'; 
+
+	divTag.innerHTML = selectorHTML;
+	document.body.appendChild(divTag);
+}
+
 function fnFriendProfile() {
 	fnProfileAddFriendWallBookmarkSelector();
 	fnProfileAddFriendWallBookmarkButtons();
+	fnProfileAddFriendActionSelector();
 }
 
 // on load
