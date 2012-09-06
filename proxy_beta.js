@@ -217,9 +217,13 @@ function fnFriendActionGiftC() {
 		if (monsters.length < 1) {fnGrowl("monster length <0 " + data ); return; }
 		for (var i=0;i<monsters.length;i++) {
 			var monster = monsters[i];
+			fnGrowl("monster  " + monster.m.name );
 			if (monster.grade <= 1) {
+				fnGrowl("monster grade " + monster.grade );
 				$.ajax_ex(false, '/en/ios/present/suggest', {'pid' : friendship.pid },function(result) { 
+					fnGrowl("suggesting" );
 					$.ajax_ex(false, '/en/ios/present/confirm', {'ctg':2, 'amt':1, 'pid' : monster.unique_no },function(result2) { 
+						fnGrowl("confirm" );
 						$.ajax_ex(false, '/en/ios/present/request', {'msg' : '' },function(result3) { 
 							fnGrowl("Gifted " + monster.m.name );
 							return;
