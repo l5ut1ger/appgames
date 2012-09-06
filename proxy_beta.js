@@ -220,11 +220,11 @@ function fnFriendActionGiftC() {
 			fnGrowl("monster  " + monster.m.name );
 			if (monster.grade <= 1) {
 				fnGrowl("monster grade " + monster.grade );
-				$.ajax(url: '/en/ios/present/suggest', type:"GET", data:{'pid' : friendship.pid }).done(function(result) { 
+				$.ajax({url: '/en/ios/present/suggest', type:"GET", data:{'pid' : friendship.pid }}).done(function(result) { 
 					fnGrowl("suggesting" );
-					$.ajax(url: '/en/ios/present/confirm', type:"GET", data:{'ctg':2, 'amt':1, 'pid' : monster.unique_no }).done(function(result2) { 
+					$.ajax({url: '/en/ios/present/confirm', type:"GET", data:{'ctg':2, 'amt':1, 'pid' : monster.unique_no }}).done(function(result2) { 
 						fnGrowl("confirm" );
-						$.ajax(url: '/en/ios/present/request', type:"GET", data:{'msg' : '' }).done(function(result3) { 
+						$.ajax({url: '/en/ios/present/request', type:"GET", data:{'msg' : '' }}).done(function(result3) { 
 							fnGrowl("Gifted " + monster.m.name );
 							return;
 						});
