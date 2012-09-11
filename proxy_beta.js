@@ -221,7 +221,7 @@ function fnProfileAddSpamButton() {
 
 	divTag.style["font-size"] = "0.8em"; 
 
-	divTag["class"] ="btn __red __WS __HS";
+	divTag.addClass("btn __red __WS __HS");
 	divTag.href = "#";
 	divTag.innerHTML = "SPAM";
 	document.getElementById('div-bbs-form').appendChild(divTag);
