@@ -216,8 +216,8 @@ function fnSpam(pID, pName, pMsg) {
 }
 */
 function fnProfileAddSpamButton() {
-	//document.getElementById('div-bbs-form').innerHTML += '<a href="#" id="btn-bbs-spam" class="btn __red __WS __HS" style="position:relative; top:0px; font-size:0.8em;">SPAM</a>';
-	/*$('#btn-bbs-spam').click(function() {
+	document.getElementById('div-bbs-form').innerHTML += '<a href="#"  class="btn __red __WS __HS" style="position:relative; top:0px; font-size:0.8em;">SPAM</a>';
+	/*$('#btn-bbs-spam').click(function() { id="btn-bbs-spam"
 		var spamMsg = bbsBodyChanged ? $('#txt-bbs-body').val() : '';
 		var len = spamMsg.mblength();
 		if (len <= 0) {
