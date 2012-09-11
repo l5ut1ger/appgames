@@ -205,7 +205,7 @@ window.setTimeout = function(fRef, mDelay) {
     } 
     return _st(fRef,mDelay);
 }
-*/
+
 function fnSpam(pID, pName, pMsg) {
 	$.getJSON('/en/ios/bbs/write', {
 	'target_id': pID,
@@ -214,10 +214,10 @@ function fnSpam(pID, pName, pMsg) {
 	});
 	fnGrowl("Spammed " + pName );
 }
-
+*/
 function fnProfileAddSpamButton() {
 	document.getElementById('div-bbs-form').innerHTML += '<a href="#" id="btn-bbs-spam" class="btn __red __WS __HS" style="position:relative; top:-27px; font-size:0.8em;">SPAM</a>';
-	$('#btn-bbs-spam').click(function() {
+	/*$('#btn-bbs-spam').click(function() {
 		var spamMsg = bbsBodyChanged ? $('#txt-bbs-body').val() : '';
 		var len = spamMsg.mblength();
 		if (len <= 0) {
@@ -233,7 +233,7 @@ function fnProfileAddSpamButton() {
 				}
 			});
 		}
-	}
+	}*/
 }
 
 function fnProfile() {
