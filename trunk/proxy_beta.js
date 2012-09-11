@@ -194,7 +194,7 @@ function fnProfileRemoveWallBookmarkSelector() {
 		document.body.removeChild(divTag);
 	}
 }
-
+/*
 var _st = window.setTimeout;
  
 window.setTimeout = function(fRef, mDelay) { 
@@ -204,7 +204,7 @@ window.setTimeout = function(fRef, mDelay) {
         return _st(f, mDelay); 
     } 
     return _st(fRef,mDelay);
-}
+}*/
 
 function fnSpam(pID, pName, pMsg) {
 	$.getJSON('/en/ios/bbs/write', {
