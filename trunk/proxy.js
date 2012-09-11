@@ -142,6 +142,24 @@ function fnCreateBackButton() {
 
 // Profile section /en/ios/friends/profile
 
+function fnProfileGotoWallBookmark(pWall) {
+	if (pWall === "weekly1") {
+		$.ajax_ex(false, '/en/ios/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
+			if ( (data == null) || (data.status != 0) ) { return; }
+			window.location='/en/ios/friends/profile?pid='+data.payload.rankers[0].player_id;
+		});
+	}
+	else if (pWall === "overall1") {
+		$.ajax_ex(false, '/en/ios/ranking/list?page=0&tribe=0', { }, function(data) {
+			if ( (data == null) || (data.status != 0) ) { return; }
+			window.location='/en/ios/friends/profile?pid='+data.payload.rankers[0].player_id;
+		});
+	}
+	else {
+		window.location='/en/ios/friends/profile?pid='+pWall;
+	}
+}
+
 function fnProfileAddWallBookmarkSelector() {
 	var i;
 	var divTag = document.createElement("div"); 
@@ -155,7 +173,9 @@ function fnProfileAddWallBookmarkSelector() {
 	divTag.style.left = "200px"; 
 	divTag.style.top = "100px"; 
 
-	var selectorHTML = '<select name="sel" onchange="window.location=\'/en/ios/friends/profile?pid=\'+this.options[this.options.selectedIndex].value;"><option selected value="0">Wall Bookmark</option>';
+	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
+	selectorHTML += '<option value="weekly1">Weekly Rank1</option>'
+	selectorHTML += '<option value="overall1">Overall Rank1</option>'
 	var aFriendArray = fnGetBookmarkFriendArray();
 	for (i=0;i<aFriendArray.length;i++) {
 		if (typeof(aFriendArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
@@ -174,9 +194,68 @@ function fnProfileRemoveWallBookmarkSelector() {
 		document.body.removeChild(divTag);
 	}
 }
+/*
+var _st = window.setTimeout;
+ 
+window.setTimeout = function(fRef, mDelay) { 
+    if(typeof fRef == "function") {  
+        var argu = Array.prototype.slice.call(arguments,2); 
+        var f = (function(){ fRef.apply(null, argu); }); 
+        return _st(f, mDelay); 
+    } 
+    return _st(fRef,mDelay);
+}*/
+
+function fnSpam(pID, pName, pMsg) {
+	$.getJSON('/en/ios/bbs/write', {
+	'target_id': pID,
+	'body': pMsg
+	}, function(result) {
+	});
+	fnGrowl("Spammed " + pName );
+}
+
+function fnProfileAddSpamButton() {
+	var divTag = document.createElement("a"); 
+	divTag.id = "btn-bbs-spam"; 
+
+	divTag.style["font-size"] = "0.8em"; 
+	divTag.style.position = "relative";
+	divTag.style.top = "0px";
+
+	divTag.className =("btn __red __WS __HS");
+	divTag.href = "#";
+	divTag.innerHTML = "SPAM";
+	document.getElementById('div-bbs-form').appendChild(divTag);
+
+	$('#btn-bbs-spam').click(function() { 
+		var spamMsg = bbsBodyChanged ? $('#txt-bbs-body').val() : '';
+		var len = spamMsg.mblength();
+		if (len <= 0) {
+		  return false;
+		} else if (len > 140) {
+		  $('<div>' + BBS_TEXT_SYSTEM.warning_1 + '</div>').msgbox({'closeText':'OK'}).open();
+		  return false;
+		} else {
+			$.ajax_ex(false, '/en/ios/ranking/list?page=0&tribe=0', { }, function(data) {
+				if ( (data == null) || (data.status != 0) ) { return; }
+				for (var i=0;i<=data.payload.rankers.length;i++) {
+					setTimeout(fnSpam, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
+				}
+			});
+			$.ajax_ex(false, '/en/ios/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
+				if ( (data == null) || (data.status != 0) ) { return; }
+				for (var i=0;i<=2;i++) {
+					setTimeout(fnSpam, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
+				}
+			});
+		}
+	});
+}
 
 function fnProfile() {
 	fnProfileAddWallBookmarkSelector();
+	fnProfileAddSpamButton();
 }
 
 // Friend section /en/ios/friends/profile
@@ -206,9 +285,60 @@ function fnProfileAddFriendWallBookmarkSelector() {
 	document.getElementById('wallBookmarkDiv').style.top = "230px";
 }
 
+// friend actions
+
+function fnFriendActionGiftC() {
+	fnGrowl("fnFriendActionGiftC ver 15" );
+	$.ajax_ex(false, '/en/ios/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+
+		var monsters = data.payload;
+		if (monsters.length < 1) {return; }
+		for (var i=0;i<monsters.length;i++) {
+			var monster = monsters[i];
+			if (monster.grade <= 1) {				
+				$.ajax({url: '/en/ios/present/suggest', cache: false, type:"GET", data:{'pid' : friendship.pid },dataType: "html"});
+				$.ajax({url: '/en/ios/present/confirm', cache: false, type:"GET", data:{'ctg':2, 'amt':1, 'pid' : monster.unique_no}, dataType: "html"});
+				$.ajax({url: '/en/ios/present/request', cache: false, type:"GET", data:{'msg' : '' }, dataType: "html"});
+				fnGrowl("Gifted " + monster.m.name);
+				return;
+			}
+		}
+		fnGrowl("No C/C+");
+	});
+}
+
+function fnFriendActionSelect(pAction) {
+	if (pAction == "GiftC") {
+		fnFriendActionGiftC();
+	}
+}
+
+function fnProfileAddFriendActionSelector() {
+	var i;
+	var divTag = document.createElement("div"); 
+
+	divTag.id = "friendActionDiv"; 
+
+	divTag.style["z-index"] = 1000; 
+
+	divTag.style.position = "absolute"; 
+
+	divTag.style.left = "200px"; 
+	divTag.style.top = "350px"; 
+
+	var selectorHTML = '<select name="sel" onchange="javascript:fnFriendActionSelect(this.options[this.options.selectedIndex].value);"><option selected value="0">Friend Action</option>';
+	//selectorHTML += '<option value="GiftC">Gift a C/C+</option>'
+	selectorHTML+='</select>'; 
+
+	divTag.innerHTML = selectorHTML;
+	document.body.appendChild(divTag);
+}
+
 function fnFriendProfile() {
 	fnProfileAddFriendWallBookmarkSelector();
 	fnProfileAddFriendWallBookmarkButtons();
+	fnProfileAddFriendActionSelector();
 }
 
 // on load
@@ -233,7 +363,7 @@ function fnOnLoad() {
 		fnProfile();
 	}
 	if (window.location.pathname === "/en/ios/home") {
-		fnProfile();
+		fnProfileAddWallBookmarkSelector();
 	}
 	if (window.location.pathname === "/en/ios/friends/profile") {
 		fnFriendProfile();
