@@ -217,7 +217,7 @@ function fnSpam(pID, pName, pMsg) {
 
 function fnProfileAddSpamButton() {
 	var divTag = document.createElement("a"); 
-	divTag.id = "btn-bbs-spam"; 
+	divTag.id = "btn-bbs-spam-overall"; 
 
 	divTag.style["font-size"] = "0.8em"; 
 	divTag.style.position = "relative";
@@ -225,10 +225,10 @@ function fnProfileAddSpamButton() {
 
 	divTag.className =("btn __red __WS __HS");
 	divTag.href = "#";
-	divTag.innerHTML = "SPAM";
+	divTag.innerHTML = "SPAM OVERALL";
 	document.getElementById('div-bbs-form').appendChild(divTag);
 
-	$('#btn-bbs-spam').click(function() { 
+	$('#btn-bbs-spam-overall').click(function() { 
 		var spamMsg = bbsBodyChanged ? $('#txt-bbs-body').val() : '';
 		var len = spamMsg.mblength();
 		if (len <= 0) {
@@ -243,6 +243,30 @@ function fnProfileAddSpamButton() {
 					setTimeout(fnSpam, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
 				}
 			});
+		}
+	});
+	
+	divTag = document.createElement("a"); 
+	divTag.id = "btn-bbs-spam-week"; 
+
+	divTag.style["font-size"] = "0.8em"; 
+	divTag.style.position = "relative";
+	divTag.style.top = "0px";
+
+	divTag.className =("btn __red __WS __HS");
+	divTag.href = "#";
+	divTag.innerHTML = "SPAM WEEKLY";
+	document.getElementById('div-bbs-form').appendChild(divTag);
+
+	$('#btn-bbs-spam-week').click(function() { 
+		var spamMsg = bbsBodyChanged ? $('#txt-bbs-body').val() : '';
+		var len = spamMsg.mblength();
+		if (len <= 0) {
+		  return false;
+		} else if (len > 140) {
+		  $('<div>' + BBS_TEXT_SYSTEM.warning_1 + '</div>').msgbox({'closeText':'OK'}).open();
+		  return false;
+		} else {
 			$.ajax_ex(false, '/en/ios/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
 				if ( (data == null) || (data.status != 0) ) { return; }
 				for (var i=0;i<=2;i++) {
