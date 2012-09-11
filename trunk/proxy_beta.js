@@ -346,7 +346,7 @@ function fnOnLoad() {
 		fnProfile();
 	}
 	if (window.location.pathname === "/en/ios/home") {
-		fnProfileAddWallBookmarkSelector();();
+		fnProfileAddWallBookmarkSelector();
 	}
 	if (window.location.pathname === "/en/ios/friends/profile") {
 		fnFriendProfile();
