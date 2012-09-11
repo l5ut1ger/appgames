@@ -142,6 +142,24 @@ function fnCreateBackButton() {
 
 // Profile section /en/ios/friends/profile
 
+function fnProfileGotoWallBookmark(pWall) {
+	if (pWall === "weekly1") {
+		$.ajax_ex(false, '/en/ios/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
+			if ( (data == null) || (data.status != 0) ) { return; }
+			window.location='/en/ios/friends/profile?pid='+data.payload.rankers[0].player_id;
+		});
+	}
+	else if (pWall === "overall1") {
+		$.ajax_ex(false, '/en/ios/ranking/list?page=0&tribe=0', { }, function(data) {
+			if ( (data == null) || (data.status != 0) ) { return; }
+			window.location='/en/ios/friends/profile?pid='+data.payload.rankers[0].player_id;
+		});
+	}
+	else {
+		window.location='/en/ios/friends/profile?pid='+pWall;
+	}
+}
+
 function fnProfileAddWallBookmarkSelector() {
 	var i;
 	var divTag = document.createElement("div"); 
@@ -155,7 +173,9 @@ function fnProfileAddWallBookmarkSelector() {
 	divTag.style.left = "200px"; 
 	divTag.style.top = "100px"; 
 
-	var selectorHTML = '<select name="sel" onchange="window.location=\'/en/ios/friends/profile?pid=\'+this.options[this.options.selectedIndex].value;"><option selected value="0">Wall Bookmark</option>';
+	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
+	selectorHTML += '<option value="weekly1">Weekly Rank1</option>'
+	selectorHTML += '<option value="overall1">Overall Rank1</option>'
 	var aFriendArray = fnGetBookmarkFriendArray();
 	for (i=0;i<aFriendArray.length;i++) {
 		if (typeof(aFriendArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
@@ -249,7 +269,7 @@ function fnProfileAddFriendActionSelector() {
 	divTag.style.top = "350px"; 
 
 	var selectorHTML = '<select name="sel" onchange="javascript:fnFriendActionSelect(this.options[this.options.selectedIndex].value);"><option selected value="0">Friend Action</option>';
-	selectorHTML += '<option value="GiftC">Gift a C/C+</option>'
+	//selectorHTML += '<option value="GiftC">Gift a C/C+</option>'
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
