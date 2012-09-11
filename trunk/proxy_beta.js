@@ -228,7 +228,7 @@ function fnProfileAddSpamButton() {
 	divTag.innerHTML = "SPAM";
 	document.getElementById('div-bbs-form').appendChild(divTag);
 
-	$('#btn-bbs-spam').click(function() { id="btn-bbs-spam"
+	$('#btn-bbs-spam').click(function() { 
 		var spamMsg = bbsBodyChanged ? $('#txt-bbs-body').val() : '';
 		var len = spamMsg.mblength();
 		if (len <= 0) {
