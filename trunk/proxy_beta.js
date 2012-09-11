@@ -194,7 +194,7 @@ function fnProfileRemoveWallBookmarkSelector() {
 		document.body.removeChild(divTag);
 	}
 }
-/*
+
 var _st = window.setTimeout;
  
 window.setTimeout = function(fRef, mDelay) { 
@@ -214,7 +214,7 @@ function fnSpam(pID, pName, pMsg) {
 	});
 	fnGrowl("Spammed " + pName );
 }
-*/
+
 function fnProfileAddSpamButton() {
 	var divTag = document.createElement("a"); 
 	divTag.id = "btn-bbs-spam"; 
@@ -227,8 +227,8 @@ function fnProfileAddSpamButton() {
 	divTag.href = "#";
 	divTag.innerHTML = "SPAM";
 	document.getElementById('div-bbs-form').appendChild(divTag);
-	//'<br/>';//<a href="#"  class="btn __red __WS __HS" style="position:relative; top:0px; font-size:0.8em;">SPAM</a>';
-	/*$('#btn-bbs-spam').click(function() { id="btn-bbs-spam"
+
+	$('#btn-bbs-spam').click(function() { id="btn-bbs-spam"
 		var spamMsg = bbsBodyChanged ? $('#txt-bbs-body').val() : '';
 		var len = spamMsg.mblength();
 		if (len <= 0) {
@@ -244,7 +244,7 @@ function fnProfileAddSpamButton() {
 				}
 			});
 		}
-	}*/
+	}
 }
 
 function fnProfile() {
