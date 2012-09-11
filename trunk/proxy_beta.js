@@ -225,7 +225,7 @@ function fnProfileAddSpamButton() {
 
 	divTag.className =("btn __red __WS __HS");
 	divTag.href = "#";
-	divTag.innerHTML = "SPAM OVERALL";
+	divTag.innerHTML = "SpamTop100";
 	document.getElementById('div-bbs-form').appendChild(divTag);
 
 	$('#btn-bbs-spam-overall').click(function() { 
@@ -255,7 +255,7 @@ function fnProfileAddSpamButton() {
 
 	divTag.className =("btn __red __WS __HS");
 	divTag.href = "#";
-	divTag.innerHTML = "SPAM WEEKLY";
+	divTag.innerHTML = "SpamWeek";
 	document.getElementById('div-bbs-form').appendChild(divTag);
 
 	$('#btn-bbs-spam-week').click(function() { 
