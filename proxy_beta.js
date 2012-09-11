@@ -239,7 +239,13 @@ function fnProfileAddSpamButton() {
 		} else {
 			$.ajax_ex(false, '/en/ios/ranking/list?page=0&tribe=0', { }, function(data) {
 				if ( (data == null) || (data.status != 0) ) { return; }
-				for (var i=0;i<=3;i++) {
+				for (var i=0;i<=data.payload.rankers.length;i++) {
+					setTimeout(fnSpam, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
+				}
+			});
+			$.ajax_ex(false, '/en/ios/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
+				if ( (data == null) || (data.status != 0) ) { return; }
+				for (var i=0;i<=2;i++) {
 					setTimeout(fnSpam, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
 				}
 			});
