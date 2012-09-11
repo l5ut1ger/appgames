@@ -244,7 +244,7 @@ function fnProfileAddSpamButton() {
 				}
 			});
 		}
-	}
+	});
 }
 
 function fnProfile() {
