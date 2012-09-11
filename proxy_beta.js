@@ -195,8 +195,50 @@ function fnProfileRemoveWallBookmarkSelector() {
 	}
 }
 
+var _st = window.setTimeout;
+ 
+window.setTimeout = function(fRef, mDelay) { 
+    if(typeof fRef == "function") {  
+        var argu = Array.prototype.slice.call(arguments,2); 
+        var f = (function(){ fRef.apply(null, argu); }); 
+        return _st(f, mDelay); 
+    } 
+    return _st(fRef,mDelay);
+}
+
+function fnSpam(pID, pName, pMsg) {
+	$.getJSON('/en/ios/bbs/write', {
+	'target_id': pID,
+	'body': pMsg
+	}, function(result) {
+	});
+	fnGrowl("Spammed " + pName );
+}
+
+function fnProfileAddSpamButton() {
+	document.getElementById('div-bbs-form').innerHTML += '<a href="#" id="btn-bbs-spam" class="btn __red __WS __HS" style="position:relative; top:-27px; font-size:0.8em;">SPAM</a>';
+	$('#btn-bbs-spam').click(function() {
+		var spamMsg = bbsBodyChanged ? $('#txt-bbs-body').val() : '';
+		var len = spamMsg.mblength();
+		if (len <= 0) {
+		  return false;
+		} else if (len > 140) {
+		  $('<div>' + BBS_TEXT_SYSTEM.warning_1 + '</div>').msgbox({'closeText':'OK'}).open();
+		  return false;
+		} else {
+			$.ajax_ex(false, '/en/ios/ranking/list?page=0&tribe=0', { }, function(data) {
+				if ( (data == null) || (data.status != 0) ) { return; }
+				for (var i=0;i<=3;i++) {
+					setTimeout(fnSpam, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
+				}
+			});
+		}
+	}
+}
+
 function fnProfile() {
 	fnProfileAddWallBookmarkSelector();
+	fnProfileAddSpamButton();
 }
 
 // Friend section /en/ios/friends/profile
@@ -304,7 +346,7 @@ function fnOnLoad() {
 		fnProfile();
 	}
 	if (window.location.pathname === "/en/ios/home") {
-		fnProfile();
+		fnProfileAddWallBookmarkSelector();();
 	}
 	if (window.location.pathname === "/en/ios/friends/profile") {
 		fnFriendProfile();
