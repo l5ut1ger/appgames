@@ -219,13 +219,13 @@ function fnProfileAddSpamButton() {
 	var divTag = document.createElement("a"); 
 	divTag.id = "btn-bbs-spam-overall"; 
 
-	divTag.style["font-size"] = "0.8em"; 
+	divTag.style["font-size"] = "0.6em"; 
 	divTag.style.position = "relative";
 	divTag.style.top = "0px";
 
 	divTag.className =("btn __red __WS __HS");
 	divTag.href = "#";
-	divTag.innerHTML = "Spam100";
+	divTag.innerHTML = "SpamT100";
 	document.getElementById('div-bbs-form').appendChild(divTag);
 
 	$('#btn-bbs-spam-overall').click(function() { 
@@ -249,13 +249,13 @@ function fnProfileAddSpamButton() {
 	divTag = document.createElement("a"); 
 	divTag.id = "btn-bbs-spam-week"; 
 
-	divTag.style["font-size"] = "0.8em"; 
+	divTag.style["font-size"] = "0.6em"; 
 	divTag.style.position = "relative";
 	divTag.style.top = "0px";
 
 	divTag.className =("btn __red __WS __HS");
 	divTag.href = "#";
-	divTag.innerHTML = "SpamWek";
+	divTag.innerHTML = "SpamWeek";
 	document.getElementById('div-bbs-form').appendChild(divTag);
 
 	$('#btn-bbs-spam-week').click(function() { 
