@@ -200,7 +200,7 @@ function fnProfileRemoveWallBookmarkSelector() {
 }
 
 function fnSpam(pID, pName, pMsg) {
-	var excludeList=["1408766097"];
+	var excludeList=["1408766097", "1833667105"];
 	if (excludeList.indexOf(pID) != -1) return;	
 	$.getJSON('/en/ios/bbs/write', {
 	'target_id': pID,
