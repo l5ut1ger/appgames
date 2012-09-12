@@ -158,6 +158,9 @@ function fnProfileGotoWallBookmark(pWall) {
   else if (pWall === "Josh") {
                 window.location='/en/ios/friends/profile?pid=2121751804';
   }
+  else if (pWall === "Joe") {
+                window.location='/en/ios/friends/profile?pid=2578795263';
+  }
 	else {
 		window.location='/en/ios/friends/profile?pid='+pWall;
 	}
@@ -180,6 +183,7 @@ function fnProfileAddWallBookmarkSelector() {
 	selectorHTML += '<option value="weekly1">Weekly Rank1</option>';
 	selectorHTML += '<option value="overall1">Overall Rank1</option>';
   selectorHTML += '<option value="Josh">Josh</option>';
+  selectorHTML += '<option value="Joe">Joe</option>';
 	var aFriendArray = fnGetBookmarkFriendArray();
 	for (i=0;i<aFriendArray.length;i++) {
 		if (typeof(aFriendArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
