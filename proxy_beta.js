@@ -213,12 +213,14 @@ window.setTimeout = function(fRef, mDelay) {
 function fnSpam(pID, pName, pMsg) {
 	var excludeList=["1408766097"];
 	if (excludeList.indexOf(pID) != -1) return;
+	fnGrowl("Spammed " + pName );
+	return;
 	$.getJSON('/en/ios/bbs/write', {
 	'target_id': pID,
 	'body': pMsg
 	}, function(result) {
 	});
-	fnGrowl("Spammed " + pName );
+	
 }
 
 function fnProfileAddSpamButton() {
