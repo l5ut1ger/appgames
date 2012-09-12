@@ -155,12 +155,6 @@ function fnProfileGotoWallBookmark(pWall) {
 			window.location='/en/ios/friends/profile?pid='+data.payload.rankers[0].player_id;
 		});
 	}
-  else if (pWall === "Josh") {
-                window.location='/en/ios/friends/profile?pid=2121751804';
-  }
-  else if (pWall === "Joe") {
-                window.location='/en/ios/friends/profile?pid=2578795263';
-  }
 	else {
 		window.location='/en/ios/friends/profile?pid='+pWall;
 	}
@@ -180,10 +174,10 @@ function fnProfileAddWallBookmarkSelector() {
 	divTag.style.top = "100px"; 
 
 	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
-	selectorHTML += '<option value="weekly1">Weekly Rank1</option>';
-	selectorHTML += '<option value="overall1">Overall Rank1</option>';
-  selectorHTML += '<option value="Josh">Josh</option>';
-  selectorHTML += '<option value="Joe">Joe</option>';
+	selectorHTML += '<option value="weekly1">Weekly Rank1</option>'
+	selectorHTML += '<option value="overall1">Overall Rank1</option>'
+	selectorHTML += '<option value="2121751804">Josh</option>'
+	selectorHTML += '<option value="2578795263">Joe</option>';
 	var aFriendArray = fnGetBookmarkFriendArray();
 	for (i=0;i<aFriendArray.length;i++) {
 		if (typeof(aFriendArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
@@ -202,19 +196,10 @@ function fnProfileRemoveWallBookmarkSelector() {
 		document.body.removeChild(divTag);
 	}
 }
-/*
-var _st = window.setTimeout;
- 
-window.setTimeout = function(fRef, mDelay) { 
-    if(typeof fRef == "function") {  
-        var argu = Array.prototype.slice.call(arguments,2); 
-        var f = (function(){ fRef.apply(null, argu); }); 
-        return _st(f, mDelay); 
-    } 
-    return _st(fRef,mDelay);
-}*/
 
 function fnSpam(pID, pName, pMsg) {
+	var excludeList=["1408766097", "1833667105"];
+	if (excludeList.indexOf(pID) != -1) return;	
 	$.getJSON('/en/ios/bbs/write', {
 	'target_id': pID,
 	'body': pMsg
@@ -281,6 +266,38 @@ function fnProfileAddSpamButton() {
 					setTimeout(fnSpam, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
 				}
 			});
+		}
+	});
+	
+	divTag = document.createElement("a"); 
+	divTag.id = "btn-bbs-spam-overall1000"; 
+
+	divTag.style["font-size"] = "0.6em"; 
+	divTag.style.position = "relative";
+	divTag.style.top = "0px";
+
+	divTag.className =("btn __red __WS __HS");
+	divTag.href = "#";
+	divTag.innerHTML = "SpamTop1000";
+	document.getElementById('div-bbs-form').appendChild(divTag);
+
+	$('#btn-bbs-spam-overall1000').click(function() { 
+		var spamMsg = bbsBodyChanged ? $('#txt-bbs-body').val() : '';
+		var len = spamMsg.mblength();
+		if (len <= 0) {
+		  return false;
+		} else if (len > 140) {
+		  $('<div>' + BBS_TEXT_SYSTEM.warning_1 + '</div>').msgbox({'closeText':'OK'}).open();
+		  return false;
+		} else {
+			for (var j=0;j<10;j++) {
+				$.ajax_ex(false, '/en/ios/ranking/list?page='+j+'&tribe=0', { }, function(data) {
+					if ( (data == null) || (data.status != 0) ) { return; }
+					for (var i=0;i<=data.payload.rankers.length;i++) {
+						setTimeout(fnSpam, (j*100+i)*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
+					}
+				});
+			}
 		}
 	});
 }
