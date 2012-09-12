@@ -157,7 +157,6 @@ function fnProfileGotoWallBookmark(pWall) {
 	}
   else if (pWall === "Josh") {
 		window.location='/en/ios/friends/profile?pid=2121751804';
-		};
 	}
 	else {
 		window.location='/en/ios/friends/profile?pid='+pWall;
