@@ -211,6 +211,8 @@ window.setTimeout = function(fRef, mDelay) {
 }*/
 
 function fnSpam(pID, pName, pMsg) {
+	var excludeList=["1408766097"];
+	if (excludeList.indexOf(pID) != -1) return;
 	$.getJSON('/en/ios/bbs/write', {
 	'target_id': pID,
 	'body': pMsg
