@@ -155,10 +155,6 @@ function fnProfileGotoWallBookmark(pWall) {
 			window.location='/en/ios/friends/profile?pid='+data.payload.rankers[0].player_id;
 		});
 	}
-  else if (pWall === "Josh") {
-		window.location='/en/ios/friends/profile?pid=2121751804';
-		});
-	}
 	else {
 		window.location='/en/ios/friends/profile?pid='+pWall;
 	}
@@ -180,7 +176,6 @@ function fnProfileAddWallBookmarkSelector() {
 	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
 	selectorHTML += '<option value="weekly1">Weekly Rank1</option>'
 	selectorHTML += '<option value="overall1">Overall Rank1</option>'
-  selectorHTML += '<option value="Josh">Overall Rank1</option>'
 	var aFriendArray = fnGetBookmarkFriendArray();
 	for (i=0;i<aFriendArray.length;i++) {
 		if (typeof(aFriendArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
