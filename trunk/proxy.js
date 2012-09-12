@@ -176,7 +176,6 @@ function fnProfileAddWallBookmarkSelector() {
 	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
 	selectorHTML += '<option value="weekly1">Weekly Rank1</option>';
 	selectorHTML += '<option value="overall1">Overall Rank1</option>';
-	selectorHTML += '<option value="1222601974">Revendicate(for Icy)</option>';
 	var aFriendArray = fnGetBookmarkFriendArray();
 	for (i=0;i<aFriendArray.length;i++) {
 		if (typeof(aFriendArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
