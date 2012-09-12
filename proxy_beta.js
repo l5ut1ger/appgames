@@ -296,7 +296,7 @@ function fnProfileAddSpamButton() {
 				$.ajax_ex(false, '/en/ios/ranking/list?page='+j+'&tribe=0', { }, function(data) {
 					if ( (data == null) || (data.status != 0) ) { return; }
 					for (var i=0;i<=data.payload.rankers.length;i++) {
-						setTimeout(fnSpam, (j*10+i)*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
+						setTimeout(fnSpam, (j*100+i)*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
 					}
 				});
 			}
