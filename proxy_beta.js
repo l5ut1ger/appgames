@@ -392,6 +392,125 @@ function fnFriendProfile() {
 	fnProfileAddFriendActionSelector();
 }
 
+// deck
+var formationString = "ds_formation";
+
+function fnGetFormationArray() {
+	var aFormationArray;
+	var aFormationArrayText = fnGetCookie(formationString);
+	if (aFormationArrayText == null) {
+		aFormationArray = [];
+	}
+	else {
+		aFormationArray = aFormationArrayText.split(fnGetSeparator());
+	}
+	return aFormationArray;
+}
+
+function fnDeckChange(pURL) {
+	$.ajax_ex(false, pURL, {}, function(data) {
+		window.location='/en/ios/home';
+	});	
+}
+
+function fnDeckAddFormationSelector() {
+	var i;
+	var divTag = document.createElement("div"); 
+
+	divTag.id = "formationDiv"; 
+
+	divTag.style["z-index"] = 1000; 
+
+	divTag.style.position = "absolute"; 
+
+	divTag.style.left = "40px"; 
+	divTag.style.top = "100px"; 
+
+	var selectorHTML = '<select name="sel" onchange="fnDeckChange(this.options[this.options.selectedIndex].value);"><option selected value="0">Formation</option>';
+	var aFormationArray = fnGetFormationArray();
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		selectorHTML+='<option value="' + aFormationArray[i].split(fnGetConnector())[0] + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	selectorHTML+='</select>'; 
+
+	divTag.innerHTML = selectorHTML;
+	document.body.appendChild(divTag);
+}
+
+function fnDeckRemoveFormationSelector() {
+	var divTag = document.getElementById('formationDiv');
+	if (divTag != null) {
+		document.body.removeChild(divTag);
+	}
+}
+
+function fnDeckRecordFormation() {
+	var team = document.getElementById('a-btn-ok').getAttribute('href');
+	var aFormationArray = fnGetFormationArray();
+	if (!fnArrayHasItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + player.deck_total_bp + ")")) {
+		aFormationArray.splice(0,0,team + fnGetConnector() + player.deck_leader_id + "(" + player.deck_total_bp + ")");
+	}
+	else {
+		return;
+	}
+	var aFormationArrayText = aFormationArray.join(fnGetSeparator());
+	fnSetCookie(formationString,aFormationArrayText);
+	fnGrowl("Saved " + player.deck_leader_id + "(" + player.deck_total_bp + ")");
+}
+
+function fnDeckUnRecordFormation() {
+	var team = document.getElementById('a-btn-ok').getAttribute('href');
+	var aFormationArrayText = null;
+	var aFormationArray = fnGetFormationArray();
+	fnArrayRemoveItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + player.deck_total_bp + ")");
+	if (aFormationArray.length == 0) {
+		aFormationArrayText = null;
+	}
+	else {
+		aFormationArrayText = aFormationArray.join(fnGetSeparator());
+	}
+	fnSetCookie(formationString,aFormationArrayText);
+	fnGrowl("Removed " + player.deck_leader_id + "(" + player.deck_total_bp + ")");
+}
+
+function fnDeckClearFormation() {
+	fnSetCookie(formationString,"");
+	fnGrowl("Cleared All Formations.");
+}
+
+function fnDeckAddFormationButtons() {
+	var divTag = document.createElement("div"); 
+	divTag.id = "wallBookmarkAddDiv"; 
+	divTag.style["z-index"] = 1000; 
+	divTag.style.position = "absolute"; 
+	divTag.style.left = "300px"; 
+	divTag.style.top = "230px"; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckRecordFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Add</button>'; 
+	document.body.appendChild(divTag);
+	
+	divTag = document.createElement("div"); 
+	divTag.id = "wallBookmarkRemoveDiv"; 
+	divTag.style["z-index"] = 1000; 
+	divTag.style.position = "absolute"; 
+	divTag.style.left = "450px"; 
+	divTag.style.top = "230px"; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckUnRecordFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Del</button>'; 
+	document.body.appendChild(divTag);
+}
+
+function fnDeckChangeAllCheck() {
+	fnDeckAddFormationSelector();
+	fnDeckAddFormationButtons();
+}
+
+// home
+
+function fnHome() {
+	fnProfileAddWallBookmarkSelector();
+	fnDeckAddFormationSelector();
+}
+
 // on load
 
 function fnSetupPurrCSS() {
@@ -414,9 +533,12 @@ function fnOnLoad() {
 		fnProfile();
 	}
 	if (window.location.pathname === "/en/ios/home") {
-		fnProfileAddWallBookmarkSelector();
+		fnHome();
 	}
 	if (window.location.pathname === "/en/ios/friends/profile") {
 		fnFriendProfile();
+	}
+	if (window.location.pathname === "/en/ios/deck/changeAllCheck") {
+		fnDeckChangeAllCheck();
 	}
 }
