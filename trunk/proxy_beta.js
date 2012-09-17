@@ -409,8 +409,8 @@ function fnGetFormationArray() {
 
 function fnDeckChange(pURL) {
 	$.ajax_ex(false, pURL, {}, function(data) {
-		setTimeout(function() {document.location='/en/ios/home';}, 1000); ;
 	});	
+	document.location='/en/ios/home';
 }
 
 function fnDeckAddFormationSelector() {
@@ -421,10 +421,10 @@ function fnDeckAddFormationSelector() {
 
 	divTag.style["z-index"] = 1000; 
 
-	divTag.style.position = "absolute"; 
+	divTag.style.position = "relative"; 
 
 	divTag.style.left = "0px"; 
-	divTag.style.top = "120px"; 
+	//divTag.style.top = "120px"; 
 
 	var selectorHTML = '<select name="sel" onchange="fnDeckChange(this.options[this.options.selectedIndex].value);"><option selected value="0">Formation</option>';
 	var aFormationArray = fnGetFormationArray();
@@ -448,22 +448,22 @@ function fnDeckRemoveFormationSelector() {
 function fnDeckRecordFormation() {
 	var team = document.getElementById('a-btn-ok').getAttribute('href');
 	var aFormationArray = fnGetFormationArray();
-	if (!fnArrayHasItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")")) {
-		aFormationArray.splice(0,0,team + fnGetConnector() + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")");
+	if (!fnArrayHasItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + player.deck_total_bp + ")")) {
+		aFormationArray.splice(0,0,team + fnGetConnector() + player.deck_leader_id + "(" + player.deck_total_bp + ")");
 	}
 	else {
 		return;
 	}
 	var aFormationArrayText = aFormationArray.join(fnGetSeparator());
 	fnSetCookie(formationString,aFormationArrayText);
-	fnGrowl("Saved " + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")");
+	fnGrowl("Saved " + player.deck_leader_id + "(" + player.deck_total_bp + ")");
 }
 
 function fnDeckUnRecordFormation() {
 	var team = document.getElementById('a-btn-ok').getAttribute('href');
 	var aFormationArrayText = null;
 	var aFormationArray = fnGetFormationArray();
-	fnArrayRemoveItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")");
+	fnArrayRemoveItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + player.deck_total_bp + ")");
 	if (aFormationArray.length == 0) {
 		aFormationArrayText = null;
 	}
@@ -471,7 +471,7 @@ function fnDeckUnRecordFormation() {
 		aFormationArrayText = aFormationArray.join(fnGetSeparator());
 	}
 	fnSetCookie(formationString,aFormationArrayText);
-	fnGrowl("Removed " + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")");
+	fnGrowl("Removed " + player.deck_leader_id + "(" + player.deck_total_bp + ")");
 }
 
 function fnDeckClearFormation() {
@@ -480,30 +480,34 @@ function fnDeckClearFormation() {
 }
 
 function fnDeckAddFormationButtons() {
-	var divTag = document.createElement("div"); 
+
+	var divTag = document.createElement("br"); 
+	document.body.appendChild(divTag);
+	
+	divTag = document.createElement("div"); 
 	divTag.id = "formationAddDiv"; 
 	divTag.style["z-index"] = 1000; 
-	divTag.style.position = "absolute"; 
-	divTag.style.left = "20px"; 
-	divTag.style.top = "190px"; 
+	divTag.style.position = "relative"; 
+	//divTag.style.left = "20px"; 
+	//divTag.style.top = "190px"; 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckRecordFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Add</button>'; 
 	document.body.appendChild(divTag);
 	
 	divTag = document.createElement("div"); 
 	divTag.id = "formationRemoveDiv"; 
 	divTag.style["z-index"] = 1000; 
-	divTag.style.position = "absolute"; 
-	divTag.style.left = "100px"; 
-	divTag.style.top = "190px"; 
+	divTag.style.position = "relative"; 
+	//divTag.style.left = "100px"; 
+	//divTag.style.top = "190px"; 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckUnRecordFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Del</button>'; 
 	document.body.appendChild(divTag);
 	
 	divTag = document.createElement("div"); 
 	divTag.id = "formationClearDiv"; 
 	divTag.style["z-index"] = 1000; 
-	divTag.style.position = "absolute"; 
-	divTag.style.left = "200px"; 
-	divTag.style.top = "190px"; 
+	divTag.style.position = "relative"; 
+	//divTag.style.left = "200px"; 
+	//divTag.style.top = "190px"; 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckClearFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Clear</button>'; 
 	document.body.appendChild(divTag);
 }
@@ -518,6 +522,7 @@ function fnDeckChangeAllCheck() {
 function fnHome() {
 	fnProfileAddWallBookmarkSelector();
 	fnDeckAddFormationSelector();
+	document.getElementById('formationDiv').style.position = "absolute"; 
 	document.getElementById('formationDiv').style.top = "100px";
 }
 
@@ -548,7 +553,7 @@ function fnOnLoad() {
 	if (window.location.pathname === "/en/ios/friends/profile") {
 		fnFriendProfile();
 	}
-	if (window.location.pathname === "/en/ios/deck/changeAllCheck") {
+	if (window.location.pathname === "/en/ios/deck") {
 		fnDeckChangeAllCheck();
 	}
 }
