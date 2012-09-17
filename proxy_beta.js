@@ -155,9 +155,6 @@ function fnProfileGotoWallBookmark(pWall) {
 			window.location='/en/ios/friends/profile?pid='+data.payload.rankers[0].player_id;
 		});
 	}
-  else if (pWall === "Josh") {
-		window.location='/en/ios/friends/profile?pid=2121751804';
-	}
 	else {
 		window.location='/en/ios/friends/profile?pid='+pWall;
 	}
@@ -179,12 +176,39 @@ function fnProfileAddWallBookmarkSelector() {
 	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
 	selectorHTML += '<option value="weekly1">Weekly Rank1</option>'
 	selectorHTML += '<option value="overall1">Overall Rank1</option>'
-  selectorHTML += '<option value="Josh">Josh</option>'
 	var aFriendArray = fnGetBookmarkFriendArray();
 	for (i=0;i<aFriendArray.length;i++) {
 		if (typeof(aFriendArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
 		selectorHTML+='<option value="' + aFriendArray[i].split(fnGetConnector())[0] + '">' + aFriendArray[i].split(fnGetConnector())[1] + '</option>';
 	}
+	selectorHTML+='</select>'; 
+
+	divTag.innerHTML = selectorHTML;
+	document.body.appendChild(divTag);
+}
+
+function fnProfileAddSkypeClanSelector() {
+	var divTag = document.createElement("div"); 
+
+	divTag.id = "skypeClanDiv"; 
+
+	divTag.style["z-index"] = 1000; 
+
+	divTag.style.position = "absolute"; 
+
+	divTag.style.left = "200px"; 
+	divTag.style.top = "120px"; 
+
+	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
+	selectorHTML += '<option value="1860292579">about2punt</option>'
+	selectorHTML += '<option value="2171680461">Byce</option>';
+	selectorHTML += '<option value="2271156591">caos5522</option>';
+	selectorHTML += '<option value="2747200019">Getr3kt</option>';
+	selectorHTML += '<option value="2578795263">Joe</option>';
+	selectorHTML += '<option value="2121751804">Josh</option>'
+	selectorHTML += '<option value="2993558878">mr_saving</option>'
+	selectorHTML += '<option value="1806070535">Kissy</option>'
+	selectorHTML += '<option value="1330745254">Unreality</option>'	
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
@@ -306,6 +330,7 @@ function fnProfileAddSpamButton() {
 
 function fnProfile() {
 	fnProfileAddWallBookmarkSelector();
+	fnProfileAddSkypeClanSelector();
 	fnProfileAddSpamButton();
 }
 
