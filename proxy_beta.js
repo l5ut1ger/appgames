@@ -423,8 +423,8 @@ function fnDeckAddFormationSelector() {
 
 	divTag.style.position = "absolute"; 
 
-	divTag.style.left = "40px"; 
-	divTag.style.top = "100px"; 
+	divTag.style.left = "0px"; 
+	divTag.style.top = "115px"; 
 
 	var selectorHTML = '<select name="sel" onchange="fnDeckChange(this.options[this.options.selectedIndex].value);"><option selected value="0">Formation</option>';
 	var aFormationArray = fnGetFormationArray();
@@ -481,21 +481,30 @@ function fnDeckClearFormation() {
 
 function fnDeckAddFormationButtons() {
 	var divTag = document.createElement("div"); 
-	divTag.id = "wallBookmarkAddDiv"; 
+	divTag.id = "formationAddDiv"; 
 	divTag.style["z-index"] = 1000; 
 	divTag.style.position = "absolute"; 
-	divTag.style.left = "300px"; 
-	divTag.style.top = "230px"; 
+	divTag.style.left = "20px"; 
+	divTag.style.top = "190px"; 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckRecordFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Add</button>'; 
 	document.body.appendChild(divTag);
 	
 	divTag = document.createElement("div"); 
-	divTag.id = "wallBookmarkRemoveDiv"; 
+	divTag.id = "formationRemoveDiv"; 
 	divTag.style["z-index"] = 1000; 
 	divTag.style.position = "absolute"; 
-	divTag.style.left = "450px"; 
-	divTag.style.top = "230px"; 
+	divTag.style.left = "100px"; 
+	divTag.style.top = "190px"; 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckUnRecordFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Del</button>'; 
+	document.body.appendChild(divTag);
+	
+	divTag = document.createElement("div"); 
+	divTag.id = "formationClearDiv"; 
+	divTag.style["z-index"] = 1000; 
+	divTag.style.position = "absolute"; 
+	divTag.style.left = "200px"; 
+	divTag.style.top = "190px"; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckClearFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Clear</button>'; 
 	document.body.appendChild(divTag);
 }
 
@@ -509,6 +518,7 @@ function fnDeckChangeAllCheck() {
 function fnHome() {
 	fnProfileAddWallBookmarkSelector();
 	fnDeckAddFormationSelector();
+	document.getElementById('formationDiv').style.top = "100px";
 }
 
 // on load
