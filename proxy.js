@@ -473,22 +473,22 @@ function fnDeckRemoveFormationSelector() {
 function fnDeckRecordFormation() {
 	var team = document.getElementById('a-btn-ok').getAttribute('href');
 	var aFormationArray = fnGetFormationArray();
-	if (!fnArrayHasItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")")) {
-		aFormationArray.splice(0,0,team + fnGetConnector() + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")");
+	if (!fnArrayHasItem(aFormationArray, team + fnGetConnector() + "BP " + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + " Team")) {
+		aFormationArray.splice(0,0,team + fnGetConnector() + "BP " + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + " Team");
 	}
 	else {
 		return;
 	}
 	var aFormationArrayText = aFormationArray.join(fnGetSeparator());
 	fnSetCookie(formationString,aFormationArrayText);
-	fnGrowl("Saved " + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")");
+	fnGrowl("Saved BP " + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + " Team");
 }
 
 function fnDeckUnRecordFormation() {
 	var team = document.getElementById('a-btn-ok').getAttribute('href');
 	var aFormationArrayText = null;
 	var aFormationArray = fnGetFormationArray();
-	fnArrayRemoveItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")");
+	fnArrayRemoveItem(aFormationArray, team + fnGetConnector() + "BP " + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + " Team");
 	if (aFormationArray.length == 0) {
 		aFormationArrayText = null;
 	}
@@ -496,7 +496,7 @@ function fnDeckUnRecordFormation() {
 		aFormationArrayText = aFormationArray.join(fnGetSeparator());
 	}
 	fnSetCookie(formationString,aFormationArrayText);
-	fnGrowl("Removed " + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")");
+	fnGrowl("Removed " + "BP " + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + " Team");
 }
 
 function fnDeckClearFormation() {
