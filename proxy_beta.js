@@ -196,10 +196,10 @@ function fnProfileAddSkypeClanSelector() {
 
 	divTag.style.position = "absolute"; 
 
-	divTag.style.left = "200px"; 
-	divTag.style.top = "120px"; 
+	divTag.style.left = "100px"; 
+	divTag.style.top = "100px"; 
 
-	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
+	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Skype Clan</option>';
 	selectorHTML += '<option value="1860292579">about2punt</option>'
 	selectorHTML += '<option value="2171680461">Byce</option>';
 	selectorHTML += '<option value="2271156591">caos5522</option>';
