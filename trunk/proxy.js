@@ -176,13 +176,39 @@ function fnProfileAddWallBookmarkSelector() {
 	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
 	selectorHTML += '<option value="weekly1">Weekly Rank1</option>'
 	selectorHTML += '<option value="overall1">Overall Rank1</option>'
-	selectorHTML += '<option value="2121751804">Josh</option>'
-	selectorHTML += '<option value="2578795263">Joe</option>';
 	var aFriendArray = fnGetBookmarkFriendArray();
 	for (i=0;i<aFriendArray.length;i++) {
 		if (typeof(aFriendArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
 		selectorHTML+='<option value="' + aFriendArray[i].split(fnGetConnector())[0] + '">' + aFriendArray[i].split(fnGetConnector())[1] + '</option>';
 	}
+	selectorHTML+='</select>'; 
+
+	divTag.innerHTML = selectorHTML;
+	document.body.appendChild(divTag);
+}
+
+function fnProfileAddSkypeClanSelector() {
+	var divTag = document.createElement("div"); 
+
+	divTag.id = "skypeClanDiv"; 
+
+	divTag.style["z-index"] = 1000; 
+
+	divTag.style.position = "absolute"; 
+
+	divTag.style.left = "100px"; 
+	divTag.style.top = "100px"; 
+
+	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Skype Clan</option>';
+	selectorHTML += '<option value="1860292579">about2punt</option>'
+	selectorHTML += '<option value="2171680461">Byce</option>';
+	selectorHTML += '<option value="2271156591">caos5522</option>';
+	selectorHTML += '<option value="2747200019">Getr3kt</option>';
+	selectorHTML += '<option value="2578795263">Joe</option>';
+	selectorHTML += '<option value="2121751804">Josh</option>'
+	selectorHTML += '<option value="2993558878">mr_saving</option>'
+	selectorHTML += '<option value="1806070535">Kissy</option>'
+	selectorHTML += '<option value="1330745254">Unreality</option>'	
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
@@ -304,6 +330,7 @@ function fnProfileAddSpamButton() {
 
 function fnProfile() {
 	fnProfileAddWallBookmarkSelector();
+	fnProfileAddSkypeClanSelector();
 	fnProfileAddSpamButton();
 }
 
@@ -390,6 +417,135 @@ function fnFriendProfile() {
 	fnProfileAddFriendActionSelector();
 }
 
+// deck
+var formationString = "ds_formation";
+
+function fnGetFormationArray() {
+	var aFormationArray;
+	var aFormationArrayText = fnGetCookie(formationString);
+	if (aFormationArrayText == null) {
+		aFormationArray = [];
+	}
+	else {
+		aFormationArray = aFormationArrayText.split(fnGetSeparator());
+	}
+	return aFormationArray;
+}
+
+function fnDeckChange(pURL) {
+	$.ajax_ex(false, pURL, {}, function(data) {
+	});	
+	document.location='/en/ios/home';
+}
+
+function fnDeckAddFormationSelector() {
+	var i;
+	var divTag = document.createElement("div"); 
+
+	divTag.id = "formationDiv"; 
+
+	divTag.style["z-index"] = 1000; 
+
+	divTag.style.position = "absolute"; 
+
+	divTag.style.left = "0px"; 
+	divTag.style.top = "120px"; 
+
+	var selectorHTML = '<select name="sel" onchange="fnDeckChange(this.options[this.options.selectedIndex].value);"><option selected value="0">Formation</option>';
+	var aFormationArray = fnGetFormationArray();
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		selectorHTML+='<option value="' + aFormationArray[i].split(fnGetConnector())[0] + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	selectorHTML+='</select>'; 
+
+	divTag.innerHTML = selectorHTML;
+	document.body.appendChild(divTag);
+}
+
+function fnDeckRemoveFormationSelector() {
+	var divTag = document.getElementById('formationDiv');
+	if (divTag != null) {
+		document.body.removeChild(divTag);
+	}
+}
+
+function fnDeckRecordFormation() {
+	var team = document.getElementById('a-btn-ok').getAttribute('href');
+	var aFormationArray = fnGetFormationArray();
+	if (!fnArrayHasItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")")) {
+		aFormationArray.splice(0,0,team + fnGetConnector() + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")");
+	}
+	else {
+		return;
+	}
+	var aFormationArrayText = aFormationArray.join(fnGetSeparator());
+	fnSetCookie(formationString,aFormationArrayText);
+	fnGrowl("Saved " + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")");
+}
+
+function fnDeckUnRecordFormation() {
+	var team = document.getElementById('a-btn-ok').getAttribute('href');
+	var aFormationArrayText = null;
+	var aFormationArray = fnGetFormationArray();
+	fnArrayRemoveItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")");
+	if (aFormationArray.length == 0) {
+		aFormationArrayText = null;
+	}
+	else {
+		aFormationArrayText = aFormationArray.join(fnGetSeparator());
+	}
+	fnSetCookie(formationString,aFormationArrayText);
+	fnGrowl("Removed " + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + ")");
+}
+
+function fnDeckClearFormation() {
+	fnSetCookie(formationString,"");
+	fnGrowl("Cleared All Formations.");
+}
+
+function fnDeckAddFormationButtons() {
+	var divTag = document.createElement("div"); 
+	divTag.id = "formationAddDiv"; 
+	divTag.style["z-index"] = 1000; 
+	divTag.style.position = "absolute"; 
+	divTag.style.left = "20px"; 
+	divTag.style.top = "190px"; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckRecordFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Add</button>'; 
+	document.body.appendChild(divTag);
+	
+	divTag = document.createElement("div"); 
+	divTag.id = "formationRemoveDiv"; 
+	divTag.style["z-index"] = 1000; 
+	divTag.style.position = "absolute"; 
+	divTag.style.left = "100px"; 
+	divTag.style.top = "190px"; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckUnRecordFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Del</button>'; 
+	document.body.appendChild(divTag);
+	
+	divTag = document.createElement("div"); 
+	divTag.id = "formationClearDiv"; 
+	divTag.style["z-index"] = 1000; 
+	divTag.style.position = "absolute"; 
+	divTag.style.left = "200px"; 
+	divTag.style.top = "190px"; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckClearFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Clear</button>'; 
+	document.body.appendChild(divTag);
+}
+
+function fnDeckChangeAllCheck() {
+	fnDeckAddFormationSelector();
+	fnDeckAddFormationButtons();
+}
+
+// home
+
+function fnHome() {
+	fnProfileAddWallBookmarkSelector();
+	fnDeckAddFormationSelector();
+	document.getElementById('formationDiv').style.top = "100px";
+}
+
 // on load
 
 function fnSetupPurrCSS() {
@@ -412,9 +568,12 @@ function fnOnLoad() {
 		fnProfile();
 	}
 	if (window.location.pathname === "/en/ios/home") {
-		fnProfileAddWallBookmarkSelector();
+		fnHome();
 	}
 	if (window.location.pathname === "/en/ios/friends/profile") {
 		fnFriendProfile();
+	}
+	if (window.location.pathname === "/en/ios/deck/changeAllCheck") {
+		fnDeckChangeAllCheck();
 	}
 }
