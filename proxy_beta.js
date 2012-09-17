@@ -409,7 +409,7 @@ function fnGetFormationArray() {
 
 function fnDeckChange(pURL) {
 	$.ajax_ex(false, pURL, {}, function(data) {
-		window.location='/en/ios/home';
+		setTimeout(function() {document.location='/en/ios/home';}, 1000); ;
 	});	
 }
 
@@ -424,7 +424,7 @@ function fnDeckAddFormationSelector() {
 	divTag.style.position = "absolute"; 
 
 	divTag.style.left = "0px"; 
-	divTag.style.top = "115px"; 
+	divTag.style.top = "120px"; 
 
 	var selectorHTML = '<select name="sel" onchange="fnDeckChange(this.options[this.options.selectedIndex].value);"><option selected value="0">Formation</option>';
 	var aFormationArray = fnGetFormationArray();
@@ -448,8 +448,8 @@ function fnDeckRemoveFormationSelector() {
 function fnDeckRecordFormation() {
 	var team = document.getElementById('a-btn-ok').getAttribute('href');
 	var aFormationArray = fnGetFormationArray();
-	if (!fnArrayHasItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + player.deck_total_bp + ")")) {
-		aFormationArray.splice(0,0,team + fnGetConnector() + player.deck_leader_id + "(" + player.deck_total_bp + ")");
+	if (!fnArrayHasItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[3].childNodes[0].innerHTML + ")")) {
+		aFormationArray.splice(0,0,team + fnGetConnector() + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[3].childNodes[0].innerHTML + ")");
 	}
 	else {
 		return;
@@ -463,7 +463,7 @@ function fnDeckUnRecordFormation() {
 	var team = document.getElementById('a-btn-ok').getAttribute('href');
 	var aFormationArrayText = null;
 	var aFormationArray = fnGetFormationArray();
-	fnArrayRemoveItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + player.deck_total_bp + ")");
+	fnArrayRemoveItem(aFormationArray, team + fnGetConnector() + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[3].childNodes[0].innerHTML + ")");
 	if (aFormationArray.length == 0) {
 		aFormationArrayText = null;
 	}
@@ -471,7 +471,7 @@ function fnDeckUnRecordFormation() {
 		aFormationArrayText = aFormationArray.join(fnGetSeparator());
 	}
 	fnSetCookie(formationString,aFormationArrayText);
-	fnGrowl("Removed " + player.deck_leader_id + "(" + player.deck_total_bp + ")");
+	fnGrowl("Removed " + player.deck_leader_id + "(" + document.getElementById('div-deck-status').childNodes[3].childNodes[0].innerHTML + ")");
 }
 
 function fnDeckClearFormation() {
