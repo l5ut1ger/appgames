@@ -660,6 +660,7 @@ function fnTowerMission() {
 // battle
 
 function fnBattleBattle() {
+alert('hi');
 /*	// skip to result
 	fnGrowl(document.getElementById('canvas').innerHTML);
 	fnGrowl(document.getElementById('canvas').parentNode.innerHTML);
