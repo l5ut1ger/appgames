@@ -567,7 +567,7 @@ function fnFixMissionProcess() {
 						.play();
 				return;
 			  } else {
-				$.redirect("\/en\/ios\/tower\/mission");
+				setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 1000);
 				clearInterval(missionInterval);
 				return;
 			  }
