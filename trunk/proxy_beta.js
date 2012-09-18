@@ -1,3 +1,4 @@
+// 148
 // Tools
 
 function loadjscssfile(filename, filetype){
@@ -550,6 +551,9 @@ function fnHome() {
 
 function fnFixMissionProcess() {
 	missionProcess = function() {
+		if (mission.progress > 0 && mission.current_mission < 4) {
+			mission.last_mission_id++;
+		}
 		$.ajax_ex(false, '/en/ios/tower/process', {'area_id'    : areaMaster.area_id,'mission_id' : mission.last_mission_id, api : 'json', '__hash': ('' + (new Date()).getTime())}, function(result) {
 		if (result.status != 0) {
 		  if (result.status == 901) {
