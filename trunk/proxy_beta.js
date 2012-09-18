@@ -643,11 +643,14 @@ function fnFixMissionProcess() {
 }
 
 function fnTowerMission() {
+	alert('a');
 	fnFixMissionProcess();
+	alert('b');
 	if (!mission.is_boss) {
 		missionInterval = setInterval(missionProcess,1000);
 	}
 	else {
+		alert('hi');
 		document.location='/en/ios/battle/battleact?tower=1&aid='+mission.area_id;
 	}
 }
