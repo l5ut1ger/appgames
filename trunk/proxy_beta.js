@@ -558,13 +558,7 @@ function fnFixMissionProcess() {
 		$.ajax_ex(false, '/en/ios/tower/process', {'area_id'    : areaMaster.area_id,'mission_id' : mission.last_mission_id, api : 'json', '__hash': ('' + (new Date()).getTime())}, function(result) {
 			if (result.status != 0) {
 			  if (result.status == 901) {
-					EfectMng.clear()
-						.push('hideSystemBtns', null)
-						.push('shadowShow', null)
-						.push('recoverItems', result.payload.recoverItems)
-						.push('shadowHide', null)
-						.push('showSystemBtns', null)
-						.play();
+				$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:result.payload.recoverItems[0].item_id}, function(data) {});
 				return;
 			  } else {
 				clearInterval(missionInterval);
