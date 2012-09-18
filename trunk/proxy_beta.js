@@ -684,7 +684,11 @@ function fnSetupPurrCSS() {
 	document.body.appendChild(sheet);	
 }
 
-
+function fnAutoUsePoint() {
+	if (player.remain_point > 0) {
+		$.ajax_ex(false, '/en/ios/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+	}
+}
 
 function fnOnLoad() {
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
@@ -693,6 +697,8 @@ function fnOnLoad() {
 	fnSetupPurrCSS();
 
 	fnCreateBackButton();
+	
+	fnAutoUsePoint();
 	
 	if (window.location.pathname === "/en/ios/home/profile") {
 		fnProfile();
