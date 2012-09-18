@@ -725,7 +725,7 @@ function fnOnLoad() {
 	if (window.location.pathname === "/en/ios/tower") {
 		fnTower();
 	}
-	if (window.location.pathname === "/en/ios/tower/subpoena") {
+	if (window.location.pathname === "/en/ios/tower/summon") {
 		fnTowerSummon();
 	}
 	if (window.location.pathname === "/en/ios/tower/mission") {
