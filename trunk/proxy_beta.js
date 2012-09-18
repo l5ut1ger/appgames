@@ -668,7 +668,7 @@ function fnTowerBossResult() {
 		if (result.payload.resources.foundType != null && result.payload.resources.foundType==10 && result.payload.resResult.items[result.payload.itemMaster.item_id].collected_count==6) { 
 			document.location="/en/ios/tower";
 		} else  {
-			document.location="/en/ios/tower/mission");
+			document.location="/en/ios/tower/mission";
 		}
 	});
 }
