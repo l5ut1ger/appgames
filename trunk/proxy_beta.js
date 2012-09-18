@@ -652,6 +652,7 @@ function fnTowerMission() {
 	$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  
 		
 	});	
+	if (typeof(mission) == 'undefined') { alert(' undefined mission ');}
 	if (!mission.is_boss) {
 		missionInterval = setInterval(missionProcess,1000);
 	}
