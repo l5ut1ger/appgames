@@ -644,7 +644,12 @@ function fnFixMissionProcess() {
 
 function fnTowerMission() {
 	fnFixMissionProcess();
-	missionInterval = setInterval(missionProcess,1000);
+	if (!mission.is_boss) {
+		missionInterval = setInterval(missionProcess,1000);
+	}
+	else {
+		$.redirect("\/en\/ios\/battle\/battleact?tower=1&aid="+mission.area_id);
+	}
 }
 
 // on load
