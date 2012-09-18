@@ -622,12 +622,13 @@ function fnFixMissionProcess() {
 			if (result.payload.process.cage) {
 			  if (!isShadow) EfectMng.push('shadowShow', null);
 			  isShadow = true;
-			  EfectMng.push('cageSelect', {
+			  $.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  $.redirect("/en/ios/tower/mission"); return;});
+			  /*EfectMng.push('cageSelect', {
 				  grade : result.payload.process.cage,
 				  item : result.payload.event.cage.item,
 				  sampleTrap: result.payload.sampleTrap,
 				  player: result.payload.player
-				});
+				});*/
 			}
 			if (isShadow) EfectMng.push('shadowHide', null);
 			if (result.payload.process.clear) {
