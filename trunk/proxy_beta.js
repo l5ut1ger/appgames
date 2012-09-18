@@ -652,7 +652,8 @@ function fnTowerMission() {
 		missionInterval = setInterval(missionProcess,1000);
 	}
 	else {
-		document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id;
+		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
+		//document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id;
 	}
 }
 
