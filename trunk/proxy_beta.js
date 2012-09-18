@@ -664,18 +664,8 @@ function fnTowerMission() {
 // battle
 
 function fnBattleBattle() {
-	if (typeof(document.getElementById('canvas')) == 'undefined') {alert('hi'); }
-	alert('hi2');
-	if (document.getElementById('canvas').parentNode.parentNode) alert('hi3'+document.getElementById('canvas').parentNode.parentNode.innerHTML);
-	if (document.getElementById('canvas').parentNode.parentNode.childNodes[4]) alert('hi3'+document.getElementById('canvas').parentNode.parentNode.childNodes[4].innerHTML);
-/*	// skip to result
-	fnGrowl(document.getElementById('canvas').innerHTML);
-	fnGrowl(document.getElementById('canvas').parentNode.innerHTML);
-	fnGrowl(document.getElementById('canvas').parentNode.parentNode.innerHTML);
-	fnGrowl(document.getElementById('canvas').parentNode.parentNode.childNodes[4].innerHTML);
-	fnGrowl(document.getElementById('canvas').parentNode.parentNode.childNodes[4].childNodes[4].innerHTML);
-	
-	document.location=document.getElementById('canvas').parentNode.parentNode.childNodes[4].childNodes[4].getAttribute('href');*/
+	// skip to result
+	document.location=document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href');
 }
 
 // on load
