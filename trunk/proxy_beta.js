@@ -583,8 +583,8 @@ function fnFixMissionProcess() {
 			$.refreshStatus(false, null);
 			
 			var isShadow = false;
-			EfectMng.clear()
-				.push('hideSystemBtns', null);
+			EfectMng.clear();
+				//.push('hideSystemBtns', null);
 			var processData = {
 			  process : result.payload.process,
 			  crack   : false,
@@ -640,6 +640,7 @@ function fnFixMissionProcess() {
 
 		return false;
 	};
+	__effect_process = function(data) {};
 }
 
 function fnTowerMission() {
