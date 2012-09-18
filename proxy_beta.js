@@ -635,6 +635,9 @@ function fnFixMissionProcess() {
 			  if (!mission.is_boss) {
 
 			  }
+			  else {
+				document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id;
+			  }
 			}
 			EfectMng.push('showSystemBtns', null).play();
 		});
