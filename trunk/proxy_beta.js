@@ -649,6 +649,8 @@ function fnFixMissionProcess() {
 
 function fnTowerMission() {
 	fnFixMissionProcess();
+	$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  $.redirect("/en/ios/tower/mission"); return;});
+	return;
 	if (!mission.is_boss) {
 		missionInterval = setInterval(missionProcess,1000);
 	}
