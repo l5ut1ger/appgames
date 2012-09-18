@@ -666,8 +666,8 @@ function fnTowerMission() {
 function fnBattleBattle() {
 	if (typeof(document.getElementById('canvas')) == 'undefined') {alert('hi'); }
 	alert('hi2');
-	alert('hi3'+document.getElementById('canvas').parentNode.parentNode.innerHTML);
-	alert('hi3'+document.getElementById('canvas').parentNode.parentNode.childNodes[4].innerHTML);
+	if (document.getElementById('canvas').parentNode.parentNode) alert('hi3'+document.getElementById('canvas').parentNode.parentNode.innerHTML);
+	if (document.getElementById('canvas').parentNode.parentNode.childNodes[4]) alert('hi3'+document.getElementById('canvas').parentNode.parentNode.childNodes[4].innerHTML);
 /*	// skip to result
 	fnGrowl(document.getElementById('canvas').innerHTML);
 	fnGrowl(document.getElementById('canvas').parentNode.innerHTML);
