@@ -652,27 +652,26 @@ function fnTowerMission() {
 	$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  
 		
 	});	
-	if (typeof(mission) == 'undefined') { alert(' undefined mission ');}
+	if (typeof(mission) == 'undefined') { }
 	if (!mission.is_boss) {
 		missionInterval = setInterval(missionProcess,1000);
 	}
 	else {
-		//alert('hi'+mission.area_id);
-		//document.location='/en/ios/battle/battleact?tower=1&aid='+mission.area_id;
-		document.location="/en/ios/home";
+		document.location='/en/ios/battle/battleact?tower=1&aid='+mission.area_id;
 	}
 }
 
 // battle
 
 function fnBattleBattle() {
-
+	if (typeof(document.getElementById('canvas')) == 'undefined') {alert('hi'); }
 /*	// skip to result
 	fnGrowl(document.getElementById('canvas').innerHTML);
 	fnGrowl(document.getElementById('canvas').parentNode.innerHTML);
 	fnGrowl(document.getElementById('canvas').parentNode.parentNode.innerHTML);
 	fnGrowl(document.getElementById('canvas').parentNode.parentNode.childNodes[4].innerHTML);
 	fnGrowl(document.getElementById('canvas').parentNode.parentNode.childNodes[4].childNodes[4].innerHTML);
+	
 	document.location=document.getElementById('canvas').parentNode.parentNode.childNodes[4].childNodes[4].getAttribute('href');*/
 }
 
