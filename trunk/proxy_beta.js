@@ -655,7 +655,8 @@ function fnTowerMission() {
 		}
 		else {
 			//alert('hi'+mission.area_id);
-			document.location='/en/ios/battle/battleact?tower=1&aid='+mission.area_id;
+			//document.location='/en/ios/battle/battleact?tower=1&aid='+mission.area_id;
+			document.location='/en/ios/home';
 		}
 	});	
 }
