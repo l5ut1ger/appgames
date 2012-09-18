@@ -656,13 +656,13 @@ function fnTowerMission() {
 // battle
 
 function fnBattleBattle() {
-	// skip to result
+/*	// skip to result
 	fnGrowl(document.getElementById('canvas').innerHTML);
 	fnGrowl(document.getElementById('canvas').parentNode.innerHTML);
 	fnGrowl(document.getElementById('canvas').parentNode.parentNode.innerHTML);
 	fnGrowl(document.getElementById('canvas').parentNode.parentNode.childNodes[4].innerHTML);
 	fnGrowl(document.getElementById('canvas').parentNode.parentNode.childNodes[4].childNodes[4].innerHTML);
-	document.location=document.getElementById('canvas').parentNode.parentNode.childNodes[4].childNodes[4].getAttribute('href');
+	document.location=document.getElementById('canvas').parentNode.parentNode.childNodes[4].childNodes[4].getAttribute('href');*/
 }
 
 // on load
