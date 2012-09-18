@@ -652,6 +652,13 @@ function fnTowerMission() {
 	}
 }
 
+// battle
+
+function fnBattleBattle() {
+	// skip to result
+	document.location=document.getElementById('canvas').parentNode.parentNode.childNodes[4].childNodes[4].getAttribute('href');
+}
+
 // on load
 
 function fnSetupPurrCSS() {
@@ -684,5 +691,8 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/tower/mission") {
 		fnTowerMission();
+	}
+	if (window.location.pathname === "/en/ios/battle/battle") {
+		fnBattleBattle();
 	}
 }
