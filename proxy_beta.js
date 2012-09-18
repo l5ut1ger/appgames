@@ -656,6 +656,11 @@ function fnTowerMission() {
 
 function fnBattleBattle() {
 	// skip to result
+	alert(document.getElementById('canvas'));
+	alert(document.getElementById('canvas').parentNode.innerHTML);
+	alert(document.getElementById('canvas').parentNode.parentNode.innerHTML);
+	alert(document.getElementById('canvas').parentNode.parentNode.childNodes[4].innerHTML);
+	alert(document.getElementById('canvas').parentNode.parentNode.childNodes[4].childNodes[4].innerHTML);
 	document.location=document.getElementById('canvas').parentNode.parentNode.childNodes[4].childNodes[4].getAttribute('href');
 }
 
