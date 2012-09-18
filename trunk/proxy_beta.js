@@ -640,8 +640,8 @@ function fnFixMissionProcess() {
 
 		return false;
 	};
-	__effect_process = function(data) {};
-	__effect_cageSelect = function(data) {
+	EfectMng.efectList.process = __effect_process = function(data) {};
+	EfectMng.efectList.cageSelect = __effect_cageSelect = function(data) {
 		$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  $.redirect("\/en\/ios\/tower\/mission"); return;});
 	}
 }
