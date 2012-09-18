@@ -546,6 +546,99 @@ function fnHome() {
 	document.getElementById('formationDiv').style.top = "100px";
 }
 
+// tower mission
+
+function fnFixMissionProcess() {
+	missionProcess = function() {
+		$.ajax_ex(false, '/en/ios/tower/process', {'area_id'    : areaMaster.area_id,'mission_id' : mission.last_mission_id, api : 'json', '__hash': ('' + (new Date()).getTime())}, function(result) {
+		if (result.status != 0) {
+		  if (result.status == 901) {
+				EfectMng.clear()
+					.push('hideSystemBtns', null)
+					.push('shadowShow', null)
+					.push('recoverItems', result.payload.recoverItems)
+					.push('shadowHide', null)
+					.push('showSystemBtns', null)
+					.play();
+			return;
+		  } else {
+			$.redirect("\/en\/ios\/tower\/mission");
+			return;
+		  }
+		}
+		mission = result.payload.mission;
+		$('#mission_progress').progressbar().setValue(
+			result.payload.process.clear ? 100 : ~~mission.progress / 10
+		  );
+		// progress_text
+		$('#progress-value span').html((result.payload.process.clear ? 100 : ~~mission.progress / 10) + '%');
+
+		player = result.payload.player;
+		$.refreshStatus(false, null);
+
+
+		var isShadow = false;
+		EfectMng.clear()
+			.push('hideSystemBtns', null);
+		var processData = {
+		  process : result.payload.process,
+		  crack   : false,
+		  pot     : false,
+		  stairs  : result.payload.process.clear 
+		};
+
+		result.payload.process.foundType = 0;
+
+		EfectMng.push('process', processData);
+
+		if (result.payload.process.rndBoss) {
+		  if (!isShadow) EfectMng.push('shadowShow', null);
+		  isShadow = true;
+		  EfectMng.push('reload', null);
+		}
+		if (result.payload.process.clear) {
+		  if (!isShadow) EfectMng.push('shadowShow', null);
+		  isShadow = true;
+		  if (mission.is_boss) {
+			EfectMng.push('reload', null);
+		  }
+		}
+		if (result.payload.process.warp) {
+		  if (!isShadow) EfectMng.push('shadowShow', null);
+		  isShadow = false;
+		  EfectMng.push('warp', {floor : result.payload.process.floor});
+		  EfectMng.push('shadowHide', null);
+		  EfectMng.push('getMonster', null);
+		  EfectMng.push('reload', null);
+		}
+		if (result.payload.process.cage) {
+		  if (!isShadow) EfectMng.push('shadowShow', null);
+		  isShadow = true;
+		  EfectMng.push('cageSelect', {
+			  grade : result.payload.process.cage,
+			  item : result.payload.event.cage.item,
+			  sampleTrap: result.payload.sampleTrap,
+			  player: result.payload.player
+			});
+		}
+		if (isShadow) EfectMng.push('shadowHide', null);
+		if (result.payload.process.clear) {
+		  if (!mission.is_boss) {
+
+		  }
+		}
+		EfectMng.push('showSystemBtns', null).play();
+		});
+
+		return false;
+	};
+}
+
+function fnTowerMission() {
+	fnFixMissionProcess();
+	missionProcess();
+}
+
 // on load
 
 function fnSetupPurrCSS() {
@@ -575,5 +668,8 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/deck/changeAllCheck") {
 		fnDeckChangeAllCheck();
+	}
+	if (window.location.pathname === "/en/ios/tower/mission") {
+		fnTowerMission();
 	}
 }
