@@ -669,9 +669,9 @@ function fnTowerMission() {
 function fnTowerBossResult() {
 	$.ajax_ex(false, '/en/ios/tower/bossGetResources', {choice : 1, '__hash' : ('' + (new Date()).getTime()) },function(result) {
 		if (result.payload.resources.foundType != null && result.payload.resources.foundType==10 && result.payload.resResult.items[result.payload.itemMaster.item_id].collected_count==6) { 
-			document.location="/en/ios/tower";
+			$.redirect("/en/ios/tower");
 		} else  {
-			document.location="/en/ios/tower/mission";
+			$.redirect("/en/ios/tower/mission");
 		}
 	});
 }
