@@ -649,15 +649,15 @@ function fnFixMissionProcess() {
 
 function fnTowerMission() {
 	fnFixMissionProcess();
-	$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  $.redirect("/en/ios/tower/mission"); return;});
-	return;
-	if (!mission.is_boss) {
-		missionInterval = setInterval(missionProcess,1000);
-	}
-	else {
-		//alert('hi'+mission.area_id);
-		document.location='/en/ios/battle/battleact?tower=1&aid='+mission.area_id;
-	}
+	$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  
+		if (!mission.is_boss) {
+			missionInterval = setInterval(missionProcess,1000);
+		}
+		else {
+			//alert('hi'+mission.area_id);
+			document.location='/en/ios/battle/battleact?tower=1&aid='+mission.area_id;
+		}
+	});	
 }
 
 // battle
