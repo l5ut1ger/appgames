@@ -648,13 +648,13 @@ function fnTowerMission() {
 		missionInterval = setInterval(missionProcess,1000);
 	}
 	else {
-		alert('hi'+mission.area_id);
+		//alert('hi'+mission.area_id);
 		document.location='/en/ios/battle/battleact?tower=1&aid='+mission.area_id;
 	}
 }
 
 // battle
-/*
+
 function fnBattleBattle() {
 	// skip to result
 	fnGrowl(document.getElementById('canvas').innerHTML);
@@ -663,7 +663,7 @@ function fnBattleBattle() {
 	fnGrowl(document.getElementById('canvas').parentNode.parentNode.childNodes[4].innerHTML);
 	fnGrowl(document.getElementById('canvas').parentNode.parentNode.childNodes[4].childNodes[4].innerHTML);
 	document.location=document.getElementById('canvas').parentNode.parentNode.childNodes[4].childNodes[4].getAttribute('href');
-}*/
+}
 
 // on load
 
@@ -699,6 +699,6 @@ function fnOnLoad() {
 		fnTowerMission();
 	}
 	if (window.location.pathname === "/en/ios/battle/battle") {
-		//fnBattleBattle();
+		fnBattleBattle();
 	}
 }
