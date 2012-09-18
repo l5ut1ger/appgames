@@ -657,6 +657,16 @@ function fnTowerMission() {
 	}
 }
 
+function fnTower() {
+	if (document.getElementById('div-btn-system') != null) {
+		setTimeout(function(){$.redirect('/en/ios/tower/subpoena');}, 1000);
+	}
+}
+
+function fnTowerSummon() {
+	setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
+}
+
 // tower boss result
 
 function fnTowerBossResult() {
@@ -711,6 +721,12 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/deck/changeAllCheck") {
 		fnDeckChangeAllCheck();
+	}
+	if (window.location.pathname === "/en/ios/tower") {
+		fnTower();
+	}
+	if (window.location.pathname === "/en/ios/tower/subpoena") {
+		fnTowerSummon();
 	}
 	if (window.location.pathname === "/en/ios/tower/mission") {
 		fnTowerMission();
