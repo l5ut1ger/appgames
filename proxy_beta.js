@@ -333,7 +333,75 @@ function fnProfileAddSpamButton() {
 	});
 }
 
+function fnProfileFixTabs() {
+	document.getElementById('_1').childNodes[7].childNodes[0].innerHTML = "Strategy";
+	onChangeProfile = function onChangeProfile(id) 
+	{
+		var PROFILE_BLOCKS = [
+			'profile-status', 
+			'profile-statusup', 
+			'profile-level', 
+			'profile-deck', 
+			'profile-record', 
+			'profile-ranking', 
+			'profile-invite', 
+			'profile-summon', 
+			'profile-present', 
+			'profile-best-login', 
+			'profile-current-login', 
+			'profile-wishlist', 
+			'profile-bbs', 
+			'profile-bbs-body'
+			'profile-strategy',
+		];
+
+		var visible_block = false;
+
+		switch (id) {
+		case 'category-level':
+			visible_block = [
+				'profile-status', 
+				'profile-statusup', 
+				'profile-level', 
+				'profile-deck', 
+				'profile-record', 
+				'profile-ranking', 
+				'profile-invite', 
+				'profile-summon', 
+				'profile-present', 
+				'profile-best-login', 
+				'profile-current-login', 
+			];
+			break;
+		case 'category-record': 
+			visible_block = [
+				'profile-strategy',
+			];
+			break;
+
+		case 'category-wishlist':
+			visible_block = ['profile-wishlist'];
+			break;
+
+		case 'category-bbs':
+			visible_block = ['profile-bbs', 'profile-bbs-body'];
+			break; 
+		}
+
+		$.each(PROFILE_BLOCKS, function(i, tag){
+			if ($.inArray(tag, visible_block) == -1) {
+				$('#' + tag).css('display', 'none');
+			}
+			else {
+				$('#' + tag).css('display', 'block');
+			}
+		});
+	}
+	onChangeProfile('category-level');
+}
+
 function fnProfile() {
+	fnProfileFixTabs();
 	fnProfileAddWallBookmarkSelector();
 	fnProfileAddSkypeClanSelector();
 	fnProfileAddSpamButton();
