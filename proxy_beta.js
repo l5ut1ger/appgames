@@ -335,7 +335,24 @@ function fnProfileAddSpamButton() {
 
 function fnProfileFixTabs() {
 	document.getElementById('_1').childNodes[7].childNodes[0].innerHTML = "Strategy";
-	onChangeProfile = function onChangeProfile(id) 
+	var divTag = document.createElement("div"); 
+	divTag.id = "profile-strategy"; 
+	divTag.style.position = "relative"; 
+	
+	var selectorHTML = '<select name="sel" onchange="fnProfileChangeGrindingRate(this.options[this.options.selectedIndex].value);"><option selected value="0">Grinding Rate</option>';
+	selectorHTML += '<option value="6000">Legit</option>'
+	selectorHTML += '<option value="4000">Seems Legit</option>';
+	selectorHTML += '<option value="2000">Ferrari</option>';
+	selectorHTML += '<option value="1000">CC Speed</option>';
+	selectorHTML += '<option value="500">Too Fast</option>';
+	selectorHTML += '<option value="200">Too Furious</option>'
+	selectorHTML += '<option value="100">Light</option>'
+	selectorHTML += '</select><br/><br/>'; 
+	
+	divTag.innerHTML = selectorHTML; 
+	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
+	
+	onChangeProfile = function (id) 
 	{
 		var PROFILE_BLOCKS = [
 			'profile-status', 
