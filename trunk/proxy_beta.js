@@ -2,7 +2,6 @@
 
 // define
 var missionInterval;
-
 // Tools
 
 function loadjscssfile(filename, filetype){
@@ -71,6 +70,21 @@ function fnGetCookie(c_name)
 		}
 	}
 	return null;
+}
+
+// grinding speed
+
+var grindingSpeedKey = 'grindingSpeed';
+
+function fnGetGrindingSpeed() {
+	if (fnGetCookie(grindingSpeedKey) === null) {
+		fnSetGrindingSpeed(-1);
+	}
+	return fnGetCookie(grindingSpeedKey);
+}
+
+function fnSetGrindingSpeed(value) {
+	fnSetCookie(grindingSpeedKey, value);
 }
 
 // book mark function
@@ -339,14 +353,16 @@ function fnProfileFixTabs() {
 	divTag.id = "profile-strategy"; 
 	divTag.style.position = "relative"; 
 	
-	var selectorHTML = '<select name="sel" onchange="fnProfileChangeGrindingRate(this.options[this.options.selectedIndex].value);"><option selected value="0">Grinding Rate</option>';
-	selectorHTML += '<option value="6000">Legit</option>'
-	selectorHTML += '<option value="4000">Seems Legit</option>';
-	selectorHTML += '<option value="2000">Ferrari</option>';
-	selectorHTML += '<option value="1000">CC Speed</option>';
-	selectorHTML += '<option value="500">Too Fast</option>';
-	selectorHTML += '<option value="200">Too Furious</option>'
-	selectorHTML += '<option value="100">Light</option>'
+	var selectorHTML = '<img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /><div style="position:relative;color:#ae0000;">Grinding Speed</div><br/><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/><br/>';
+	selectorHTML += '<select name="sel" onchange="fnSetGrindingSpeed(this.options[this.options.selectedIndex].value);">';
+	selectorHTML += '<option ' + (fnGetGrindingSpeed() == -1 ?'selected':'') + ' value="-1">Thumb</option>'
+	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
+	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 4000 ?'selected':'') + ' value="4000">Seems Legit</option>';
+	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 2000 ?'selected':'') + ' value="2000">Ferrari</option>';
+	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 1000 ?'selected':'') + ' value="1000">CC Speed</option>';
+	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 500 ?'selected':'') + ' value="500">Too Fast</option>';
+	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 200 ?'selected':'') + ' value="200">Too Furious</option>'
+	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 100 ?'selected':'') + ' value="100">Light</option>'
 	selectorHTML += '</select><br/><br/>'; 
 	
 	divTag.innerHTML = selectorHTML; 
@@ -732,9 +748,13 @@ function fnTowerMission() {
 	$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  
 		
 	});	
-	if (typeof(mission) == 'undefined') { alert('mission undefined');}
+
+	if (fnGetGrindingSpeed() == -1) {
+		// user press by himself, dont automate
+		return;
+	}
 	if (!mission.is_boss) {
-		missionInterval = setInterval(missionProcess,1000);
+		missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
 	}
 	else {
 		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
@@ -768,7 +788,24 @@ function fnTowerBossResult() {
 
 function fnBattleBattle() {
 	// skip to result
-	document.location=document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href');
+	setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
+}
+
+// add my item gifting/trading
+function fnGiftMyItems() {
+	if (typeof(items) !== 'undefined' && items != null) {items.push({"item_id":"3018","name":"My Energy Potion","amount":100,"thumb_image":"items/3018_small.png"});items.push({"item_id":"3020","name":"My Elixer Potion","amount":100,"thumb_image":"items/3020_small.png"});items.push({"item_id":"3022","name":"My 100 Energy Potion","amount":100,"thumb_image":"items/3022_small.png"});items.push({"item_id":"3019","name":"My Battle Point Potion","amount":100,"thumb_image":"items/3019_small.png"});items.push({"item_id":"5005","name":"FREE Rank A Summon","amount":100,"thumb_image":"items/5005_small.png"});items.push({"item_id":"5200","name":"FREE Dark Summon","amount":100,"thumb_image":"items/5200_small.png"});items.push({"item_id":"5026","name":"EPIC Dark Summon","amount":100,"thumb_image":"items/5026_small.png"});}
+}
+
+// present suggest
+
+function fnPresentSuggest() {
+	fnGiftMyItems();
+}
+
+// trade suggest
+
+function fnTradeSuggest() {
+	fnGiftMyItems();
 }
 
 // on load
@@ -821,5 +858,11 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/battle/battle") {
 		fnBattleBattle();
+	}
+	if (window.location.pathname === "/en/ios/present/suggest") {
+		fnPresentSuggest();
+	}
+	if (window.location.pathname === "/en/ios/trade/suggest1") {
+		fnTradeSuggest();
 	}
 }
