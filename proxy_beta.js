@@ -353,7 +353,7 @@ function fnProfileFixTabs() {
 	divTag.id = "profile-strategy"; 
 	divTag.style.position = "relative"; 
 	
-	var selectorHTML = '<img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /><div style="position:relative;color:#ae0000;">Grinding Speed</div><br/><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/><br/>';
+	var selectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Grinding Speed</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	selectorHTML += '<select name="sel" onchange="fnSetGrindingSpeed(this.options[this.options.selectedIndex].value);">';
 	selectorHTML += '<option ' + (fnGetGrindingSpeed() == -1 ?'selected':'') + ' value="-1">Thumb</option>'
 	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
@@ -715,7 +715,7 @@ function fnFixMissionProcess() {
 			if (result.payload.process.cage) {
 			  if (!isShadow) EfectMng.push('shadowShow', null);
 			  isShadow = true;
-			  $.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  $.redirect("/en/ios/tower/mission"); return;});
+			  //$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  $.redirect("/en/ios/tower/mission"); return;});
 			  /*EfectMng.push('cageSelect', {
 				  grade : result.payload.process.cage,
 				  item : result.payload.event.cage.item,
@@ -745,9 +745,10 @@ function fnFixMissionProcess() {
 
 function fnTowerMission() {
 	fnFixMissionProcess();
-	$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  
-		
-	});	
+	if (document.getElementById('cage-select').style.display != "none") {
+		$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  			
+		});	
+	}
 
 	if (fnGetGrindingSpeed() == -1) {
 		// user press by himself, dont automate
@@ -788,7 +789,8 @@ function fnTowerBossResult() {
 
 function fnBattleBattle() {
 	// skip to result
-	setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
+	alert(document.referrer);
+	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
 
 // add my item gifting/trading
