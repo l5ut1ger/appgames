@@ -716,7 +716,8 @@ function fnFixMissionProcess() {
 			  if (!isShadow) EfectMng.push('shadowShow', null);
 			  isShadow = true;
 			  clearInterval(missionInterval);
-			  //$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  $.redirect("/en/ios/tower/mission"); return;});
+			  $.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  $.redirect("/en/ios/tower/mission"); return;});
+			  setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
 			  /*EfectMng.push('cageSelect', {
 				  grade : result.payload.process.cage,
 				  item : result.payload.event.cage.item,
