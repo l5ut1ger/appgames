@@ -368,8 +368,8 @@ function fnProfileFixTabs() {
 			'profile-current-login', 
 			'profile-wishlist', 
 			'profile-bbs', 
-			'profile-bbs-body'
-			'profile-strategy',
+			'profile-bbs-body',
+			'profile-strategy'
 		];
 
 		var visible_block = false;
