@@ -791,7 +791,7 @@ function fnTowerBossResult() {
 
 function fnBattleBattle() {
 	// skip to result
-	if (document.referrer == "http://game.darksummoner.com/en/ios/tower/mission") {
+	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/mission")) {
 		setTimeout(function(){$.redirect("/en/ios/tower/bossResult");}, 1000);
 		setTimeout(function(){$.redirect("/en/ios/tower/bossResult");}, 5000);
 	}
