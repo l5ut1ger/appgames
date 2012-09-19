@@ -715,6 +715,7 @@ function fnFixMissionProcess() {
 			if (result.payload.process.cage) {
 			  if (!isShadow) EfectMng.push('shadowShow', null);
 			  isShadow = true;
+			  clearInterval(missionInterval);
 			  //$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  $.redirect("/en/ios/tower/mission"); return;});
 			  /*EfectMng.push('cageSelect', {
 				  grade : result.payload.process.cage,
@@ -789,7 +790,9 @@ function fnTowerBossResult() {
 
 function fnBattleBattle() {
 	// skip to result
-	alert(document.referrer);
+	if (document.referrer == "http://game.darksummoner.com/en/ios/tower/mission") {
+		setTimeout(function(){$.redirect("/en/ios/tower/bossResult");}, 1000);
+	}
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
 
