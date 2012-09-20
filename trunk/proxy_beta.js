@@ -513,13 +513,13 @@ function fnFriendActionGiftC() {
 
 function fnFriendActionGiftProg() {
 	var tribe;
-	if ($(.label-tribe-1) != null) {
+	if ($('.label-tribe-1') != null) {
 		tribe = 1;
 	}
-	if ($(.label-tribe-2) != null) {
+	if ($('.label-tribe-2') != null) {
 		tribe = 2;
 	}
-	if ($(.label-tribe-3) != null) {
+	if ($('.label-tribe-3') != null) {
 		tribe = 3;
 	}
 	alert('tribe = ' + tribe);
