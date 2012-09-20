@@ -2,6 +2,7 @@
 
 // define
 var missionInterval;
+var progressionList=[50063, 53064, 56064];
 // Tools
 
 function loadjscssfile(filename, filetype){
@@ -539,6 +540,45 @@ function fnGetFormationArray() {
 }
 
 function fnDeckChange(pURL) {
+	if (pURL == 0) return;
+	if (pURL == "prog") {
+		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+			var leader=null;
+			var l1=0;
+			var l2=0;
+			var l3=0;
+			var l4=0;
+			var l5=0;			
+			for (var i=0;i<result.payload.length;i++) {
+				if (result.payload[i].monster_id == progressionList[player.tribe-1]) {
+					if (result.payload[i].location ==0 && (leader == null || leader.lv <  result.payload[i].lv)) {
+						leader = result.payload[i];
+						l1=result.payload[i].monster_id;
+					}
+					if (result.payload[i].location==2) {
+						l2=result.payload[i].monster_id;
+					}
+					if (result.payload[i].location==3) {
+						l3=result.payload[i].monster_id;
+					}
+					if (result.payload[i].location==4) {
+						l4=result.payload[i].monster_id;
+					}
+					if (result.payload[i].location==5) {
+						l5=result.payload[i].monster_id;
+					}
+				}
+			}
+			if (leader !=null) {
+				$.ajax_ex(false, '/en/ios/deck/autoOrganize?l1='+l1+'&l2='+l2+'&l3='+l3+'&l4='+l4+'&l5='+l5, {}, function(result) {});
+				setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+			}
+			else {
+				alert('you dont have available prog+');
+			}
+		});
+		return;
+	}
 	$.ajax_ex(false, pURL, {}, function(data) {
 	});	
 	document.location='/en/ios/home';
@@ -557,7 +597,7 @@ function fnDeckAddFormationSelector() {
 	divTag.style.left = "0px"; 
 	divTag.style.top = "120px"; 
 
-	var selectorHTML = '<select name="sel" onchange="fnDeckChange(this.options[this.options.selectedIndex].value);"><option selected value="0">Formation</option>';
+	var selectorHTML = '<select name="sel" onchange="fnDeckChange(this.options[this.options.selectedIndex].value);"><option selected value="0">Formation</option><option selected value="prog">Progression On</option>';
 	var aFormationArray = fnGetFormationArray();
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
