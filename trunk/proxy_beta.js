@@ -5,7 +5,7 @@ var missionInterval;
 var progressionList=[50063, 53064, 56064];
 // Tools
 
-function QueryString(name) {
+function fnQueryString(name) {
 	var AllVars = window.location.search.substring(1);
 	var Vars = AllVars.split('&');
 	for (i = 0; i < Vars.length; i++){
@@ -511,9 +511,34 @@ function fnFriendActionGiftC() {
 	});
 }
 
+function fnFriendActionGiftProg() {
+	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		var leader=null;
+		var l1=0;
+		for (var i=0;i<result.payload.length;i++) {
+			if (result.payload[i].monster_id == progressionList[player.tribe-1]) {
+				if (result.payload[i].location ==0 && (leader == null || leader.lv <  result.payload[i].lv)) {
+					leader = result.payload[i];
+					l1=result.payload[i].unique_no;
+				}					
+			}
+		}
+		if (leader !=null) {
+			setTimeout(function(){$.redirect('/en/ios/present/suggest?pid='+ friendship.pid + '&mid='+ l1 +"&name="+encodeURIComponent(friendship.nickname));}, 1);
+		}
+		else {
+			alert('you dont have available prog+');
+		}
+	});
+	return;
+}
+
 function fnFriendActionSelect(pAction) {
 	if (pAction == "GiftC") {
 		fnFriendActionGiftC();
+	}
+	else if (pAction == "GiftP") {
+		fnFriendActionGiftProg();
 	}
 }
 
@@ -531,6 +556,7 @@ function fnProfileAddFriendActionSelector() {
 	divTag.style.top = "350px"; 
 
 	var selectorHTML = '<select name="sel" onchange="javascript:fnFriendActionSelect(this.options[this.options.selectedIndex].value);"><option selected value="0">Friend Action</option>';
+	selectorHTML += '<option value="GiftP">Gift Prog+</option>';
 	//selectorHTML += '<option value="GiftC">Gift a C/C+</option>'
 	selectorHTML+='</select>'; 
 
@@ -905,6 +931,12 @@ function fnGiftMyItems() {
 // present suggest
 
 function fnPresentSuggest() {
+	if (fnQueryString('mid')!='') {
+		$.redirect("/en/ios/present/confirm?ctg=2&amt=1&pid="+fnQueryString('mid'));
+		setTimeout(function(){$.redirect("/en/ios/present/confirm?ctg=2&amt=1&pid="+fnQueryString('mid'));}, 1000);
+		setTimeout(function(){$.redirect("/en/ios/present/confirm?ctg=2&amt=1&pid="+fnQueryString('mid'));}, 5000);
+		return;
+	}
 	fnGiftMyItems();
 }
 
