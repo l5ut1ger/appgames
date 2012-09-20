@@ -952,7 +952,7 @@ function fnPresentBox() {
 		divTag.id = "receiveAllDiv"; 
 		divTag.style["z-index"] = 1000; 
 		divTag.style.position = "relative"; 
-		divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="alert(player);alert(player.boxes);//for (var i=0;i<player.boxes.length;i++){onReceive(null, player.boxes[i]);}"><span class="download2">Receive All</span></button>'; 
+		divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="alert($(\'#presents\').childNodes[0].data);alert($(\'#presents\').childNodes[0].data.box);for (var i=0;i<$(\'#presents\').childNodes.length;i++){onReceive(null, $(\'#presents\').childNodes[i].data.box);}"><span class="download2">Receive All</span></button>'; 
 		document.getElementById('button_fp_ng').parentNode.replaceChild(divTag, document.getElementById('button_fp_ng'));
 	}
 }
