@@ -597,7 +597,7 @@ function fnDeckAddFormationSelector() {
 	divTag.style.left = "0px"; 
 	divTag.style.top = "120px"; 
 
-	var selectorHTML = '<select name="sel" onchange="fnDeckChange(this.options[this.options.selectedIndex].value);"><option selected value="0">Formation</option><option selected value="prog">Progression On</option>';
+	var selectorHTML = '<select name="sel" onchange="fnDeckChange(this.options[this.options.selectedIndex].value);"><option selected value="0">Formation</option><option value="prog">Progression On</option>';
 	var aFormationArray = fnGetFormationArray();
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
