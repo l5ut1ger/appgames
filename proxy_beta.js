@@ -895,18 +895,17 @@ function fnGiftMyItems() {
 // present suggest
 
 function fnPresentAddName() {
-	alert(QueryString(name));
-	if (QueryString(name) != '') {
+	if (QueryString('name') != '') {
 		$('.decide-button').click(function() {
-			$.redirect('/en/ios/present/confirm', { 'ctg':2, 'amt':1, 'pid':monster.unique_no, 'name':QueryString(name) } );
+			$.redirect('/en/ios/present/confirm', { 'ctg':2, 'amt':1, 'pid':monster.unique_no, 'name':QueryString('name') } );
 		});
 	}
 }
 
 function fnPresentSuggest() {
 	fnPresentAddName();
-	if (QueryString(name) != '') {
-		$(".decide-button").innerHTML=decodeURIComponent(QueryString(name));
+	if (QueryString('name') != '') {
+		$(".decide-button").innerHTML=decodeURIComponent(QueryString('name'));
 	}
 	fnGiftMyItems();
 }
@@ -914,8 +913,8 @@ function fnPresentSuggest() {
 // present confirm
 
 function fnPresentConfirm() {
-	if (QueryString(name) != '') {
-		document.getElementById('present-comment').value = decodeURIComponent(QueryString(name));
+	if (QueryString('name') != '') {
+		document.getElementById('present-comment').value = decodeURIComponent(QueryString('name'));
 	}
 }
 
