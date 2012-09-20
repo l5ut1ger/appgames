@@ -912,7 +912,7 @@ function fnPresentSuggest() {
 
 function fnPresentConfirm() {
 	if (fnReferrerQueryString('name') != '') {
-		document.getElementById('present-comment').value = decodeURIComponent(fnReferrerQueryString('name'));
+		document.getElementById('present-commit').innerHTML = "To:"+decodeURIComponent(fnReferrerQueryString('name'));
 	}
 }
 
