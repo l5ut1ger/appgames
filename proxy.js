@@ -5,6 +5,26 @@ var missionInterval;
 var progressionList=[50063, 53064, 56064];
 // Tools
 
+function fnQueryString(name) {
+	var AllVars = window.location.search.substring(1);
+	var Vars = AllVars.split('&');
+	for (i = 0; i < Vars.length; i++){
+		var Var = Vars[i].split('=');
+		if (Var[0] == name) return Var[1];
+	}
+	return '';
+}
+
+function fnReferrerQueryString(name) {	
+	var AllVars = document.referrer.substring(document.referrer.indexOf("?")+1);
+	var Vars = AllVars.split('&');
+	for (i = 0; i < Vars.length; i++){
+		var Var = Vars[i].split('=');
+		if (Var[0] == name) return Var[1];
+	}
+	return '';
+}
+
 function loadjscssfile(filename, filetype){
 	if (filetype=="js"){ //if filename is a external JavaScript file
 		var fileref=document.createElement('script')
@@ -491,9 +511,45 @@ function fnFriendActionGiftC() {
 	});
 }
 
+function fnFriendActionGiftProg() {
+	var tribe;
+	if ($('.label-tribe-1').length) {
+		tribe = 1;
+	}
+	if ($('.label-tribe-2').length) {
+		tribe = 2;
+	}
+	if ($('.label-tribe-3').length) {
+		tribe = 3;
+	}
+	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		var leader=null;
+		var l1=0;
+		
+		for (var i=0;i<result.payload.length;i++) {
+			if (result.payload[i].monster_id == progressionList[tribe-1]) {
+				if (result.payload[i].location ==0 && (leader == null || leader.lv <  result.payload[i].lv)) {
+					leader = result.payload[i];
+					l1=result.payload[i].unique_no;
+				}					
+			}
+		}
+		if (leader !=null) {
+			setTimeout(function(){$.redirect('/en/ios/present/suggest?pid='+ friendship.pid + '&mid='+ l1 +"&name="+encodeURIComponent(friendship.nickname));}, 1);
+		}
+		else {
+			alert('you dont have available prog+');
+		}
+	});
+	return;
+}
+
 function fnFriendActionSelect(pAction) {
 	if (pAction == "GiftC") {
 		fnFriendActionGiftC();
+	}
+	else if (pAction == "GiftP") {
+		fnFriendActionGiftProg();
 	}
 }
 
@@ -511,6 +567,7 @@ function fnProfileAddFriendActionSelector() {
 	divTag.style.top = "350px"; 
 
 	var selectorHTML = '<select name="sel" onchange="javascript:fnFriendActionSelect(this.options[this.options.selectedIndex].value);"><option selected value="0">Friend Action</option>';
+	selectorHTML += '<option value="GiftP">Gift Prog+</option>';
 	//selectorHTML += '<option value="GiftC">Gift a C/C+</option>'
 	selectorHTML+='</select>'; 
 
@@ -518,10 +575,16 @@ function fnProfileAddFriendActionSelector() {
 	document.body.appendChild(divTag);
 }
 
+function fnProfileFixTradeGiftButton() {
+	document.getElementById('do_trade').setAttribute('href', document.getElementById('do_trade').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));
+	document.getElementById('do_present').setAttribute('href', document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));
+}
+
 function fnFriendProfile() {
 	fnProfileAddFriendWallBookmarkSelector();
 	fnProfileAddFriendWallBookmarkButtons();
 	fnProfileAddFriendActionSelector();
+	fnProfileFixTradeGiftButton();
 }
 
 // deck
@@ -699,6 +762,13 @@ function fnHomeLogin() {
 	setTimeout(function(){$.redirect("/en/ios/home");}, 1);
 }
 
+// home bonus
+
+function fnHomeBonus() {
+	$.ajax_ex(false, '/en/ios/present/fpAll', {},function(result) {return;}) ;
+	setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+}
+
 // tower mission
 
 function fnFixMissionProcess() {
@@ -872,7 +942,21 @@ function fnGiftMyItems() {
 // present suggest
 
 function fnPresentSuggest() {
+	if (fnQueryString('mid')!='') {
+		$.redirect("/en/ios/present/confirm?ctg=2&amt=1&pid="+fnQueryString('mid'));
+		setTimeout(function(){$.redirect("/en/ios/present/confirm?ctg=2&amt=1&pid="+fnQueryString('mid'));}, 1000);
+		setTimeout(function(){$.redirect("/en/ios/present/confirm?ctg=2&amt=1&pid="+fnQueryString('mid'));}, 5000);
+		return;
+	}
 	fnGiftMyItems();
+}
+
+// present confirm
+
+function fnPresentConfirm() {
+	if (fnReferrerQueryString('name') != '') {
+		document.getElementById('present-commit').innerHTML = "To:"+decodeURIComponent(fnReferrerQueryString('name'));
+	}
 }
 
 // trade suggest
@@ -915,6 +999,9 @@ function fnOnLoad() {
 	if (window.location.pathname === "/en/ios/home/login") {
 		fnHomeLogin();
 	}
+	if (window.location.pathname === "/en/ios/home/bonus") {
+		fnHomeBonus();
+	}
 	if (window.location.pathname === "/en/ios/friends/profile") {
 		fnFriendProfile();
 	}
@@ -941,6 +1028,9 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/present/suggest") {
 		fnPresentSuggest();
+	}
+	if (window.location.pathname === "/en/ios/present/confirm") {
+		fnPresentConfirm();
 	}
 	if (window.location.pathname === "/en/ios/trade/suggest1") {
 		fnTradeSuggest();
