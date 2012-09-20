@@ -952,7 +952,7 @@ function fnPresentBox() {
 		divTag.id = "receiveAllDiv"; 
 		divTag.style["z-index"] = 1000; 
 		divTag.style.position = "relative"; 
-     divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="alert( $(\'.receive-button\',$(\'#\'+document.getElementById(\'presents\').childNodes[0].id)));alert($(\'.receive-button\',$(\'#\'+document.getElementById(\'presents\').childNodes[0].id)).click);$(\'.receive-button\',$(\'#\'+document.getElementById(\'presents\').childNodes[0].id)).trigger(\'click\');//for (var key in $(document.getElementById(\'presents\').childNodes[0].id)){alert(\'key \'+key);};//for (var i=0;i<$(\'#presents\').childNodes.length;i++){onReceive(null, $(\'#presents\').childNodes[i].data.box);}"><span class="download2">Receive All</span></button>'; 
+     divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="for (var i=0;i<document.getElementById(\'presents\').childNodes.length;i++)$(\'.receive-button\',$(\'#\'+document.getElementById(\'presents\').childNodes[i].id)).trigger(\'click\');"><span class="download2">Receive All</span></button>'; 
 		document.getElementById('button_fp_ng').parentNode.replaceChild(divTag, document.getElementById('button_fp_ng'));
 	}
 }
