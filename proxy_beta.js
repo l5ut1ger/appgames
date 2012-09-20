@@ -946,14 +946,14 @@ function fnPresentBox() {
 		return;
 	}
 	if (document.getElementById('button_fp_ng') != null) {
-		document.getElementById('button_fp_ng').style.display = "none";
+		//document.getElementById('button_fp_ng').style.display = "none";
 		
 		var divTag = document.createElement("div"); 
 		divTag.id = "receiveAllDiv"; 
 		divTag.style["z-index"] = 1000; 
 		divTag.style.position = "relative"; 
 		divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onClick="for (var i=0;i<player.boxes.length;i++){onReceive(null, player.boxes[i]);}"><span class="download2">Receive All</span></button>'; 
-		document.getElementById('button_fp_ng').parentNode.childNodes[0].appendChild(divTag);
+		document.getElementById('button_fp_ng').parentNode.replaceChild(divTag, document.getElementById('button_fp_ng'));
 	}
 }
 
