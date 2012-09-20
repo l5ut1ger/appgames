@@ -897,7 +897,7 @@ function fnGiftMyItems() {
 function fnPresentAddName() {
 	alert(QueryString('name'));
 	if (QueryString('name') != '') {
-		$('.decide-button').click(function() {
+		$('.decide-button', $('#list-monsters')).click(function() {
 			$.redirect('/en/ios/present/confirm', { 'ctg':2, 'amt':1, 'pid':monster.unique_no, 'name':QueryString('name') } );
 		});
 	}
@@ -906,7 +906,7 @@ function fnPresentAddName() {
 function fnPresentSuggest() {
 	fnPresentAddName();
 	if (QueryString('name') != '') {
-		$(".decide-button").innerHTML=decodeURIComponent(QueryString('name'));
+		$(".decide-button", $('#list-monsters')).innerHTML=decodeURIComponent(QueryString('name'));
 	}
 	fnGiftMyItems();
 }
