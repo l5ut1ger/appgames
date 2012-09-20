@@ -798,6 +798,165 @@ function fnBattleBattle() {
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
 
+// present box
+
+requestList = function (page, cleared)
+{
+  if (cleared) {
+    $('#presents').empty();
+  }
+  
+  $.getJSON('/en/ios/present/list', { api: 'json', page: page }, function(data) {
+    if ( (data == null) || (data.status != 0) ) {
+      return;
+    }
+
+    // for list height
+    var height = 0;
+    var length = data.payload.boxes.length;
+	player.boxes = data.payload.boxes;
+
+    // update pager
+    var pages = ~~data.payload.pages;
+    var page  = $.clamp(~~data.payload.page + 1, 1, pages);
+     
+    set_page(page, true, pages);
+    
+    $.each(data.payload.boxes, function(index, box) {
+
+    var reason = String.format(BOX_REASONS_FORMATTER[box.boxed_type], box.source_name);
+      
+      var elapse = ~~(~~box.elapse / 60);
+      if (elapse > 1440) {
+        var DAYS_AGO = {"days":"%day% days ago","day":"%day% day ago"};
+        elapse = (~~(elapse / 1440));
+        elapse = DAYS_AGO[ (elapse < 2) ? 'day' : 'days' ].replace('%day%', elapse);
+      }
+      else if (elapse > 60) {
+        var HOURS_AGO = {"hours":"%hour% hours ago","hour":"%hour% hour ago"};
+        elapse = (~~(elapse / 60));
+        elapse = HOURS_AGO[ (elapse < 2) ? 'hour' : 'hours' ].replace('%hour%', elapse);
+      }
+      else {
+        var MINUTES_AGO = {"minutes":"%minute% min. ago","minute":"%minute% min. ago"};
+        elapse = MINUTES_AGO[ (elapse < 2) ? 'minute' : 'minutes' ].replace('%minute%', elapse);
+      }
+
+      var base_tag = $('#present-template').clone();
+      base_tag
+        .attr('id', 'present-' + box.boxed_id)
+        .data(this, 'box', box)
+        .css('display', 'block');
+      
+      switch (~~box.permanent_type) {
+        case PERMANENT_JEWEL:
+          
+          var desc = $('#present-money-template').clone();
+          $('.money-text', desc).text(String(box.jewel).replace(/([0-9]+?)(?=(?:[0-9]{3})+$)/g , '$1,') + '  Gold');
+          $('.money-icon', desc).attr('src', box.thumb_image);
+          
+          desc
+            .css('display', 'block')
+            .appendTo($('.present-desc', base_tag));
+
+          break;
+          
+        case PERMANENT_MONSTER:
+          
+          var desc = $('#present-monster-template').clone();
+          $('.monster-name', desc).text(box.monster_name);
+          $('.thumb', desc).attr('src', IMG_BASE_URL + box.thumb_image);
+          $('.grade', desc).attr('src', 'http://res.darksummoner.com/en/s/misc/grades/grade_' + box.monster_grade + '.png');
+          $('.lv', desc).text(box.monster_lv);
+          $('.atk', desc).text(box.monster_attack);
+          $('.def', desc).text(box.monster_defense);
+          $('.hp', desc).text(box.monster_hp);
+          $('.bp', desc).text(box.monster_bp);
+          $('.exp', desc).text(box.monster_exp);
+          $('.skill', desc).text(SKILLS[box.skill_id][box.skill_lv].name);
+          
+          desc
+            .css('display', 'block')
+            .appendTo($('.present-desc', base_tag));
+
+          if (~~box.monster_lv >= ~~box.monster_lv_max) {
+            $('.lv', desc).css( { color:'red' } );
+          }
+
+          //$('#title_monster').css('display', 'block');
+          //base_tag.appendTo('#present_monsters');
+          
+          break;
+          
+        case PERMANENT_ITEM:
+
+          var desc = $('#present-item-template').clone();
+          $('.item-name', desc).text(box.item_name);
+          $('.amount', desc).text(String(box.item_amount).replace(/([0-9]+?)(?=(?:[0-9]{3})+$)/g , '$1,'));
+          $('.thumb', desc).attr('src', IMG_BASE_URL + box.thumb_image);
+          $('.item-text', desc).text(box.item_desc);
+          
+          desc
+            .css('display', 'block')
+            .appendTo($('.present-desc', base_tag));
+          
+          break;
+          
+        case PERMANENT_FP:
+          var desc = $('#present-money-template').clone();
+          $('.money-text', desc).text(String(box.fp).replace(/([0-9]+?)(?=(?:[0-9]{3})+$)/g , '$1,') + ' Ally Points');
+          $('.money-icon', desc).attr('src', box.thumb_image);
+          
+          desc
+            .css('display', 'block')
+            .appendTo($('.present-desc', base_tag));
+
+          break;
+      }
+
+      $('> .thumb', base_tag).attr('src', box.thumb_image);
+      $('> .reason', base_tag).html(getReasonText(box));
+      $('> .date', base_tag).html(box.will_expired_at);
+      $('.receive-button', base_tag).click(function() { onReceive(base_tag, box); } );
+
+      if (box.comment == '') {
+        $('> .comment', base_tag).css( { display:'none' } );
+      }
+      else {
+        $('> .comment', base_tag).html(box.comment);
+      }
+      
+
+      /*if (index < (length - 1)) {
+        var separator_tag = $('#present-separator').clone();
+        separator_tag
+          .css('display', 'block')
+          .appendTo(base_tag);
+      }*/
+      
+      base_tag.appendTo('#presents');
+      height += LIST_ROW_HEIGHT;
+    });
+  });
+}
+
+function fnPresentBox() {
+	if (document.getElementById('button_fp') != null) {
+		setTimeout(function(){$.redirect("/en/ios/present/fpAll");}, 1000);
+		return;
+	}
+	if (document.getElementById('button_fp_ng') != null) {
+		document.getElementById('button_fp_ng').style.display = "none";
+		
+		var divTag = document.createElement("div"); 
+		divTag.id = "receiveAllDiv"; 
+		divTag.style["z-index"] = 1000; 
+		divTag.style.position = "relative"; 
+		divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onClick="for (var i=0;i<player.boxes.length;i++){onReceive(null, player.boxes[i]);}"><span class="download2">Receive All</span></button>'; 
+		document.getElementById('button_fp_ng').parentNode.childNodes[0].appendChild(divTag);
+	}
+}
+
 // add my item gifting/trading
 function fnGiftMyItems() {
 	if (typeof(items) !== 'undefined' && items != null) {items.push({"item_id":"3018","name":"My Energy Potion","amount":100,"thumb_image":"items/3018_small.png"});items.push({"item_id":"3020","name":"My Elixer Potion","amount":100,"thumb_image":"items/3020_small.png"});items.push({"item_id":"3022","name":"My 100 Energy Potion","amount":100,"thumb_image":"items/3022_small.png"});items.push({"item_id":"3019","name":"My Battle Point Potion","amount":100,"thumb_image":"items/3019_small.png"});items.push({"item_id":"5005","name":"FREE Rank A Summon","amount":100,"thumb_image":"items/5005_small.png"});items.push({"item_id":"5200","name":"FREE Dark Summon","amount":100,"thumb_image":"items/5200_small.png"});items.push({"item_id":"5026","name":"EPIC Dark Summon","amount":100,"thumb_image":"items/5026_small.png"});}
@@ -866,6 +1025,9 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/battle/battle") {
 		fnBattleBattle();
+	}
+  if (window.location.pathname === "/en/ios/present/box") {
+		fnPresentBox();
 	}
 	if (window.location.pathname === "/en/ios/present/suggest") {
 		fnPresentSuggest();
