@@ -895,6 +895,7 @@ function fnGiftMyItems() {
 // present suggest
 
 function fnPresentAddName() {
+	alert(QueryString(name));
 	if (QueryString(name) != '') {
 		$('.decide-button').click(function() {
 			$.redirect('/en/ios/present/confirm', { 'ctg':2, 'amt':1, 'pid':monster.unique_no, 'name':QueryString(name) } );
