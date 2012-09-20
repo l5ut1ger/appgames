@@ -952,7 +952,7 @@ function fnPresentBox() {
 		divTag.id = "receiveAllDiv"; 
 		divTag.style["z-index"] = 1000; 
 		divTag.style.position = "relative"; 
-     divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="alert($(\'#\'+document.getElementById(\'presents\').childNodes[0].id)).data(\'box\');for (var key in $(\'#\'+document.getElementById(\'presents\').childNodes[0].id).data(\'box\')){alert(\'key \'+key + \' value:\'+$(\'#\'+document.getElementById(\'presents\').childNodes[0].id).data(\'box\')[key]);};//for (var i=0;i<$(\'#presents\').childNodes.length;i++){onReceive(null, $(\'#presents\').childNodes[i].data.box);}"><span class="download2">Receive All</span></button>'; 
+     divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="alert($(\'#\'+document.getElementById(\'presents\').childNodes[0].id)).data(\'box\');for (var key in $(\'#\'+document.getElementById(\'presents\').childNodes[0].id).data(\'box\')){if ($(\'#\'+document.getElementById(\'presents\').childNodes[0].id).data(\'box\').hasOwnProperty(key)) alert(\'key \'+key + \' value:\'+$(\'#\'+document.getElementById(\'presents\').childNodes[0].id).data(\'box\')[key]);};//for (var i=0;i<$(\'#presents\').childNodes.length;i++){onReceive(null, $(\'#presents\').childNodes[i].data.box);}"><span class="download2">Receive All</span></button>'; 
 		document.getElementById('button_fp_ng').parentNode.replaceChild(divTag, document.getElementById('button_fp_ng'));
 	}
 }
