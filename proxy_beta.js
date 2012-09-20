@@ -522,7 +522,6 @@ function fnFriendActionGiftProg() {
 	if ($('.label-tribe-3').length) {
 		tribe = 3;
 	}
-	alert('tribe = ' + tribe);
 	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		var leader=null;
 		var l1=0;
