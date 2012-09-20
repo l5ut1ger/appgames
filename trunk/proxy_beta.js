@@ -512,11 +512,23 @@ function fnFriendActionGiftC() {
 }
 
 function fnFriendActionGiftProg() {
+	var tribe;
+	if ($(.label-tribe-1) != null) {
+		tribe = 1;
+	}
+	if ($(.label-tribe-2) != null) {
+		tribe = 2;
+	}
+	if ($(.label-tribe-3) != null) {
+		tribe = 3;
+	}
+	alert('tribe = ' + tribe);
 	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		var leader=null;
 		var l1=0;
+		
 		for (var i=0;i<result.payload.length;i++) {
-			if (result.payload[i].monster_id == progressionList[player.tribe-1]) {
+			if (result.payload[i].monster_id == progressionList[tribe-1]) {
 				if (result.payload[i].location ==0 && (leader == null || leader.lv <  result.payload[i].lv)) {
 					leader = result.payload[i];
 					l1=result.payload[i].unique_no;
