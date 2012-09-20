@@ -941,7 +941,7 @@ requestList = function (page, cleared)
 }
 
 function fnPresentBox() {
-	if (document.getElementById('button_fp') != null) {
+	if (document.getElementById('fp_ok') != null) {
 		setTimeout(function(){$.redirect("/en/ios/present/fpAll");}, 1000);
 		return;
 	}
