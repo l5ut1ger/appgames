@@ -554,19 +554,19 @@ function fnDeckChange(pURL) {
 					if (result.payload[i].location ==0 && (leader == null || leader.lv <  result.payload[i].lv)) {
 						leader = result.payload[i];
 						l1=result.payload[i].unique_no;
-					}
-					if (result.payload[i].location=="2") {
-						l2=result.payload[i].unique_no;
-					}
-					if (result.payload[i].location=="3") {
-						l3=result.payload[i].unique_no;
-					}
-					if (result.payload[i].location=="4") {
-						l4=result.payload[i].unique_no;
-					}
-					if (result.payload[i].location=="5") {
-						l5=result.payload[i].unique_no;
-					}
+					}					
+				}
+				if (result.payload[i].location=="2") {
+					l2=result.payload[i].unique_no;
+				}
+				if (result.payload[i].location=="3") {
+					l3=result.payload[i].unique_no;
+				}
+				if (result.payload[i].location=="4") {
+					l4=result.payload[i].unique_no;
+				}
+				if (result.payload[i].location=="5") {
+					l5=result.payload[i].unique_no;
 				}
 			}
 			if (leader !=null) {
