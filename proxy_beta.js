@@ -15,6 +15,16 @@ function QueryString(name) {
 	return '';
 }
 
+function fnReferrerQueryString(name) {	
+	var AllVars = document.referrer.substring(document.referrer.indexOf("?")+1);
+	var Vars = AllVars.split('&');
+	for (i = 0; i < Vars.length; i++){
+		var Var = Vars[i].split('=');
+		if (Var[0] == name) return Var[1];
+	}
+	return '';
+}
+
 function loadjscssfile(filename, filetype){
 	if (filetype=="js"){ //if filename is a external JavaScript file
 		var fileref=document.createElement('script')
@@ -894,28 +904,15 @@ function fnGiftMyItems() {
 
 // present suggest
 
-function fnPresentAddName() {
-	alert(QueryString('name'));
-	if (QueryString('name') != '') {
-		$('.decide-button', $('#list-monsters')).click(function() {
-			$.redirect('/en/ios/present/confirm', { 'ctg':2, 'amt':1, 'pid':monster.unique_no, 'name':QueryString('name') } );
-		});
-	}
-}
-
 function fnPresentSuggest() {
-	fnPresentAddName();
-	if (QueryString('name') != '') {
-		$(".decide-button", $('#list-monsters')).innerHTML=decodeURIComponent(QueryString('name'));
-	}
 	fnGiftMyItems();
 }
 
 // present confirm
 
 function fnPresentConfirm() {
-	if (QueryString('name') != '') {
-		document.getElementById('present-comment').value = decodeURIComponent(QueryString('name'));
+	if (fnReferrerQueryString('name') != '') {
+		document.getElementById('present-comment').value = decodeURIComponent(fnReferrerQueryString('name'));
 	}
 }
 
