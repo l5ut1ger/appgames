@@ -798,8 +798,8 @@ function fnHomeBonus() {
 function fnFixMissionProcess() {
 	missionProcess = function() {
 		$.ajax_ex(false, '/en/ios/tower/process', {'area_id'    : areaMaster.area_id,'mission_id' : mission.last_mission_id, api : 'json', '__hash': ('' + (new Date()).getTime())}, function(result) {
-			if (result.status != 0) {
-				if (result.status == 901 && fnAutoDrink() == 1) {
+			if (result.status != 0 && fnAutoDrink() == 1) {
+				if (result.status == 901) {
 					$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:result.payload.recoverItems[0].item_id}, function(data) {});
 				}
 				clearInterval(missionInterval);
