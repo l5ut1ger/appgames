@@ -108,6 +108,23 @@ function fnSetGrindingSpeed(value) {
 	fnSetCookie(grindingSpeedKey, value);
 }
 
+// Auto EP Toggle
+
+var autoDrinkKey = 'autoDrink';
+
+function fnAutoDrink() {
+		if(fnGetCookie(autoDrinkKey) === null) {
+				fnSetAutoDrink(-1);
+		}
+		return fnGetCookie(autoDrinkKey);
+}
+
+function fnSetAutoDrink(value) {
+		fnSetCookie(autoDrinkKey, value);
+}
+
+
+
 // book mark function
 
 function fnGetSeparator() {
@@ -386,6 +403,13 @@ function fnProfileFixTabs() {
 	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 100 ?'selected':'') + ' value="100">Light</option>'
 	selectorHTML += '</select><br/><br/>'; 
 	
+  var selectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Drink</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+  selectorHTML += '<select name="sel" onchange="fnSetAutoDrink(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
+  selectorHTML += '<option ' + (fnAutoDrink() == -1 ?'selected':'') + ' value="-1">Off</option>'
+  selectorHTML += '<option ' + (fnAutoDrink() == 1 ?'selected':'') + ' value="1">On</option>';
+  selectorHTML += '</select><br/><br/>'; 
+   
+   
 	divTag.innerHTML = selectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 	
@@ -974,7 +998,7 @@ function fnSetupPurrCSS() {
 }
 
 function fnAutoUsePoint() {
-	if (player.remain_point > 0) {
+	if (player.remain_point > 0 && fnAutoDrink() == 1) {
 		$.ajax_ex(false, '/en/ios/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 	}
 }
