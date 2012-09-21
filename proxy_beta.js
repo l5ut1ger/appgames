@@ -410,10 +410,8 @@ function fnProfileFixTabs() {
   selectorHTML2 += '</select><br/><br/>'; 
    
    
-	divTag.innerHTML = selectorHTML; 
+	divTag.innerHTML = selectorHTML + selectorHTML2; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
-	divTag.innerHTML = selectorHTML2;
-  document.getElementById('profile-current-login').parentNode.appendChild(divTag);
    
 	onChangeProfile = function (id) 
 	{
