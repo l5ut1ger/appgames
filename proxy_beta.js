@@ -169,7 +169,7 @@ function fnCheckAlly() {
 	}
 	if (!fnHasAllySpot()) {
 		alert("no ally spot");
-		alert(player.power_max + player.bp_max + player.remain_point);alert((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5));
+		alert(player.power_max + player.bp_max + player.remain_point);alert((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5);
 		return;
 	}
 	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
