@@ -139,6 +139,11 @@ function fnSpamAllyMsg() {
 }
 
 function fnHasAllySpot() {
+	if (typeof(player) !== 'undefined' && player != null) {
+	}
+	else {
+		return false;
+	}
 	if ((parseInt(player.power_max, 10) + parseInt(player.bp_max, 10) + parseInt(player.remain_point, 10)) < ((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5)) {
 		return true;
 	}
@@ -171,7 +176,7 @@ function fnCheckAlly() {
 	}
 	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
 		fnSetCheckAllyTimer((new Date()).getTime());
-		if (!fnHasAllyApplied()) {
+		if (!fnHasAllyApplied()) { //bugged.. forgot ajax is asynchronus, so it will always return false, thus always spam
 			fnSpamAllyMsg();
 		}
 	}
