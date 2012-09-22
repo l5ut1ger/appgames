@@ -791,7 +791,11 @@ function fnFixMissionProcess() {
 									// not close to level up, so drink full ep
 									break;
 								}
-								if (player.next_exp - player.now_exp < result.payload.recoverItems[i].amount * 100) {
+								if (player.next_exp - player.now_exp > 400) {
+									// close to level up, but not going to spend five energy100 to level up, so drink full ep anyway
+									break;
+								}
+								if (player.next_exp - player.now_exp <= result.payload.recoverItems[i].amount * 100) {
 									// close to level up, and player has enough my energy 100 potion, drink enenrgy100 to level up instead of full ep
 									useEnergy100 = true;
 									break;
