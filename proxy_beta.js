@@ -139,7 +139,7 @@ function fnSpamAllyMsg() {
 }
 
 function fnHasAllySpot() {
-	if ((player.power_max + player.bp_max + player.remain_point) < ((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5)) {
+	if ((parseInt(player.power_max, 10) + parseInt(player.bp_max, 10) + parseInt(player.remain_point, 10)) < ((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5)) {
 		return true;
 	}
 	return false;
@@ -164,12 +164,9 @@ function fnHasAllyApplied() {
 
 function fnCheckAlly() {
 	if (fnAutoAlly() == -1) {
-		alert("auto ally off");
 		return;
 	}
 	if (!fnHasAllySpot()) {
-		alert("no ally spot");
-		alert(player.power_max + player.bp_max + player.remain_point);alert((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5);
 		return;
 	}
 	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
