@@ -93,6 +93,95 @@ function fnGetCookie(c_name)
 	return null;
 }
 
+// check ally
+var autoAllyKey = 'autoAlly';
+var checkAllyTimeKey = 'checkAllyTime';
+var checkAllyTimeInterval = 1000 * 60 * 3; // if has free ally spot, check ally ever 3 minutes
+
+function fnAutoAlly() {
+	if (fnGetCookie(autoAllyKey) === null) {
+		fnSetAutoAlly(-1);
+	}
+	return fnGetCookie(autoAllyKey);
+}
+
+function fnSetAutoAlly(value) {
+	fnSetCookie(autoAllyKey, value);
+}
+
+function fnGetCheckAllyTimer() {
+	if (fnGetCookie(checkAllyTimeKey) === null) {
+		fnSetCheckAllyTimer(0);
+	}
+	return fnGetCookie(checkAllyTimeKey);
+}
+
+function fnSetCheckAllyTimer(value) {
+	fnSetCookie(checkAllyTimeKey, value);
+}
+
+function fnSendAllyMsg(pID, pName, pMsg) {
+	$.getJSON('/en/ios/bbs/write', {
+	'target_id': pID,
+	'body': pMsg
+	}, function(result) {
+	});
+	fnGrowl("Posted @ " + pName + " for ally request");
+}
+
+function fnSpamAllyMsg() {
+	$.ajax_ex(false, '/en/ios/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		for (var i=0;i<=2;i++) {
+			setTimeout(fnSendAllyMsg, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, (player.lv>=80?"Lv "+ player.lv + " ":"") + "needs ally, many thanks! :)");
+		}
+	});
+}
+
+function fnHasAllySpot() {
+	if (typeof(player) !== 'undefined' && player != null) {
+	}
+	else {
+		return false;
+	}
+	if ((parseInt(player.power_max, 10) + parseInt(player.bp_max, 10) + parseInt(player.remain_point, 10)) < ((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5)) {
+		return true;
+	}
+	return false;
+}
+
+function fnHasAllyApplied() {
+	var hasAllyApplied = false;
+	
+	var divTag = document.createElement("div");
+	divTag.id = "checkAllyDiv";
+	divTag.style.display = "none";
+	document.body.appendChild(divTag); 	
+	
+	var result= $('#checkAllyDiv').load('/en/ios/friends #list-applied', {}, function(){
+		for (var i=0;i < result.find('.pid').length;i++) {
+			hasAllyApplied = true;
+			$.ajax_ex(false, '/en/ios/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
+		}	
+	});
+	return hasAllyApplied;
+}
+
+function fnCheckAlly() {
+	if (fnAutoAlly() == -1) {
+		return;
+	}
+	if (!fnHasAllySpot()) {
+		return;
+	}
+	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
+		fnSetCheckAllyTimer((new Date()).getTime());
+		if (!fnHasAllyApplied()) { //bugged.. forgot ajax is asynchronus, so it will always return false, thus always spam
+			fnSpamAllyMsg();
+		}
+	}
+}
+
 // grinding speed
 
 var grindingSpeedKey = 'grindingSpeed';
@@ -403,14 +492,20 @@ function fnProfileFixTabs() {
 	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 100 ?'selected':'') + ' value="100">Light</option>'
 	selectorHTML += '</select><br/><br/>'; 
 	
-  var selectorHTML2 = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Drink</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
-  selectorHTML2 += '<select name="sel" onchange="fnSetAutoDrink(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
-  selectorHTML2 += '<option ' + (fnAutoDrink() == -1 ?'selected':'') + ' value="-1">Off</option>'
-  selectorHTML2 += '<option ' + (fnAutoDrink() == 1 ?'selected':'') + ' value="1">On</option>';
-  selectorHTML2 += '</select><br/><br/>'; 
+	var selectorHTML2 = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Drink</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	selectorHTML2 += '<select name="sel" onchange="fnSetAutoDrink(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Drink \'+this.options[this.options.selectedIndex].text);">';
+	selectorHTML2 += '<option ' + (fnAutoDrink() == -1 ?'selected':'') + ' value="-1">Off</option>'
+	selectorHTML2 += '<option ' + (fnAutoDrink() == 1 ?'selected':'') + ' value="1">On</option>';
+	selectorHTML2 += '</select><br/><br/>'; 
+	
+	var selectorHTML3 = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Ally</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	selectorHTML3 += '<select name="sel" onchange="fnSetAutoAlly(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Ally \'+this.options[this.options.selectedIndex].text);">';
+	selectorHTML3 += '<option ' + (fnAutoAlly() == -1 ?'selected':'') + ' value="-1">Off</option>'
+	selectorHTML3 += '<option ' + (fnAutoAlly() == 1 ?'selected':'') + ' value="1">On</option>';
+	selectorHTML3 += '</select><br/><br/>'; 
    
    
-	divTag.innerHTML = selectorHTML + selectorHTML2; 
+	divTag.innerHTML = selectorHTML + selectorHTML2 + selectorHTML3; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
    
 	onChangeProfile = function (id) 
@@ -1065,6 +1160,8 @@ function fnOnLoad() {
 	fnCreateBackButton();
 	
 	fnAutoUsePoint();
+	
+	fnCheckAlly();
 	
 	if (window.location.pathname === "/en/ios/event/loginStamp") {
 		fnLoginStamp();
