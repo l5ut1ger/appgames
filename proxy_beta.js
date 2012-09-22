@@ -1156,6 +1156,8 @@ function fnOnLoad() {
 	
 	fnAutoUsePoint();
 	
+	fnCheckAlly();
+	
 	if (window.location.pathname === "/en/ios/event/loginStamp") {
 		fnLoginStamp();
 	}
