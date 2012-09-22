@@ -164,10 +164,15 @@ function fnHasAllyApplied() {
 
 function fnCheckAlly() {
 	if (fnAutoAlly() == -1) {
+		alert("auto ally off");
 		return;
 	}
 	if (!fnHasAllySpot()) {
+		alert("no ally spot");
 		return;
+	}
+	else {
+		alert("has ally spot");
 	}
 	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
 		fnSetCheckAllyTimer((new Date()).getTime());
