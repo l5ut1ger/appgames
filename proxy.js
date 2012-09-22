@@ -771,36 +771,56 @@ function fnDeckChangeAllCheck() {
 	fnDeckAddFormationButtons();
 }
 
-// home
-
-function fnHome() {
-	fnProfileAddWallBookmarkSelector();
-	fnDeckAddFormationSelector();
-	document.getElementById('formationDiv').style.top = "100px";
-}
-
-// home login
-
-function fnHomeLogin() {
-	$.ajax_ex(false, '/en/ios/present/fpAll', {},function(result) {return;}) ;
-	setTimeout(function(){$.redirect("/en/ios/home");}, 1);
-}
-
-// home bonus
-
-function fnHomeBonus() {
-	$.ajax_ex(false, '/en/ios/present/fpAll', {},function(result) {return;}) ;
-	setTimeout(function(){$.redirect("/en/ios/home");}, 1);
-}
-
 // tower mission
 
 function fnFixMissionProcess() {
 	missionProcess = function() {
 		$.ajax_ex(false, '/en/ios/tower/process', {'area_id'    : areaMaster.area_id,'mission_id' : mission.last_mission_id, api : 'json', '__hash': ('' + (new Date()).getTime())}, function(result) {
-			if (result.status != 0 && fnAutoDrink() == 1) {
+			if (result.status != 0) {
 				if (result.status == 901) {
-					$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:result.payload.recoverItems[0].item_id}, function(data) {});
+					if (fnAutoDrink() == 1) {
+						var useEnergy100 = false;
+						for (var i=0;i<result.payload.recoverItems.length;i++) {
+							if (result.payload.recoverItems[i].item_id==3022) {
+								if (player.power_max <= 300 && (player.next_exp - player.now_exp < result.payload.recoverItems[i].amount * 100)) {
+									// max energy too low, drink enenrgy100 to level up instead of full ep
+									useEnergy100 = true;
+									break;
+								}
+								if (player.next_exp - player.now_exp > player.power_max) {
+									// not close to level up, so drink full ep
+									break;
+								}
+								if (player.next_exp - player.now_exp > 400) {
+									// close to level up, but not going to spend five energy100 to level up, so drink full ep anyway
+									break;
+								}
+								if (player.next_exp - player.now_exp <= result.payload.recoverItems[i].amount * 100) {
+									// close to level up, and player has enough my energy 100 potion, drink enenrgy100 to level up instead of full ep
+									useEnergy100 = true;
+									break;
+								}
+								break;
+							}
+						}
+						if (useEnergy100) {
+							$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:3022}, function(data) {});
+						}
+						else {
+							$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:result.payload.recoverItems[0].item_id}, function(data) {});
+						}
+					}
+					else {
+						clearInterval(missionInterval);
+						EfectMng.clear()
+						.push('hideSystemBtns', null)
+						.push('shadowShow', null)
+						.push('recoverItems', result.payload.recoverItems)
+						.push('shadowHide', null)
+						.push('showSystemBtns', null)
+						.play();						
+						return;
+					}
 				}
 				clearInterval(missionInterval);
 				setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 1000);
@@ -873,6 +893,7 @@ function fnFixMissionProcess() {
 			  }
 			  else {
 				document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id;
+				setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 5000);
 			  }
 			}
 			EfectMng.push('showSystemBtns', null).play();
@@ -902,6 +923,7 @@ function fnTowerMission() {
 	}
 	else {
 		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
+		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 5000);
 		//document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id;
 	}
 }
@@ -909,11 +931,13 @@ function fnTowerMission() {
 function fnTower() {
 	if (document.getElementById('div-btn-system') != null) {
 		setTimeout(function(){$.redirect('/en/ios/tower/subpoena');}, 1000);
+		setTimeout(function(){$.redirect('/en/ios/tower/subpoena');}, 5000);
 	}
 }
 
 function fnTowerSummon() {
 	setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
+	setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 5000);
 }
 
 // tower boss result
@@ -989,6 +1013,34 @@ function fnTradeSuggest() {
 	fnGiftMyItems();
 }
 
+// login Stamp
+
+function fnLoginStamp() {
+	setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+}
+
+// home
+
+function fnHome() {
+	fnProfileAddWallBookmarkSelector();
+	fnDeckAddFormationSelector();
+	document.getElementById('formationDiv').style.top = "100px";
+}
+
+// home login
+
+function fnHomeLogin() {
+	$.ajax_ex(false, '/en/ios/present/fpAll', {},function(result) {return;}) ;
+	setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+}
+
+// home bonus
+
+function fnHomeBonus() {
+	$.ajax_ex(false, '/en/ios/present/fpAll', {},function(result) {return;}) ;
+	setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+}
+
 // on load
 
 function fnSetupPurrCSS() {
@@ -1014,6 +1066,9 @@ function fnOnLoad() {
 	
 	fnAutoUsePoint();
 	
+	if (window.location.pathname === "/en/ios/event/loginStamp") {
+		fnLoginStamp();
+	}
 	if (window.location.pathname === "/en/ios/home/profile") {
 		fnProfile();
 	}
