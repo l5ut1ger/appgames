@@ -1058,6 +1058,18 @@ function fnBattleBattle() {
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
 
+// monster collection
+
+function fnMonsterCollection() {
+	var monsterImgList = $('.monster_img > img');
+	for (var i=0;i<monsterImgList.length;i++) {
+		var box = monsterImgList.eq(i);
+		var monsterID = $('div', box).html();
+		var frame = box.parent();
+		frame.html('<a href="/en/ios/achievement/monsterInformation?mid='+monsterID+'&amp;attr=0&amp;offset=4"><img src="http://res.darksummoner.com/en/s/cards/'+monsterID+'_small.png" width="55" height="55" alt="'+monsterID+'" />'+monsterID+'</a>');
+	}
+}
+
 // present box
 
 function fnPresentBox() {
@@ -1210,5 +1222,8 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/trade/suggest1") {
 		fnTradeSuggest();
+	}
+	if (window.location.pathname === "/en/ios/achievement/monster") {
+		fnMonsterCollection();
 	}
 }
