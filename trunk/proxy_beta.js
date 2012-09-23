@@ -1087,6 +1087,7 @@ function fnAddCommission() {
 	//$('.nickname', base_tag).text('<a href="/en/ios/friends/profile?pid='+entry.player_id+'"><font color="#00FF00">'+entry.player_nickname+'</font></a><br/>$ '+entry.commission');
 	setAuctions = function (base_tag, entry, flg)
 	{
+		alert('hey');
 		$('.item-name' , base_tag).text(entry.permanent_name_0);
 
 		if (entry.permanent_type_0 == 2 ) {
