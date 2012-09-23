@@ -1083,8 +1083,7 @@ function fnMonsterInfo() {
 
 // auction
 
-function fnAddCommission() {
-	//$('.nickname', base_tag).text('<a href="/en/ios/friends/profile?pid='+entry.player_id+'"><font color="#00FF00">'+entry.player_nickname+'</font></a><br/>$ '+entry.commission');
+function fnAuctionDisplayCommission() {
 	setAuctions = function (base_tag, entry, flg)
 	{
 		alert('hey');
@@ -1116,8 +1115,8 @@ function fnAddCommission() {
 			str = str.replace("%bid_count%", (entry.limited_bid_count - entry.bid_count));
 			$('.bid-count' , base_tag).text(str);
 		}
-		//$('.nickname', base_tag).text(entry.player_nickname);
-		$('.nickname', base_tag).text('<a href="/en/ios/friends/profile?pid='+entry.player_id+'"><font color="#00FF00">'+entry.player_nickname+'</font></a><br/>$ '+entry.commission);
+
+		$('.nickname', base_tag).append('<a href="/en/ios/friends/profile?pid='+entry.player_id+'"><font color="#00FF00">'+entry.player_nickname+'</font></a>' + (entry.commission!=undefined?('<br/>$ '+entry.commission):''));
 		
 		if (entry.comment != "") {
 			$('.comment', base_tag).append('<div class="box-blood"></div>');
@@ -1146,8 +1145,7 @@ function fnAddCommission() {
 }
 
 function fnAuction() {
-	alert($('.exhibit-check').eq(0).data('entry'));
-	fnAddCommission();
+	fnAuctionDisplayCommission();
 }
 
 function fnAuctionDetail() {
