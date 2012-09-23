@@ -6,7 +6,7 @@ var progressionList=[50063, 53064, 56064];
 // Tools
 
 function fnRedirect(pURL) {
-	var meta = document.createElement('meta');meta.httpEquiv='refresh';meta.content='2;url='+pURL;document.getElementsByTagName('head')[0].appendChild(meta);
+	var meta = document.createElement('meta');meta.httpEquiv='refresh';meta.content='0;url='+pURL;document.getElementsByTagName('head')[0].appendChild(meta);
 }
 
 function fnQueryString(name) {
