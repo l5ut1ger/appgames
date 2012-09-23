@@ -1088,7 +1088,7 @@ function fnAddCommission() {
 }
 
 function fnAuction() {
-	alert($('.exhibit-check').eq(0));
+	alert($('.exhibit-check').eq(0).data('entry'));
 	fnAddCommission();
 }
 
