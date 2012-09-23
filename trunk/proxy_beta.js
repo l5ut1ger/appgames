@@ -1331,12 +1331,15 @@ function fnGiftMyItems() {
 				hasItemInList = false;
 				for (var j=0;j<=items.length;j++) {
 					if (items[j].item_id == data.payload.items[i].item_id) {
+						alert("has item + " + items[j].item_id);
 						hasItemInList = true;
+						break;
 					}
 				}
-				if (hasItemInList) {
+				if (hasItemInList) {					
 					continue;
 				}
+				alert("push item " +  data.payload.items[i].item_id);
 				items.push({"item_id":data.payload.items[i].item_id,"name":data.payload.items[i].m.name,"amount":data.payload.items[i].amount,"thumb_image":"items/"+data.payload.items[i].item_id+"_small.png"});
 			}
 		});	
