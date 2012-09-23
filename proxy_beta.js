@@ -1340,15 +1340,21 @@ function fnGiftMyItems() {
 				}				
 			}
 		});	
-		/*
-		items.push({"item_id":"3018","name":"My Energy Potion","amount":100,"thumb_image":"items/3018_small.png"});
-		items.push({"item_id":"3020","name":"My Elixer Potion","amount":100,"thumb_image":"items/3020_small.png"});
-		items.push({"item_id":"3022","name":"My 100 Energy Potion","amount":100,"thumb_image":"items/3022_small.png"});
-		items.push({"item_id":"3019","name":"My Battle Point Potion","amount":100,"thumb_image":"items/3019_small.png"});*/		
 		
 		items.push({"item_id":"5005","name":"FREE Rank A Summon","amount":100,"thumb_image":"items/5005_small.png"});
 		items.push({"item_id":"5200","name":"FREE Dark Summon","amount":100,"thumb_image":"items/5200_small.png"});
-		items.push({"item_id":"5026","name":"EPIC Dark Summon","amount":100,"thumb_image":"items/5026_small.png"});
+		
+		var divTag = document.createElement("div");
+		divTag.id = "checkSummonDiv";
+		divTag.style.display = "none";
+		document.body.appendChild(divTag); 	
+		
+		var result= $('#checkSummonDiv').load('/en/ios/summon #summon_group', {}, function(){
+			if (result.find('#summon_super_special').find('.cost_ticket').length) {
+				items.push({"item_id":"5026","name":"EPIC Dark Summon","amount":parseInt(result.find('#summon_super_special').find('.cost_ticket').html,10),"thumb_image":"items/5026_small.png"});
+			}	
+		});		
+		//items.push({"item_id":"5026","name":"EPIC Dark Summon","amount":100,"thumb_image":"items/5026_small.png"});
 	}
 }
 
