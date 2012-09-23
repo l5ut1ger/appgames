@@ -1140,11 +1140,23 @@ function fnAuctionDisplayCommission() {
 		if(entry.permanent_thumb_image_4){
 			$('.item_4', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_4);
 		}
+		
+		$('.exhibit-offer', base_tag).click(function() {$.redirect('/en/ios/auction?tb=2&no='+entry.exhibit_id);});if (entry.bid_id != null) {$('.exhibit-offer', base_tag).hide();}
 	}
 }
 
+function fnShowOfferButton() {
+	var style = document.createElement('style');
+	style.type = 'text/css';
+	style.innerHTML = '.exhibit-offer { position:absolute; left:180px; top:170px; }';
+	document.getElementsByTagName('head')[0].appendChild(style);
+	$('.exhibit-check').css('left','100px');
+	$('.exhibit-check').parent().append('<div class="exhibit-offer btn __red __WS __HS" style="font-size:0.8em;">Offers</div>');
+}
+
 function fnAuction() {
-	fnAuctionDisplayCommission();
+	fnShowOfferButton();
+	fnAuctionDisplayCommission();	
 	if (window.location.search=='') {
 		onChangeAuction(0);
 	}
