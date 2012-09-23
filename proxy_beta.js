@@ -1085,6 +1085,63 @@ function fnMonsterInfo() {
 
 function fnAddCommission() {
 	//$('.nickname', base_tag).text('<a href="/en/ios/friends/profile?pid='+entry.player_id+'"><font color="#00FF00">'+entry.player_nickname+'</font></a><br/>$ '+entry.commission');
+	setAuctions = function (base_tag, entry, flg)
+	{
+		$('.item-name' , base_tag).text(entry.permanent_name_0);
+
+		if (entry.permanent_type_0 == 2 ) {
+			$('.item-lv' , base_tag).text('Lv ' + entry.permanent_desc_0.lv);
+			$('.atk' , base_tag).text(entry.permanent_desc_0.attack);
+			$('.def' , base_tag).text(entry.permanent_desc_0.defense);
+			$('.hp' , base_tag).text(entry.permanent_desc_0.hp);
+			$('.bp' , base_tag).text(entry.permanent_desc_0.bp);
+			$('.skill' , base_tag).text(SKILLS[entry.permanent_desc_0.skill_id][entry.permanent_desc_0.skill_lv]['name']);
+			$('.monster_st', base_tag).show();
+		} else if (entry.permanent_type_0 == 3 ) {
+			$('.item-lv' , base_tag).text('x ' + entry.permanent_amount_0);
+			$('.item_info' , base_tag).text(entry.permanent_m_0.description);
+			$('.item_st', base_tag).show();
+		} else if (entry.permanent_type_0 == 1 ) {
+			var jewel = entry.permanent_amount_0;
+			jewel = jewel.toString().replace(/([0-9]+?)(?=(?:[0-9]{3})+$)/g , '$1,');
+			$('.item-lv' , base_tag).text(jewel + 'Gold').addClass('__jewel');
+			$('.item_info', base_tag).text('Currency used to do a Sacrifice.');
+			$('.item_st', base_tag).show();
+		}
+
+		if (flg != 1) {
+			$('.limit-time' , base_tag).text($.after(entry.auction_end_at));
+			var str = '%bid_count%';
+			str = str.replace("%bid_count%", (entry.limited_bid_count - entry.bid_count));
+			$('.bid-count' , base_tag).text(str);
+		}
+		//$('.nickname', base_tag).text(entry.player_nickname);
+		$('.nickname', base_tag).text('<a href="/en/ios/friends/profile?pid='+entry.player_id+'"><font color="#00FF00">'+entry.player_nickname+'</font></a><br/>$ '+entry.commission);
+		
+		if (entry.comment != "") {
+			$('.comment', base_tag).append('<div class="box-blood"></div>');
+			$('.comment > div', base_tag).text(entry.comment);
+		} else {
+			$('.img_auction_comment', base_tag).hide();
+		}
+
+		// a-?a?¡Lc¢Foea?a??a??a??
+		if(entry.permanent_thumb_image_0){
+			$('.item_0', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_0);
+		}
+		if(entry.permanent_thumb_image_1){
+			$('.item_1', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_1);
+		}
+		if(entry.permanent_thumb_image_2){
+			$('.item_2', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_2);
+		}
+		if(entry.permanent_thumb_image_3){
+			$('.item_3', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_3);
+		}
+		if(entry.permanent_thumb_image_4){
+			$('.item_4', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_4);
+		}
+	}
 }
 
 function fnAuction() {
