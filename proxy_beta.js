@@ -5,6 +5,10 @@ var missionInterval;
 var progressionList=[50063, 53064, 56064];
 // Tools
 
+function fnRedirect(pURL) {
+	var meta = document.createElement('meta');meta.httpEquiv='refresh';meta.content='2;url='+pURL;document.getElementsByTagName('head')[0].appendChild(meta);
+}
+
 function fnQueryString(name) {
 	var AllVars = window.location.search.substring(1);
 	var Vars = AllVars.split('&');
@@ -1098,8 +1102,9 @@ function fnTowerBossResult() {
 function fnBattleBattle() {
 	// skip to result
 	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/mission")) {
-		setTimeout(function(){$.redirect("/en/ios/tower/bossResult");}, 1000);
-		setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 10000);
+		fnRedirect("/en/ios/tower/bossResult");
+		//setTimeout(function(){$.redirect("/en/ios/tower/bossResult");}, 1000);
+		//setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 10000);
 	}
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
