@@ -1239,6 +1239,9 @@ function fnAuctionPeek() {
 			});
 		});
 	}
+	if (tag==1) {
+		onChangeAuction(0);
+	}
 }
 
 function fnAuction() {
