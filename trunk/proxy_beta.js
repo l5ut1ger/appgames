@@ -1341,8 +1341,6 @@ function fnGiftMyItems() {
 			}
 		});	
 		
-		items.push({"item_id":"5005","name":"FREE Rank A Summon","amount":100,"thumb_image":"items/5005_small.png"});
-		
 		var divTag = document.createElement("div");
 		divTag.id = "checkSummonDiv";
 		divTag.style.display = "none";
