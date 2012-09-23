@@ -1337,11 +1337,10 @@ function fnGiftMyItems() {
 						break;
 					}
 				}
-				if (hasItemInList) {					
-					continue;
-				}
-				alert("push item " +  data.payload.items[i].item_id);
-				items.push({"item_id":data.payload.items[i].item_id,"name":data.payload.items[i].m.name,"amount":data.payload.items[i].amount,"thumb_image":"items/"+data.payload.items[i].item_id+"_small.png"});
+				if (!hasItemInList) {					
+					alert("push item " +  data.payload.items[i].item_id);
+					items.push({"item_id":data.payload.items[i].item_id,"name":data.payload.items[i].m.name,"amount":data.payload.items[i].amount,"thumb_image":"items/"+data.payload.items[i].item_id+"_small.png"});
+				}				
 			}
 		});	
 		/*
