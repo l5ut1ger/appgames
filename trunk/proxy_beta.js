@@ -1086,7 +1086,6 @@ function fnMonsterInfo() {
 function fnAuctionDisplayCommission() {
 	setAuctions = function (base_tag, entry, flg)
 	{
-		alert('hey');
 		$('.item-name' , base_tag).text(entry.permanent_name_0);
 
 		if (entry.permanent_type_0 == 2 ) {
@@ -1146,6 +1145,9 @@ function fnAuctionDisplayCommission() {
 
 function fnAuction() {
 	fnAuctionDisplayCommission();
+	if (window.location.search=='') {
+		onChangeAuction(0);
+	}
 }
 
 function fnAuctionDetail() {
