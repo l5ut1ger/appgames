@@ -1081,6 +1081,20 @@ function fnMonsterInfo() {
 	$('.status-text').css('width', '1000px');
 }
 
+// auction
+
+function fnAddCommission() {
+	//$('.nickname', base_tag).text('<a href="/en/ios/friends/profile?pid='+entry.player_id+'"><font color="#00FF00">'+entry.player_nickname+'</font></a><br/>$ '+entry.commission');
+}
+
+function fnAuction() {
+	alert($('.exhibit-check').eq(0).entry.exhibit_id);
+	fnAddCommission();
+}
+
+function fnAuctionDetail() {
+}
+
 // present box
 
 function fnPresentBox() {
@@ -1239,5 +1253,11 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/achievement/monsterInformation") {
 		fnMonsterInfo();
+	}
+	if (window.location.pathname === "/en/ios/auction") {
+		fnAuction();
+	}
+	if (window.location.pathname === "/en/ios/auction/detail") {
+		fnAuctionDetail();
 	}
 }
