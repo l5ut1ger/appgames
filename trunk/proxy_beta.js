@@ -544,7 +544,7 @@ function fnProfileFixTabs() {
 	autoStatsUpselectorHTML += '</select><br/><br/>'; 
 	
 	// Tower Event Target Settings
-	var towerSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Tower Event Target</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	var towerSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Tower Event Target Floor</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	towerSelectorHTML += '<select name="sel" onchange="fnSetTowerEventTarget(this.options[this.options.selectedIndex].value);fnGrowl(\'Tower Event Target \'+this.options[this.options.selectedIndex].text);">';
 	for (var i=1;i<=100;i++) {
 		towerSelectorHTML += '<option ' + (fnTowerEventTarget() == (i*100+1) ?'selected':'') + ' value="' + (i*100+1) + '">' + (i*100+1) + '</option>';
