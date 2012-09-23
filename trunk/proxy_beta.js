@@ -1072,7 +1072,7 @@ function fnTowerMission() {
 function fnTower() {
 	if (document.getElementById('div-btn-system') != null) {
 		setTimeout(function(){$.redirect('/en/ios/tower/subpoena');}, 1000);
-		setTimeout(function(){$.redirect('/en/ios/tower/subpoena');}, 5000);
+		setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 10000);
 	}
 }
 
@@ -1099,7 +1099,7 @@ function fnBattleBattle() {
 	// skip to result
 	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/mission")) {
 		setTimeout(function(){$.redirect("/en/ios/tower/bossResult");}, 1000);
-		setTimeout(function(){$.redirect("/en/ios/tower/bossResult");}, 5000);
+		setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 10000);
 	}
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
