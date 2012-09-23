@@ -1058,6 +1058,29 @@ function fnBattleBattle() {
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
 
+// monster collection
+
+function fnMonsterCollection() {
+	var monsterImgList = $('.monster_img > img');
+	for (var i=0;i<monsterImgList.length;i++) {
+		var box = monsterImgList.eq(i);
+		var frame = box.parent();
+		var monsterID = $('div', frame).html();
+		frame.html('<a href="/en/ios/achievement/monsterInformation?mid='+monsterID+'&amp;attr=0&amp;offset=4"><img src="http://res.darksummoner.com/en/s/cards/'+monsterID+'_small.png" width="55" height="55" alt="'+monsterID+'" />'+monsterID+'</a>');
+	}
+}
+
+// monster info
+
+function fnMonsterInfo() {
+	$('#status-text-area').html($('#status-text-area').html()+'<span id="status-agility" style="position:absolute; right:5px; top:-16px;width:200px;text-align:right; color:#c0c1ff;">agility</span><div style="position:absolute; left:25px; top:-16px;">AGILITY</div>');
+	$('#status-agility').html(addFigure(paramMaster['agility']));
+	$('#status-attack').html(addFigure(paramMaster['attack'])+' ('+ addFigure(paramMaster['i_attack']) +'-'+ addFigure(paramMaster['m_attack']) +')');
+	$('#status-defense').html(addFigure(paramMaster['defense'])+' ('+ addFigure(paramMaster['i_defense']) +'-'+ addFigure(paramMaster['m_defense']) +')');
+	$('#status-hp').html(addFigure(paramMaster['hp'])+' ('+ addFigure(paramMaster['i_hp']) +'-'+ addFigure(paramMaster['m_hp']) +')');
+	$('.status-text').css('width', '1000px');
+}
+
 // present box
 
 function fnPresentBox() {
@@ -1210,5 +1233,11 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/trade/suggest1") {
 		fnTradeSuggest();
+	}
+	if (window.location.pathname === "/en/ios/achievement/monster") {
+		fnMonsterCollection();
+	}
+	if (window.location.pathname === "/en/ios/achievement/monsterInformation") {
+		fnMonsterInfo();
 	}
 }
