@@ -1331,6 +1331,8 @@ function fnGiftMyItems() {
 				hasItemInList = false;
 				alert("test item " +  data.payload.items[i].item_id);
 				for (var j=0;j<=items.length;j++) {
+					alert("test vs item " +  items[j].item_id);
+					alert("testing if... " + (items[j].item_id == data.payload.items[i].item_id));
 					if (items[j].item_id == data.payload.items[i].item_id) {
 						alert("has item " + items[j].item_id);
 						hasItemInList = true;
