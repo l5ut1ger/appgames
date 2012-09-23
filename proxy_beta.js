@@ -1076,7 +1076,7 @@ function fnMonsterInfo() {
 	$('#status-attack').html(addFigure(paramMaster['attack'])+' ('+ addFigure(paramMaster['i_attack']) +'-'+ addFigure(paramMaster['m_attack']) +')');
 	$('#status-defense').html(addFigure(paramMaster['defense'])+' ('+ addFigure(paramMaster['i_defense']) +'-'+ addFigure(paramMaster['m_defense']) +')');
 	$('#status-hp').html(addFigure(paramMaster['hp'])+' ('+ addFigure(paramMaster['i_hp']) +'-'+ addFigure(paramMaster['m_hp']) +')');
-	$('.status-text').style.width="1000";
+	$('.status-text').css('width', '1000px');
 }
 
 // present box
