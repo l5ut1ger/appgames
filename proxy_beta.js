@@ -1064,8 +1064,8 @@ function fnMonsterCollection() {
 	var monsterImgList = $('.monster_img > img');
 	for (var i=0;i<monsterImgList.length;i++) {
 		var box = monsterImgList.eq(i);
-		var monsterID = $('div', box).html();
 		var frame = box.parent();
+		var monsterID = $('div', frame).html();
 		frame.html('<a href="/en/ios/achievement/monsterInformation?mid='+monsterID+'&amp;attr=0&amp;offset=4"><img src="http://res.darksummoner.com/en/s/cards/'+monsterID+'_small.png" width="55" height="55" alt="'+monsterID+'" />'+monsterID+'</a>');
 	}
 }
