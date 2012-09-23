@@ -1148,7 +1148,7 @@ function fnAuctionDisplayCommission() {
 function fnAuctionShowOfferButton() {
 	var style = document.createElement('style');
 	style.type = 'text/css';
-	style.innerHTML = '.exhibit-offer { position:absolute; left:180px; top:170px; }';
+	style.innerHTML = '.exhibit-offer { position:absolute; left:200px; top:170px; }';
 	document.getElementsByTagName('head')[0].appendChild(style);
 	$('.exhibit-check').css('left','100px');
 	$('.exhibit-check').parent().append('<div class="exhibit-offer btn __red __WS __HS" style="font-size:0.8em;">Offers</div>');
@@ -1162,7 +1162,7 @@ function fnAuctionPeek() {
 		}
 		var base_tag = $('#exhibit-templ').clone();
 		base_tag.attr('id', 'exhibit-templ-main');
-		if (QueryString('no')=='' || QueryString('tb')!=2) {setAuctions(base_tag, enableExhibit);} 
+		if (fnQueryString('no')=='' || fnQueryString('tb')!=2) {setAuctions(base_tag, enableExhibit);} 
 		base_tag.show();
 
 		if ((enableExhibit.status == 1) || (false == true)) {
