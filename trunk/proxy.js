@@ -1323,7 +1323,33 @@ function fnPresentBox() {
 
 // add my item gifting/trading
 function fnGiftMyItems() {
-	if (typeof(items) !== 'undefined' && items != null) {items.push({"item_id":"3018","name":"My Energy Potion","amount":100,"thumb_image":"items/3018_small.png"});items.push({"item_id":"3020","name":"My Elixer Potion","amount":100,"thumb_image":"items/3020_small.png"});items.push({"item_id":"3022","name":"My 100 Energy Potion","amount":100,"thumb_image":"items/3022_small.png"});items.push({"item_id":"3019","name":"My Battle Point Potion","amount":100,"thumb_image":"items/3019_small.png"});items.push({"item_id":"5005","name":"FREE Rank A Summon","amount":100,"thumb_image":"items/5005_small.png"});items.push({"item_id":"5200","name":"FREE Dark Summon","amount":100,"thumb_image":"items/5200_small.png"});items.push({"item_id":"5026","name":"EPIC Dark Summon","amount":100,"thumb_image":"items/5026_small.png"});}
+	if (typeof(items) !== 'undefined' && items != null) {
+		$.ajax_ex(false, '/en/ios/item/ajax_get_items?offset=0', { }, function(data) {
+			if ( (data == null) || (data.status != 0) ) { return; }
+			var hasItemInList;
+			for (var i=0;i<data.payload.items.length;i++) {
+				hasItemInList = false;
+				for (var j=0;j<items.length;j++) {
+					if (items[j].item_id == data.payload.items[i].item_id) {
+						hasItemInList = true;
+						break;
+					}
+				}
+				if (!hasItemInList) {					
+					items.push({"item_id":data.payload.items[i].item_id,"name":data.payload.items[i].m.name,"amount":data.payload.items[i].amount,"thumb_image":"items/"+data.payload.items[i].item_id+"_small.png"});
+				}				
+			}
+		});	
+		/*
+		items.push({"item_id":"3018","name":"My Energy Potion","amount":100,"thumb_image":"items/3018_small.png"});
+		items.push({"item_id":"3020","name":"My Elixer Potion","amount":100,"thumb_image":"items/3020_small.png"});
+		items.push({"item_id":"3022","name":"My 100 Energy Potion","amount":100,"thumb_image":"items/3022_small.png"});
+		items.push({"item_id":"3019","name":"My Battle Point Potion","amount":100,"thumb_image":"items/3019_small.png"});*/		
+		
+		items.push({"item_id":"5005","name":"FREE Rank A Summon","amount":100,"thumb_image":"items/5005_small.png"});
+		items.push({"item_id":"5200","name":"FREE Dark Summon","amount":100,"thumb_image":"items/5200_small.png"});
+		items.push({"item_id":"5026","name":"EPIC Dark Summon","amount":100,"thumb_image":"items/5026_small.png"});
+	}
 }
 
 // present suggest
