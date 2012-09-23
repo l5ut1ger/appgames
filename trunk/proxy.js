@@ -202,17 +202,30 @@ function fnSetGrindingSpeed(value) {
 var autoDrinkKey = 'autoDrink';
 
 function fnAutoDrink() {
-		if(fnGetCookie(autoDrinkKey) === null) {
-				fnSetAutoDrink(-1);
-		}
-		return fnGetCookie(autoDrinkKey);
+	if(fnGetCookie(autoDrinkKey) === null) {
+			fnSetAutoDrink(-1);
+	}
+	return fnGetCookie(autoDrinkKey);
 }
 
 function fnSetAutoDrink(value) {
-		fnSetCookie(autoDrinkKey, value);
+	fnSetCookie(autoDrinkKey, value);
 }
 
+// Auto Stats Up
 
+var autoStatsUpKey = 'autoStatsUp';
+
+function fnAutoStatsUp() {
+	if(fnGetCookie(autoStatsUpKey) === null) {
+			fnSetAutoStatsUp(1);
+	}
+	return fnGetCookie(autoStatsUpKey);
+}
+
+function fnSetAutoStatsUp(value) {
+	fnSetCookie(autoStatsUpKey, value);
+}
 
 // book mark function
 
@@ -480,11 +493,13 @@ function fnProfileFixTabs() {
 	divTag.id = "profile-strategy"; 
 	divTag.style.position = "relative"; 
 	
+	// auto grind setting
 	var selectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Grinding Speed</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	selectorHTML += '<select name="sel" onchange="fnSetGrindingSpeed(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
 	selectorHTML += '<option ' + (fnGetGrindingSpeed() == -1 ?'selected':'') + ' value="-1">Thumb</option>'
 	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
 	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 4000 ?'selected':'') + ' value="4000">Seems Legit</option>';
+	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 3000 ?'selected':'') + ' value="2000">Barely Legal</option>';
 	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 2000 ?'selected':'') + ' value="2000">Ferrari</option>';
 	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 1000 ?'selected':'') + ' value="1000">CC Speed</option>';
 	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 500 ?'selected':'') + ' value="500">Too Fast</option>';
@@ -492,20 +507,29 @@ function fnProfileFixTabs() {
 	selectorHTML += '<option ' + (fnGetGrindingSpeed() == 100 ?'selected':'') + ' value="100">Light</option>'
 	selectorHTML += '</select><br/><br/>'; 
 	
+	// auto drink setting
 	var selectorHTML2 = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Drink</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	selectorHTML2 += '<select name="sel" onchange="fnSetAutoDrink(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Drink \'+this.options[this.options.selectedIndex].text);">';
 	selectorHTML2 += '<option ' + (fnAutoDrink() == -1 ?'selected':'') + ' value="-1">Off</option>'
 	selectorHTML2 += '<option ' + (fnAutoDrink() == 1 ?'selected':'') + ' value="1">On</option>';
 	selectorHTML2 += '</select><br/><br/>'; 
 	
+	// auto ally setting
 	var selectorHTML3 = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Ally</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	selectorHTML3 += '<select name="sel" onchange="fnSetAutoAlly(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Ally \'+this.options[this.options.selectedIndex].text);">';
 	selectorHTML3 += '<option ' + (fnAutoAlly() == -1 ?'selected':'') + ' value="-1">Off</option>'
 	selectorHTML3 += '<option ' + (fnAutoAlly() == 1 ?'selected':'') + ' value="1">On</option>';
 	selectorHTML3 += '</select><br/><br/>'; 
+	
+	// auto stats up setting
+	var selectorHTML4 = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Stats Up</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	selectorHTML4 += '<select name="sel" onchange="fnSetAutoStatsUp(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Stats Up \'+this.options[this.options.selectedIndex].text);">';
+	selectorHTML4 += '<option ' + (fnAutoStatsUp() == -1 ?'selected':'') + ' value="-1">Off</option>'
+	selectorHTML4 += '<option ' + (fnAutoStatsUp() == 1 ?'selected':'') + ' value="1">On</option>';
+	selectorHTML4 += '</select><br/><br/>'; 
    
    
-	divTag.innerHTML = selectorHTML + selectorHTML2 + selectorHTML3; 
+	divTag.innerHTML = selectorHTML + selectorHTML2 + selectorHTML3 + selectorHTML4; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
    
 	onChangeProfile = function (id) 
@@ -988,7 +1012,7 @@ function fnFixMissionProcess() {
 			  }
 			  else {
 				document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id;
-				setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 5000);
+				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 10000);// if failed to redirect, then reload mission screen
 			  }
 			}
 			EfectMng.push('showSystemBtns', null).play();
@@ -1343,7 +1367,7 @@ function fnSetupPurrCSS() {
 }
 
 function fnAutoUsePoint() {
-	if (player.remain_point > 0) {
+	if (player.remain_point > 0 && fnAutoStatsUp() == 1) {
 		$.ajax_ex(false, '/en/ios/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 	}
 }
