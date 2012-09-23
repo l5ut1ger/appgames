@@ -1327,21 +1327,15 @@ function fnGiftMyItems() {
 		$.ajax_ex(false, '/en/ios/item/ajax_get_items?offset=0', { }, function(data) {
 			if ( (data == null) || (data.status != 0) ) { return; }
 			var hasItemInList;
-			for (var i=0;i<=data.payload.items.length;i++) {
+			for (var i=0;i<data.payload.items.length;i++) {
 				hasItemInList = false;
-				alert("test item " +  data.payload.items[i].item_id);
-				for (var j=0;j<=items.length;j++) {
-					alert("test vs item " +  items[j].item_id);
-					alert("testing if... " + (items[j].item_id == data.payload.items[i].item_id));
+				for (var j=0;j<items.length;j++) {
 					if (items[j].item_id == data.payload.items[i].item_id) {
-						alert("has item " + items[j].item_id);
 						hasItemInList = true;
 						break;
 					}
 				}
-				alert("result " + hasItemInList);
 				if (!hasItemInList) {					
-					alert("push item " +  data.payload.items[i].item_id);
 					items.push({"item_id":data.payload.items[i].item_id,"name":data.payload.items[i].m.name,"amount":data.payload.items[i].amount,"thumb_image":"items/"+data.payload.items[i].item_id+"_small.png"});
 				}				
 			}
