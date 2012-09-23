@@ -1081,6 +1081,181 @@ function fnMonsterInfo() {
 	$('.status-text').css('width', '1000px');
 }
 
+// auction
+
+function fnAuctionDisplayCommission() {
+	setAuctions = function (base_tag, entry, flg)
+	{
+		$('.item-name' , base_tag).text(entry.permanent_name_0);
+
+		if (entry.permanent_type_0 == 2 ) {
+			$('.item-lv' , base_tag).text('Lv ' + entry.permanent_desc_0.lv);
+			$('.atk' , base_tag).text(entry.permanent_desc_0.attack);
+			$('.def' , base_tag).text(entry.permanent_desc_0.defense);
+			$('.hp' , base_tag).text(entry.permanent_desc_0.hp);
+			$('.bp' , base_tag).text(entry.permanent_desc_0.bp);
+			$('.skill' , base_tag).text(SKILLS[entry.permanent_desc_0.skill_id][entry.permanent_desc_0.skill_lv]['name']);
+			$('.monster_st', base_tag).show();
+		} else if (entry.permanent_type_0 == 3 ) {
+			$('.item-lv' , base_tag).text('x ' + entry.permanent_amount_0);
+			$('.item_info' , base_tag).text(entry.permanent_m_0.description);
+			$('.item_st', base_tag).show();
+		} else if (entry.permanent_type_0 == 1 ) {
+			var jewel = entry.permanent_amount_0;
+			jewel = jewel.toString().replace(/([0-9]+?)(?=(?:[0-9]{3})+$)/g , '$1,');
+			$('.item-lv' , base_tag).text(jewel + 'Gold').addClass('__jewel');
+			$('.item_info', base_tag).text('Currency used to do a Sacrifice.');
+			$('.item_st', base_tag).show();
+		}
+
+		if (flg != 1) {
+			$('.limit-time' , base_tag).text($.after(entry.auction_end_at));
+			var str = '%bid_count%';
+			str = str.replace("%bid_count%", (entry.limited_bid_count - entry.bid_count));
+			$('.bid-count' , base_tag).text(str);
+		}
+
+		$('.nickname', base_tag).append('<a href="/en/ios/friends/profile?pid='+entry.player_id+'"><font color="#00FF00">'+entry.player_nickname+'</font></a>' + (entry.commission!=undefined?('<br/>$ '+entry.commission):''));
+		
+		if (entry.comment != "") {
+			$('.comment', base_tag).append('<div class="box-blood"></div>');
+			$('.comment > div', base_tag).text(entry.comment);
+		} else {
+			$('.img_auction_comment', base_tag).hide();
+		}
+
+		// a-?a?¡Lc¢Foea?a??a??a??
+		if(entry.permanent_thumb_image_0){
+			$('.item_0', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_0);
+		}
+		if(entry.permanent_thumb_image_1){
+			$('.item_1', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_1);
+		}
+		if(entry.permanent_thumb_image_2){
+			$('.item_2', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_2);
+		}
+		if(entry.permanent_thumb_image_3){
+			$('.item_3', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_3);
+		}
+		if(entry.permanent_thumb_image_4){
+			$('.item_4', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_4);
+		}
+		
+		$('.exhibit-offer', base_tag).click(function() {$.redirect('/en/ios/auction?tb=2&no='+entry.exhibit_id);});if (entry.bid_id != null) {$('.exhibit-offer', base_tag).hide();}
+	}
+}
+
+function fnAuctionShowOfferButton() {
+	var style = document.createElement('style');
+	style.type = 'text/css';
+	style.innerHTML = '.exhibit-offer { position:absolute; left:200px; top:170px; }';
+	document.getElementsByTagName('head')[0].appendChild(style);
+	$('.exhibit-check').css('left','100px');
+	$('.exhibit-check').parent().append('<div class="exhibit-offer btn __red __WS __HS" style="font-size:0.8em;">Offers</div>');
+}
+
+function fnAuctionPeek() {
+	showPendings = function (page)
+	{
+		if (fnQueryString('no')=='' && enableExhibit === false) {
+			return;
+		}
+		var base_tag = $('#exhibit-templ').clone();
+		base_tag.attr('id', 'exhibit-templ-main');
+		if (fnQueryString('no')=='' || fnQueryString('tb')!=2) {setAuctions(base_tag, enableExhibit);} 
+		base_tag.show();
+
+		if ((enableExhibit.status == 1) || (false == true)) {
+			$('.text-info', base_tag).html('This Auction was cancelled because the deadline was up.').show();
+			$('.exhibit-btn3', base_tag).show();
+			$('.limit-time' , base_tag).remove();
+			$('.bid-count' , base_tag).remove();
+			$('.limit-icon' , base_tag).remove();
+			$('.bid-icon' , base_tag).remove();
+			$('.nickname-index' , base_tag).remove();
+			$('.nickname' , base_tag).remove();
+			$('.comment' , base_tag).remove();
+
+			$('.exhibit-timeout', base_tag).show().click(function() {
+				$('#popup-text').text('Retrieve Items?');
+				$('#popup_window').show();
+				$('#popup').css('top', $(window).scrollTop() + 40);
+				$('#auction-tab').hide();
+				$('.btn-yes').unbind();
+				$('.btn-yes').click(timeoutExhibit);
+			});
+		} else {
+			$('.exhibit-btn2', base_tag).show();
+			$('.exhibit-detail', base_tag).click(function() {
+				var params = { no:enableExhibit.exhibit_id, reason:'1' };
+				$.redirect('/en/ios/auction/detail', params);
+			});
+			$('.exhibit-cancel', base_tag).html('Cancel Auction').click(function() {
+				$('#popup-text').text('Cancel This Auction?');
+				$('#popup_window').show();
+				$('#popup').css('top', $(window).scrollTop() + 40);
+				$('#auction-tab').hide();
+				$('.btn-yes').unbind();
+				$('.btn-yes').click(cancelExhibit);
+			});
+		}
+
+		$('#auction-exhibit').append(base_tag);
+		if (enableExhibit.comment != "") {
+			$('#auction-exhibit').append('<div id="exhibit-templ-main-comment" class="box-blood"></div>');
+			$('#exhibit-templ-main-comment').text(enableExhibit.comment);
+		}
+
+		$.ajax_ex(false, '/en/ios/auction/ajaxPendingList', { api: 'json', page: page,no:fnQueryString('no')==''?enableExhibit.exhibit_id:fnQueryString('no'), '__hash': ('' + (new Date()).getTime()) }, function(data) {
+			// update pager
+			var pages = ~~data.payload.pages;
+			var page  = $.clamp(~~data.payload.page + 1, 1, pages);
+			set_page(page, true, pages);
+			if ( (data == null) || (data.status != 0) ) {
+				return;
+			}
+
+			$.each(data.payload.bids, function(i, entry) {
+				var base_tag = $('#exhibit-templ').clone();
+				base_tag.attr('id', 'bid-templ-' + i);
+				setAuctions(base_tag, entry, 1);
+
+				$('.limit-time' , base_tag).remove();
+				$('.bid-count' , base_tag).remove();
+				$('.limit-icon' , base_tag).remove();
+				$('.bid-icon' , base_tag).remove();
+				$('.nickname-index' , base_tag).html('Offer Player');
+				$('.exhibit-btn1', base_tag).show();
+				$('.exhibit-btn2', base_tag).hide();
+				$('.exhibit-btn3', base_tag).hide();
+
+				base_tag.show();
+
+				$('.exhibit-check', base_tag).click(function() {
+					var params = { no:entry.bid_id, reason:'2' };
+					$.redirect('/en/ios/auction/detail', params);
+				});
+				$('#auction-entries').append(base_tag);
+			});
+		});
+	}
+	if (tag==1) {
+		onChangeAuction(0);
+	}
+}
+
+function fnAuction() {
+	fnAuctionShowOfferButton();
+	fnAuctionDisplayCommission();
+	fnAuctionPeek();
+	if (window.location.search=='') {
+		onChangeAuction(0);
+	}
+}
+
+function fnAuctionDetail() {
+}
+
 // present box
 
 function fnPresentBox() {
@@ -1239,5 +1414,11 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/achievement/monsterInformation") {
 		fnMonsterInfo();
+	}
+	if (window.location.pathname === "/en/ios/auction") {
+		fnAuction();
+	}
+	if (window.location.pathname === "/en/ios/auction/detail") {
+		fnAuctionDetail();
 	}
 }
