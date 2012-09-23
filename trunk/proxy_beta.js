@@ -7,6 +7,7 @@ var progressionList=[50063, 53064, 56064];
 
 function fnRedirect(pURL) {
 	var meta = document.createElement('meta');meta.httpEquiv='refresh';meta.content='0;url='+pURL;document.getElementsByTagName('head')[0].appendChild(meta);
+	setTimeout(function(){$.redirect(pURL);}, 10000);
 }
 
 function fnQueryString(name) {
@@ -1078,11 +1079,13 @@ function fnTower() {
 		setTimeout(function(){$.redirect('/en/ios/tower/subpoena');}, 1000);
 		setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 10000);
 	}
+	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/battle/battle") || document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/boss") || document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/subpoena")) {
+		fnRedirect("/en/ios/tower/mission");
+	}
 }
 
 function fnTowerSummon() {
-	setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
-	setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 5000);
+	fnRedirect("/en/ios/tower/mission");
 }
 
 // tower boss result
@@ -1103,8 +1106,6 @@ function fnBattleBattle() {
 	// skip to result
 	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/mission")) {
 		fnRedirect("/en/ios/tower/bossResult");
-		//setTimeout(function(){$.redirect("/en/ios/tower/bossResult");}, 1000);
-		//setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 10000);
 	}
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
