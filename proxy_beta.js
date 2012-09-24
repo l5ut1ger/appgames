@@ -1064,11 +1064,17 @@ function fnTowerMission() {
 		return;
 	}
 	if (!mission.is_boss) {
+   if (typeof mission.boss_battle_rnd && mission.boss_battle_rnd > 0) {
+   setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 1000);
+		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
+   }
+     else {
 		missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
+     }
 	}
 	else {
 		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
-		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 5000);
+		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 8000);
 		//document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id;
 	}
 }
