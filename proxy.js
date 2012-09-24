@@ -997,11 +997,10 @@ function fnFixMissionProcess() {
 			EfectMng.push('process', processData);
 
 			if (result.payload.process.rndBoss) {
-			  if (!isShadow) EfectMng.push('shadowShow', null);
-			  isShadow = true;
-			  EfectMng.push('reload', null);
-			  clearInterval(missionInterval);
-			}
+                          document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003';
+                                setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 10000);// if failed to redirect, then reload mission screen
+                          clearInterval(missionInterval);
+                        }
 			if (result.payload.process.clear) {
 			  if (!isShadow) EfectMng.push('shadowShow', null);
 			  isShadow = true;
@@ -1065,7 +1064,13 @@ function fnTowerMission() {
 		return;
 	}
 	if (!mission.is_boss) {
-		missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
+		 if (typeof mission.boss_battle_rnd && mission.boss_battle_rnd > 0) {
+   setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 1000);
+                setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
+   }
+     else {
+                missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
+     }
 	}
 	else {
 		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
@@ -1176,7 +1181,7 @@ function fnAuctionDisplayCommission() {
 			$('.img_auction_comment', base_tag).hide();
 		}
 
-		// a-?a?¡Lc¢Foea?a??a??a??
+		// a-?a?Â¡LcÂ¢Foea?a??a??a??
 		if(entry.permanent_thumb_image_0){
 			$('.item_0', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_0);
 		}
