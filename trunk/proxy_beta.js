@@ -1135,7 +1135,8 @@ function fnTowerMission() {
 			if (fnTowerMcFlyTeam() != '' && fnTowerProgTeam() != '') {
 				fnSetIsBattlingMcFly(1);
 				$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {
-					$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');
+					setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 1000);
+					setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
 				});
 			}
 			else {
