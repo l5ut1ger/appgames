@@ -1187,7 +1187,7 @@ function fnTowerBossResult() {
 function fnBattleBattle() {
 	// skip to result
 	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/mission")) {
-		//fnRedirect("/en/ios/tower/bossResult");
+		fnRedirect("/en/ios/tower/bossResult");
 	}
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
