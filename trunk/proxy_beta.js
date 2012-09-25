@@ -247,6 +247,47 @@ function fnSetTowerEventTarget(value) {
 	fnSetCookie(towerEventTargetKey, value);
 }
 
+// Tower Event Target
+
+var towerMcFlyTeamKey = 'TowerMcFlyTeam';
+
+function fnTowerMcFlyTeam() {
+	if(fnGetCookie(towerMcFlyTeamKey) === null) {
+		fnSetTowerMcFlyTeam('');
+	}
+	return fnGetCookie(towerMcFlyTeamKey);
+}
+
+function fnSetTowerMcFlyTeam(value) {
+	fnSetCookie(towerMcFlyTeamKey, value);
+}
+
+var towerProgTeamKey = 'TowerProgTeam';
+
+function fnTowerProgTeam() {
+	if(fnGetCookie(towerProgTeamKey) === null) {
+		fnSetTowerProgTeam('');
+	}
+	return fnGetCookie(towerProgTeamKey);
+}
+
+function fnSetTowerProgTeam(value) {
+	fnSetCookie(towerProgTeamKey, value);
+}
+
+var battlingMcFlyKey = 'battlingMcFly';
+
+function fnIsBattlingMcFly() {
+	if(fnGetCookie(battlingMcFlyKey) === null) {
+		fnSetIsBattlingMcFly(0);
+	}
+	return fnGetCookie(battlingMcFlyKey);
+}
+
+function fnSetIsBattlingMcFly(value) {
+	fnSetCookie(battlingMcFlyKey, value);
+}
+
 // book mark function
 
 function fnGetSeparator() {
@@ -554,11 +595,35 @@ function fnProfileFixTabs() {
 	for (var i=1;i<=100;i++) {
 		towerSelectorHTML += '<option ' + (fnTowerEventTarget() == (i*100+1) ?'selected':'') + ' value="' + (i*100+1) + '">' + (i*100+1) + '</option>';
 	}	
-	towerSelectorHTML += '</select><br/><br/>';    
+	towerSelectorHTML += '</select><br/><br/>';
+	
+	// Tower Prog & McFly Team Settings
+	
+	var i;
+	
+	var progTeamSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Progression Team</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	progTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerProgTeam(this.options[this.options.selectedIndex].value);fnGrowl(\'Tower Event Prog Team \'+this.options[this.options.selectedIndex].text);">';	
+	progTeamSelectorHTML += '<option ' + (fnTowerProgTeam()==''?'selected':'') + ' value="">Nil</option>';
+	var aFormationArray = fnGetFormationArray();
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		progTeamSelectorHTML+='<option ' + (fnTowerProgTeam()==aFormationArray[i]?'selected':'') + ' value="' + aFormationArray[i].split(fnGetConnector())[0] + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	progTeamSelectorHTML+='</select><br/><br/>'; 
+
+	var mcFlyTeamSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> VS McFly Team</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	mcFlyTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerMcFlyTeam(this.options[this.options.selectedIndex].value);fnGrowl(\'Tower Event Prog Team \'+this.options[this.options.selectedIndex].text);">';	
+	mcFlyTeamSelectorHTML += '<option ' + (fnTowerMcFlyTeam()==''?'selected':'') + ' value="">Nil</option>';
+	var aFormationArray = fnGetFormationArray();
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		mcFlyTeamSelectorHTML+='<option ' + (fnTowerMcFlyTeam()==aFormationArray[i]?'selected':'') + ' value="' + aFormationArray[i].split(fnGetConnector())[0] + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
    
-	divTag.innerHTML = grindSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + towerSelectorHTML; 
+	divTag.innerHTML = grindSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
-   
+
 	onChangeProfile = function (id) 
 	{
 		var PROFILE_BLOCKS = [
@@ -852,15 +917,16 @@ function fnDeckRemoveFormationSelector() {
 function fnDeckRecordFormation() {
 	var team = document.getElementById('a-btn-ok').getAttribute('href');
 	var aFormationArray = fnGetFormationArray();
-	if (!fnArrayHasItem(aFormationArray, team + fnGetConnector() + "BP " + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + " Team")) {
-		aFormationArray.splice(0,0,team + fnGetConnector() + "BP " + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + " Team");
+	var teamName = prompt("Please input a team name");
+	if (!fnArrayHasItem(aFormationArray, team + fnGetConnector() + teamName)) {
+		aFormationArray.splice(0,0,team + fnGetConnector() + teamName);
 	}
 	else {
 		return;
 	}
 	var aFormationArrayText = aFormationArray.join(fnGetSeparator());
 	fnSetCookie(formationString,aFormationArrayText);
-	fnGrowl("Saved BP " + document.getElementById('div-deck-status').childNodes[7].childNodes[1].innerHTML + " Team");
+	fnGrowl("Saved " + teamName);
 }
 
 function fnDeckUnRecordFormation() {
@@ -893,14 +959,14 @@ function fnDeckAddFormationButtons() {
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckRecordFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Add</button>'; 
 	document.body.appendChild(divTag);
 	
-	divTag = document.createElement("div"); 
+	/*divTag = document.createElement("div"); 
 	divTag.id = "formationRemoveDiv"; 
 	divTag.style["z-index"] = 1000; 
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "100px"; 
 	divTag.style.top = "190px"; 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckUnRecordFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Del</button>'; 
-	document.body.appendChild(divTag);
+	document.body.appendChild(divTag);*/
 	
 	divTag = document.createElement("div"); 
 	divTag.id = "formationClearDiv"; 
@@ -908,7 +974,7 @@ function fnDeckAddFormationButtons() {
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "200px"; 
 	divTag.style.top = "190px"; 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckClearFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Clear</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:fnDeckClearFormation();fnDeckRemoveFormationSelector();fnDeckAddFormationSelector();">Clear All</button>'; 
 	document.body.appendChild(divTag);
 }
 
@@ -997,9 +1063,10 @@ function fnFixMissionProcess() {
 			EfectMng.push('process', processData);
 
 			if (result.payload.process.rndBoss) {
-			  document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003';
-				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 10000);// if failed to redirect, then reload mission screen
-			  clearInterval(missionInterval);
+				//document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003';
+				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
+				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
+				clearInterval(missionInterval);
 			}
 			if (result.payload.process.clear) {
 			  if (!isShadow) EfectMng.push('shadowShow', null);
@@ -1038,7 +1105,7 @@ function fnFixMissionProcess() {
 			  }
 			  else {
 				document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id;
-				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 10000);// if failed to redirect, then reload mission screen
+				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
 			  }
 			}
 			EfectMng.push('showSystemBtns', null).play();
@@ -1064,13 +1131,21 @@ function fnTowerMission() {
 		return;
 	}
 	if (!mission.is_boss) {
-   if (typeof mission.boss_battle_rnd && mission.boss_battle_rnd > 0) {
-   setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 1000);
-		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
-   }
-     else {
-		missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
-     }
+		if (typeof mission.boss_battle_rnd && mission.boss_battle_rnd > 0) {
+			if (fnTowerMcFlyTeam() != '' && fnTowerProgTeam() != '') {
+				fnSetIsBattlingMcFly(1);
+				$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {
+					$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');
+				});
+			}
+			else {
+				setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 1000);
+				setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
+			}
+		}
+		else {
+			missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
+		}
 	}
 	else {
 		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
@@ -1096,10 +1171,14 @@ function fnTowerSummon() {
 // tower boss result
 
 function fnTowerBossResult() {
+	if (fnIsBattlingMcFly() == 1 && fnTowerMcFlyTeam() != '' && fnTowerProgTeam() != '') {
+		fnSetIsBattlingMcFly(0);
+		$.ajax_ex(false, fnTowerProgTeam().split(fnGetConnector())[0], {}, function(data) {	});
+	}
 	$.ajax_ex(false, '/en/ios/tower/bossGetResources', {choice : 1, '__hash' : ('' + (new Date()).getTime()) },function(result) {
 		if (result.status == 101) {
-     setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 1000);
-     }else 	  if (result.payload.resources.foundType != null && result.payload.resources.foundType==10 && result.payload.resResult.items[result.payload.itemMaster.item_id].collected_count==6) { 
+			setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 1000);
+		} else if (result.payload.resources.foundType != null && result.payload.resources.foundType==10 && result.payload.resResult.items[result.payload.itemMaster.item_id].collected_count==6) { 
 			setTimeout(function(){$.redirect("/en/ios/tower");}, 1000);
 		} else  {
 			setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 1000);
@@ -1112,7 +1191,7 @@ function fnTowerBossResult() {
 function fnBattleBattle() {
 	// skip to result
 	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/mission")) {
-		fnRedirect("/en/ios/tower/bossResult");
+		//fnRedirect("/en/ios/tower/bossResult");
 	}
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
