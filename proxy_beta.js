@@ -602,7 +602,7 @@ function fnProfileFixTabs() {
 	var i;
 	
 	var progTeamSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Progression Team</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
-	progTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerProgTeam(this.options[this.options.selectedIndex].value);fnGrowl(\'Tower Event Prog Team \'+this.options[this.options.selectedIndex].text);">';	
+	progTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerProgTeam(aFormationArray[i]);fnGrowl(\'Tower Event Prog Team \'+this.options[this.options.selectedIndex].text);">';	
 	progTeamSelectorHTML += '<option ' + (fnTowerProgTeam()==''?'selected':'') + ' value="">Nil</option>';
 	var aFormationArray = fnGetFormationArray();
 	for (i=0;i<aFormationArray.length;i++) {
@@ -612,7 +612,7 @@ function fnProfileFixTabs() {
 	progTeamSelectorHTML+='</select><br/><br/>'; 
 
 	var mcFlyTeamSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> VS McFly Team</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
-	mcFlyTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerMcFlyTeam(this.options[this.options.selectedIndex].value);fnGrowl(\'Tower Event Prog Team \'+this.options[this.options.selectedIndex].text);">';	
+	mcFlyTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerMcFlyTeam(aFormationArray[i]);fnGrowl(\'Tower Event Prog Team \'+this.options[this.options.selectedIndex].text);">';	
 	mcFlyTeamSelectorHTML += '<option ' + (fnTowerMcFlyTeam()==''?'selected':'') + ' value="">Nil</option>';
 	var aFormationArray = fnGetFormationArray();
 	for (i=0;i<aFormationArray.length;i++) {
