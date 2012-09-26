@@ -1036,7 +1036,8 @@ function fnFixMissionProcess() {
 					}
 				}
 				clearInterval(missionInterval);
-				EfectMng.push('reload', null);
+				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
+				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);
 				return;
 			}
 			mission = result.payload.mission;
@@ -1071,7 +1072,8 @@ function fnFixMissionProcess() {
 			  if (!isShadow) EfectMng.push('shadowShow', null);
 			  isShadow = true;
 			  if (mission.is_boss) {
-				EfectMng.push('reload', null);
+				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
+				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);
 				clearInterval(missionInterval);
 				return true;
 			  }
