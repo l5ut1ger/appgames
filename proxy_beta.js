@@ -1091,8 +1091,8 @@ function fnFixMissionProcess() {
 				isShadow = true;
 				clearInterval(missionInterval);
 				$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
-				EfectMng.push('reload', null);
-				clearInterval(missionInterval);
+				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
+				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);
 				return true;
 				/*EfectMng.push('cageSelect', {
 				grade : result.payload.process.cage,
@@ -1109,7 +1109,6 @@ function fnFixMissionProcess() {
 			  else {
 				setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
 				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
-				EfectMng.push('reload', null);
 				clearInterval(missionInterval);
 				return true;
 			  }
