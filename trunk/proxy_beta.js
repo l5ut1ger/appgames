@@ -564,8 +564,9 @@ function fnProfileFixTabs() {
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 2000 ?'selected':'') + ' value="2000">Ferrari</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1000 ?'selected':'') + ' value="1000">CC Speed</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 500 ?'selected':'') + ' value="500">Too Fast</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 200 ?'selected':'') + ' value="200">Too Furious</option>'
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 100 ?'selected':'') + ' value="100">Light</option>'
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 200 ?'selected':'') + ' value="200">Too Furious</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 100 ?'selected':'') + ' value="100">Light</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1 ?'selected':'') + ' value="1">Time Travel</option>';
 	grindSelectorHTML += '</select><br/><br/>'; 
 	
 	// auto drink setting
@@ -1035,7 +1036,7 @@ function fnFixMissionProcess() {
 					}
 				}
 				clearInterval(missionInterval);
-				setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 1000);
+				EfectMng.push('reload', null);
 				return;
 			}
 			mission = result.payload.mission;
@@ -1063,9 +1064,7 @@ function fnFixMissionProcess() {
 			EfectMng.push('process', processData);
 
 			if (result.payload.process.rndBoss) {
-				//document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003';
-				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
-				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
+				EfectMng.push('reload', null);
 				clearInterval(missionInterval);
 			}
 			if (result.payload.process.clear) {
@@ -1074,6 +1073,7 @@ function fnFixMissionProcess() {
 			  if (mission.is_boss) {
 				EfectMng.push('reload', null);
 				clearInterval(missionInterval);
+				return true;
 			  }
 			}
 			if (result.payload.process.warp) {
@@ -1084,18 +1084,21 @@ function fnFixMissionProcess() {
 			  EfectMng.push('getMonster', null);
 			  EfectMng.push('reload', null);
 			  clearInterval(missionInterval);
+			  return true;
 			}
 			if (result.payload.process.cage) {
-			  if (!isShadow) EfectMng.push('shadowShow', null);
-			  isShadow = true;
-			  clearInterval(missionInterval);
-			  $.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  $.redirect("/en/ios/tower/mission"); return;});
-			  setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
-			  /*EfectMng.push('cageSelect', {
-				  grade : result.payload.process.cage,
-				  item : result.payload.event.cage.item,
-				  sampleTrap: result.payload.sampleTrap,
-				  player: result.payload.player
+				if (!isShadow) EfectMng.push('shadowShow', null);
+				isShadow = true;
+				clearInterval(missionInterval);
+				$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+				EfectMng.push('reload', null);
+				clearInterval(missionInterval);
+				return true;
+				/*EfectMng.push('cageSelect', {
+				grade : result.payload.process.cage,
+				item : result.payload.event.cage.item,
+				sampleTrap: result.payload.sampleTrap,
+				player: result.payload.player
 				});*/
 			}
 			if (isShadow) EfectMng.push('shadowHide', null);
@@ -1104,18 +1107,23 @@ function fnFixMissionProcess() {
 
 			  }
 			  else {
-				document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id;
+				setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
 				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
+				return true;
 			  }
 			}
 			EfectMng.push('showSystemBtns', null).play();
 		});
-
+		if (fnGetGrindingSpeed() == 1) {
+			missionProcess();
+		}
 		return false;
 	};
 	EfectMng.efectList.process = __effect_process = function(data) {};
 	EfectMng.efectList.cageSelect = __effect_cageSelect = function(data) {
-		$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  $.redirect("/en/ios/tower/mission"); return;});
+		$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
+		EfectMng.push('reload', null);
+		clearInterval(missionInterval);
 	}
 }
 
@@ -1140,10 +1148,15 @@ function fnTowerMission() {
 			setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
 		}
 		else {
-			missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
+			if (fnGetGrindingSpeed() == 1) {
+				missionProcess();
+			}
+			else {
+				missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
+			}
 		}
 	}
-	else {
+	else {		
 		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
 		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 8000);
 		//document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id;
