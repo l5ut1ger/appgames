@@ -1109,6 +1109,8 @@ function fnFixMissionProcess() {
 			  else {
 				setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
 				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
+				EfectMng.push('reload', null);
+				clearInterval(missionInterval);
 				return true;
 			  }
 			}
