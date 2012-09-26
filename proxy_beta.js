@@ -1113,10 +1113,10 @@ function fnFixMissionProcess() {
 			  }
 			}
 			EfectMng.push('showSystemBtns', null).play();
-		});
-		if (fnGetGrindingSpeed() == 1) {
-			missionProcess();
-		}
+			if (fnGetGrindingSpeed() == 1) {
+				missionProcess();
+			}
+		});		
 		return false;
 	};
 	EfectMng.efectList.process = __effect_process = function(data) {};
