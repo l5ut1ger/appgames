@@ -1279,6 +1279,9 @@ function fnFixMissionExec() {
 					});
 				}
 			}
+			if (fnGetGrindingSpeed() == 1) {
+				mission_exec();
+			}
 			//event = eventManager(event);
 		});
 	}
