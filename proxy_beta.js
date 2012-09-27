@@ -1236,10 +1236,45 @@ function fnFixMissionExec() {
 			confirm_id: confirm_id
 		}, function(result) {
 			if (result.status == 4) {
-				phase_no_power(result.payload);
-				return;
+				if (fnAutoDrink() == 1) {
+					var useEnergy100 = false;
+					for (var i=0;i<result.payload.item_data.length;i++) {
+						if (result.payload.item_data[i].item_id==3022) {
+							if (player.power_max <= 300 && (player.next_exp - player.now_exp < result.payload.item_data[i].amount * 100)) {
+								// max energy too low, drink enenrgy100 to level up instead of full ep
+								useEnergy100 = true;
+								break;
+							}
+							if (player.next_exp - player.now_exp > player.power_max) {
+								// not close to level up, so drink full ep
+								break;
+							}
+							if (player.next_exp - player.now_exp > 400) {
+								// close to level up, but not going to spend five energy100 to level up, so drink full ep anyway
+								break;
+							}
+							if (player.next_exp - player.now_exp <= result.payload.item_data[i].amount * 100) {
+								// close to level up, and player has enough my energy 100 potion, drink enenrgy100 to level up instead of full ep
+								useEnergy100 = true;
+								break;
+							}
+							break;
+						}
+					}
+					if (useEnergy100) {
+						$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:3022}, function(data) {});
+					}
+					else {
+						$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:result.payload.item_data[0].item_id}, function(data) {});
+					}
+				}
+				else {
+					phase_no_power(result.payload);
+					clearInterval(missionInterval);
+				}
 			} else if(result.status != 0) {
 				confirm_id = result.payload.confirm_id;
+				clearInterval(missionInterval);
 				return;
 			}
 
