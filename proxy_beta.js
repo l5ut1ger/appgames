@@ -1232,7 +1232,7 @@ function fnFixMissionExec() {
 		}
 		$.ajax_ex(false, '/en/ios/mission/process', {
 			area_id: area_id,
-			mission: mission.current_mission,
+			mission: mission.last_mission,
 			confirm_id: confirm_id
 		}, function(result) {
 			if (result.status == 4) {
