@@ -1065,9 +1065,9 @@ function fnFixMissionProcess() {
 			EfectMng.push('process', processData);
 
 			if (result.payload.process.rndBoss) {
-				//document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003'; 
+				//document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003';	1068	  
 					setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);		
-  				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
+					setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
 				clearInterval(missionInterval);
 			}
 			if (result.payload.process.clear) {
@@ -1198,6 +1198,13 @@ function fnTowerBossResult() {
 			setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 1000);
 		}
 	});
+}
+
+// tower final ranking
+
+function fnTowerFinalRanking() {
+	// receiving multiple event rewards wont work haha
+	//$('.__receive_info').html($('.__receive_info').html() + ' <a class="__btn_receive btn __stone_red __HS" href="javascript:$.ajax_ex(false, \'/en/ios/tower/ReceiveReward\', { }, function(data) {});$.ajax_ex(false, \'/en/ios/tower/ReceiveReward\', { }, function(data) {});$.ajax_ex(false, \'/en/ios/tower/ReceiveReward\', { }, function(data) {});">Receive Reward</a>');
 }
 
 // battle
@@ -1495,6 +1502,86 @@ function fnTradeSuggest() {
 	fnGiftMyItems();
 }
 
+// trade
+
+function fnFixTradeFunctions() {
+	showSuggests = function ()
+	{
+	  $.each(suggest_entry, function(i, entry){
+		var base_tag = $('#trade-templ').clone();
+		base_tag.attr('id', 'trade-suggest-' + i).css('display', 'block');
+
+		var shared_tag = $('> .trade-shared', base_tag);
+		$('> .trade-nickname', shared_tag).append('<a href="/en/ios/friends/profile?pid=' + entry.target_id + '">'+entry.target_nickname+'</a>');
+		$('> .trade-ago', shared_tag).text($.ago(entry.updated_at));
+		$('> .trade-thumb > img', shared_tag).attr('src', IMG_BASE + entry.target_thumb_image);
+		$('> .trade-comment-tag > .trade-comment', shared_tag).text(entry.player_comment);
+		
+		$('> .trade-check', shared_tag).click(function() {
+		  var params = { pid:entry.player_id, no:entry.trade_no, st:1 };
+		  $.redirect('/en/ios/trade/check', params);
+		});
+
+		$('#trade-entries').append(base_tag);
+	  });
+	}
+
+	showPendings = function ()
+	{
+	  $.each(pending_entry, function(i, entry){
+		var base_tag = $('#trade-templ').clone();
+		base_tag.attr('id', 'trade-suggest-' + i).css('display', 'block');
+
+		var shared_tag = $('> .trade-shared', base_tag);
+		$('> .trade-nickname', shared_tag).append('<a href="/en/ios/friends/profile?pid=' + entry.player_id + '">'+entry.player_nickname+'</a>');
+		$('> .trade-ago', shared_tag).text($.ago(entry.updated_at));
+		$('> .trade-thumb > img', shared_tag).attr('src', IMG_BASE + entry.player_thumb_image);
+		$('> .trade-comment-tag > .trade-comment', shared_tag).text(entry.player_comment);
+		
+		$('> .trade-check', shared_tag).click(function() {
+		  var params = { pid:entry.player_id, no:entry.trade_no, st:2 };
+		  $.redirect('/en/ios/trade/check', params);
+		});
+		
+		$('#trade-entries').append(base_tag);
+	  });
+	}
+
+	showCommits = function ()
+	{
+	  $.each(commit_entry, function(i, entry){
+		var base_tag = $('#trade-templ').clone();
+		base_tag.attr('id', 'trade-suggest-' + i).css('display', 'block');
+
+		var shared_tag = $('> .trade-shared', base_tag);
+		if (entry.player_id == player.player_id) {
+		  $('> .trade-nickname', shared_tag).append('<a href="/en/ios/friends/profile?pid=' + entry.target_id + '">'+entry.target_nickname+'</a>');
+		  $('> .trade-ago', shared_tag).text($.ago(entry.updated_at));
+		  $('> .trade-thumb > img', shared_tag).attr('src', IMG_BASE + entry.target_thumb_image);
+		  $('> .trade-comment-tag > .trade-comment', shared_tag).text(entry.target_comment);
+		}
+		else {
+		  $('> .trade-nickname', shared_tag).append('<a href="/en/ios/friends/profile?pid=' + entry.player_id + '">'+entry.player_nickname+'</a>');
+		  $('> .trade-ago', shared_tag).text($.ago(entry.updated_at));
+		  $('> .trade-thumb > img', shared_tag).attr('src', IMG_BASE + entry.player_thumb_image);
+		  $('> .trade-comment-tag > .trade-comment', shared_tag).text(entry.player_comment);
+		}
+		
+		$('> .trade-check', shared_tag).click(function() {
+		  var params = { pid:entry.player_id, no:entry.trade_no, st:3 };
+		  $.redirect('/en/ios/trade/check', params);
+		});
+		
+		$('#trade-entries').append(base_tag);
+	  });
+	}
+	onChangeTrade('category-state1');
+}
+
+function fnTrade() {
+	fnFixTradeFunctions();
+}
+
 // login Stamp
 
 function fnLoginStamp() {
@@ -1583,6 +1670,9 @@ function fnOnLoad() {
 	if (window.location.pathname === "/en/ios/tower/bossResult") {
 		fnTowerBossResult();
 	}
+	if (window.location.pathname === "/en/ios/tower/finalRanking") {
+		fnTowerFinalRanking();
+	}
 	if (window.location.pathname === "/en/ios/battle/battle") {
 		fnBattleBattle();
 	}
@@ -1609,5 +1699,8 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/auction/detail") {
 		fnAuctionDetail();
+	}
+	if (window.location.pathname === "/en/ios/trade") {
+		fnTrade();
 	}
 }
