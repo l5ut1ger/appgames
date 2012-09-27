@@ -1253,7 +1253,7 @@ function fnFixMissionExec() {
 			}
 			//if(event.monster)            event.phase.push('get_monster');
 			//if(event.treasure)           event.phase.push('get_treasure');
-			if(event.clear)              event.phase.push('mission_clear');
+			(event.clear) ? mission_update('next') : mission_update();
 			//if(event.exp.lvup > 0)       event.phase.push('level_up');
 			//if(event.exp.lvup > 0)       event.phase.push('status_up');
 			//if(event.treasure)	if(event.treasure.complete)  event.phase.push('treasure_complete');
@@ -1268,7 +1268,7 @@ function fnFixMissionExec() {
 					});
 				}
 			}
-			event = eventManager(event);
+			//event = eventManager(event);
 		});
 	}
 }
