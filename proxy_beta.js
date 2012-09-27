@@ -1512,7 +1512,7 @@ function fnFixTradeFunctions() {
 		base_tag.attr('id', 'trade-suggest-' + i).css('display', 'block');
 
 		var shared_tag = $('> .trade-shared', base_tag);
-		$('> .trade-nickname', shared_tag).append('<a href="/en/ios/friends/profile?pid=' + entry.player_id + '">'+entry.target_nickname+'</a>');
+		$('> .trade-nickname', shared_tag).append('<a href="/en/ios/friends/profile?pid=' + entry.target_id + '">'+entry.target_nickname+'</a>');
 		$('> .trade-ago', shared_tag).text($.ago(entry.updated_at));
 		$('> .trade-thumb > img', shared_tag).attr('src', IMG_BASE + entry.target_thumb_image);
 		$('> .trade-comment-tag > .trade-comment', shared_tag).text(entry.player_comment);
@@ -1555,7 +1555,7 @@ function fnFixTradeFunctions() {
 
 		var shared_tag = $('> .trade-shared', base_tag);
 		if (entry.player_id == player.player_id) {
-		  $('> .trade-nickname', shared_tag).append('<a href="/en/ios/friends/profile?pid=' + entry.player_id + '">'+entry.target_nickname+'</a>');
+		  $('> .trade-nickname', shared_tag).append('<a href="/en/ios/friends/profile?pid=' + entry.target_id + '">'+entry.target_nickname+'</a>');
 		  $('> .trade-ago', shared_tag).text($.ago(entry.updated_at));
 		  $('> .trade-thumb > img', shared_tag).attr('src', IMG_BASE + entry.target_thumb_image);
 		  $('> .trade-comment-tag > .trade-comment', shared_tag).text(entry.target_comment);
