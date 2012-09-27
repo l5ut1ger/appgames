@@ -1267,6 +1267,10 @@ function fnFixMissionExec() {
 					else {
 						$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
 					}
+					if (fnGetGrindingSpeed() == 1) {
+						mission_exec();
+					}
+					return;
 				}
 				else {
 					phase_no_power(result.payload);
