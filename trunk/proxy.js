@@ -1065,7 +1065,9 @@ function fnFixMissionProcess() {
 			EfectMng.push('process', processData);
 
 			if (result.payload.process.rndBoss) {
-				EfectMng.push('reload', null);
+				//document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003'; 
+					setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);		
+  				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
 				clearInterval(missionInterval);
 			}
 			if (result.payload.process.clear) {
