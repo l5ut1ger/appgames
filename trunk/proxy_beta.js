@@ -555,7 +555,7 @@ function fnProfileFixTabs() {
 	divTag.style.position = "relative"; 
 	
 	// auto grind setting
-	var grindSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Grinding Speed</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/><br/>';
+	var grindSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Grinding Speed</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	grindSelectorHTML += '<select name="sel" onchange="fnSetGrindingSpeed(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == -1 ?'selected':'') + ' value="-1">Thumb</option>'
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
@@ -622,7 +622,7 @@ function fnProfileFixTabs() {
 	}
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
    
-	divTag.innerHTML = autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + grindSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
+	divTag.innerHTML = grindSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 
 	onChangeProfile = function (id) 
@@ -1259,12 +1259,14 @@ function fnFixMissionExec() {
 			//if(event.treasure)	if(event.treasure.complete)  event.phase.push('treasure_complete');
 			if(event.clear) {
 				if(mission.last_mission == 5) {
+					clearInterval(missionInterval);
 					$.ajax_ex(false, '/en/ios/mission/battle', { area_id: area_id, '__hash': ('' + (new Date()).getTime()) }, function(result) {
 						if (result.status != 0) {
 						//              console.log('error-code:'+result.status);
 						return;
 						}
-						$.redirect('battle/battleact?aid='+area_id);
+						setTimeout(function(){$.redirect('battle/battleact?aid='+area_id);}, 1000);
+						setTimeout(function(){$.redirect('battle/battleact?aid='+area_id);}, 6000);
 					});
 				}
 			}
