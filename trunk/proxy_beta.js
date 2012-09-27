@@ -1203,7 +1203,7 @@ function fnTowerBossResult() {
 // tower final ranking
 
 function fnTowerFinalRanking() {
-	$('#div-ranking __contents __ranking').html($('#div-ranking __contents __ranking').html() + ' <a class="__btn_receive btn __stone_red __HS" href="/en/ios/tower/ReceiveReward">Receive Reward</a>');
+	$('.__receive_info').html($('.__receive_info').html() + ' <a class="__btn_receive btn __stone_red __HS" href="/en/ios/tower/ReceiveReward">Receive Reward</a>');
 }
 
 // battle
