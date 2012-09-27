@@ -1575,6 +1575,7 @@ function fnFixTradeFunctions() {
 		$('#trade-entries').append(base_tag);
 	  });
 	}
+	onChangeTrade('category-state1');
 }
 
 function fnTrade() {
