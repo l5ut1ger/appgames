@@ -1214,6 +1214,9 @@ function fnBattleBattle() {
 	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/mission")) {
 		fnRedirect("/en/ios/tower/bossResult");
 	}
+	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/mission")) {
+		fnRedirect("/en/ios/mission/battleResult");
+	}
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
 
@@ -1293,6 +1296,13 @@ function fnMission() {
 	else {
 		missionInterval = setInterval(mission_exec,fnGetGrindingSpeed());
 	}
+}
+
+// mission battle result
+
+function fnMissionBattleResult() {
+	setTimeout(function(){$.redirect("/en/ios/mission");}, 1000);
+	setTimeout(function(){$.redirect("/en/ios/mission");}, 8000);
 }
 
 // monster collection
@@ -1738,6 +1748,9 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/mission") {
 		fnMission();
+	}
+	if (window.location.pathname === "/en/ios/mission/battleResult") {
+		fnMissionBattleResult();
 	}
 	if (window.location.pathname === "/en/ios/tower") {
 		fnTower();
