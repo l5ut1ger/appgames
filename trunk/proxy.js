@@ -591,7 +591,7 @@ function fnProfileFixTabs() {
 	autoStatsUpselectorHTML += '</select><br/><br/>'; 
 	
 	// Tower Event Target Settings
-	var towerSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Tower Event Target Floor</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	var towerSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Tower Event</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>Target Floor<br/>';
 	towerSelectorHTML += '<select name="sel" onchange="fnSetTowerEventTarget(this.options[this.options.selectedIndex].value);fnGrowl(\'Tower Event Target \'+this.options[this.options.selectedIndex].text);">';
 	for (var i=1;i<=100;i++) {
 		towerSelectorHTML += '<option ' + (fnTowerEventTarget() == (i*100+1) ?'selected':'') + ' value="' + (i*100+1) + '">' + (i*100+1) + '</option>';
@@ -602,7 +602,7 @@ function fnProfileFixTabs() {
 	
 	var i;
 	
-	var progTeamSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Progression Team</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	var progTeamSelectorHTML = 'Progression Team<br/>';
 	progTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerProgTeam(this.options[this.options.selectedIndex].value+fnGetConnector()+this.options[this.options.selectedIndex].text);fnGrowl(\'Tower Event Prog Team \'+this.options[this.options.selectedIndex].text);">';	
 	progTeamSelectorHTML += '<option ' + (fnTowerProgTeam()==''?'selected':'') + ' value="">Nil</option>';
 	var aFormationArray = fnGetFormationArray();
@@ -612,7 +612,7 @@ function fnProfileFixTabs() {
 	}
 	progTeamSelectorHTML+='</select><br/><br/>'; 
 
-	var mcFlyTeamSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> VS McFly Team</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	var mcFlyTeamSelectorHTML = 'VS McFly Team<br/>';
 	mcFlyTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerMcFlyTeam(this.options[this.options.selectedIndex].value+fnGetConnector()+this.options[this.options.selectedIndex].text);fnGrowl(\'Tower Event Prog Team \'+this.options[this.options.selectedIndex].text);">';	
 	mcFlyTeamSelectorHTML += '<option ' + (fnTowerMcFlyTeam()==''?'selected':'') + ' value="">Nil</option>';
 	var aFormationArray = fnGetFormationArray();
@@ -1214,7 +1214,140 @@ function fnBattleBattle() {
 	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/mission")) {
 		fnRedirect("/en/ios/tower/bossResult");
 	}
+	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/mission")) {
+		fnRedirect("/en/ios/mission/battleResult");
+	}
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
+}
+
+// normal mission
+
+function fnFixMissionExec() {
+	mission_exec = function() {
+		if(mission.last_mission == 5) {
+			setTimeout(function(){$.redirect('battle/battleact?aid='+area_id);}, 1000);
+			setTimeout(function(){$.redirect('battle/battleact?aid='+area_id);}, 6000);
+			clearInterval(missionInterval);
+			return;
+		}
+		$.ajax_ex(false, '/en/ios/mission/process', {
+			area_id: area_id,
+			mission: mission.last_mission,
+			confirm_id: confirm_id
+		}, function(result) {
+			if (result.status == 4) {
+				if (fnAutoDrink() == 1) {
+					var useEnergy100 = false;
+					for (var i=0;i<result.payload.item_ids.length;i++) {
+						if (result.payload.item_ids[i]==3022) {
+							if (player.power_max <= 300 && (player.next_exp - player.now_exp < result.payload.amount[i] * 100)) {
+								// max energy too low, drink enenrgy100 to level up instead of full ep
+								useEnergy100 = true;
+								break;
+							}
+							if (player.next_exp - player.now_exp > player.power_max) {
+								// not close to level up, so drink full ep
+								break;
+							}
+							if (player.next_exp - player.now_exp > 400) {
+								// close to level up, but not going to spend five energy100 to level up, so drink full ep anyway
+								break;
+							}
+							if (player.next_exp - player.now_exp <= result.payload.amount[i] * 100) {
+								// close to level up, and player has enough my energy 100 potion, drink enenrgy100 to level up instead of full ep
+								useEnergy100 = true;
+								break;
+							}
+							break;
+						}
+					}
+					if (useEnergy100) {
+						$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:3022}, function(data) {});
+					}
+					else {
+						$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
+					}
+					if (fnGetGrindingSpeed() == 1) {
+						mission_exec();
+					}
+					return;
+				}
+				else {
+					phase_no_power(result.payload);
+					clearInterval(missionInterval);
+				}
+			} else if(result.status != 0) {
+				confirm_id = result.payload.confirm_id;
+				//clearInterval(missionInterval);
+				if (fnGetGrindingSpeed() == 1) {
+					setTimeout(function(){mission_exec();}, 3000);
+				}
+				return;
+			}
+
+			// console.log(result);
+			confirm_id = result.payload.confirm_id;
+
+			mission = result.payload.mission;
+			event = result.payload.event;
+			event.phase = new Array();
+
+			draw();
+
+			if (event.event_resource.result) {
+				//event.phase.push('event_resource');
+			} else {
+				//event.phase.push('default_resource');
+			}
+			if (event.event_resource.reward) {
+				//event.phase.push('get_ex_resource');
+			}
+			//if(event.monster)            event.phase.push('get_monster');
+			//if(event.treasure)           event.phase.push('get_treasure');
+			(event.clear) ? mission_update('next') : mission_update();
+			//if(event.exp.lvup > 0)       event.phase.push('level_up');
+			//if(event.exp.lvup > 0)       event.phase.push('status_up');
+			//if(event.treasure)	if(event.treasure.complete)  event.phase.push('treasure_complete');
+			if(event.clear) {
+				if(mission.last_mission == 5) {
+					clearInterval(missionInterval);
+					$.ajax_ex(false, '/en/ios/mission/battle', { area_id: area_id, '__hash': ('' + (new Date()).getTime()) }, function(result) {
+						if (result.status != 0) {
+						//              console.log('error-code:'+result.status);
+						return;
+						}
+						setTimeout(function(){$.redirect('battle/battleact?aid='+area_id);}, 1000);
+						setTimeout(function(){$.redirect('battle/battleact?aid='+area_id);}, 6000);
+					});
+				}
+			}
+			if (fnGetGrindingSpeed() == 1) {
+				mission_exec();
+			}
+			//event = eventManager(event);
+		});
+	}
+}
+
+function fnMission() {
+	fnFixMissionExec();
+	if (fnGetGrindingSpeed() == -1) {
+		// user press by himself, dont automate
+		return;
+	}
+	if (fnGetGrindingSpeed() == 1) {
+		mission_exec();
+	}
+	else {
+		missionInterval = setInterval(mission_exec,fnGetGrindingSpeed());
+	}
+}
+
+// mission battle result
+
+function fnMissionBattleResult() {
+	setTimeout(function(){$.redirect("/en/ios/mission");}, 1000);
+	setTimeout(function(){$.redirect("/en/ios/mission");}, 8000);
 }
 
 // monster collection
@@ -1657,6 +1790,12 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/deck/changeAllCheck") {
 		fnDeckChangeAllCheck();
+	}
+	if (window.location.pathname === "/en/ios/mission") {
+		fnMission();
+	}
+	if (window.location.pathname === "/en/ios/mission/battleResult") {
+		fnMissionBattleResult();
 	}
 	if (window.location.pathname === "/en/ios/tower") {
 		fnTower();
