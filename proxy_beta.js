@@ -554,6 +554,21 @@ function fnProfileFixTabs() {
 	divTag.id = "profile-strategy"; 
 	divTag.style.position = "relative"; 
 	
+	// auto grind setting
+	var grindSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Grinding Speed</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/><br/>';
+	grindSelectorHTML += '<select name="sel" onchange="fnSetGrindingSpeed(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == -1 ?'selected':'') + ' value="-1">Thumb</option>'
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 4000 ?'selected':'') + ' value="4000">Seems Legit</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 3000 ?'selected':'') + ' value="2000">Barely Legal</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 2000 ?'selected':'') + ' value="2000">Ferrari</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1000 ?'selected':'') + ' value="1000">CC Speed</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 500 ?'selected':'') + ' value="500">Too Fast</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 200 ?'selected':'') + ' value="200">Too Furious</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 100 ?'selected':'') + ' value="100">Light</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1 ?'selected':'') + ' value="1">Time Travel</option>';
+	grindSelectorHTML += '</select><br/><br/>'; 
+	
 	// auto drink setting
 	var autoDrinkSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Drink</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	autoDrinkSelectorHTML += '<select name="sel" onchange="fnSetAutoDrink(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Drink \'+this.options[this.options.selectedIndex].text);">';
@@ -575,23 +590,8 @@ function fnProfileFixTabs() {
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 1 ?'selected':'') + ' value="1">On</option>';
 	autoStatsUpselectorHTML += '</select><br/><br/>'; 
 	
-	// auto grind setting
-	var grindSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Tower Event</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>Grinding Speed<br/>';
-	grindSelectorHTML += '<select name="sel" onchange="fnSetGrindingSpeed(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == -1 ?'selected':'') + ' value="-1">Thumb</option>'
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 4000 ?'selected':'') + ' value="4000">Seems Legit</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 3000 ?'selected':'') + ' value="2000">Barely Legal</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 2000 ?'selected':'') + ' value="2000">Ferrari</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1000 ?'selected':'') + ' value="1000">CC Speed</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 500 ?'selected':'') + ' value="500">Too Fast</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 200 ?'selected':'') + ' value="200">Too Furious</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 100 ?'selected':'') + ' value="100">Light</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1 ?'selected':'') + ' value="1">Time Travel</option>';
-	grindSelectorHTML += '</select><br/><br/>'; 
-	
 	// Tower Event Target Settings
-	var towerSelectorHTML = 'Target Floor<br/>';
+	var towerSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Tower Event</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>Target Floor<br/>';
 	towerSelectorHTML += '<select name="sel" onchange="fnSetTowerEventTarget(this.options[this.options.selectedIndex].value);fnGrowl(\'Tower Event Target \'+this.options[this.options.selectedIndex].text);">';
 	for (var i=1;i<=100;i++) {
 		towerSelectorHTML += '<option ' + (fnTowerEventTarget() == (i*100+1) ?'selected':'') + ' value="' + (i*100+1) + '">' + (i*100+1) + '</option>';
@@ -1217,6 +1217,76 @@ function fnBattleBattle() {
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
 
+// normal mission
+
+function fnFixMissionExec() {
+	mission_exec = function() {
+		$.ajax_ex(false, '/en/ios/mission/process', {
+			area_id: area_id,
+			mission: mission.current_mission,
+			confirm_id: confirm_id
+		}, function(result) {
+			if (result.status == 4) {
+				phase_no_power(result.payload);
+				return;
+			} else if(result.status != 0) {
+				confirm_id = result.payload.confirm_id;
+				return;
+			}
+
+			// console.log(result);
+			confirm_id = result.payload.confirm_id;
+
+			mission = result.payload.mission;
+			event = result.payload.event;
+			event.phase = new Array();
+
+			draw();
+
+			if (event.event_resource.result) {
+				//event.phase.push('event_resource');
+			} else {
+				//event.phase.push('default_resource');
+			}
+			if (event.event_resource.reward) {
+				//event.phase.push('get_ex_resource');
+			}
+			//if(event.monster)            event.phase.push('get_monster');
+			//if(event.treasure)           event.phase.push('get_treasure');
+			if(event.clear)              event.phase.push('mission_clear');
+			//if(event.exp.lvup > 0)       event.phase.push('level_up');
+			//if(event.exp.lvup > 0)       event.phase.push('status_up');
+			//if(event.treasure)	if(event.treasure.complete)  event.phase.push('treasure_complete');
+			if(event.clear) {
+				if(mission.last_mission == 5) {
+					$.ajax_ex(false, '/en/ios/mission/battle', { area_id: area_id, '__hash': ('' + (new Date()).getTime()) }, function(result) {
+						if (result.status != 0) {
+						//              console.log('error-code:'+result.status);
+						return;
+						}
+						$.redirect('battle/battleact?aid='+area_id);
+					});
+				}
+			}
+			event = eventManager(event);
+		});
+	}
+}
+
+function fnMission() {
+	fnFixMissionExec();
+	if (fnGetGrindingSpeed() == -1) {
+		// user press by himself, dont automate
+		return;
+	}
+	if (fnGetGrindingSpeed() == 1) {
+		mission_exec();
+	}
+	else {
+		missionInterval = setInterval(mission_exec,fnGetGrindingSpeed());
+	}
+}
+
 // monster collection
 
 function fnMonsterCollection() {
@@ -1657,6 +1727,9 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/deck/changeAllCheck") {
 		fnDeckChangeAllCheck();
+	}
+	if (window.location.pathname === "/en/ios/mission") {
+		fnMission();
 	}
 	if (window.location.pathname === "/en/ios/tower") {
 		fnTower();
