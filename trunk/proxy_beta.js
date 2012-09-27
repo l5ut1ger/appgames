@@ -1277,8 +1277,11 @@ function fnFixMissionExec() {
 					clearInterval(missionInterval);
 				}
 			} else if(result.status != 0) {
-				confirm_id = result.payload.confirm_id;
-				clearInterval(missionInterval);
+				//confirm_id = result.payload.confirm_id;
+				//clearInterval(missionInterval);
+				if (fnGetGrindingSpeed() == 1) {
+					setTimeout(function(){mission_exec();}, 1000);
+				}
 				return;
 			}
 
