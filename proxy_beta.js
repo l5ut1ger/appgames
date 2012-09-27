@@ -1200,6 +1200,12 @@ function fnTowerBossResult() {
 	});
 }
 
+// tower final ranking
+
+function fnTowerFinalRanking() {
+	document.getElementById('div-ranking').innerHTML += ' <a class="__btn_receive btn __stone_red __HS" href="/en/ios/tower/ReceiveReward">Receive Reward</a>';
+}
+
 // battle
 
 function fnBattleBattle() {
@@ -1582,6 +1588,9 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/tower/bossResult") {
 		fnTowerBossResult();
+	}
+	if (window.location.pathname === "/en/ios/tower/finalRanking") {
+		fnTowerFinalRanking();
 	}
 	if (window.location.pathname === "/en/ios/battle/battle") {
 		fnBattleBattle();
