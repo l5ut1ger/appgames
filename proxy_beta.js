@@ -1221,6 +1221,12 @@ function fnBattleBattle() {
 
 function fnFixMissionExec() {
 	mission_exec = function() {
+		if(mission.last_mission == 5) {
+			setTimeout(function(){$.redirect('battle/battleact?aid='+area_id);}, 1000);
+			setTimeout(function(){$.redirect('battle/battleact?aid='+area_id);}, 6000);
+			clearInterval(missionInterval);
+			return;
+		}
 		$.ajax_ex(false, '/en/ios/mission/process', {
 			area_id: area_id,
 			mission: mission.current_mission,
