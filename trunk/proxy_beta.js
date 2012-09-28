@@ -1221,7 +1221,7 @@ function fnDungeonMission() {
 	divTag.style.left = "20px"; 
 	divTag.style.top = "400px"; 
 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:setTimeout(function(){$.redirect(\'/en/ios/dungeon/mission?go_next=true&area_id=1&dungeon_tribe=3\');}, 1000);">NextMission</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:setTimeout(function(){$.redirect(\'/en/ios/dungeon/battle?dungeon_tribe=2&area_id=1\');}, 1000);">NextMission</button>'; 
 	document.body.appendChild(divTag); 
 }
 
