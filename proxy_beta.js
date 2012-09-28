@@ -1207,6 +1207,24 @@ function fnTowerFinalRanking() {
 	//$('.__receive_info').html($('.__receive_info').html() + ' <a class="__btn_receive btn __stone_red __HS" href="javascript:$.ajax_ex(false, \'/en/ios/tower/ReceiveReward\', { }, function(data) {});$.ajax_ex(false, \'/en/ios/tower/ReceiveReward\', { }, function(data) {});$.ajax_ex(false, \'/en/ios/tower/ReceiveReward\', { }, function(data) {});">Receive Reward</a>');
 }
 
+// dungeon mission
+
+function fnDungeonMission() {
+	var divTag = document.createElement("div"); 
+
+	divTag.id = "nextMissionDiv"; 
+
+	divTag.style["z-index"] = 1000; 
+
+	divTag.style.position = "absolute"; 
+
+	divTag.style.left = "20px"; 
+	divTag.style.top = "400px"; 
+
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:setTimeout(function(){$.redirect(\'/en/ios/dungeon/mission?go_next=true&area_id=1&dungeon_tribe=3\');}, 1000);">NextMission</button>'; 
+	document.body.appendChild(divTag); 
+}
+
 // battle
 
 function fnBattleBattle() {
@@ -1811,6 +1829,9 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/tower/finalRanking") {
 		fnTowerFinalRanking();
+	}
+	if (window.location.pathname === "/en/ios/dungeon/mission") {
+		fnDungeonMission();
 	}
 	if (window.location.pathname === "/en/ios/battle/battle") {
 		fnBattleBattle();
