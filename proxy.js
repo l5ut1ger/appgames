@@ -100,6 +100,7 @@ function fnGetCookie(c_name)
 
 // check ally
 var autoAllyKey = 'autoAlly';
+var autoAllyMsgKey = 'autoAllyMsg';
 var checkAllyTimeKey = 'checkAllyTime';
 var checkAllyTimeInterval = 1000 * 60 * 3; // if has free ally spot, check ally ever 3 minutes
 
@@ -112,6 +113,17 @@ function fnAutoAlly() {
 
 function fnSetAutoAlly(value) {
 	fnSetCookie(autoAllyKey, value);
+}
+
+function fnAutoAllyMsg() {
+	if (fnGetCookie(autoAllyMsgKey) === null) {
+		fnSetAutoAllyMsg("{lv}needs ally, many thanks! :)");
+	}
+	return fnGetCookie(autoAllyMsgKey);
+}
+
+function fnSetAutoAllyMsg(value) {
+	fnSetCookie(autoAllyMsgKey, value);
 }
 
 function fnGetCheckAllyTimer() {
@@ -128,7 +140,7 @@ function fnSetCheckAllyTimer(value) {
 function fnSendAllyMsg(pID, pName, pMsg) {
 	$.getJSON('/en/ios/bbs/write', {
 	'target_id': pID,
-	'body': pMsg
+	'body': pMsg.replace("{lv}",(player.lv>=80?"Lv "+ player.lv + " ":""))
 	}, function(result) {
 	});
 	fnGrowl("Posted @ " + pName + " for ally request");
@@ -138,7 +150,7 @@ function fnSpamAllyMsg() {
 	$.ajax_ex(false, '/en/ios/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		for (var i=0;i<=2;i++) {
-			setTimeout(fnSendAllyMsg, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, (player.lv>=80?"Lv "+ player.lv + " ":"") + "needs ally, many thanks! :)");
+			setTimeout(fnSendAllyMsg, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, fnAutoAllyMsg());
 		}
 	});
 }
@@ -247,7 +259,7 @@ function fnSetTowerEventTarget(value) {
 	fnSetCookie(towerEventTargetKey, value);
 }
 
-// Tower Event Target
+// Tower Event McFly Team
 
 var towerMcFlyTeamKey = 'TowerMcFlyTeam';
 
@@ -275,6 +287,8 @@ function fnSetTowerProgTeam(value) {
 	fnSetCookie(towerProgTeamKey, value);
 }
 
+// cookies that store whether the player is battling mcfly, so the player will switch back to prog team later
+
 var battlingMcFlyKey = 'battlingMcFly';
 
 function fnIsBattlingMcFly() {
@@ -286,6 +300,51 @@ function fnIsBattlingMcFly() {
 
 function fnSetIsBattlingMcFly(value) {
 	fnSetCookie(battlingMcFlyKey, value);
+}
+
+// Dungeon Extra Exp
+
+var dungeonExtraExpKey = 'dungeonExtraExpKey';
+
+function fnDungeonExtraExp() {
+	if(fnGetCookie(dungeonExtraExpKey) === null) {
+		fnSetDungeonExtraExp(0);
+	}
+	return fnGetCookie(dungeonExtraExpKey);
+}
+
+function fnSetDungeonExtraExp(value) {
+	fnSetCookie(dungeonExtraExpKey, value);
+}
+
+// Dungeon Extra Gold
+
+var dungeonExtraGoldKey = 'dungeonExtraGoldKey';
+
+function fnDungeonExtraGold() {
+	if(fnGetCookie(dungeonExtraGoldKey) === null) {
+		fnSetDungeonExtraGold(0);
+	}
+	return fnGetCookie(dungeonExtraGoldKey);
+}
+
+function fnSetDungeonExtraGold(value) {
+	fnSetCookie(dungeonExtraGoldKey, value);
+}
+
+// Dungeon Travel Level
+
+var dungeonTravelLevelKey = 'dungeonTravelLevelKey';
+
+function fnDungeonTravelLevel() {
+	if(fnGetCookie(dungeonTravelLevelKey) === null) {
+		fnSetDungeonTravelLevel(0);
+	}
+	return fnGetCookie(dungeonTravelLevelKey);
+}
+
+function fnSetDungeonTravelLevel(value) {
+	fnSetCookie(dungeonTravelLevelKey, value);
 }
 
 // book mark function
@@ -579,15 +638,17 @@ function fnProfileFixTabs() {
 	// auto ally setting
 	var autoAllySelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Ally (per 3 mins.)</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	autoAllySelectorHTML += '<select name="sel" onchange="fnSetAutoAlly(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Ally \'+this.options[this.options.selectedIndex].text);">';
-	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == -1 ?'selected':'') + ' value="-1">Off</option>'
+	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == -1 ?'selected':'') + ' value="-1">Off</option>';
 	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 1 ?'selected':'') + ' value="1">On</option>';
-	autoAllySelectorHTML += '</select><br/><br/>'; 
+	autoAllySelectorHTML += '</select><br/>Ally msg: (Use special keyword {lv} to represent your level)';
+	autoAllySelectorHTML += '<div id="divAllyMsgForm"><textarea id="allyMsg">' + fnAutoAllyMsg() + '</textarea><a href="javascript:fnSetAutoAllyMsg(document.getElementById(\'allyMsg\').value);fnGrowl(\'Ally Msg set as \'+document.getElementById(\'allyMsg\').value);" class="btn __red __WS __HS" style="position:relative; top:-8px; font-size:0.8em;">Set</a></div><br/>';
 	
 	// auto stats up setting
 	var autoStatsUpselectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Stats Up</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	autoStatsUpselectorHTML += '<select name="sel" onchange="fnSetAutoStatsUp(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Stats Up \'+this.options[this.options.selectedIndex].text);">';
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == -1 ?'selected':'') + ' value="-1">Off</option>'
-	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 1 ?'selected':'') + ' value="1">On</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 1 ?'selected':'') + ' value="1">On, EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 2 ?'selected':'') + ' value="2">On, BP</option>';
 	autoStatsUpselectorHTML += '</select><br/><br/>'; 
 	
 	// Tower Event Target Settings
@@ -1207,6 +1268,119 @@ function fnTowerFinalRanking() {
 	//$('.__receive_info').html($('.__receive_info').html() + ' <a class="__btn_receive btn __stone_red __HS" href="javascript:$.ajax_ex(false, \'/en/ios/tower/ReceiveReward\', { }, function(data) {});$.ajax_ex(false, \'/en/ios/tower/ReceiveReward\', { }, function(data) {});$.ajax_ex(false, \'/en/ios/tower/ReceiveReward\', { }, function(data) {});">Receive Reward</a>');
 }
 
+// dungeon mission
+
+function fnDungeonMission() {
+	if (ig.game == null) {
+		setTimeout(fnDungeonMission, 100);
+		return;
+	}
+	ig.game.save = function(next) {
+		var result_data = null;
+		$.ajax_ex(false, js_gen_url+'dungeon/ajaxSaveMission' , {
+			area_id: dm['area_id'],
+			dungeon_tribe: dm['dungeon_tribe'],
+			addJewel: (parseInt(ig.game.addJewel,10) + parseInt(fnDungeonExtraGold(),10)),
+			decreaseBp: ig.game.decreaseBp,
+			addExp: (parseInt(ig.game.addExp,10) + parseInt(fnDungeonExtraExp(),10)),
+			cfmId: cfm_id,
+			__hash: ('' + (new Date()).getTime())
+		}, function(result) {
+			if (! result.status) {
+				$.redirect(js_gen_url + "dungeon/index");
+				return;
+			}
+			result_data = result.status;
+			cfm_id = result_data['cfm_id'];
+		});
+
+		if (result_data) {
+			ig.game.reward = result_data['reward'];
+			ig.game.reward_monster = result_data['monster'];
+			ig.game.level_up = result_data['lvup'];
+		}
+
+		ig.game.decreaseBp = 0;
+		ig.game.addJewel = 0;
+		ig.game.addExp = 0;
+    }
+}
+
+// dungeon
+
+function fnDungeon() {
+	
+	// level select setting
+	var levelSelectorHTML = '<select style="position:absolute;top:100px;left:0px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(\'Level:\'+this.options[this.options.selectedIndex].text);alert(\'Will take effect after you re-enter this page.\');">';
+	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Current Level</option>'
+	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 1 ?'selected':'') + ' value="1">Level 1</option>';
+	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 2 ?'selected':'') + ' value="2">Level 2</option>';
+	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 3 ?'selected':'') + ' value="3">Level 3</option>';
+	levelSelectorHTML += '</select>'; 
+	
+	var expSelectorHTML = '<select style="position:absolute;top:100px;left:110px" onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Exp:\'+this.options[this.options.selectedIndex].text);">';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 0 ?'selected':'') + ' value="0">Extra Exp:0</option>'
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 10 ?'selected':'') + ' value="10">10</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 50 ?'selected':'') + ' value="50">50</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 100 ?'selected':'') + ' value="100">100</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 500 ?'selected':'') + ' value="500">500</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 1000 ?'selected':'') + ' value="1000">1000</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 5000 ?'selected':'') + ' value="5000">5000</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 10000 ?'selected':'') + ' value="10000">10000</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 50000 ?'selected':'') + ' value="50000">50000</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 100000 ?'selected':'') + ' value="100000">100000</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 500000 ?'selected':'') + ' value="500000">500000</option>';
+	expSelectorHTML += '</select>'; 
+	
+	var goldSelectorHTML = '<select style="position:absolute;top:100px;left:210px"  onchange="fnSetDungeonExtraGold(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Gold:$\'+this.options[this.options.selectedIndex].text);">';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 0 ?'selected':'') + ' value="0">Extra Gold:$0</option>'
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 10 ?'selected':'') + ' value="10">$10</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 50 ?'selected':'') + ' value="50">$50</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 100 ?'selected':'') + ' value="100">$100</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500 ?'selected':'') + ' value="500">$500</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 1000 ?'selected':'') + ' value="1000">$1000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 5000 ?'selected':'') + ' value="5000">$5000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 10000 ?'selected':'') + ' value="10000">$10000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 50000 ?'selected':'') + ' value="50000">$50000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 100000 ?'selected':'') + ' value="100000">$100000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">$500000</option>';
+	goldSelectorHTML += '</select>'; 
+	document.getElementById('deck_bg').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
+	
+	popup_window = function () {
+
+		$('#fade').css({
+		  width: $(document).width(),
+		  height:$(document).height(),
+		}).show();
+
+		id = ~~$(this).attr("id").split("_")[1];
+
+		string = 'Use %img_tag% to decrease BP consumption!';
+		string = string.replace('%img_tag%', '<img src="'+srcBase+'misc/icons/tribe_'+id+'.png" />');
+
+		challenge = 'Challenge %amount%?';
+		challenge = challenge.replace('%amount%', area_master[id]['area_name']);
+
+		$('#dungeon_name').html(area_master[id]['area_name']);
+		$('#down_bp').html(string);
+		$('#show_bp').html("BP Use " + mission_name[id]['use_bp']);
+		$('#show_jewel').html('Gold'+' '+mission_name[id]['jewel_min']+' - '+mission_name[id]['jewel_max']);
+		$('#show_challenge').html(challenge);
+		$('#button_ok').attr('href',urlBase+'dungeon/mission?area_id='+(fnDungeonTravelLevel()==0?dungeon_lv:fnDungeonTravelLevel())+
+															'&dungeon_tribe='+id);
+		$('#popup_top').children('img').attr('src', srcBase+'dungeon/mission/area_base'+id+'.png');
+
+		$('#popup').show();
+	}
+	
+	if (fnDungeonTravelLevel() != 0) {
+		for (var i=0;i<$('a[href^="/en/ios/dungeon/mission?area_id"]').length;i++){
+			$('a[href^="/en/ios/dungeon/mission?area_id"]').eq(i).attr("href", "/en/ios/dungeon/mission?area_id="+fnDungeonTravelLevel()+"&dungeon_tribe=" + $('a[href^="/en/ios/dungeon/mission?area_id"]').eq(i).attr("href").substr(-1));
+		}
+	}
+}
+
 // battle
 
 function fnBattleBattle() {
@@ -1752,8 +1926,13 @@ function fnSetupPurrCSS() {
 }
 
 function fnAutoUsePoint() {
-	if (player.remain_point > 0 && fnAutoStatsUp() == 1) {
-		$.ajax_ex(false, '/en/ios/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+	if (player.remain_point > 0) {
+		if (fnAutoStatsUp() == 1) {
+			$.ajax_ex(false, '/en/ios/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
+		else if (fnAutoStatsUp() == 2) {
+			$.ajax_ex(false, '/en/ios/home/stup?bp='+player.remain_point+'&pr=0&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
 	}
 }
 
@@ -1811,6 +1990,12 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/tower/finalRanking") {
 		fnTowerFinalRanking();
+	}
+	if (window.location.pathname === "/en/ios/dungeon" || window.location.pathname === "/en/ios/dungeon/index") {
+		fnDungeon();
+	}
+	if (window.location.pathname === "/en/ios/dungeon/mission") {
+		fnDungeonMission();
 	}
 	if (window.location.pathname === "/en/ios/battle/battle") {
 		fnBattleBattle();
