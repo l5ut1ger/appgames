@@ -259,7 +259,7 @@ function fnSetTowerEventTarget(value) {
 	fnSetCookie(towerEventTargetKey, value);
 }
 
-// Tower Event Target
+// Tower Event McFly Team
 
 var towerMcFlyTeamKey = 'TowerMcFlyTeam';
 
@@ -287,6 +287,8 @@ function fnSetTowerProgTeam(value) {
 	fnSetCookie(towerProgTeamKey, value);
 }
 
+// cookies that store whether the player is battling mcfly, so the player will switch back to prog team later
+
 var battlingMcFlyKey = 'battlingMcFly';
 
 function fnIsBattlingMcFly() {
@@ -298,6 +300,51 @@ function fnIsBattlingMcFly() {
 
 function fnSetIsBattlingMcFly(value) {
 	fnSetCookie(battlingMcFlyKey, value);
+}
+
+// Dungeon Extra Exp
+
+var dungeonExtraExpKey = 'dungeonExtraExpKey';
+
+function fnDungeonExtraExp() {
+	if(fnGetCookie(dungeonExtraExpKey) === null) {
+		fnSetDungeonExtraExp(0);
+	}
+	return fnGetCookie(dungeonExtraExpKey);
+}
+
+function fnSetDungeonExtraExp(value) {
+	fnSetCookie(dungeonExtraExpKey, value);
+}
+
+// Dungeon Extra Gold
+
+var dungeonExtraGoldKey = 'dungeonExtraGoldKey';
+
+function fnDungeonExtraGold() {
+	if(fnGetCookie(dungeonExtraGoldKey) === null) {
+		fnSetDungeonExtraGold(0);
+	}
+	return fnGetCookie(dungeonExtraGoldKey);
+}
+
+function fnSetDungeonExtraGold(value) {
+	fnSetCookie(dungeonExtraGoldKey, value);
+}
+
+// Dungeon Travel Level
+
+var dungeonTravelLevelKey = 'dungeonTravelLevelKey';
+
+function fnDungeonTravelLevel() {
+	if(fnGetCookie(dungeonTravelLevelKey) === null) {
+		fnSetDungeonTravelLevel(0);
+	}
+	return fnGetCookie(dungeonTravelLevelKey);
+}
+
+function fnSetDungeonTravelLevel(value) {
+	fnSetCookie(dungeonTravelLevelKey, value);
 }
 
 // book mark function
@@ -1239,6 +1286,55 @@ function fnDungeonMission() {
 	document.body.appendChild(divTag); 
 }
 
+// dungeon
+
+function fnDungeon() {
+	var divTag = document.createElement("div"); 
+	divTag.id = "profile-strategy"; 
+	divTag.style.position = "absolute"; 
+	divTag.style.left = "0px"; 
+	divTag.style.top = "100px"; 
+	
+	// level select setting
+	var levelSelectorHTML = '<select onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
+	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Original</option>'
+	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 1 ?'selected':'') + ' value="1">Level 1</option>';
+	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 2 ?'selected':'') + ' value="2">Level 2</option>';
+	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 3 ?'selected':'') + ' value="3">Level 3</option>';
+	levelSelectorHTML += '</select>'; 
+	
+	var expSelectorHTML = '<select onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 0 ?'selected':'') + ' value="0">0</option>'
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 10 ?'selected':'') + ' value="10">10</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 50 ?'selected':'') + ' value="50">50</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 100 ?'selected':'') + ' value="100">100</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 500 ?'selected':'') + ' value="500">500</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 1000 ?'selected':'') + ' value="1000">1000</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 5000 ?'selected':'') + ' value="5000">5000</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 10000 ?'selected':'') + ' value="10000">10000</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 50000 ?'selected':'') + ' value="50000">50000</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 100000 ?'selected':'') + ' value="100000">100000</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 500000 ?'selected':'') + ' value="500000">500000</option>';
+	expSelectorHTML += '</select>'; 
+	
+	var goldSelectorHTML = '<select onchange="fnSetDungeonExtraGold(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 0 ?'selected':'') + ' value="0">0</option>'
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 10 ?'selected':'') + ' value="10">10</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 50 ?'selected':'') + ' value="50">50</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 100 ?'selected':'') + ' value="100">100</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500 ?'selected':'') + ' value="500">500</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 1000 ?'selected':'') + ' value="1000">1000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 5000 ?'selected':'') + ' value="5000">5000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 10000 ?'selected':'') + ' value="10000">10000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 50000 ?'selected':'') + ' value="50000">50000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 100000 ?'selected':'') + ' value="100000">100000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">500000</option>';
+	goldSelectorHTML += '</select>'; 
+	
+	divTag.innerHtml = levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
+	document.body.appendChild(divTag); 
+}
+
 // battle
 
 function fnBattleBattle() {
@@ -1848,6 +1944,9 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/tower/finalRanking") {
 		fnTowerFinalRanking();
+	}
+	if (window.location.pathname === "/en/ios/dungeon") {
+		fnDungeon();
 	}
 	if (window.location.pathname === "/en/ios/dungeon/mission") {
 		fnDungeonMission();
