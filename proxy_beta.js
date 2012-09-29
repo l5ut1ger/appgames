@@ -1291,15 +1291,15 @@ function fnDungeonMission() {
 function fnDungeon() {
 	
 	// level select setting
-	var levelSelectorHTML = '<select style="position:absolute;top:90px;left:0px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
+	var levelSelectorHTML = '<select style="position:absolute;top:100px;left:0px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Server Level</option>'
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 1 ?'selected':'') + ' value="1">Level 1</option>';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 2 ?'selected':'') + ' value="2">Level 2</option>';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 3 ?'selected':'') + ' value="3">Level 3</option>';
 	levelSelectorHTML += '</select>'; 
 	
-	var expSelectorHTML = '<select style="position:absolute;top:90px;left:120px" onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
-	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 0 ?'selected':'') + ' value="0">0</option>'
+	var expSelectorHTML = '<select style="position:absolute;top:100px;left:120px" onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Exp:\'+this.options[this.options.selectedIndex].text);">';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 0 ?'selected':'') + ' value="0">Extra Exp:0</option>'
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 10 ?'selected':'') + ' value="10">10</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 50 ?'selected':'') + ' value="50">50</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 100 ?'selected':'') + ' value="100">100</option>';
@@ -1312,21 +1312,20 @@ function fnDungeon() {
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 500000 ?'selected':'') + ' value="500000">500000</option>';
 	expSelectorHTML += '</select>'; 
 	
-	var goldSelectorHTML = '<select style="position:absolute;top:90px;left:240px"  onchange="fnSetDungeonExtraGold(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
-	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 0 ?'selected':'') + ' value="0">0</option>'
-	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 10 ?'selected':'') + ' value="10">10</option>';
-	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 50 ?'selected':'') + ' value="50">50</option>';
-	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 100 ?'selected':'') + ' value="100">100</option>';
-	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500 ?'selected':'') + ' value="500">500</option>';
-	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 1000 ?'selected':'') + ' value="1000">1000</option>';
-	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 5000 ?'selected':'') + ' value="5000">5000</option>';
-	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 10000 ?'selected':'') + ' value="10000">10000</option>';
-	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 50000 ?'selected':'') + ' value="50000">50000</option>';
-	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 100000 ?'selected':'') + ' value="100000">100000</option>';
-	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">500000</option>';
+	var goldSelectorHTML = '<select style="position:absolute;top:100px;left:210px"  onchange="fnSetDungeonExtraGold(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Gold:$\'+this.options[this.options.selectedIndex].text);">';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 0 ?'selected':'') + ' value="0">Extra Gold:$0</option>'
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 10 ?'selected':'') + ' value="10">$10</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 50 ?'selected':'') + ' value="50">$50</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 100 ?'selected':'') + ' value="100">$100</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500 ?'selected':'') + ' value="500">$500</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 1000 ?'selected':'') + ' value="1000">$1000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 5000 ?'selected':'') + ' value="5000">$5000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 10000 ?'selected':'') + ' value="10000">$10000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 50000 ?'selected':'') + ' value="50000">$50000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 100000 ?'selected':'') + ' value="100000">$100000</option>';
+	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">$500000</option>';
 	goldSelectorHTML += '</select>'; 
 	document.getElementById('deck_bg').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
-	document.getElementById('deck_bg').style.height="150px";
 }
 
 // battle
