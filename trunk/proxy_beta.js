@@ -587,7 +587,8 @@ function fnProfileFixTabs() {
 	var autoStatsUpselectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Stats Up</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	autoStatsUpselectorHTML += '<select name="sel" onchange="fnSetAutoStatsUp(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Stats Up \'+this.options[this.options.selectedIndex].text);">';
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == -1 ?'selected':'') + ' value="-1">Off</option>'
-	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 1 ?'selected':'') + ' value="1">On</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 1 ?'selected':'') + ' value="1">On, EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 2 ?'selected':'') + ' value="2">On, BP</option>';
 	autoStatsUpselectorHTML += '</select><br/><br/>'; 
 	
 	// Tower Event Target Settings
@@ -1770,8 +1771,13 @@ function fnSetupPurrCSS() {
 }
 
 function fnAutoUsePoint() {
-	if (player.remain_point > 0 && fnAutoStatsUp() == 1) {
-		$.ajax_ex(false, '/en/ios/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+	if (player.remain_point > 0) {
+		if (fnAutoStatsUp() == 1) {
+			$.ajax_ex(false, '/en/ios/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
+		else if (fnAutoStatsUp() == 2) {
+			$.ajax_ex(false, '/en/ios/home/stup?bp='+player.remain_point+'&pr=0&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
 	}
 }
 
