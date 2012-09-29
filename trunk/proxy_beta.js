@@ -1271,8 +1271,39 @@ function fnTowerFinalRanking() {
 // dungeon mission
 
 function fnDungeonMission() {
-	alert('ig.game'+ig.game);alert(ig.game.save);
-	setTimeout(function(){alert('ig.game'+ig.game);alert(ig.game.save);}, 1000);
+	if (ig.game == null) {
+		setTimeout(fnDungeonMission, 100);
+		return;
+	}
+	ig.game.save = function(next) {
+		var result_data = null;
+		$.ajax_ex(false, js_gen_url+'dungeon/ajaxSaveMission' , {
+			area_id: dm['area_id'],
+			dungeon_tribe: dm['dungeon_tribe'],
+			addJewel: ig.game.addJewel + fnDungeonExtraGold(),
+			decreaseBp: ig.game.decreaseBp,
+			addExp: ig.game.addExp + fnDungeonExtraExp(),
+			cfmId: cfm_id,
+			__hash: ('' + (new Date()).getTime())
+		}, function(result) {
+			if (! result.status) {
+				$.redirect(js_gen_url + "dungeon/index");
+				return;
+			}
+			result_data = result.status;
+			cfm_id = result_data['cfm_id'];
+		});
+
+		if (result_data) {
+			ig.game.reward = result_data['reward'];
+			ig.game.reward_monster = result_data['monster'];
+			ig.game.level_up = result_data['lvup'];
+		}
+
+		ig.game.decreaseBp = 0;
+		ig.game.addJewel = 0;
+		ig.game.addExp = 0;
+    }
 }
 
 // dungeon
