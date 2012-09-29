@@ -100,6 +100,7 @@ function fnGetCookie(c_name)
 
 // check ally
 var autoAllyKey = 'autoAlly';
+var autoAllyMsgKey = 'autoAllyMsg';
 var checkAllyTimeKey = 'checkAllyTime';
 var checkAllyTimeInterval = 1000 * 60 * 3; // if has free ally spot, check ally ever 3 minutes
 
@@ -112,6 +113,17 @@ function fnAutoAlly() {
 
 function fnSetAutoAlly(value) {
 	fnSetCookie(autoAllyKey, value);
+}
+
+function fnAutoAllyMsg() {
+	if (fnGetCookie(autoAllyMsgKey) === null) {
+		fnSetAutoAllyMsg("{lv}needs ally, many thanks! :)");
+	}
+	return fnGetCookie(autoAllyMsgKey);
+}
+
+function fnSetAutoAllyMsg(value) {
+	fnSetCookie(autoAllyMsgKey, value);
 }
 
 function fnGetCheckAllyTimer() {
@@ -128,7 +140,7 @@ function fnSetCheckAllyTimer(value) {
 function fnSendAllyMsg(pID, pName, pMsg) {
 	$.getJSON('/en/ios/bbs/write', {
 	'target_id': pID,
-	'body': pMsg
+	'body': pMsg.replace("{lv}",(player.lv>=80?"Lv "+ player.lv + " ":""));
 	}, function(result) {
 	});
 	fnGrowl("Posted @ " + pName + " for ally request");
@@ -138,7 +150,7 @@ function fnSpamAllyMsg() {
 	$.ajax_ex(false, '/en/ios/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		for (var i=0;i<=2;i++) {
-			setTimeout(fnSendAllyMsg, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, (player.lv>=80?"Lv "+ player.lv + " ":"") + "needs ally, many thanks! :)");
+			setTimeout(fnSendAllyMsg, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, fnAutoAllyMsg());
 		}
 	});
 }
@@ -581,7 +593,8 @@ function fnProfileFixTabs() {
 	autoAllySelectorHTML += '<select name="sel" onchange="fnSetAutoAlly(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Ally \'+this.options[this.options.selectedIndex].text);">';
 	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == -1 ?'selected':'') + ' value="-1">Off</option>'
 	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 1 ?'selected':'') + ' value="1">On</option>';
-	autoAllySelectorHTML += '</select><br/><br/>'; 
+	autoAllySelectorHTML += '</select><br/>Ally msg: (Use special keyword {lv} to represent your level)';
+	autoAllySelectorHTML += '<div id="divAllyMsgForm"><textarea id="allyMsg">' + fnAutoAllyMsg() + '</textarea><a href="javascript:fnSetAutoAllyMsg(document.getElementById(\'allyMsg\').value);fnGrowl(\'Ally Msg set as \'+document.getElementById(\'allyMsg\').value);" class="btn __red __WS __HS" style="position:relative; top:-8px; font-size:0.8em;">Set</a></div><br/>';
 	
 	// auto stats up setting
 	var autoStatsUpselectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Stats Up</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
