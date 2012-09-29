@@ -1332,7 +1332,7 @@ function fnDungeon() {
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">500000</option>';
 	goldSelectorHTML += '</select>'; 
 	divTag.innerHtml = levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
-	document.getElementById('deck_bg').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
+	document.getElementById('deck_bg').innerHTML += "yoyoahasdfklsdaf";
 	alert('hi');
 
 }
