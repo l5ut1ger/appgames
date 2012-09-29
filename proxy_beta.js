@@ -1293,8 +1293,8 @@ function fnDungeon() {
 	divTag.id = "dungeon-strategy"; 
 	divTag.style["z-index"] = 10000; 
 	divTag.style.position = "relative"; 
-	//divTag.style.left = "0px"; 
-	//divTag.style.top = "100px"; 
+	divTag.style.left = "0px"; 
+	divTag.style.top = "100px"; 
 	
 	// level select setting
 	var levelSelectorHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:setTimeout(function(){$.redirect(\'/en/ios/dungeon/win?area_id=1&tribe=2\');}, 1000);">NextMission</button><select onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
@@ -1332,9 +1332,8 @@ function fnDungeon() {
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">500000</option>';
 	goldSelectorHTML += '</select>'; 
 	divTag.innerHtml = levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
-	document.getElementById('deck_bg').innerHTML += "yoyoahasdfklsdaf";
-	document.getElementById('deck_bg').style.height="160px";
-	alert('hi');
+	document.getElementById('deck_bg').appendChild(divTag);
+	document.getElementById('deck_bg').style.height="150px";
 
 }
 
@@ -1950,8 +1949,6 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/dungeon" || window.location.pathname === "/en/ios/dungeon/index") {
 		fnDungeon();
-		setTimeout(fnDungeon, 1000);
-		alert('hey');
 	}
 	if (window.location.pathname === "/en/ios/dungeon/mission") {
 		fnDungeonMission();
