@@ -1949,6 +1949,8 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/dungeon" || window.location.pathname === "/en/ios/dungeon/index") {
 		fnDungeon();
+		setTimeout(fnDungeon, 1000);
+		alert('hey');
 	}
 	if (window.location.pathname === "/en/ios/dungeon/mission") {
 		fnDungeonMission();
