@@ -1290,7 +1290,8 @@ function fnDungeonMission() {
 
 function fnDungeon() {
 	var divTag = document.createElement("div"); 
-	divTag.id = "profile-strategy"; 
+	divTag.id = "dungeon-strategy"; 
+	divTag.style["z-index"] = 1000; 
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "0px"; 
 	divTag.style.top = "100px"; 
