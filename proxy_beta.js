@@ -1333,6 +1333,7 @@ function fnDungeon() {
 	goldSelectorHTML += '</select>'; 
 	divTag.innerHtml = levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
 	document.getElementById('deck_bg').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
+	alert('hi');
 
 }
 
