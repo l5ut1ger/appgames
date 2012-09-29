@@ -1271,19 +1271,7 @@ function fnTowerFinalRanking() {
 // dungeon mission
 
 function fnDungeonMission() {
-	var divTag = document.createElement("div"); 
-
-	divTag.id = "nextMissionDiv"; 
-
-	divTag.style["z-index"] = 1000; 
-
-	divTag.style.position = "absolute"; 
-
-	divTag.style.left = "20px"; 
-	divTag.style.top = "400px"; 
-
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:setTimeout(function(){$.redirect(\'/en/ios/dungeon/win?area_id=1&tribe=2\');}, 1000);">NextMission</button>'; 
-	document.body.appendChild(divTag); 
+	alert('mygame'+MyGame);alert(MyGame.save);
 }
 
 // dungeon
@@ -1292,13 +1280,13 @@ function fnDungeon() {
 	
 	// level select setting
 	var levelSelectorHTML = '<select style="position:absolute;top:100px;left:0px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
-	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Server Level</option>'
+	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Normal Level</option>'
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 1 ?'selected':'') + ' value="1">Level 1</option>';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 2 ?'selected':'') + ' value="2">Level 2</option>';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 3 ?'selected':'') + ' value="3">Level 3</option>';
 	levelSelectorHTML += '</select>'; 
 	
-	var expSelectorHTML = '<select style="position:absolute;top:100px;left:120px" onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Exp:\'+this.options[this.options.selectedIndex].text);">';
+	var expSelectorHTML = '<select style="position:absolute;top:100px;left:110px" onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Exp:\'+this.options[this.options.selectedIndex].text);">';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 0 ?'selected':'') + ' value="0">Extra Exp:0</option>'
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 10 ?'selected':'') + ' value="10">10</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 50 ?'selected':'') + ' value="50">50</option>';
