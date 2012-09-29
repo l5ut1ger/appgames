@@ -1346,6 +1346,12 @@ function fnDungeon() {
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">$500000</option>';
 	goldSelectorHTML += '</select>'; 
 	document.getElementById('deck_bg').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
+	
+	if (fnDungeonTravelLevel() != 0) {
+		for (var i=0;i<$('a[href^="/en/ios/dungeon/mission?area_id"]').length;i++){
+			$('a[href^="/en/ios/dungeon/mission?area_id"]').eq(i).attr("href", "/en/ios/dungeon/mission?area_id="+fnDungeonTravelLevel()+"&dungeon_tribe=" + $('a[href^="/en/ios/dungeon/mission?area_id"]').eq(i).attr("href").substr(-1));
+		}
+	}
 }
 
 // battle
