@@ -1291,15 +1291,13 @@ function fnDungeonMission() {
 function fnDungeon() {
 	var divTag = document.createElement("div"); 
 	divTag.id = "dungeon-strategy"; 
-	divTag.style["z-index"] = 1000; 
+	divTag.style["z-index"] = 10000; 
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "0px"; 
 	divTag.style.top = "100px"; 
 	
-	alert('hi');
-	
 	// level select setting
-	var levelSelectorHTML = '<select onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
+	var levelSelectorHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:setTimeout(function(){$.redirect(\'/en/ios/dungeon/win?area_id=1&tribe=2\');}, 1000);">NextMission</button><select onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Original</option>'
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 1 ?'selected':'') + ' value="1">Level 1</option>';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 2 ?'selected':'') + ' value="2">Level 2</option>';
@@ -1333,11 +1331,9 @@ function fnDungeon() {
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 100000 ?'selected':'') + ' value="100000">100000</option>';
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">500000</option>';
 	goldSelectorHTML += '</select>'; 
-	alert('yes');
 	divTag.innerHtml = levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
 	document.body.appendChild(divTag); 
-	
-	alert('indeed');
+
 }
 
 // battle
