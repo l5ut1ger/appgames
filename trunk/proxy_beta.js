@@ -1333,7 +1333,7 @@ function fnDungeon() {
 	goldSelectorHTML += '</select>'; 
 	divTag.innerHtml = levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
 	document.getElementById('deck_bg').innerHTML += "yoyoahasdfklsdaf";
-	document.getElementById('deck_bg').style.height="150px";
+	document.getElementById('deck_bg').style.height="200px";
 	alert('hi');
 
 }
