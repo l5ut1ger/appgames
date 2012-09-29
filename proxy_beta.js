@@ -1271,6 +1271,7 @@ function fnTowerFinalRanking() {
 // dungeon mission
 
 function fnDungeonMission() {
+	alert('ig.game'+ig.game);alert(ig.game.save);
 	setTimeout(function(){alert('ig.game'+ig.game);alert(ig.game.save);}, 1000);
 }
 
