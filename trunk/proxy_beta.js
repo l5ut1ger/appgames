@@ -1311,7 +1311,7 @@ function fnDungeonMission() {
 function fnDungeon() {
 	
 	// level select setting
-	var levelSelectorHTML = '<select style="position:absolute;top:100px;left:0px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
+	var levelSelectorHTML = '<select style="position:absolute;top:100px;left:0px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(\'Level:\'+this.options[this.options.selectedIndex].text);alert(\'Will take effect after you re-enter this page.\');">';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Normal Level</option>'
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 1 ?'selected':'') + ' value="1">Level 1</option>';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 2 ?'selected':'') + ' value="2">Level 2</option>';
@@ -1347,10 +1347,36 @@ function fnDungeon() {
 	goldSelectorHTML += '</select>'; 
 	document.getElementById('deck_bg').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
 	
+	popup_window = function () {
+
+		$('#fade').css({
+		  width: $(document).width(),
+		  height:$(document).height(),
+		}).show();
+
+		id = ~~$(this).attr("id").split("_")[1];
+
+		string = 'Use %img_tag% to decrease BP consumption!';
+		string = string.replace('%img_tag%', '<img src="'+srcBase+'misc/icons/tribe_'+id+'.png" />');
+
+		challenge = 'Challenge %amount%?';
+		challenge = challenge.replace('%amount%', area_master[id]['area_name']);
+
+		$('#dungeon_name').html(area_master[id]['area_name']);
+		$('#down_bp').html(string);
+		$('#show_bp').html("BP Use " + mission_name[id]['use_bp']);
+		$('#show_jewel').html('Gold'+' '+mission_name[id]['jewel_min']+' - '+mission_name[id]['jewel_max']);
+		$('#show_challenge').html(challenge);
+		$('#button_ok').attr('href',urlBase+'dungeon/mission?area_id='+(fnDungeonTravelLevel()==0?dungeon_lv:fnDungeonTravelLevel())+
+															'&dungeon_tribe='+id);
+		$('#popup_top').children('img').attr('src', srcBase+'dungeon/mission/area_base'+id+'.png');
+
+		$('#popup').show();
+	}
+	
 	if (fnDungeonTravelLevel() != 0) {
 		for (var i=0;i<$('a[href^="/en/ios/dungeon/mission?area_id"]').length;i++){
 			$('a[href^="/en/ios/dungeon/mission?area_id"]').eq(i).attr("href", "/en/ios/dungeon/mission?area_id="+fnDungeonTravelLevel()+"&dungeon_tribe=" + $('a[href^="/en/ios/dungeon/mission?area_id"]').eq(i).attr("href").substr(-1));
-			alert("href = "+$('a[href^="/en/ios/dungeon/mission?area_id"]').eq(i).attr("href"));
 		}
 	}
 }
