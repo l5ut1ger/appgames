@@ -1297,8 +1297,8 @@ function fnDungeon() {
 	//divTag.style.top = "100px"; 
 	
 	// level select setting
-	var levelSelectorHTML = '<select style="top:-50px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
-	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Original</option>'
+	var levelSelectorHTML = '<select style="position:absolute;top:50px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
+	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Server Level</option>'
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 1 ?'selected':'') + ' value="1">Level 1</option>';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 2 ?'selected':'') + ' value="2">Level 2</option>';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 3 ?'selected':'') + ' value="3">Level 3</option>';
