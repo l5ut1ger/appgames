@@ -1946,7 +1946,7 @@ function fnOnLoad() {
 	if (window.location.pathname === "/en/ios/tower/finalRanking") {
 		fnTowerFinalRanking();
 	}
-	if (window.location.pathname === "/en/ios/dungeon") {
+	if (window.location.pathname === "/en/ios/dungeon" || window.location.pathname === "/en/ios/dungeon/index") {
 		fnDungeon();
 	}
 	if (window.location.pathname === "/en/ios/dungeon/mission") {
