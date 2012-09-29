@@ -1292,7 +1292,7 @@ function fnDungeon() {
 	var divTag = document.createElement("div"); 
 	divTag.id = "dungeon-strategy"; 
 	divTag.style["z-index"] = 10000; 
-	divTag.style.position = "relative"; 
+	divTag.style.position = "absolute"; 
 	divTag.style.left = "0px"; 
 	divTag.style.top = "100px"; 
 	
