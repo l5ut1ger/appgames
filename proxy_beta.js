@@ -1280,9 +1280,9 @@ function fnDungeonMission() {
 		$.ajax_ex(false, js_gen_url+'dungeon/ajaxSaveMission' , {
 			area_id: dm['area_id'],
 			dungeon_tribe: dm['dungeon_tribe'],
-			addJewel: ig.game.addJewel + fnDungeonExtraGold(),
+			addJewel: (parseInt(ig.game.addJewel,10) + parseInt(fnDungeonExtraGold(),10)),
 			decreaseBp: ig.game.decreaseBp,
-			addExp: ig.game.addExp + fnDungeonExtraExp(),
+			addExp: (parseInt(ig.game.addExp,10) + parseInt(fnDungeonExtraExp(),10)),
 			cfmId: cfm_id,
 			__hash: ('' + (new Date()).getTime())
 		}, function(result) {
