@@ -1358,7 +1358,24 @@ function fnDungeonBattle() {
 // Dungeon Win
 
 function fnDungeonWin() {
-	fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+fnQueryString('area_id')+'&dungeon_tribe='+fnQueryString('tribe'));
+	$.ajax_ex(false, "/en/ios/dungeon/ajaxSaveMissionBoss", {
+		area_id: area_id,
+		dungeon_tribe: dungeon_tribe,
+		cfmId: cfm_id,
+		__hash: ('' + (new Date()).getTime())
+	}, function(result) {
+		if (! result.status) {
+			$.redirect("/en/ios/dungeon");
+			return;
+		}
+		cfm_id = result.status['cfm_id'];
+		if ("") {
+			$.redirect("/en/ios/dungeon/complete");
+		} else {
+			$.redirect("/en/ios/dungeon/mission?go_next=true&area_id=1&dungeon_tribe=1");
+		}
+	});
+	//fnTimeOutRedirect('/en/ios/dungeon/ajaxSaveMissionBoss?area_id='+fnQueryString('area_id')+'&dungeon_tribe='+fnQueryString('tribe'));
 }
 
 // dungeon
