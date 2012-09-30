@@ -10,6 +10,11 @@ function fnRedirect(pURL) {
 	setTimeout(function(){$.redirect(pURL);}, 10000);
 }
 
+function fnTimeOutRedirect(pURL) {
+	setTimeout(function(){$.redirect(pURL);}, 1000);
+	setTimeout(function(){$.redirect(pURL);}, 6000);
+}
+
 function fnQueryString(name) {
 	var AllVars = window.location.search.substring(1);
 	var Vars = AllVars.split('&');
@@ -1326,6 +1331,7 @@ function fnDungeonMission() {
 		ig.game.addJewel = 0;
 		ig.game.addExp = 0;
 		location.reload(true);
+		fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&tribe='+dm['dungeon_tribe']);
     }
 	if (ig.game.mission_type != ig.game.MISSION_TYPE.BOSS) {
 		var willDoProgress = player.bp >= (ig.game.getMissionMaster()['use_bp'] * (parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)))?(parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)):Math.floor(player.bp/ig.game.getMissionMaster()['use_bp']);
