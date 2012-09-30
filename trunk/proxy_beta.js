@@ -1343,6 +1343,20 @@ function fnDungeonMission() {
 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:$.ajax_ex(false, \'/en/ios/dungeon/ajaxSaveMissionBoss\', { area_id: 1,      dungeon_tribe: 2,  cfmId: cfm_id,       __hash: (\'\' + (new Date()).getTime())            }, function(result) {              if (! result.status) {         $.redirect(\'/en/ios/dungeon\');                return;              }              cfm_id = result.status[\'cfm_id\'];              if (\'1\') {                $.redirect(\'/en/ios/dungeon/complete\');              } else {                $.redirect(\'/en/ios/dungeon/mission?go_next=true&area_id=1&dungeon_tribe=2\');              }            });">boss</button>'; 
 	document.body.appendChild(divTag); 
+	
+	divTag = document.createElement("div"); 
+
+	divTag.id = "backButtonDiv"; 
+
+	divTag.style["z-index"] = 1000; 
+
+	divTag.style.position = "absolute"; 
+
+	divTag.style.left = "0px"; 
+	divTag.style.top = "300px"; 
+
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="javascript:document.location=\'/en/ios/dungeon/win?area_id=1&tribe=2\';">win</button>'; 
+	document.body.appendChild(divTag); 
 }
 
 // dungeon
