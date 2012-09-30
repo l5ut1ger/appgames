@@ -1343,7 +1343,7 @@ function fnDungeonMission() {
 		}
 	}
 	else {
-		location = '/en/ios/dungeon/win?area_id='+dm['area_id']+'&tribe='+dm['dungeon_tribe'];
+		fnTimeOutRedirect('/en/ios/dungeon/win?area_id='+dm['area_id']+'&tribe='+dm['dungeon_tribe']);
 	}
 	
 
