@@ -10,6 +10,12 @@ function fnRedirect(pURL) {
 	setTimeout(function(){$.redirect(pURL);}, 10000);
 }
 
+function fnTimeOutRedirect(pURL) {
+	if (fnGetGrindingSpeed() == -1) return;
+	setTimeout(function(){$.redirect(pURL);}, fnGetGrindingSpeed());
+	setTimeout(function(){$.redirect(pURL);}, fnGetGrindingSpeed()+5000);
+}
+
 function fnQueryString(name) {
 	var AllVars = window.location.search.substring(1);
 	var Vars = AllVars.split('&');
@@ -1293,6 +1299,9 @@ function fnTowerFinalRanking() {
 // dungeon mission
 
 function fnDungeonMission() {
+	if (fnGetGrindingSpeed() == -1) {
+		return;
+	}
 	if (ig.game == null) {
 		setTimeout(fnDungeonMission, 100);
 		return;
@@ -1324,8 +1333,58 @@ function fnDungeonMission() {
 
 		ig.game.decreaseBp = 0;
 		ig.game.addJewel = 0;
-		ig.game.addExp = 0;
+		ig.game.addExp = 0;		
+		fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
     }
+	if (ig.game.mission_type != ig.game.MISSION_TYPE.BOSS) {
+		var willDoProgress = player.bp >= (ig.game.getMissionMaster()['use_bp'] * (parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)))?(parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)):Math.floor(player.bp/ig.game.getMissionMaster()['use_bp']);
+		if (willDoProgress >= 1) {
+			ig.game.decreaseBp = willDoProgress*ig.game.getMissionMaster()['use_bp'];
+			ig.game.addJewel = willDoProgress*ig.game.getMissionMaster()['use_bp'];
+			ig.game.addExp = (willDoProgress == (parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)))? ig.game.getMissionMaster()['exp_max']:0;
+			ig.game.save(null);
+		}
+	}
+	else {
+		fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
+	}
+	
+
+}
+
+// dungeon battle
+
+function fnDungeonBattle() {
+	if (fnGetGrindingSpeed() == -1) {
+		return;
+	}
+	fnTimeOutRedirect('/en/ios/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
+}
+
+// Dungeon Win
+
+function fnDungeonWin() {
+	if (fnGetGrindingSpeed() == -1) {
+		return;
+	}
+	$.ajax_ex(false, "/en/ios/dungeon/ajaxSaveMissionBoss", {
+		area_id: area_id,
+		dungeon_tribe: dungeon_tribe,
+		cfmId: cfm_id,
+		__hash: ('' + (new Date()).getTime())
+	}, function(result) {
+		if (! result.status) {
+			$.redirect("/en/ios/dungeon");
+			return;
+		}
+		cfm_id = result.status['cfm_id'];
+		if ("") {
+			$.redirect("/en/ios/dungeon/complete");
+		} else {
+			$.redirect("/en/ios/dungeon/mission?go_next=true&area_id="+area_id+"&dungeon_tribe="+dungeon_tribe);
+		}
+	});
+	//fnTimeOutRedirect('/en/ios/dungeon/ajaxSaveMissionBoss?area_id='+fnQueryString('area_id')+'&dungeon_tribe='+fnQueryString('tribe'));
 }
 
 // dungeon
@@ -2018,6 +2077,12 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/dungeon/mission") {
 		fnDungeonMission();
+	}
+	if (window.location.pathname === "/en/ios/dungeon/battle") {
+		fnDungeonBattle();
+	}
+	if (window.location.pathname === "/en/ios/dungeon/win") {
+		fnDungeonWin();
 	}
 	if (window.location.pathname === "/en/ios/battle/battle") {
 		fnBattleBattle();
