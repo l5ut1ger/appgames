@@ -1349,6 +1349,12 @@ function fnDungeonMission() {
 
 }
 
+// dungeon battle
+
+function fnDungeonBattle() {
+	fnTimeOutRedirect('/en/ios/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
+}
+
 // Dungeon Win
 
 function fnDungeonWin() {
@@ -2045,6 +2051,9 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/dungeon/mission") {
 		fnDungeonMission();
+	}
+	if (window.location.pathname === "/en/ios/dungeon/battle") {
+		fnDungeonBattle();
 	}
 	if (window.location.pathname === "/en/ios/dungeon/win") {
 		fnDungeonWin();
