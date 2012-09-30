@@ -1381,7 +1381,7 @@ function fnDungeonWin() {
 		if ("") {
 			$.redirect("/en/ios/dungeon/complete");
 		} else {
-			$.redirect("/en/ios/dungeon/mission?go_next=true&area_id=1&dungeon_tribe=1");
+			$.redirect("/en/ios/dungeon/mission?go_next=true&area_id="+area_id+"&dungeon_tribe="+dungeon_tribe);
 		}
 	});
 	//fnTimeOutRedirect('/en/ios/dungeon/ajaxSaveMissionBoss?area_id='+fnQueryString('area_id')+'&dungeon_tribe='+fnQueryString('tribe'));
