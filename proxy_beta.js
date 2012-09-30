@@ -1325,7 +1325,7 @@ function fnDungeonMission() {
 		ig.game.decreaseBp = 0;
 		ig.game.addJewel = 0;
 		ig.game.addExp = 0;
-		//$.redirect(js_gen_url + "dungeon/mission");
+		location.reload(true);
     }
 	if (ig.game.mission_type != ig.game.MISSION_TYPE.BOSS) {
 		var willDoProgress = player.bp >= (ig.game.getMissionMaster()['use_bp'] * (parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)))?(parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)):Math.floor(player.bp/ig.game.getMissionMaster()['use_bp']);
