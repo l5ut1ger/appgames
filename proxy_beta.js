@@ -1299,6 +1299,10 @@ function fnTowerFinalRanking() {
 // dungeon mission
 
 function fnDungeonMission() {
+	if (fnQueryString('go_next') == 'true') {
+		fnTimeOutRedirect('/en/ios/dungeon');
+		return;
+	}
 	if (fnGetGrindingSpeed() == -1) {
 		return;
 	}
