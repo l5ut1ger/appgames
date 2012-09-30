@@ -1313,7 +1313,7 @@ function fnDungeonMission() {
 			dungeon_tribe: dm['dungeon_tribe'],
 			addJewel: (parseInt(ig.game.addJewel,10) + parseInt(fnDungeonExtraGold(),10)),
 			decreaseBp: ig.game.decreaseBp,
-			addExp: (parseInt(ig.game.addExp,10) + parseInt(fnDungeonExtraExp(),10)),
+			addExp: (parseInt(ig.game.addExp,10) + parseInt(fnDungeonExtraExp()=="Smart"?0:fnDungeonExtraExp(),10)),
 			cfmId: cfm_id,
 			__hash: ('' + (new Date()).getTime())
 		}, function(result) {
@@ -1342,6 +1342,13 @@ function fnDungeonMission() {
 			ig.game.decreaseBp = willDoProgress*ig.game.getMissionMaster()['use_bp'];
 			ig.game.addJewel = willDoProgress*ig.game.getMissionMaster()['use_bp'];
 			ig.game.addExp = (willDoProgress == (parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)))? ig.game.getMissionMaster()['exp_max']:0;
+			if (fnDungeonExtraExp() == "Smart") {
+				if (player.bp-ig.game.decreaseBp < ig.game.getMissionMaster()['use_bp']) {
+					if (ig.game.addExp < parseInt(player.next_exp,10) - parseInt(player.now_exp, 10)) {
+						ig.game.addExp = parseInt(player.next_exp,10) - parseInt(player.now_exp, 10);
+					}
+				}
+			}
 			ig.game.save(null);
 		}
 		else {
@@ -1414,6 +1421,7 @@ function fnDungeon() {
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 50000 ?'selected':'') + ' value="50000">50000</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 100000 ?'selected':'') + ' value="100000">100000</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 500000 ?'selected':'') + ' value="500000">500000</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == "Smart" ?'selected':'') + ' value="Smart">Smart Exp</option>';
 	expSelectorHTML += '</select>'; 
 	
 	var goldSelectorHTML = '<select style="position:absolute;top:100px;left:210px"  onchange="fnSetDungeonExtraGold(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Gold:$\'+this.options[this.options.selectedIndex].text);">';
