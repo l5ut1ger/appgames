@@ -1334,7 +1334,6 @@ function fnDungeonMission() {
 		ig.game.decreaseBp = 0;
 		ig.game.addJewel = 0;
 		ig.game.addExp = 0;		
-		location.reload(true);
 		fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
     }
 	if (ig.game.mission_type != ig.game.MISSION_TYPE.BOSS) {
