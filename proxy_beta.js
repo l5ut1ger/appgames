@@ -1344,6 +1344,9 @@ function fnDungeonMission() {
 			ig.game.addExp = (willDoProgress == (parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)))? ig.game.getMissionMaster()['exp_max']:0;
 			ig.game.save(null);
 		}
+		else {
+			setTimeout(function(){$.redirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);}, 60000);
+		}
 	}
 	else {
 		fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
