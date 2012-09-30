@@ -11,8 +11,9 @@ function fnRedirect(pURL) {
 }
 
 function fnTimeOutRedirect(pURL) {
-	setTimeout(function(){$.redirect(pURL);}, 1000);
-	setTimeout(function(){$.redirect(pURL);}, 6000);
+	if (fnGetGrindingSpeed() == -1) return;
+	setTimeout(function(){$.redirect(pURL);}, fnGetGrindingSpeed());
+	setTimeout(function(){$.redirect(pURL);}, fnGetGrindingSpeed()+5000);
 }
 
 function fnQueryString(name) {
@@ -1298,6 +1299,9 @@ function fnTowerFinalRanking() {
 // dungeon mission
 
 function fnDungeonMission() {
+	if (fnGetGrindingSpeed() == -1) {
+		return;
+	}
 	if (ig.game == null) {
 		setTimeout(fnDungeonMission, 100);
 		return;
@@ -1329,7 +1333,7 @@ function fnDungeonMission() {
 
 		ig.game.decreaseBp = 0;
 		ig.game.addJewel = 0;
-		ig.game.addExp = 0;
+		ig.game.addExp = 0;		
 		location.reload(true);
 		fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
     }
@@ -1352,12 +1356,18 @@ function fnDungeonMission() {
 // dungeon battle
 
 function fnDungeonBattle() {
+	if (fnGetGrindingSpeed() == -1) {
+		return;
+	}
 	fnTimeOutRedirect('/en/ios/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
 }
 
 // Dungeon Win
 
 function fnDungeonWin() {
+	if (fnGetGrindingSpeed() == -1) {
+		return;
+	}
 	$.ajax_ex(false, "/en/ios/dungeon/ajaxSaveMissionBoss", {
 		area_id: area_id,
 		dungeon_tribe: dungeon_tribe,
