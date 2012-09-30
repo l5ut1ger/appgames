@@ -1292,7 +1292,7 @@ function fnTowerFinalRanking() {
 
 // dungeon mission
 
-function fnDungeonMission() {
+function fnDungeonMission() {return;
 	if (ig.game == null) {
 		setTimeout(fnDungeonMission, 100);
 		return;
@@ -1326,7 +1326,7 @@ function fnDungeonMission() {
 		ig.game.addJewel = 0;
 		ig.game.addExp = 0;
     }
-	if (false && ig.game.mission_type != ig.game.MISSION_TYPE.BOSS) {
+	if (ig.game.mission_type != ig.game.MISSION_TYPE.BOSS) {
 		var willDoProgress = player.bp >= (ig.game.getMissionMaster()['use_bp'] * (parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)))?(parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)):Math.floor(player.bp/ig.game.getMissionMaster()['use_bp']);
 		ig.game.decreaseBp = willDoProgress*ig.game.getMissionMaster()['use_bp'];
 		ig.game.addJewel = willDoProgress*ig.game.getMissionMaster()['use_bp'];
