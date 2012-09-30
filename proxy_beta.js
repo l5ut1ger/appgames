@@ -2,7 +2,7 @@
 
 // define
 var missionInterval;
-var progressionList=[50063, 53064, 56064];
+var progressionList=[50066, 53067, 56067];
 // Tools
 
 function fnRedirect(pURL) {
@@ -212,6 +212,21 @@ function fnGetGrindingSpeed() {
 
 function fnSetGrindingSpeed(value) {
 	fnSetCookie(grindingSpeedKey, value);
+}
+
+// auto new mission
+
+var autoNewMissionKey = 'autoNewMissionKey';
+
+function fnAutoNewMission() {
+	if (fnGetCookie(autoNewMissionKey) === null) {
+		fnSetAutoNewMission(1);
+	}
+	return fnGetCookie(autoNewMissionKey);
+}
+
+function fnSetAutoNewMission(value) {
+	fnSetCookie(autoNewMissionKey, value);
 }
 
 // Auto EP Toggle
@@ -628,6 +643,13 @@ function fnProfileFixTabs() {
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1 ?'selected':'') + ' value="1">Time Travel</option>';
 	grindSelectorHTML += '</select><br/><br/>'; 
 	
+	// auto new mission setting
+	var autoNewMissionSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto New Mission (turn off if you are repeating old missions)</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	autoNewMissionSelectorHTML += '<select name="sel" onchange="fnSetAutoNewMission(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto New Mission \'+this.options[this.options.selectedIndex].text);">';
+	autoNewMissionSelectorHTML += '<option ' + (fnAutoNewMission() == 0 ?'selected':'') + ' value="0">Off</option>'
+	autoNewMissionSelectorHTML += '<option ' + (fnAutoNewMission() == 1 ?'selected':'') + ' value="1">On</option>';
+	autoNewMissionSelectorHTML += '</select><br/><br/>'; 
+	
 	// auto drink setting
 	var autoDrinkSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Drink</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	autoDrinkSelectorHTML += '<select name="sel" onchange="fnSetAutoDrink(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Drink \'+this.options[this.options.selectedIndex].text);">';
@@ -683,7 +705,7 @@ function fnProfileFixTabs() {
 	}
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
    
-	divTag.innerHTML = grindSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
+	divTag.innerHTML = grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 
 	onChangeProfile = function (id) 
@@ -1406,7 +1428,7 @@ function fnFixMissionExec() {
 		}
 		$.ajax_ex(false, '/en/ios/mission/process', {
 			area_id: area_id,
-			mission: mission.last_mission,
+			mission: (fnAutoNewMission()==0?mission.current_mission:mission.last_mission),
 			confirm_id: confirm_id
 		}, function(result) {
 			if (result.status == 4) {
