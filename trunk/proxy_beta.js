@@ -1411,6 +1411,8 @@ function fnDungeon() {
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 1 ?'selected':'') + ' value="1">Level 1</option>';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 2 ?'selected':'') + ' value="2">Level 2</option>';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 3 ?'selected':'') + ' value="3">Level 3</option>';
+	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 4 ?'selected':'') + ' value="4">Level 4</option>';
+	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 5 ?'selected':'') + ' value="5">Level 5</option>';
 	levelSelectorHTML += '</select>'; 
 	
 	var expSelectorHTML = '<select style="position:absolute;top:100px;left:110px" onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Exp:\'+this.options[this.options.selectedIndex].text);">';
