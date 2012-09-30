@@ -1331,7 +1331,7 @@ function fnDungeonMission() {
 		ig.game.addJewel = 0;
 		ig.game.addExp = 0;
 		location.reload(true);
-		fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&tribe='+dm['dungeon_tribe']);
+		fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
     }
 	if (ig.game.mission_type != ig.game.MISSION_TYPE.BOSS) {
 		var willDoProgress = player.bp >= (ig.game.getMissionMaster()['use_bp'] * (parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)))?(parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)):Math.floor(player.bp/ig.game.getMissionMaster()['use_bp']);
