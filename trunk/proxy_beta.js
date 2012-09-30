@@ -1299,7 +1299,7 @@ function fnTowerFinalRanking() {
 // dungeon mission
 
 function fnDungeonMission() {
-	if (fnQueryString('go_next') == 'true') {
+	if (fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length) {
 		fnTimeOutRedirect('/en/ios/dungeon');
 		return;
 	}
