@@ -1406,7 +1406,7 @@ function fnDungeonWin() {
 function fnDungeon() {
 	
 	// level select setting
-	var levelSelectorHTML = '<select style="position:absolute;top:100px;left:0px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(\'Level:\'+this.options[this.options.selectedIndex].text);alert(\'Will take effect after you re-enter this page.\');">';
+	var levelSelectorHTML = '<select style="position:absolute;top:100px;left:0px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(\'Level:\'+this.options[this.options.selectedIndex].text);location.reload();">';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Current Level</option>'
 	for (var j=1;j<=10;j++) {
 		levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == j ?'selected':'') + ' value="'+j+'">Level '+j+'</option>';
