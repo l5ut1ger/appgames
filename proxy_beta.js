@@ -1937,6 +1937,7 @@ function fnPresentSuggest() {
 		alert(itemResultArray[0]);
 		fnSetGiftCookies(itemArray.join(fnGetSeparator()));
 		var link = "/en/ios/present/confirm?ctg="+itemResultArray.split(":")[0]+"&pid="+itemResultArray.split(":")[1] + "&amt=" + itemResultArray.split(":")[2];
+		alert(link);
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 5000);
 	}
