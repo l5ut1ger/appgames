@@ -2423,8 +2423,9 @@ function fnTrade() {
 // fusion
 
 function fnFusionGenerateMonsterFromAllySummon() {
-	$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {});
 	alert('summon');
+	$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {});
+	
 }
 
 function fnFusionAuto(pUniqueNo) {
