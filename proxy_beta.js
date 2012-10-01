@@ -2665,7 +2665,6 @@ function fnFusionFixPage() {
 }
 
 function fnFusionFusion() {
-	fnGrowl('Please wait, using Ally Summon...');
 	var timeGap = 0;
 	var minGap = 500;
 	alert('a');
