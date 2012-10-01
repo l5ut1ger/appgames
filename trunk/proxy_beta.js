@@ -2439,7 +2439,7 @@ function fnFusionAuto(pUniqueNo) {
 	//fnGrowl('Please wait, using Ally Summon...');
 	fusionCounter = 0;
 	var timeGap = 0;
-	for (var j=0;j<10 && fusionMonsterCount+j < player.summon_max;j++) {
+	for (var j=0;j<10 && parseInt(fusionMonsterCount,10)+j < parseInt(player.summon_max,10);j++) {
 		timeGap+=500;
 		setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 	}
@@ -2467,9 +2467,9 @@ function fnFusionAuto(pUniqueNo) {
 			}
 			if (sacCount > 0) {
 				var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-				location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-				//setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 1000);
-				//setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 6000);
+				//location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+				setTimeout(function(){$.redirect(link);}, 1000);
+				setTimeout(function(){$.redirect(link);}, 6000);
 			}
 			else {
 				alert("You have no monsters to sacrifice.");
