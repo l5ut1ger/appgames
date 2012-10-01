@@ -2428,12 +2428,14 @@ function fnFusionAuto(pUniqueNo) {
 		var sacCount = 0;
 		for (var i=0;i<result.payload.length;i++) {
 			if (parseInt(result.payload[i].skill_id,10) == 0) { // no skill
-				if (parseInt(result.payload[i].grade,10) <= 4) { // <= rank A
-					if (result.payload[i].location ==0) { // not in formation
-						sacStr += '&uno_' + sacCount + '=' + result.payload[i].unique_no;
-						sacCount++;
-						if (sacCount >= 10) {
-							break;
+				if (parseInt(result.payload[i].grade,10) <= 3) { // <= rank B+
+					if (parseInt(result.payload[i].bp,10) < 100) { // no soul
+						if (result.payload[i].location ==0) { // not in formation
+							sacStr += '&uno_' + sacCount + '=' + result.payload[i].unique_no;
+							sacCount++;
+							if (sacCount >= 10) {
+								break;
+							}
 						}
 					}
 				}					
