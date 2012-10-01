@@ -2423,18 +2423,15 @@ function fnTrade() {
 // fusion
 
 function fnFusionGenerateMonsterFromAllySummon() {
-	alert('summon');
 	$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {});
 	
 }
 
 function fnFusionAuto(pUniqueNo) {
-alert('hi');
 	//fnGrowl('Please wait, using Ally Summon...');
 	for (var j=0;j<10;j++) {
 		setTimeout(fnFusionGenerateMonsterFromAllySummon, 500*j);
 	}
-alert('yes');
 	setTimeout(function(){alert('no');
 		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 			var sacStr = "";
@@ -2456,9 +2453,8 @@ alert('yes');
 			}
 			if (sacCount > 0) {
 				var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-				alert(link);
-				setTimeout(function(){$.redirect(link);}, 1000);
-				setTimeout(function(){$.redirect(link);}, 6000);
+				setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 1000);
+				setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 6000);
 			}
 			else {
 				alert("You have no monsters to sacrifice.");
