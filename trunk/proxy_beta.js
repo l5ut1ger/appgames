@@ -2432,7 +2432,7 @@ function fnFusionAuto(pUniqueNo) {
 	for (var j=0;j<10;j++) {
 		setTimeout(fnFusionGenerateMonsterFromAllySummon, 500*j);
 	}
-	setTimeout(function(){alert('no');
+	setTimeout(function(){
 		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 			var sacStr = "";
 			var sacCount = 0;
@@ -2453,8 +2453,9 @@ function fnFusionAuto(pUniqueNo) {
 			}
 			if (sacCount > 0) {
 				var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-				setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 1000);
-				setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 6000);
+				location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+				//setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 1000);
+				//setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 6000);
 			}
 			else {
 				alert("You have no monsters to sacrifice.");
