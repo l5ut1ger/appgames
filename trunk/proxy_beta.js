@@ -256,7 +256,7 @@ var autoStatsUpKey = 'autoStatsUp';
 
 function fnAutoStatsUp() {
 	if(fnGetCookie(autoStatsUpKey) === null) {
-			fnSetAutoStatsUp(1);
+		fnSetAutoStatsUp(1);
 	}
 	return fnGetCookie(autoStatsUpKey);
 }
@@ -271,7 +271,7 @@ var giftCookiesKey = 'giftCookiesKey';
 
 function fnGiftCookies() {
 	if(fnGetCookie(giftCookiesKey) === null) {
-			fnSetGiftCookies('');
+		fnSetGiftCookies('');
 	}
 	return fnGetCookie(giftCookiesKey);
 }
@@ -1930,9 +1930,11 @@ function fnPresentSuggest() {
 		setTimeout(function(){$.redirect("/en/ios/present/confirm?ctg=2&amt=1&pid="+fnQueryString('mid'));}, 5000);
 		return;
 	}
-	else if (fnGiftCookies() != '') {
+	if (fnGiftCookies() != '') {
 		var itemArray = fnGiftCookies().split(fnGetSeparator());
+		alert("item count:"+itemArray.length);
 		var itemResultArray = itemArray.splice(0,1);
+		alert(itemResultArray[0]);
 		fnSetGiftCookies(itemArray.join(fnGetSeparator()));
 		var link = "/en/ios/present/confirm?ctg="+itemResultArray.split(":")[0]+"&pid="+itemResultArray.split(":")[1] + "&amt=" + itemResultArray.split(":")[2];
 		setTimeout(function(){$.redirect(link);}, 1000);
