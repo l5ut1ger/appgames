@@ -852,6 +852,9 @@ function fnFriendActionGiftC() {
 }
 
 function fnFriendActionGiftProg() {
+	if (!confirm('Are you sure you want to gift your prog+ to ' + friendship.nickname + '?')) {
+		return;
+	}
 	var tribe;
 	if ($('.label-tribe-1').length) {
 		tribe = 1;
@@ -884,21 +887,139 @@ function fnFriendActionGiftProg() {
 	return;
 }
 
+function fnFriendActionGiftStacked() {
+	if (!confirm('Are you sure you want to gift all your stacked(4) to ' + friendship.nickname + '?')) {
+		return;
+	}
+	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		var leader=null;
+		var l1=0;
+		giftList = [];
+		for (var i=0;i<result.payload.length;i++) {
+			if (parseInt(result.payload[i].skill_lv,10) == 4) {
+				if (parseInt(result.payload[i].grade,10) >= 2 && parseInt(result.payload[i].grade,10) <= 4) {
+					giftList.push('2:'+result.payload[i].unique_no+':1');	
+				}					
+			}
+		}
+		if (giftList.length > 0) {
+			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
+		}
+		else {
+			alert("You have no stacked(4) B/B+/A");
+		}
+	});
+	return;
+}
+
 function fnFriendActionGiftAllItems() {
 	if (!confirm('Are you sure you want to gift all your items to ' + friendship.nickname + '?')) {
 		return;
 	}
-	document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname)
 	$.ajax_ex(false, '/en/ios/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = [];
 		for (var i=0;i<data.payload.items.length;i++) {				
 			items.push('3:'+data.payload.items[i].item_id+':'+data.payload.items[i].amount);			
 		}
-		fnSetGiftCookies(items.join(fnGetSeparator()));
+		if (items.length > 0) {
+			fnSetGiftCookies(items.join(fnGetSeparator()));
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
+		}
+		else {
+			alert("You have no items left");
+		}
 	});
-	setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
-	setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
+	
+}
+
+function fnFriendActionGiftSummons() {
+	if (!confirm('Are you sure you want to gift your major summons to ' + friendship.nickname + '?')) {
+		return;
+	}
+	var divTag = document.createElement("div");
+	divTag.id = "checkSummonDiv";
+	divTag.style.display = "none";
+	document.body.appendChild(divTag); 	
+	
+	var result= $('#checkSummonDiv').load('/en/ios/summon #summon_group', {}, function(){
+		var items = [];
+		if (result.find('#summon_b_grade').find('.cost_ticket').length) {
+			items.push('3:5000:'+parseInt(result.find('#summon_b_grade').find('.cost_ticket').html(),10));
+		}
+		if (result.find('#summon_a_grade').find('.cost_ticket').length) {
+			items.push('3:5005:'+parseInt(result.find('#summon_a_grade').find('.cost_ticket').html(),10));
+		}
+		if (result.find('#summon_special').find('.cost_ticket').length) {
+			if (parseInt(result.find('#summon_special').find('.cost_ticket').html(),10) > 0) {
+				items.push('3:5200:'+parseInt(result.find('#summon_special').find('.cost_ticket').html(),10));
+			}
+		}
+		if (result.find('#summon_super_special').find('.cost_ticket').length) {
+			if (parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10) > 0) {
+				items.push('3:5026:'+parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10));
+			}
+		}
+		if (items.length > 0) {
+			fnSetGiftCookies(items.join(fnGetSeparator()));	
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
+		}
+		else {
+			alert("You have no major summons left");
+		}
+	});	
+}
+
+var giftList = [];
+
+function fnFriendActionGiftItemsAndSummons() {
+	if (!confirm('Are you sure you want to gift all your items and major summons to ' + friendship.nickname + '?')) {
+		return;
+	}
+	giftList = [];
+	$.ajax_ex(false, '/en/ios/item/ajax_get_items?offset=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }		
+		for (var i=0;i<data.payload.items.length;i++) {				
+			giftList.push('3:'+data.payload.items[i].item_id+':'+data.payload.items[i].amount);			
+		}
+		
+		var divTag = document.createElement("div");
+		divTag.id = "checkSummonDiv";
+		divTag.style.display = "none";
+		document.body.appendChild(divTag); 	
+		
+		var result= $('#checkSummonDiv').load('/en/ios/summon #summon_group', {}, function(){
+			if (result.find('#summon_b_grade').find('.cost_ticket').length) {
+				giftList.push('3:5000:'+parseInt(result.find('#summon_b_grade').find('.cost_ticket').html(),10));
+			}
+			if (result.find('#summon_a_grade').find('.cost_ticket').length) {
+				giftList.push('3:5005:'+parseInt(result.find('#summon_a_grade').find('.cost_ticket').html(),10));
+			}
+			if (result.find('#summon_special').find('.cost_ticket').length) {
+				if (parseInt(result.find('#summon_special').find('.cost_ticket').html(),10) > 0) {
+					giftList.push('3:5200:'+parseInt(result.find('#summon_special').find('.cost_ticket').html(),10));
+				}
+			}
+			if (result.find('#summon_super_special').find('.cost_ticket').length) {
+				if (parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10) > 0) {
+					giftList.push('3:5026:'+parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10));
+				}
+			}
+			if (giftList.length > 0) {
+				fnSetGiftCookies(giftList.join(fnGetSeparator()));	
+				setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
+				setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
+			}
+			else {
+				alert("You have no items & major summons left");
+			}
+		});
+		
+	});
 }
 
 function fnFriendActionSelect(pAction) {
@@ -910,6 +1031,15 @@ function fnFriendActionSelect(pAction) {
 	}
 	else if (pAction == "GiftItems") {
 		fnFriendActionGiftAllItems();
+	}
+	else if (pAction == "GiftSummons") {
+		fnFriendActionGiftSummons();
+	}
+	else if (pAction == "GiftItemSummons") {
+		fnFriendActionGiftItemsAndSummons();
+	}
+	else if (pAction == "GiftStacked") {
+		fnFriendActionGiftStacked();
 	}
 }
 
@@ -929,8 +1059,9 @@ function fnProfileAddFriendActionSelector() {
 	var selectorHTML = '<select name="sel" onchange="javascript:fnFriendActionSelect(this.options[this.options.selectedIndex].value);"><option selected value="0">Friend Action</option>';
 	selectorHTML += '<option value="GiftP">Gift Prog+</option>';
 	selectorHTML += '<option value="GiftItems">Gift All Items</option>';
-	//selectorHTML += '<option value="GiftSummons">Gift All Summons</option>';
-	//selectorHTML += '<option value="GiftC">Gift a C/C+</option>'
+	selectorHTML += '<option value="GiftSummons">Gift Summons</option>';
+	selectorHTML += '<option value="GiftItemSummons">Gift Item&Sum</option>';
+	selectorHTML += '<option value="GiftStacked">Gift Stacked(4)</option>';
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
@@ -1934,7 +2065,7 @@ function fnPresentSuggest() {
 		var itemArray = fnGiftCookies().split(fnGetSeparator());
 		var itemResultArray = itemArray.splice(0,1);
 		fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-		var link = "/en/ios/present/confirm?ctg="+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + "&amt=" + itemResultArray[0].split(":")[2];
+		var link = "/en/ios/present/confirm?ctg="+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 5000);
 	}
