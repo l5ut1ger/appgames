@@ -2,6 +2,7 @@
 
 // define
 var missionInterval;
+var progressionGuildSpecific = false;
 var progressionList=[50066, 53067, 56067];
 var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "Revive", "16": "Pre-Strike", "17": "DEA", "20": "DED", "24": "Agility", "27": "Critical", "30": "Dodge", "37": "Venom", "47": "HellBlaze", "50": "Artic", "53": "Lightning", "57": "Health", "58": "ImpDown", "59": "CovDown", "60": "PsyDown", "61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 // Tools
@@ -856,35 +857,57 @@ function fnFriendActionGiftProg() {
 	if (!confirm('Are you sure you want to gift your prog+ to ' + friendship.nickname + '?')) {
 		return;
 	}
-	var tribe;
-	if ($('.label-tribe-1').length) {
-		tribe = 1;
-	}
-	if ($('.label-tribe-2').length) {
-		tribe = 2;
-	}
-	if ($('.label-tribe-3').length) {
-		tribe = 3;
-	}
-	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
-		var leader=null;
-		var l1=0;
-		
-		for (var i=0;i<result.payload.length;i++) {
-			if (result.payload[i].monster_id == progressionList[tribe-1]) {
-				if (result.payload[i].location ==0 && (leader == null || leader.lv <  result.payload[i].lv)) {
-					leader = result.payload[i];
-					l1=result.payload[i].unique_no;
-				}					
+	if (progressionGuildSpecific) {
+		var tribe;
+		if ($('.label-tribe-1').length) {
+			tribe = 1;
+		}
+		if ($('.label-tribe-2').length) {
+			tribe = 2;
+		}
+		if ($('.label-tribe-3').length) {
+			tribe = 3;
+		}
+		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+			var leader=null;
+			var l1=0;
+			
+			for (var i=0;i<result.payload.length;i++) {
+				if (result.payload[i].monster_id == progressionList[tribe-1]) {
+					if (result.payload[i].location ==0 && (leader == null || leader.lv <  result.payload[i].lv)) {
+						leader = result.payload[i];
+						l1=result.payload[i].unique_no;
+					}					
+				}
 			}
-		}
-		if (leader !=null) {
-			setTimeout(function(){$.redirect('/en/ios/present/suggest?pid='+ friendship.pid + '&mid='+ l1 +"&name="+encodeURIComponent(friendship.nickname));}, 1);
-		}
-		else {
-			alert('you dont have available prog+');
-		}
-	});
+			if (leader !=null) {
+				setTimeout(function(){$.redirect('/en/ios/present/suggest?pid='+ friendship.pid + '&mid='+ l1 +"&name="+encodeURIComponent(friendship.nickname));}, 1);
+			}
+			else {
+				alert('you dont have available prog+');
+			}
+		});
+	}
+	else {
+		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+			giftList = [];
+			for (var i=0;i<result.payload.length;i++) {
+				for (var j=0;j<progressionList.length;j++) {
+					if (parseInt(result.payload[i].monster_id,10) == progressionList[j]) {
+						giftList.push('2:'+result.payload[i].unique_no+':1');				
+					}					
+				}				
+			}
+			if (giftList.length > 0) {
+				fnSetGiftCookies(giftList.join(fnGetSeparator()));	
+				setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+				setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
+			}
+			else {
+				alert("You have no prog left.");
+			}
+		});
+	}
 	return;
 }
 
@@ -1207,6 +1230,54 @@ function fnDeckChange(pURL) {
 	document.location='/en/ios/home';
 }
 
+function fnDeckChangeAdvance(pFormation) {
+	if (pFormation=='') {
+		return;
+	}
+	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		var unique_no_array = pFormation.split(fnGetConnector())[2].split(':');
+		var monster_id_array = pFormation.split(fnGetConnector())[3].split(':');
+		var result_array = {"l1":"0", "l2":"0", "l3":"0", "l4":"0", "l5":"0"};
+
+		for (var i=0;i<result.payload.length;i++) {
+			for (var j=0;j<5;j++) {
+				if (result.payload[i].unique_no == unique_no_array[j]) {
+					result_array['l'+(j+1)] = result.payload[i].unique_no;
+				}
+			}
+		}
+		for (var j=0;j<5;j++) {
+			if (result_array['l'+(j+1)] == 0 && unique_no_array[j] != 0) {
+				var missed = true;
+				for (var i=0;i<result.payload.length;i++) {
+					if (result.payload[i].monster_id == monster_id_array[j]) {
+						var usedInTeam = false;
+						for (var k=0;k<j;k++) {
+							if (result.payload[i].unique_no == result_array['l'+(k+1)]) {
+								usedInTeam = true;
+							}
+						}
+						if (!usedInTeam) {
+							result_array['l'+(j+1)] = result.payload[i].unique_no;
+							missed = false;
+						}
+					}
+				}
+				if (missed) {
+					alert('Missing ' + monster_id_array[j]);
+				}
+			}
+		}
+		if (result_array['l1'] == "0") {
+			alert("Missing Leader");
+			return;
+		}
+		$.ajax_ex(false, '/en/ios/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, function(result) {});
+		setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+	});
+	return;
+}
+
 function fnDeckAddFormationSelector() {
 	var i;
 	var divTag = document.createElement("div"); 
@@ -1220,11 +1291,11 @@ function fnDeckAddFormationSelector() {
 	divTag.style.left = "0px"; 
 	divTag.style.top = "120px"; 
 
-	var selectorHTML = '<select name="sel" onchange="fnDeckChange(this.options[this.options.selectedIndex].value);"><option selected value="0">Formation</option><option value="prog">Progression On</option>';
+	var selectorHTML = '<select name="sel" onchange="fnDeckChangeAdvance(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option selected value="0">Formation</option><option value="prog">Progression On</option>';
 	var aFormationArray = fnGetFormationArray();
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		selectorHTML+='<option value="' + aFormationArray[i].split(fnGetConnector())[0] + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		selectorHTML+='<option value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	selectorHTML+='</select>'; 
 
@@ -1243,8 +1314,19 @@ function fnDeckRecordFormation() {
 	var team = document.getElementById('a-btn-ok').getAttribute('href');
 	var aFormationArray = fnGetFormationArray();
 	var teamName = prompt("Please input a team name");
-	if (!fnArrayHasItem(aFormationArray, team + fnGetConnector() + teamName)) {
-		aFormationArray.splice(0,0,team + fnGetConnector() + teamName);
+	var monster_id_array = [];
+	var patt1=/[0-9]{1,5}/g;
+	for (var i=0;i<5;i++) {
+		if (fnQueryString('unos').split('_')[i] == 0) {
+			monster_id_array.push("0");
+		}
+		else {
+			monster_id_array.push($('#div-new-deck').find('.__l'+(i+1)).attr('src').match(patt1));
+		}
+	}
+	var finalStr = team + fnGetConnector() + teamName + fnGetConnector() + fnQueryString('unos').split('_').join(':') + fnGetConnector() + monster_id_array.join(":");
+	if (!fnArrayHasItem(aFormationArray, finalStr)) {
+		aFormationArray.splice(0,0,finalStr);
 	}
 	else {
 		return;
