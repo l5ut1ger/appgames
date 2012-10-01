@@ -891,7 +891,7 @@ function fnFriendActionGiftStacked() {
 		giftList = [];
 		for (var i=0;i<result.payload.length;i++) {
 			if (parseInt(result.payload[i].skill_lv,10) == 4) {
-				if (parseInt(result.payload[i].grade,10) >= 2 && parseInt(result.payload[i].grade,10) <= 4)) {
+				if (parseInt(result.payload[i].grade,10) >= 2 && parseInt(result.payload[i].grade,10) <= 4) {
 					giftList.push('2:'+data.payload.items[i].unique_no);	
 				}					
 			}
@@ -2059,7 +2059,7 @@ function fnPresentSuggest() {
 		var itemArray = fnGiftCookies().split(fnGetSeparator());
 		var itemResultArray = itemArray.splice(0,1);
 		fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-		var link = "/en/ios/present/confirm?ctg="+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?"&amt=" + itemResultArray[0].split(":")[2]:"");
+		var link = "/en/ios/present/confirm?ctg="+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 5000);
 	}
