@@ -1207,6 +1207,45 @@ function fnDeckChange(pURL) {
 	document.location='/en/ios/home';
 }
 
+function fnDeckChangeAdvance(pFormation) {
+	if (pFormation=='') {
+		return;
+	}
+	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		var unique_no_array = pFormation.split(fnGetConnector())[2].split(':');
+		var monster_id_array = pFormation.split(fnGetConnector())[3].split(':');
+		var result_array = {"l1":"0", "l2":"0", "l3":"0", "l4":"0", "l5":"0"};
+
+		for (var i=0;i<result.payload.length;i++) {
+			for (var j=0;j<5;j++) {
+				if (result.payload[i].unique_no == unique_no_array[j]) {
+					result_array['l'+(j+1)] = result.payload[i].unique_no;
+				}
+			}
+		}
+		for (var j=0;j<5;j++) {
+			if (result_array['l'+(j+1)] == 0 && unique_no_array[j] != 0) {
+				for (var i=0;i<result.payload.length;i++) {
+					if (result.payload[i].monster_id == monster_id_array[j]) {
+						var usedInTeam = false;
+						for (var k=0;k<j;k++) {
+							if (result.payload[i].unique_no == result_array['l'+(k+1)]) {
+								usedInTeam = true;
+							}
+						}
+						if (!usedInTeam) {
+							result_array['l'+(j+1)] = result.payload[i].unique_no;
+						}
+					}
+				}
+			}
+		}
+		$.ajax_ex(false, '/en/ios/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, function(result) {});
+		setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+	});
+	return;
+}
+
 function fnDeckAddFormationSelector() {
 	var i;
 	var divTag = document.createElement("div"); 
