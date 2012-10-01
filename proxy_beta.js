@@ -967,7 +967,7 @@ function fnProfileAddFriendActionSelector() {
 	var selectorHTML = '<select name="sel" onchange="javascript:fnFriendActionSelect(this.options[this.options.selectedIndex].value);"><option selected value="0">Friend Action</option>';
 	selectorHTML += '<option value="GiftP">Gift Prog+</option>';
 	selectorHTML += '<option value="GiftItems">Gift All Items</option>';
-	//selectorHTML += '<option value="GiftSummons">Gift All Summons</option>';
+	selectorHTML += '<option value="GiftSummons">Gift Summons</option>';
 	//selectorHTML += '<option value="GiftC">Gift a C/C+</option>'
 	selectorHTML+='</select>'; 
 
