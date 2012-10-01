@@ -887,7 +887,7 @@ function fnFriendActionGiftProg() {
 	});
 	return;
 }
-
+/*
 function fnFriendActionGiftSoul() {
 	if (!confirm('Are you sure you want to gift all your Soul to ' + friendship.nickname + '?')) {
 		return;
@@ -965,7 +965,7 @@ function fnFriendActionGiftSkill(pSkillID) {
 		}
 	});
 	return;
-}
+}*/
 
 function fnFriendActionGiftAllItems() {
 	if (!confirm('Are you sure you want to gift all your items to ' + friendship.nickname + '?')) {
