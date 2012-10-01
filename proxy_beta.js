@@ -2461,7 +2461,7 @@ function fnFusionAuto(pUniqueNo) {
 				alert("You have no monsters to sacrifice.");
 			}
 		});
-	}, 1);
+	}, 3000);
 	return;
 }
 
