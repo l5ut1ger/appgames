@@ -2442,12 +2442,9 @@ function fnFusionAuto(pUniqueNo) {
 		timeGap+=500;
 		setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 	}
-	alert('well');
 	setTimeout(function () {
 		var sacStr = "";
 		var sacCount = 0;
-		fusionMonsterCount = result.payload.length;
-		alert('hi');
 		for (var i=0;i<monsters.length;i++) {
 			if (parseInt(monsters[i].skill_id,10) == 0) { // no skill
 				if (parseInt(monsters[i].grade,10) <= 3) { // <= rank B+
