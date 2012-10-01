@@ -1268,11 +1268,11 @@ function fnDeckAddFormationSelector() {
 	divTag.style.left = "0px"; 
 	divTag.style.top = "120px"; 
 
-	var selectorHTML = '<select name="sel" onchange="fnDeckChange(this.options[this.options.selectedIndex].value);"><option selected value="0">Formation</option><option value="prog">Progression On</option>';
+	var selectorHTML = '<select name="sel" onchange="fnDeckChangeAdvance(aFormationArray[this.options[this.options.selectedIndex].value]);"><option selected value="0">Formation</option><option value="prog">Progression On</option>';
 	var aFormationArray = fnGetFormationArray();
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		selectorHTML+='<option value="' + aFormationArray[i].split(fnGetConnector())[0] + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		selectorHTML+='<option value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	selectorHTML+='</select>'; 
 
@@ -1298,7 +1298,6 @@ function fnDeckRecordFormation() {
 			monster_id_array.push("0");
 		}
 		else {
-			alert($('#div-new-deck').find('.__l'+(i+1)).attr('src').match(patt1));
 			monster_id_array.push($('#div-new-deck').find('.__l'+(i+1)).attr('src').match(patt1));
 		}
 	}
