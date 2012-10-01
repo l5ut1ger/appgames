@@ -888,7 +888,6 @@ function fnFriendActionGiftAllItems() {
 	if (!confirm('Are you sure you want to gift all your items to ' + friendship.nickname + '?')) {
 		return;
 	}
-	document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname)
 	$.ajax_ex(false, '/en/ios/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = [];
@@ -945,6 +944,54 @@ function fnFriendActionGiftSummons() {
 	});	
 }
 
+var giftList = [];
+
+function fnFriendActionGiftItemsAndSummons() {
+	if (!confirm('Are you sure you want to gift all your items and major summons to ' + friendship.nickname + '?')) {
+		return;
+	}
+	giftList = [];
+	$.ajax_ex(false, '/en/ios/item/ajax_get_items?offset=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }		
+		for (var i=0;i<data.payload.items.length;i++) {				
+			giftList.push('3:'+data.payload.items[i].item_id+':'+data.payload.items[i].amount);			
+		}
+		
+		var divTag = document.createElement("div");
+		divTag.id = "checkSummonDiv";
+		divTag.style.display = "none";
+		document.body.appendChild(divTag); 	
+		
+		var result= $('#checkSummonDiv').load('/en/ios/summon #summon_group', {}, function(){
+			if (result.find('#summon_b_grade').find('.cost_ticket').length) {
+				giftList.push('3:5000:'+parseInt(result.find('#summon_b_grade').find('.cost_ticket').html(),10));
+			}
+			if (result.find('#summon_a_grade').find('.cost_ticket').length) {
+				giftList.push('3:5005:'+parseInt(result.find('#summon_a_grade').find('.cost_ticket').html(),10));
+			}
+			if (result.find('#summon_special').find('.cost_ticket').length) {
+				if (parseInt(result.find('#summon_special').find('.cost_ticket').html(),10) > 0) {
+					giftList.push('3:5200:'+parseInt(result.find('#summon_special').find('.cost_ticket').html(),10));
+				}
+			}
+			if (result.find('#summon_super_special').find('.cost_ticket').length) {
+				if (parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10) > 0) {
+					giftList.push('3:5026:'+parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10));
+				}
+			}
+			if (giftList.length > 0) {
+				fnSetGiftCookies(giftList.join(fnGetSeparator()));	
+				setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
+				setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
+			}
+			else {
+				alert("You have no items & major summons left");
+			}
+		});
+		
+	});
+}
+
 function fnFriendActionSelect(pAction) {
 	if (pAction == "GiftC") {
 		fnFriendActionGiftC();
@@ -957,6 +1004,9 @@ function fnFriendActionSelect(pAction) {
 	}
 	else if (pAction == "GiftSummons") {
 		fnFriendActionGiftSummons();
+	}
+	else if (pAction == "GiftItemSummons") {
+		fnFriendActionGiftItemsAndSummons();
 	}
 }
 
@@ -977,6 +1027,7 @@ function fnProfileAddFriendActionSelector() {
 	selectorHTML += '<option value="GiftP">Gift Prog+</option>';
 	selectorHTML += '<option value="GiftItems">Gift All Items</option>';
 	selectorHTML += '<option value="GiftSummons">Gift Summons</option>';
+	selectorHTML += '<option value="GiftItemSummons">Gift Item&Sum</option>';
 	//selectorHTML += '<option value="GiftC">Gift a C/C+</option>'
 	selectorHTML+='</select>'; 
 
