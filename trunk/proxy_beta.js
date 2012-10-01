@@ -2,6 +2,7 @@
 
 // define
 var missionInterval;
+var progressionGuildSpecific = false;
 var progressionList=[50066, 53067, 56067];
 var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "Revive", "16": "Pre-Strike", "17": "DEA", "20": "DED", "24": "Agility", "27": "Critical", "30": "Dodge", "37": "Venom", "47": "HellBlaze", "50": "Artic", "53": "Lightning", "57": "Health", "58": "ImpDown", "59": "CovDown", "60": "PsyDown", "61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 // Tools
@@ -856,35 +857,57 @@ function fnFriendActionGiftProg() {
 	if (!confirm('Are you sure you want to gift your prog+ to ' + friendship.nickname + '?')) {
 		return;
 	}
-	var tribe;
-	if ($('.label-tribe-1').length) {
-		tribe = 1;
-	}
-	if ($('.label-tribe-2').length) {
-		tribe = 2;
-	}
-	if ($('.label-tribe-3').length) {
-		tribe = 3;
-	}
-	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
-		var leader=null;
-		var l1=0;
-		
-		for (var i=0;i<result.payload.length;i++) {
-			if (result.payload[i].monster_id == progressionList[tribe-1]) {
-				if (result.payload[i].location ==0 && (leader == null || leader.lv <  result.payload[i].lv)) {
-					leader = result.payload[i];
-					l1=result.payload[i].unique_no;
-				}					
+	if (progressionGuildSpecific) {
+		var tribe;
+		if ($('.label-tribe-1').length) {
+			tribe = 1;
+		}
+		if ($('.label-tribe-2').length) {
+			tribe = 2;
+		}
+		if ($('.label-tribe-3').length) {
+			tribe = 3;
+		}
+		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+			var leader=null;
+			var l1=0;
+			
+			for (var i=0;i<result.payload.length;i++) {
+				if (result.payload[i].monster_id == progressionList[tribe-1]) {
+					if (result.payload[i].location ==0 && (leader == null || leader.lv <  result.payload[i].lv)) {
+						leader = result.payload[i];
+						l1=result.payload[i].unique_no;
+					}					
+				}
 			}
-		}
-		if (leader !=null) {
-			setTimeout(function(){$.redirect('/en/ios/present/suggest?pid='+ friendship.pid + '&mid='+ l1 +"&name="+encodeURIComponent(friendship.nickname));}, 1);
-		}
-		else {
-			alert('you dont have available prog+');
-		}
-	});
+			if (leader !=null) {
+				setTimeout(function(){$.redirect('/en/ios/present/suggest?pid='+ friendship.pid + '&mid='+ l1 +"&name="+encodeURIComponent(friendship.nickname));}, 1);
+			}
+			else {
+				alert('you dont have available prog+');
+			}
+		});
+	}
+	else {
+		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+			giftList = [];
+			for (var i=0;i<result.payload.length;i++) {
+				for (var j=0;j<progressionList.length;j++) {
+					if (parseInt(result.payload[i].monster_id,10) == progressionList[j]) {
+						giftList.push('2:'+result.payload[i].unique_no+':1');				
+					}					
+				}				
+			}
+			if (giftList.length > 0) {
+				fnSetGiftCookies(giftList.join(fnGetSeparator()));	
+				setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+				setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
+			}
+			else {
+				alert("You have no prog left.");
+			}
+		});
+	}
 	return;
 }
 
