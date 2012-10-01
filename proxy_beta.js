@@ -2444,6 +2444,7 @@ function fnFusionGenerateMonsterFromAllySummon() {
 function fnFusionAuto(pUniqueNo) {
 	var sacStr = "";
 	var sacCount = 0;
+	alert('hey3');
 	for (var i=0;i<monsters.length;i++) {
 		if (parseInt(monsters[i].skill_id,10) == 0) { // no skill
 			if (parseInt(monsters[i].grade,10) <= 3) { // <= rank B+
@@ -2476,8 +2477,9 @@ function fnFusionAuto(pUniqueNo) {
 
 function fnFusionFixDestPage() {
 	showMonsters = function (offset, limit)
-	{
+	{alert('hey');
 		if (pasreInt(fnAutoFusion(),10) > 0) {
+			alert('hey2');
 			fnFusionAuto(fnQueryString('uno'));
 		}
 	
