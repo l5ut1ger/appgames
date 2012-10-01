@@ -1241,9 +1241,13 @@ function fnDeckChangeAdvance(pFormation) {
 					}
 				}
 				if (missed) {
-					alert('Missed ' + monster_id_array[j]);
+					alert('Missing ' + monster_id_array[j]);
 				}
 			}
+		}
+		if (result_array['l1'] == "0") {
+			alert("Missing Leader");
+			return;
 		}
 		$.ajax_ex(false, '/en/ios/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, function(result) {});
 		setTimeout(function(){$.redirect("/en/ios/home");}, 1);
@@ -1287,8 +1291,20 @@ function fnDeckRecordFormation() {
 	var team = document.getElementById('a-btn-ok').getAttribute('href');
 	var aFormationArray = fnGetFormationArray();
 	var teamName = prompt("Please input a team name");
-	if (!fnArrayHasItem(aFormationArray, team + fnGetConnector() + teamName)) {
-		aFormationArray.splice(0,0,team + fnGetConnector() + teamName);
+	var monster_id_array = [];
+	var patt1=/[0-9]{1,5}/g;
+	for (var i=0;i<5;i++) {
+		if (fnQueryString('unos').split('_')[i] == 0) {
+			monster_id_array.push("0");
+		}
+		else {
+			alert($('#div-new-deck').find('.__l'+(i+1)).attr('src').match(patt1));
+			monster_id_array.push($('#div-new-deck').find('.__l'+(i+1)).attr('src').match(patt1));
+		}
+	}
+	var finalStr = team + fnGetConnector() + teamName + fnGetConnector() + fnQueryString('unos').split('_').join(':') + fnGetConnector() + monster_id_array.join(":");
+	if (!fnArrayHasItem(aFormationArray, finalStr)) {
+		aFormationArray.splice(0,0,finalStr);
 	}
 	else {
 		return;
