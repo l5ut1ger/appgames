@@ -895,7 +895,7 @@ function fnFriendActionGiftSoul() {
 	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		giftList = [];
 		for (var i=0;i<result.payload.length;i++) {
-			if (parseInt(result.payload[i].bp,10) > = 100) {
+			if (parseInt(result.payload[i].bp,10) >= 100) {
 				giftList.push('2:'+result.payload[i].unique_no+':1');				
 			}
 		}
