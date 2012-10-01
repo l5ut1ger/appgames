@@ -1123,8 +1123,7 @@ function fnProfileAddFriendActionSelector() {
 	selectorHTML += '<option value="GiftItemSummons">Gift Item&Sum</option>';
 	selectorHTML += '<option value="GiftSoul">Gift All Soul</option>';
 	selectorHTML += '<option value="GiftStacked">Gift Stacked(4)</option>';
-	for (i=0;i<skillArray.length;i++) {
-	for (key in skillArray)
+	for (key in skillArray) {
 		selectorHTML += '<option value="GiftSkill'+key+'">Gift ' + skillArray[key] + '</option>';
 	}
 	selectorHTML+='</select>'; 
