@@ -1258,7 +1258,18 @@ function fnDeckChangeAdvance(pFormation) {
 							}
 						}
 						if (!usedInTeam) {
-							result_array['l'+(j+1)] = result.payload[i].unique_no;
+							if (result_array['l'+(j+1)] == 0) {
+								result_array['l'+(j+1)] = result.payload[i].unique_no;
+								result_array['l'+(j+1)+'level'] = result.payload[i].lv;
+								result_array['l'+(j+1)+'skillLevel'] = result.payload[i].skill_lv;
+							}
+							else {
+								if (result.payload[i].lv > result_array['l'+(j+1)+'level'] || (result.payload[i].lv == result_array['l'+(j+1)+'level'] && result.payload[i].skill_lv > result_array['l'+(j+1)+'skillLevel'])) {
+									result_array['l'+(j+1)] = result.payload[i].unique_no;
+									result_array['l'+(j+1)+'level'] = result.payload[i].lv;
+									result_array['l'+(j+1)+'skillLevel'] = result.payload[i].skill_lv;
+								}
+							}
 							missed = false;
 						}
 					}
