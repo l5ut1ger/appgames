@@ -2481,7 +2481,7 @@ function fnFusionAuto(pUniqueNo) {
 
 function fnFusionFixDestPage() {
 	showMonsters = function (offset, limit)
-	{
+	{alert('yay');
 		if (monsters === false) { return; }
 
 		// 
