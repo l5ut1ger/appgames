@@ -2668,15 +2668,17 @@ function fnFusionFusion() {
 	fnGrowl('Please wait, using Ally Summon...');
 	var timeGap = 0;
 	var minGap = 500;
+	alert('a');
 	for (var j=0;j<10;j++) {
 		timeGap+=minGap;
 		fnFusionGenerateMonsterFromAllySummon();
 		//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 	}
+	alert('b');
 	timeGap+=minGap;
 	if (parseInt(fnAutoFusion(),10) > 0) {
-		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, timeGap);
-		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, timeGap+5000);
+		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoFusion() });}, timeGap);
+		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoFusion() });}, timeGap+5000);
 	}
 }
 
