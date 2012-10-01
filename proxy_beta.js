@@ -2442,6 +2442,7 @@ function fnFusionAuto(pUniqueNo) {
 		timeGap+=500;
 		setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 	}
+	alert('well');
 	setTimeout(function () {
 		var sacStr = "";
 		var sacCount = 0;
