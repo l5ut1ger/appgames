@@ -898,14 +898,14 @@ function fnFriendActionGiftStacked() {
 		for (var i=0;i<result.payload.length;i++) {
 			if (parseInt(result.payload[i].skill_lv,10) == 4) {
 				if (parseInt(result.payload[i].grade,10) >= 2 && parseInt(result.payload[i].grade,10) <= 4) {
-					giftList.push('2:'+result.payload[i].unique_no);	
+					giftList.push('2:'+result.payload[i].unique_no+':1');	
 				}					
 			}
 		}
 		if (giftList.length > 0) {
 			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
-			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
-			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
 		}
 		else {
 			alert("You have no stacked(4) B/B+/A");
