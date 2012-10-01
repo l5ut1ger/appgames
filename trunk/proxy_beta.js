@@ -943,7 +943,7 @@ function fnFriendActionGiftFormation() {
 				giftList.push('2:'+result.payload[i].unique_no+':1');				
 			}			
 		}
-		
+		var totalBP = 0;
 		// auto formation
 		for (var j=0;j<5;j++) {
 			for (var i=0;i<result.payload.length;i++) {
@@ -958,15 +958,24 @@ function fnFriendActionGiftFormation() {
 				}
 				if (!usedInTeam) {
 					if (result_array['l'+(j+1)] == 0) {
-						result_array['l'+(j+1)] = result.payload[i].unique_no;
-						result_array['l'+(j+1)+'level'] = result.payload[i].lv;
-						result_array['l'+(j+1)+'skillLevel'] = result.payload[i].skill_lv;
-					}
-					else {
-						if (result.payload[i].lv > result_array['l'+(j+1)+'level'] || (result.payload[i].lv == result_array['l'+(j+1)+'level'] && result.payload[i].skill_lv > result_array['l'+(j+1)+'skillLevel'])) {
+						if (totalBP + result.payload[i].bp <= player.bp_max) { 
 							result_array['l'+(j+1)] = result.payload[i].unique_no;
 							result_array['l'+(j+1)+'level'] = result.payload[i].lv;
 							result_array['l'+(j+1)+'skillLevel'] = result.payload[i].skill_lv;
+							result_array['l'+(j+1)+'bp'] = result.payload[i].bp;
+							totalBP += result.payload[i].bp;
+						}
+					}
+					else {
+						if (result.payload[i].lv > result_array['l'+(j+1)+'level'] || (result.payload[i].lv == result_array['l'+(j+1)+'level'] && result.payload[i].skill_lv > result_array['l'+(j+1)+'skillLevel'])) {
+							if (totalBP - result_array['l'+(j+1)+'bp'] + result.payload[i].bp <= player.bp_max) { 
+								totalBP -= result_array['l'+(j+1)+'bp'];
+								result_array['l'+(j+1)] = result.payload[i].unique_no;
+								result_array['l'+(j+1)+'level'] = result.payload[i].lv;
+								result_array['l'+(j+1)+'skillLevel'] = result.payload[i].skill_lv;
+								result_array['l'+(j+1)+'bp'] = result.payload[i].bp;
+								totalBP += result.payload[i].bp;
+							}
 						}
 					}
 					missed = false;
