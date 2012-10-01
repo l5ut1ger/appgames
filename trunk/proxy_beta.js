@@ -2665,17 +2665,16 @@ function fnFusionFixPage() {
 }
 
 function fnFusionFusion() {
-	var timeGap = 0;
-	var minGap = 500;
-	alert('a');
-	for (var j=0;j<10;j++) {
-		timeGap+=minGap;
-		fnFusionGenerateMonsterFromAllySummon();
-		//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
-	}
-	alert('b');
-	timeGap+=minGap;
 	if (parseInt(fnAutoFusion(),10) > 0) {
+		var timeGap = 0;
+		var minGap = 500;
+		for (var j=0;j<10;j++) {
+			timeGap+=minGap;
+			fnFusionGenerateMonsterFromAllySummon();
+			//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
+		}
+		timeGap+=minGap;
+	
 		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoFusion() });}, timeGap);
 		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoFusion() });}, timeGap+5000);
 	}
