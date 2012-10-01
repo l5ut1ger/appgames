@@ -267,6 +267,21 @@ function fnSetAutoStatsUp(value) {
 	fnSetCookie(autoStatsUpKey, value);
 }
 
+// Auto Fusion
+
+var autoFusionKey = 'autoFusionKey';
+
+function fnAutoFusion() {
+	if(fnGetCookie(autoFusionKey) === null) {
+		fnSetAutoFusion(0);
+	}
+	return fnGetCookie(autoFusionKey);
+}
+
+function fnSetAutoFusion(value) {
+	fnSetCookie(autoFusionKey, value);
+}
+
 // Gift Cookies
 
 var giftCookiesKey = 'giftCookiesKey';
@@ -2408,7 +2423,32 @@ function fnTrade() {
 // fusion
 
 function fnFusionAuto(pUniqueNo) {
-	alert(pUniqueNo);
+	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		var sacStr = "";
+		var sacCount = 0;
+		for (var i=0;i<result.payload.length;i++) {
+			if (parseInt(result.payload[i].skill_id,10) == 0) { // no skill
+				if (parseInt(result.payload[i].grade,10) <= 4) { // <= rank A
+					if (result.payload[i].location ==0) { // not in formation
+						sacStr += '&uno_' + sacCount + '=' + result.payload[i].unique_no;
+						sacCount++;
+						if (sacCount >= 10) {
+							break;
+						}
+					}
+				}					
+			}
+		}
+		if (sacCount > 0) {
+			var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+			setTimeout(function(){$.redirect(link);}, 1000);
+			setTimeout(function(){$.redirect(link);}, 6000);
+		}
+		else {
+			alert("You have no monsters to sacrifice.");
+		}
+	});
+	return;
 }
 
 function fnFusionFixPage() {
@@ -2478,9 +2518,10 @@ function fnFusionFixPage() {
 		  base_tag.append(disable_tag);
 		}
 		else {
-			base_tag.append('<div class="autodecide-button btn __red __WS __HS" style="position:absolute; top: 83px; left: 100px;">AutoLevel</div>');
+			base_tag.append('<div class="autodecide-button btn __red __WS __HS" style="position:absolute; top: 83px; left: 100px;">Auto</div>');
 			$('> .autodecide-button', base_tag).click(function () {
-				fnFusionAuto(monster.unique_no);
+				fnSetAutoFusion(1);
+				$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });				
 			});
 			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
 			$('> .decide-button', base_tag).click(function () {
@@ -2495,7 +2536,14 @@ function fnFusionFixPage() {
 
 }
 
+function fnFusionDest() {
+	if (fnAutoFusion() == 1) {
+		fnFusionAuto(fnQueryString('uno'));
+	}
+}
+
 function fnFusion() {
+	fnSetAutoFusion(0);
 	fnFusionFixPage();
 }
 
@@ -2645,5 +2693,8 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/fusion") {
 		fnFusion();
+	}
+	if (window.location.pathname === "/en/ios/fusion/dest") {
+		fnFusionDest();
 	}
 }
