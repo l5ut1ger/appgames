@@ -2433,18 +2433,18 @@ function fnTrade() {
 
 function fnFusionGenerateMonsterFromAllySummon() {
 	var divTag = document.createElement("div");
-	divTag.id = "checkAllyDiv";
+	divTag.id = "summon";
 	divTag.style.display = "none";
 	document.body.appendChild(divTag); 	
 	
-	var result= $('#checkAllyDiv').load('/en/ios/summon/act?type=0', {}, function(){});
+	var result= $('#summon').load('/en/ios/summon/act?type=0', {}, function(){});
 	//$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {});	
 }
 
 function fnFusionAuto(pUniqueNo) {
 	fnGrowl('Please wait, using Ally Summon...');
 	var timeGap = 0;
-	var minGap = 5000;
+	var minGap = 500;
 	for (var j=0;j<10 && parseInt(monsters.length,10)+6+j < parseInt(player.summon_max,10);j++) {
 		timeGap+=minGap;
 		setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
@@ -2474,8 +2474,8 @@ function fnFusionAuto(pUniqueNo) {
 			
 			var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
 			//location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-			setTimeout(function(){$.redirect(link);}, 5000);
-			setTimeout(function(){$.redirect(link);}, 10000);
+			setTimeout(function(){$.redirect(link);}, 1000);
+			setTimeout(function(){$.redirect(link);}, 6000);
 		}
 		else {
 			alert("You have no monsters to sacrifice.");
