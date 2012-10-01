@@ -2430,8 +2430,7 @@ function fnFusionGenerateMonsterFromAllySummon() {
 function fnFusionAuto(pUniqueNo) {
 	//fnGrowl('Please wait, using Ally Summon...');
 	for (var j=0;j<10;j++) {
-		//setTimeout(fnFusionGenerateMonsterFromAllySummon, 500*j);
-		fnFusionGenerateMonsterFromAllySummon();
+		setTimeout(fnFusionGenerateMonsterFromAllySummon, 500*j);
 	}
 	setTimeout(function(){
 		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
