@@ -2438,8 +2438,9 @@ function fnFusionGenerateMonsterFromAllySummon() {
 function fnFusionAuto(pUniqueNo) {
 	fnGrowl('Please wait, using Ally Summon...');
 	var timeGap = 0;
+	var minGap = 2000;
 	for (var j=0;j<10 && parseInt(monsters.length,10)+6+j < parseInt(player.summon_max,10);j++) {
-		timeGap+=1000;
+		timeGap+=minGap;
 		setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 	}
 	setTimeout(function () {
@@ -2473,7 +2474,7 @@ function fnFusionAuto(pUniqueNo) {
 		else {
 			alert("You have no monsters to sacrifice.");
 		}
-	}, timeGap+500);
+	}, timeGap+minGap);
 	return;
 }
 
