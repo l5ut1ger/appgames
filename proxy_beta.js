@@ -2445,20 +2445,22 @@ function fnFusionAuto(pUniqueNo) {
 	var sacStr = "";
 	var sacCount = 0;
 	for (var i=0;i<monsters.length;i++) {
-		if (parseInt(monsters[i].skill_id,10) == 0) { // no skill
-			if (parseInt(monsters[i].grade,10) <= 3) { // <= rank B+
-				if (parseInt(monsters[i].bp,10) < 100) { // no soul
-					if (monsters[i].unique_no != pUniqueNo) {
-						if (monsters[i].location ==0) { // not in formation
-							sacStr += '&uno_' + sacCount + '=' + monsters[i].unique_no;
-							sacCount++;
-							if (sacCount >= 10) {
-								break;
+		if (parseInt(monsters[i].lv, 10)== 1) {
+			if (parseInt(monsters[i].skill_id,10) == 0) { // no skill
+				if (parseInt(monsters[i].grade,10) <= 3) { // <= rank B+
+					if (parseInt(monsters[i].bp,10) < 100) { // no soul
+						if (monsters[i].unique_no != pUniqueNo) {
+							if (monsters[i].location ==0) { // not in formation
+								sacStr += '&uno_' + sacCount + '=' + monsters[i].unique_no;
+								sacCount++;
+								if (sacCount >= 10) {
+									break;
+								}
 							}
 						}
 					}
 				}
-			}					
+			}
 		}
 	}
 	if (sacCount > 0) {
