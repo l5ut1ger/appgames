@@ -2442,6 +2442,7 @@ function fnFusionReal() {
 		setTimeout(fnFusionReal, 1000);
 		return;
 	}
+	alert('fusion!');
 	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		var sacStr = "";
 		var sacCount = 0;
@@ -2476,9 +2477,9 @@ function fnFusionAuto(pUniqueNo) {
 	//fnGrowl('Please wait, using Ally Summon...');
 	fusionCounter = 0;
 	for (var j=0;j<10;j++) {
-		setTimeout(fnFusionGenerateMonsterFromAllySummon, 1000*j);
+		setTimeout(fnFusionGenerateMonsterFromAllySummon, 2000*j);
 	}
-	setTimeout(fnFusionReal, 1000);
+	setTimeout(fnFusionReal, 10000);
 	return;
 }
 
