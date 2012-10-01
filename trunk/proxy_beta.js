@@ -2437,7 +2437,7 @@ function fnFusionGenerateMonsterFromAllySummon() {
 	divTag.style.display = "none";
 	document.body.appendChild(divTag); 	
 	
-	var result= $('#checkAllyDiv').load('/en/ios/summon/act', {}, function(){});
+	var result= $('#checkAllyDiv').load('/en/ios/summon/act?type=0', {}, function(){});
 	//$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {});	
 }
 
