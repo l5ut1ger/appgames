@@ -852,6 +852,9 @@ function fnFriendActionGiftC() {
 }
 
 function fnFriendActionGiftProg() {
+	if (!confirm('Are you sure you want to gift your prog+ to ' + friendship.nickname + '?')) {
+		return;
+	}
 	var tribe;
 	if ($('.label-tribe-1').length) {
 		tribe = 1;
@@ -885,6 +888,9 @@ function fnFriendActionGiftProg() {
 }
 
 function fnFriendActionGiftStacked() {
+	if (!confirm('Are you sure you want to gift all your stacked(4) to ' + friendship.nickname + '?')) {
+		return;
+	}
 	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		var leader=null;
 		var l1=0;
