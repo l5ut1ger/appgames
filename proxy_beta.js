@@ -2423,6 +2423,10 @@ function fnTrade() {
 // fusion
 
 function fnFusionAuto(pUniqueNo) {
+	for (var i=0;i<10;i++) {
+		$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {});
+	}
+
 	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		var sacStr = "";
 		var sacCount = 0;
