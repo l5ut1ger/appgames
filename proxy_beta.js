@@ -2477,8 +2477,8 @@ function fnFusionAuto(pUniqueNo) {
 
 function fnFusionFixDestPage() {
 	showMonsters = function (offset, limit)
-	{alert('hey');
-		if (pasreInt(fnAutoFusion(),10) > 0) {
+	{alert('hey'+fnAutoFusion());
+		if (parseInt(fnAutoFusion(),10) > 0) {
 			alert('hey2');
 			fnFusionAuto(fnQueryString('uno'));
 		}
