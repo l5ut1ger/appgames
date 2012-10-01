@@ -887,14 +887,12 @@ function fnFriendActionGiftProg() {
 	});
 	return;
 }
-/*
+
 function fnFriendActionGiftSoul() {
 	if (!confirm('Are you sure you want to gift all your Soul to ' + friendship.nickname + '?')) {
 		return;
 	}
 	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
-		var leader=null;
-		var l1=0;
 		giftList = [];
 		for (var i=0;i<result.payload.length;i++) {
 			if (parseInt(result.payload[i].bp,10) > = 100) {
@@ -911,7 +909,7 @@ function fnFriendActionGiftSoul() {
 		}
 	});
 	return;
-}*/
+}
 
 function fnFriendActionGiftStacked() {
 	if (!confirm('Are you sure you want to gift all your stacked(4) to ' + friendship.nickname + '?')) {
