@@ -256,13 +256,28 @@ var autoStatsUpKey = 'autoStatsUp';
 
 function fnAutoStatsUp() {
 	if(fnGetCookie(autoStatsUpKey) === null) {
-			fnSetAutoStatsUp(1);
+		fnSetAutoStatsUp(1);
 	}
 	return fnGetCookie(autoStatsUpKey);
 }
 
 function fnSetAutoStatsUp(value) {
 	fnSetCookie(autoStatsUpKey, value);
+}
+
+// Gift Cookies
+
+var giftCookiesKey = 'giftCookiesKey';
+
+function fnGiftCookies() {
+	if(fnGetCookie(giftCookiesKey) === null) {
+		fnSetGiftCookies('');
+	}
+	return fnGetCookie(giftCookiesKey);
+}
+
+function fnSetGiftCookies(value) {
+	fnSetCookie(giftCookiesKey, value);
 }
 
 // Tower Event Target
@@ -869,12 +884,32 @@ function fnFriendActionGiftProg() {
 	return;
 }
 
+function fnFriendActionGiftAllItems() {
+	if (!confirm('Are you sure you want to gift all your items to ' + friendship.nickname + '?')) {
+		return;
+	}
+	document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname)
+	$.ajax_ex(false, '/en/ios/item/ajax_get_items?offset=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		var items = [];
+		for (var i=0;i<data.payload.items.length;i++) {				
+			items.push('3:'+data.payload.items[i].item_id+':'+data.payload.items[i].amount);			
+		}
+		fnSetGiftCookies(items.join(fnGetSeparator()));
+	});
+	setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
+	setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
+}
+
 function fnFriendActionSelect(pAction) {
 	if (pAction == "GiftC") {
 		fnFriendActionGiftC();
 	}
 	else if (pAction == "GiftP") {
 		fnFriendActionGiftProg();
+	}
+	else if (pAction == "GiftItems") {
+		fnFriendActionGiftAllItems();
 	}
 }
 
@@ -893,6 +928,8 @@ function fnProfileAddFriendActionSelector() {
 
 	var selectorHTML = '<select name="sel" onchange="javascript:fnFriendActionSelect(this.options[this.options.selectedIndex].value);"><option selected value="0">Friend Action</option>';
 	selectorHTML += '<option value="GiftP">Gift Prog+</option>';
+	selectorHTML += '<option value="GiftItems">Gift All Items</option>';
+	//selectorHTML += '<option value="GiftSummons">Gift All Summons</option>';
 	//selectorHTML += '<option value="GiftC">Gift a C/C+</option>'
 	selectorHTML+='</select>'; 
 
@@ -905,11 +942,16 @@ function fnProfileFixTradeGiftButton() {
 	document.getElementById('do_present').setAttribute('href', document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));
 }
 
+function fnResetGiftCookies() {
+	fnSetGiftCookies('');
+}
+
 function fnFriendProfile() {
 	fnProfileAddFriendWallBookmarkSelector();
 	fnProfileAddFriendWallBookmarkButtons();
 	fnProfileAddFriendActionSelector();
 	fnProfileFixTradeGiftButton();
+	fnResetGiftCookies();
 }
 
 // deck
@@ -1888,12 +1930,32 @@ function fnPresentSuggest() {
 		setTimeout(function(){$.redirect("/en/ios/present/confirm?ctg=2&amt=1&pid="+fnQueryString('mid'));}, 5000);
 		return;
 	}
+	if (fnGiftCookies() != '') {
+		var itemArray = fnGiftCookies().split(fnGetSeparator());
+		var itemResultArray = itemArray.splice(0,1);
+		fnSetGiftCookies(itemArray.join(fnGetSeparator()));
+		var link = "/en/ios/present/confirm?ctg="+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + "&amt=" + itemResultArray[0].split(":")[2];
+		setTimeout(function(){$.redirect(link);}, 1000);
+		setTimeout(function(){$.redirect(link);}, 5000);
+	}
 	fnGiftMyItems();
 }
 
 // present confirm
 
 function fnPresentConfirm() {
+	$('#present-cancel').unbind('click');
+	$('#present-cancel').click(function(){
+		$('#present-cancel').unbind('click');
+		$.redirect('/en/ios/present/suggest?&name='+fnReferrerQueryString('name'));
+	});
+	$('#present-commit').unbind('click');
+	$('#present-commit').click(function(){
+		$('#present-commit').unbind('click');
+		$.ajax_ex(false, '/en/ios/present/request', { msg:$('#present-comment').val() },function(result) {return;}) ;
+		$.redirect('/en/ios/present/suggest?&name='+fnReferrerQueryString('name'));
+	});
+
 	if (fnReferrerQueryString('name') != '') {
 		document.getElementById('present-commit').innerHTML = "To:"+decodeURIComponent(fnReferrerQueryString('name'));
 	}
