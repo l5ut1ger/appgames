@@ -2442,46 +2442,42 @@ function fnFusionGenerateMonsterFromAllySummon() {
 }
 
 function fnFusionAuto(pUniqueNo) {
-	
-	setTimeout(function () {
-		fnGrowl('Please wait, preparing to sac...');
-		var sacStr = "";
-		var sacCount = 0;
-		for (var i=0;i<monsters.length;i++) {
-			if (parseInt(monsters[i].skill_id,10) == 0) { // no skill
-				if (parseInt(monsters[i].grade,10) <= 3) { // <= rank B+
-					if (parseInt(monsters[i].bp,10) < 100) { // no soul
-						if (monsters[i].unique_no != fnQueryString('uno')) {
-							if (monsters[i].location ==0) { // not in formation
-								sacStr += '&uno_' + sacCount + '=' + monsters[i].unique_no;
-								sacCount++;
-								if (sacCount >= 10) {
-									break;
-								}
+	var sacStr = "";
+	var sacCount = 0;
+	for (var i=0;i<monsters.length;i++) {
+		if (parseInt(monsters[i].skill_id,10) == 0) { // no skill
+			if (parseInt(monsters[i].grade,10) <= 3) { // <= rank B+
+				if (parseInt(monsters[i].bp,10) < 100) { // no soul
+					if (monsters[i].unique_no != pUniqueNo) {
+						if (monsters[i].location ==0) { // not in formation
+							sacStr += '&uno_' + sacCount + '=' + monsters[i].unique_no;
+							sacCount++;
+							if (sacCount >= 10) {
+								break;
 							}
 						}
 					}
-				}					
-			}
+				}
+			}					
 		}
-		if (sacCount > 0) {
-			
-			var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-			//location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-			setTimeout(function(){$.redirect(link);}, 1000);
-			setTimeout(function(){$.redirect(link);}, 6000);
-		}
-		else {
-			alert("You have no monsters to sacrifice.");
-		}
-	}, timeGap+minGap);
+	}
+	if (sacCount > 0) {
+		
+		var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+		//location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+		setTimeout(function(){$.redirect(link);}, 1000);
+		setTimeout(function(){$.redirect(link);}, 6000);
+	}
+	else {
+		alert("You have no monsters to sacrifice.");
+	}
 	return;
 }
 
 function fnFusionFixDestPage() {
 	showMonsters = function (offset, limit)
 	{
-		if (fnAutoFusion() > 0) {
+		if (pasreInt(fnAutoFusion(),10) > 0) {
 			fnFusionAuto(fnQueryString('uno'));
 		}
 	
