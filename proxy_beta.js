@@ -2431,58 +2431,55 @@ function fnTrade() {
 
 // fusion
 
-var fusionCounter = 0;
-
 function fnFusionGenerateMonsterFromAllySummon() {
-	$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {alert(data);fusionCounter++;});	
-}
-
-function fnFusionReal() {
-	if (fusionCounter < 10) {
-		setTimeout(fnFusionReal, 1000);
-		return;
-	}
-	alert('fusion!');
-	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
-		var sacStr = "";
-		var sacCount = 0;
-		for (var i=0;i<result.payload.length;i++) {
-			if (parseInt(result.payload[i].skill_id,10) == 0) { // no skill
-				if (parseInt(result.payload[i].grade,10) <= 3) { // <= rank B+
-					if (parseInt(result.payload[i].bp,10) < 100) { // no soul
-						if (result.payload[i].location ==0) { // not in formation
-							sacStr += '&uno_' + sacCount + '=' + result.payload[i].unique_no;
-							sacCount++;
-							if (sacCount >= 10) {
-								break;
-							}
-						}
-					}
-				}					
-			}
-		}
-		if (sacCount > 0) {
-			var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-			location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-			//setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 1000);
-			//setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 6000);
-		}
-		else {
-			alert("You have no monsters to sacrifice.");
-		}
-	});
+	$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {});	
 }
 
 function fnFusionAuto(pUniqueNo) {
 	//fnGrowl('Please wait, using Ally Summon...');
 	fusionCounter = 0;
-	
-	for (var j=0;j<10;j++) {
-		setTimeout(fnFusionGenerateMonsterFromAllySummon, 3000*j);
+	var timeGap = 0;
+	for (var j=0;j<10 && fusionMonsterCount+j < player.summon_max;j++) {
+		timeGap+=500;
+		setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 	}
-	setTimeout(fnFusionReal, 10000);
+	setTimeout(function () {
+		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+			var sacStr = "";
+			var sacCount = 0;
+			fusionMonsterCount = result.payload.length;
+			for (var i=0;i<result.payload.length;i++) {
+				if (parseInt(result.payload[i].skill_id,10) == 0) { // no skill
+					if (parseInt(result.payload[i].grade,10) <= 3) { // <= rank B+
+						if (parseInt(result.payload[i].bp,10) < 100) { // no soul
+							if (result.payload[i].unique_no != fnQueryString('uno')) {
+								if (result.payload[i].location ==0) { // not in formation
+									sacStr += '&uno_' + sacCount + '=' + result.payload[i].unique_no;
+									sacCount++;
+									if (sacCount >= 10) {
+										break;
+									}
+								}
+							}
+						}
+					}					
+				}
+			}
+			if (sacCount > 0) {
+				var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+				location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+				//setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 1000);
+				//setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 6000);
+			}
+			else {
+				alert("You have no monsters to sacrifice.");
+			}
+		});
+	}, timeGap+500);
 	return;
 }
+
+var fusionMonsterCount = 0;
 
 function fnFusionFixPage() {
 	showMonsters = function (offset, limit)
@@ -2554,7 +2551,7 @@ function fnFusionFixPage() {
 			base_tag.append('<div class="autodecide-button btn __red __WS __HS" style="position:absolute; top: 83px; left: 100px;">Auto</div>');
 			$('> .autodecide-button', base_tag).click(function () {
 				fnSetAutoFusion(1);
-				alert("monsters count:"+monsters.length + ", max:"+player.summon_max);
+				fusionMonsterCount = monsters.length;
 				$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });				
 			});
 			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
