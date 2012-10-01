@@ -2437,50 +2437,139 @@ function fnFusionGenerateMonsterFromAllySummon() {
 
 function fnFusionAuto(pUniqueNo) {
 	//fnGrowl('Please wait, using Ally Summon...');
-	fusionCounter = 0;
 	var timeGap = 0;
-	alert("monster count " + fusionMonsterCount+", player summon max :"+player.summon_max);
-	for (var j=0;j<10 && parseInt(fusionMonsterCount,10)+j < parseInt(player.summon_max,10);j++) {
+	for (var j=0;j<10 && parseInt(monsters.length,10)+6+j < parseInt(player.summon_max,10);j++) {
 		timeGap+=500;
 		setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 	}
 	setTimeout(function () {
-		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
-			var sacStr = "";
-			var sacCount = 0;
-			fusionMonsterCount = result.payload.length;
-			for (var i=0;i<result.payload.length;i++) {
-				if (parseInt(result.payload[i].skill_id,10) == 0) { // no skill
-					if (parseInt(result.payload[i].grade,10) <= 3) { // <= rank B+
-						if (parseInt(result.payload[i].bp,10) < 100) { // no soul
-							if (result.payload[i].unique_no != fnQueryString('uno')) {
-								if (result.payload[i].location ==0) { // not in formation
-									sacStr += '&uno_' + sacCount + '=' + result.payload[i].unique_no;
-									sacCount++;
-									if (sacCount >= 10) {
-										break;
-									}
+		var sacStr = "";
+		var sacCount = 0;
+		fusionMonsterCount = result.payload.length;
+		for (var i=0;i<monsters.length;i++) {
+			if (parseInt(monsters[i].skill_id,10) == 0) { // no skill
+				if (parseInt(monsters[i].grade,10) <= 3) { // <= rank B+
+					if (parseInt(monsters[i].bp,10) < 100) { // no soul
+						if (monsters[i].unique_no != fnQueryString('uno')) {
+							if (monsters[i].location ==0) { // not in formation
+								sacStr += '&uno_' + sacCount + '=' + monsters[i].unique_no;
+								sacCount++;
+								if (sacCount >= 10) {
+									break;
 								}
 							}
 						}
-					}					
-				}
+					}
+				}					
 			}
-			if (sacCount > 0) {
-				var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-				//location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-				setTimeout(function(){$.redirect(link);}, 1000);
-				setTimeout(function(){$.redirect(link);}, 6000);
-			}
-			else {
-				alert("You have no monsters to sacrifice.");
-			}
-		});
+		}
+		if (sacCount > 0) {
+			var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+			//location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+			setTimeout(function(){$.redirect(link);}, 1000);
+			setTimeout(function(){$.redirect(link);}, 6000);
+		}
+		else {
+			alert("You have no monsters to sacrifice.");
+		}
 	}, timeGap+500);
 	return;
 }
 
-var fusionMonsterCount = 0;
+function fnFusionFixDestPage() {
+	showMonsters = function (offset, limit)
+	{
+		if (monsters === false) { return; }
+
+		// 
+		$('#monsters').empty();
+		$('#original > img').attr('src', 'http://res.darksummoner.com/en/s/cards/none.png');
+		$('#jewel').css('color', 'white').html('0');
+
+		// 
+		$.each(monsters, function(i, monster) {
+			if ( (i < offset) || (i >= (offset + limit)) ) { return true; }
+
+			var id = 'monster_' + i;
+
+			var base_tag = $('<div id="' + id + '" class="monster"></div>');
+
+			base_tag
+				.append('<div class="thumb"><img src="http://res.darksummoner.com/en/s/' + monster.small_thumb_image + '" /></div>')
+				.append('<div class="information"><img src="http://res.darksummoner.com/en/s/misc/monster/information_' + monster.tribe + '.png" /></div>')
+				.append('<div class="party"></div>')
+				.append('<div class="name">' + monster.m.name + '</div>')
+				.append('<div class="' + ((~~monster.lv >= ~~monster.m.lv_max) ? 'lv_max' : 'lv') + '">' + monster.lv + '</div>')
+				.append('<div class="bp">' + monster.bp + '</div>')
+				.append('<div class="attack">' + monster.attack + '</div>')
+				.append('<div class="defense">' + monster.defense + '</div>')
+				.append('<div class="hp">' + monster.hp + '</div>')
+				.append('<div class="skill">' + SKILLS[monster.skill_id][monster.skill_lv]['name'] + '</div>')
+				.append('<div class="lv-icon">Lv</div>')
+				.append('<div class="attack-icon">ATK</div>')
+				.append('<div class="defense-icon">DEF</div>')
+				.append('<div class="bp-icon">BP</div>')
+				.append('<div class="hp-icon">HP</div>')
+				.data('monster', monster);
+
+			$('> .thumb > img', base_tag).click(function() {
+				monster.skill   = SKILLS[monster.skill_id][monster.skill_lv];
+				monster.species = SPECIES[monster.m.species];
+				$.showMonsterInformation(monster);
+			});
+
+			// 
+			var reason_for_disable = false;
+
+			if (~~monster.is_locked != 0) {
+			reason_for_disable = 1;
+			}
+
+			if (reason_for_disable !== false) {
+			var disable_tag = $('<div class="disable"></div>');
+			disable_tag
+			.append('<img class="disable-icon" src="http://res.darksummoner.com/en/s/misc/icons/exclamation.png" />')
+			.append('<div class="disable-label">' + DISABLE_REASONS[reason_for_disable] + '</div>');
+
+			base_tag
+			.append(disable_tag)
+			.addClass('monster-tribe-' + monster.tribe)
+			.append('<div class="check-icon"><img src="http://res.darksummoner.com/en/s/misc/icons/check_box_lock.png" /></div>');
+			}
+			else {
+			var index = findIndex(monster);
+
+			if (index === false) {
+			base_tag
+			.append('<div class="check-icon"><img src="' + check_off + '" /></div>')
+			.addClass('monster-tribe-' + monster.tribe);
+
+			}
+			else {
+			base_tag
+			.append('<div class="check-icon"><img src="' + check_on + '" /></div>')
+			.addClass('monster-tribe-' + monster.tribe + '-selected');
+			}
+
+			// 
+			var select_tag = $('<div class="selection"></div>');
+			base_tag.append(select_tag);
+
+			select_tag.click(function() {
+			onEntry(base_tag, monster);
+			});
+			}
+
+			$('#monsters').append(base_tag);
+		});
+
+		updateSeletecionState();
+		
+		if (fnAutoFusion() == 1) {
+			fnFusionAuto(fnQueryString('uno'));
+		}
+	}
+}
 
 function fnFusionFixPage() {
 	showMonsters = function (offset, limit)
@@ -2552,7 +2641,6 @@ function fnFusionFixPage() {
 			base_tag.append('<div class="autodecide-button btn __red __WS __HS" style="position:absolute; top: 83px; left: 100px;">Auto</div>');
 			$('> .autodecide-button', base_tag).click(function () {
 				fnSetAutoFusion(1);
-				fusionMonsterCount = monsters.length;
 				$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });				
 			});
 			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
@@ -2569,9 +2657,7 @@ function fnFusionFixPage() {
 }
 
 function fnFusionDest() {
-	if (fnAutoFusion() == 1) {
-		fnFusionAuto(fnQueryString('uno'));
-	}
+	fnFusionFixDestPage();
 }
 
 function fnFusion() {
