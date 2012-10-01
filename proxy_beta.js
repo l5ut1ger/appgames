@@ -884,6 +884,30 @@ function fnFriendActionGiftProg() {
 	return;
 }
 
+function fnFriendActionGiftStacked() {
+	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		var leader=null;
+		var l1=0;
+		giftList = [];
+		for (var i=0;i<result.payload.length;i++) {
+			if (parseInt(result.payload[i].skill_lv,10) == 4) {
+				if (parseInt(result.payload[i].grade,10) >= 2 && parseInt(result.payload[i].grade,10) <= 4)) {
+					giftList.push('2:'+data.payload.items[i].unique_no);	
+				}					
+			}
+		}
+		if (giftList.length > 0) {
+			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
+		}
+		else {
+			alert("You have no stacked(4) B/B+/A");
+		}
+	});
+	return;
+}
+
 function fnFriendActionGiftAllItems() {
 	if (!confirm('Are you sure you want to gift all your items to ' + friendship.nickname + '?')) {
 		return;
@@ -1008,6 +1032,9 @@ function fnFriendActionSelect(pAction) {
 	else if (pAction == "GiftItemSummons") {
 		fnFriendActionGiftItemsAndSummons();
 	}
+	else if (pAction == "GiftStacked") {
+		fnFriendActionGiftStacked();
+	}
 }
 
 function fnProfileAddFriendActionSelector() {
@@ -1028,7 +1055,7 @@ function fnProfileAddFriendActionSelector() {
 	selectorHTML += '<option value="GiftItems">Gift All Items</option>';
 	selectorHTML += '<option value="GiftSummons">Gift Summons</option>';
 	selectorHTML += '<option value="GiftItemSummons">Gift Item&Sum</option>';
-	//selectorHTML += '<option value="GiftC">Gift a C/C+</option>'
+	selectorHTML += '<option value="GiftStacked">Gift Stacked(4)</option>';
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
@@ -2032,7 +2059,7 @@ function fnPresentSuggest() {
 		var itemArray = fnGiftCookies().split(fnGetSeparator());
 		var itemResultArray = itemArray.splice(0,1);
 		fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-		var link = "/en/ios/present/confirm?ctg="+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + "&amt=" + itemResultArray[0].split(":")[2];
+		var link = "/en/ios/present/confirm?ctg="+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?"&amt=" + itemResultArray[0].split(":")[2]:"");
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 5000);
 	}
