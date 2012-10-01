@@ -3,6 +3,7 @@
 // define
 var missionInterval;
 var progressionList=[50066, 53067, 56067];
+var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "Revive", "16": "Pre-Strike", "17": "DEA", "20": "DED", "24": "Agility", "27": "Critical", "30": "Dodge", "37": "Venom", "47": "HellBlaze", "50": "Artic", "53": "Lightning", "57": "Health", "58": "ImpDown", "59": "CovDown", "60": "PsyDown", "61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 // Tools
 
 function fnRedirect(pURL) {
@@ -887,6 +888,31 @@ function fnFriendActionGiftProg() {
 	return;
 }
 
+function fnFriendActionGiftSoul() {
+	if (!confirm('Are you sure you want to gift all your Soul to ' + friendship.nickname + '?')) {
+		return;
+	}
+	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		var leader=null;
+		var l1=0;
+		giftList = [];
+		for (var i=0;i<result.payload.length;i++) {
+			if (parseInt(result.payload[i].bp,10) > = 100) {
+				giftList.push('2:'+result.payload[i].unique_no+':1');				
+			}
+		}
+		if (giftList.length > 0) {
+			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
+		}
+		else {
+			alert("You have no soul left. LOL.");
+		}
+	});
+	return;
+}
+
 function fnFriendActionGiftStacked() {
 	if (!confirm('Are you sure you want to gift all your stacked(4) to ' + friendship.nickname + '?')) {
 		return;
@@ -909,6 +935,33 @@ function fnFriendActionGiftStacked() {
 		}
 		else {
 			alert("You have no stacked(4) B/B+/A");
+		}
+	});
+	return;
+}
+
+function fnFriendActionGiftSkill(pSkillID) {
+	if (!confirm('Are you sure you want to gift all your ' + skillArray[pSkillID] + ' to ' + friendship.nickname + '?')) {
+		return;
+	}
+	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		var leader=null;
+		var l1=0;
+		giftList = [];
+		for (var i=0;i<result.payload.length;i++) {
+			if (parseInt(result.payload[i].skill_id,10) == pSkillID) {
+				if (parseInt(result.payload[i].grade,10) >= 2 && parseInt(result.payload[i].grade,10) <= 4) {
+					giftList.push('2:'+result.payload[i].unique_no+':1');	
+				}					
+			}
+		}
+		if (giftList.length > 0) {
+			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
+		}
+		else {
+			alert("You have no " + skillArray[pSkillID] + " B/B+/A");
 		}
 	});
 	return;
@@ -1038,13 +1091,20 @@ function fnFriendActionSelect(pAction) {
 	else if (pAction == "GiftItemSummons") {
 		fnFriendActionGiftItemsAndSummons();
 	}
+	else if (pAction == "GiftSoul") {
+		fnFriendActionGiftSoul();
+	}
 	else if (pAction == "GiftStacked") {
 		fnFriendActionGiftStacked();
+	}
+	else if (pAction.startsWith("GiftSkill") {
+		fnFriendActionGiftSkill(pAction.substr(9));
 	}
 }
 
 function fnProfileAddFriendActionSelector() {
 	var i;
+	var key;
 	var divTag = document.createElement("div"); 
 
 	divTag.id = "friendActionDiv"; 
@@ -1061,7 +1121,12 @@ function fnProfileAddFriendActionSelector() {
 	selectorHTML += '<option value="GiftItems">Gift All Items</option>';
 	selectorHTML += '<option value="GiftSummons">Gift Summons</option>';
 	selectorHTML += '<option value="GiftItemSummons">Gift Item&Sum</option>';
+	selectorHTML += '<option value="GiftSoul">Gift All Soul</option>';
 	selectorHTML += '<option value="GiftStacked">Gift Stacked(4)</option>';
+	for (i=0;i<skillArray.length;i++) {
+	for (key in skillArray)
+		selectorHTML += '<option value="GiftSkill'+key+'">Gift ' + skillArray[key] + '</option>';
+	}
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
