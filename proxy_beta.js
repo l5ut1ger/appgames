@@ -1838,6 +1838,7 @@ function fnDungeon() {
 	levelSelectorHTML += '</select>'; 
 	
 	var expSelectorHTML = '<select style="position:absolute;top:100px;left:110px" onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Exp:\'+this.options[this.options.selectedIndex].text);">';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == "Smart" ?'selected':'') + ' value="Smart">Smart Exp</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 0 ?'selected':'') + ' value="0">Extra Exp:0</option>'
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 10 ?'selected':'') + ' value="10">10</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 50 ?'selected':'') + ' value="50">50</option>';
@@ -1848,8 +1849,7 @@ function fnDungeon() {
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 10000 ?'selected':'') + ' value="10000">10000</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 50000 ?'selected':'') + ' value="50000">50000</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 100000 ?'selected':'') + ' value="100000">100000</option>';
-	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 500000 ?'selected':'') + ' value="500000">500000</option>';
-	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == "Smart" ?'selected':'') + ' value="Smart">Smart Exp</option>';
+	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 500000 ?'selected':'') + ' value="500000">500000</option>';	
 	expSelectorHTML += '</select>'; 
 	
 	var goldSelectorHTML = '<select style="position:absolute;top:100px;left:210px"  onchange="fnSetDungeonExtraGold(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Gold:$\'+this.options[this.options.selectedIndex].text);">';
@@ -2439,7 +2439,7 @@ function fnFusionGenerateMonsterFromAllySummon() {
 function fnFusionAuto(pUniqueNo) {
 	//fnGrowl('Please wait, using Ally Summon...');
 	for (var j=0;j<10;j++) {
-		setTimeout(fnFusionGenerateMonsterFromAllySummon, 500*j);
+		setTimeout(fnFusionGenerateMonsterFromAllySummon, 1000*j);
 	}
 	setTimeout(function(){
 		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
@@ -2470,7 +2470,7 @@ function fnFusionAuto(pUniqueNo) {
 				alert("You have no monsters to sacrifice.");
 			}
 		});
-	}, 5500);
+	}, 1000);
 	return;
 }
 
