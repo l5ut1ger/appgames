@@ -1934,7 +1934,7 @@ function fnPresentSuggest() {
 		var itemArray = fnGiftCookies().split(fnGetSeparator());
 		var itemResultArray = itemArray.splice(0,1);
 		fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-		var link = "/en/ios/present/confirm?ctg="+itemResultArray.split(":")[0]+"&pid="+itemResultArray.split(":")[1] + "&amt=" + itemResultArray.split(":")[2]);
+		var link = "/en/ios/present/confirm?ctg="+itemResultArray.split(":")[0]+"&pid="+itemResultArray.split(":")[1] + "&amt=" + itemResultArray.split(":")[2];
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 5000);
 	}
