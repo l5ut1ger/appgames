@@ -2430,7 +2430,8 @@ function fnFusionGenerateMonsterFromAllySummon() {
 function fnFusionAuto(pUniqueNo) {
 	//fnGrowl('Please wait, using Ally Summon...');
 	for (var j=0;j<10;j++) {
-		setTimeout(fnFusionGenerateMonsterFromAllySummon, 500*j);
+		//setTimeout(fnFusionGenerateMonsterFromAllySummon, 500*j);
+		fnFusionGenerateMonsterFromAllySummon();
 	}
 	setTimeout(function(){
 		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
@@ -2461,7 +2462,7 @@ function fnFusionAuto(pUniqueNo) {
 				alert("You have no monsters to sacrifice.");
 			}
 		});
-	}, 5500);
+	}, 1);
 	return;
 }
 
