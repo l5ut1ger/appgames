@@ -2439,6 +2439,7 @@ function fnFusionAuto(pUniqueNo) {
 	//fnGrowl('Please wait, using Ally Summon...');
 	fusionCounter = 0;
 	var timeGap = 0;
+	alert("monster count " + fusionMonsterCount+", player summon max :"+player.summon_max);
 	for (var j=0;j<10 && parseInt(fusionMonsterCount,10)+j < parseInt(player.summon_max,10);j++) {
 		timeGap+=500;
 		setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
