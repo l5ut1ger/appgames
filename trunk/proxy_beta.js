@@ -898,7 +898,7 @@ function fnFriendActionGiftStacked() {
 		for (var i=0;i<result.payload.length;i++) {
 			if (parseInt(result.payload[i].skill_lv,10) == 4) {
 				if (parseInt(result.payload[i].grade,10) >= 2 && parseInt(result.payload[i].grade,10) <= 4) {
-					giftList.push('2:'+data.payload.items[i].unique_no);	
+					giftList.push('2:'+result.payload[i].unique_no);	
 				}					
 			}
 		}
