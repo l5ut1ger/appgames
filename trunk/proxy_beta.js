@@ -1225,6 +1225,7 @@ function fnDeckChangeAdvance(pFormation) {
 		}
 		for (var j=0;j<5;j++) {
 			if (result_array['l'+(j+1)] == 0 && unique_no_array[j] != 0) {
+				var missed = true;
 				for (var i=0;i<result.payload.length;i++) {
 					if (result.payload[i].monster_id == monster_id_array[j]) {
 						var usedInTeam = false;
@@ -1235,8 +1236,12 @@ function fnDeckChangeAdvance(pFormation) {
 						}
 						if (!usedInTeam) {
 							result_array['l'+(j+1)] = result.payload[i].unique_no;
+							missed = false;
 						}
 					}
+				}
+				if (missed) {
+					alert('Missed ' + monster_id_array[j]);
 				}
 			}
 		}
