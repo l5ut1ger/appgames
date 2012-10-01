@@ -901,6 +901,41 @@ function fnFriendActionGiftAllItems() {
 	setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
 }
 
+function fnFriendActionGiftSummons() {
+	if (!confirm('Are you sure you want to gift your major summons to ' + friendship.nickname + '?')) {
+		return;
+	}
+	var divTag = document.createElement("div");
+	divTag.id = "checkSummonDiv";
+	divTag.style.display = "none";
+	document.body.appendChild(divTag); 	
+	
+	var result= $('#checkSummonDiv').load('/en/ios/summon #summon_group', {}, function(){
+		var items = [];
+		if (result.find('#summon_b_grade').find('.cost_ticket').length) {
+			items.push('3:5000:'+parseInt(result.find('#summon_b_grade').find('.cost_ticket').html(),10));
+		}
+		if (result.find('#summon_a_grade').find('.cost_ticket').length) {
+			items.push('3:5005:'+parseInt(result.find('#summon_a_grade').find('.cost_ticket').html(),10));
+		}
+		if (result.find('#summon_special').find('.cost_ticket').length) {
+			if (parseInt(result.find('#summon_special').find('.cost_ticket').html(),10) > 0) {
+				items.push('3:5200:'+parseInt(result.find('#summon_special').find('.cost_ticket').html(),10));
+			}
+		}
+		if (result.find('#summon_super_special').find('.cost_ticket').length) {
+			if (parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10) > 0) {
+				items.push('3:5026:'+parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10));
+			}
+		}
+		if (items.length > 0) {
+			fnSetGiftCookies(items.join(fnGetSeparator()));	
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
+		}
+	});	
+}
+
 function fnFriendActionSelect(pAction) {
 	if (pAction == "GiftC") {
 		fnFriendActionGiftC();
@@ -910,6 +945,9 @@ function fnFriendActionSelect(pAction) {
 	}
 	else if (pAction == "GiftItems") {
 		fnFriendActionGiftAllItems();
+	}
+	else if (pAction == "GiftSummons") {
+		fnFriendActionGiftSummons();
 	}
 }
 
