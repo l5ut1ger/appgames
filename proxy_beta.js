@@ -2434,7 +2434,7 @@ function fnTrade() {
 var fusionCounter = 0;
 
 function fnFusionGenerateMonsterFromAllySummon() {
-	$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {fusionCounter++;});	
+	$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {alert(data);fusionCounter++;});	
 }
 
 function fnFusionReal() {
@@ -2477,7 +2477,7 @@ function fnFusionAuto(pUniqueNo) {
 	//fnGrowl('Please wait, using Ally Summon...');
 	fusionCounter = 0;
 	for (var j=0;j<10;j++) {
-		setTimeout(fnFusionGenerateMonsterFromAllySummon, 2000*j);
+		setTimeout(fnFusionGenerateMonsterFromAllySummon, 3000*j);
 	}
 	setTimeout(fnFusionReal, 10000);
 	return;
