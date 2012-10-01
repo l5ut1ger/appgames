@@ -1097,7 +1097,7 @@ function fnFriendActionSelect(pAction) {
 	else if (pAction == "GiftStacked") {
 		fnFriendActionGiftStacked();
 	}
-	else if (pAction.startsWith("GiftSkill") {
+	else if (pAction.startsWith("GiftSkill")) {
 		fnFriendActionGiftSkill(pAction.substr(9));
 	}
 }
