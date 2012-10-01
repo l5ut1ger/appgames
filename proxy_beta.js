@@ -2432,7 +2432,13 @@ function fnTrade() {
 // fusion
 
 function fnFusionGenerateMonsterFromAllySummon() {
-	$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {});	
+	var divTag = document.createElement("div");
+	divTag.id = "checkAllyDiv";
+	divTag.style.display = "none";
+	document.body.appendChild(divTag); 	
+	
+	var result= $('#checkAllyDiv').load('/en/ios/summon/act', {}, function(){});
+	//$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {});	
 }
 
 function fnFusionAuto(pUniqueNo) {
