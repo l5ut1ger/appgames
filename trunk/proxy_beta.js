@@ -2481,7 +2481,11 @@ function fnFusionAuto(pUniqueNo) {
 
 function fnFusionFixDestPage() {
 	showMonsters = function (offset, limit)
-	{alert('yay');
+	{
+		if (fnAutoFusion() == 1) {
+			fnFusionAuto(fnQueryString('uno'));
+		}
+	
 		if (monsters === false) { return; }
 
 		// 
@@ -2567,10 +2571,6 @@ function fnFusionFixDestPage() {
 		});
 
 		updateSeletecionState();
-		
-		if (fnAutoFusion() == 1) {
-			fnFusionAuto(fnQueryString('uno'));
-		}
 	}
 }
 
