@@ -2444,6 +2444,11 @@ function fnFusionGenerateMonsterFromAllySummon() {
 function fnFusionAuto(pUniqueNo) {
 	var sacStr = "";
 	var sacCount = 0;
+	if (parseInt(source.lv_max,10) - parseInt(source.lv,10) == 0) {
+		fnSetAutoFusion(0);
+		alert('Auto Level Up Done');
+		return;
+	}
 	for (var i=0;i<monsters.length;i++) {
 		if (parseInt(monsters[i].lv, 10)== 1) {
 			if (parseInt(monsters[i].skill_id,10) == 0) { // no skill
@@ -2453,6 +2458,11 @@ function fnFusionAuto(pUniqueNo) {
 							if (monsters[i].location ==0) { // not in formation
 								sacStr += '&uno_' + sacCount + '=' + monsters[i].unique_no;
 								sacCount++;
+								if (parseInt(source.lv_max,10) - parseInt(source.lv,10) == 1) {
+									if (sacCount >= 5) {
+										break;
+									}
+								}
 								if (sacCount >= 10) {
 									break;
 								}
