@@ -1932,12 +1932,9 @@ function fnPresentSuggest() {
 	}
 	if (fnGiftCookies() != '') {
 		var itemArray = fnGiftCookies().split(fnGetSeparator());
-		alert("item count :" + itemArray.length);
 		var itemResultArray = itemArray.splice(0,1);
-		alert("item :" + itemResultArray[0]);
 		fnSetGiftCookies(itemArray.join(fnGetSeparator()));
 		var link = "/en/ios/present/confirm?ctg="+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + "&amt=" + itemResultArray[0].split(":")[2];
-		alert("link: " + link);
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 5000);
 	}
