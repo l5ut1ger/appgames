@@ -895,10 +895,16 @@ function fnFriendActionGiftAllItems() {
 		for (var i=0;i<data.payload.items.length;i++) {				
 			items.push('3:'+data.payload.items[i].item_id+':'+data.payload.items[i].amount);			
 		}
-		fnSetGiftCookies(items.join(fnGetSeparator()));
+		if (items.length > 0) {
+			fnSetGiftCookies(items.join(fnGetSeparator()));
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
+		}
+		else {
+			alert("You have no items left");
+		}
 	});
-	setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
-	setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
+	
 }
 
 function fnFriendActionGiftSummons() {
@@ -932,6 +938,9 @@ function fnFriendActionGiftSummons() {
 			fnSetGiftCookies(items.join(fnGetSeparator()));	
 			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
 			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
+		}
+		else {
+			alert("You have no major summons left");
 		}
 	});	
 }
