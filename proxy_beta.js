@@ -2430,9 +2430,9 @@ function fnFusionGenerateMonsterFromAllySummon() {
 
 function fnFusionAuto(pUniqueNo) {
 alert('hi');
-	fnGrowl('Please wait, using Ally Summon...');
-	for (var i=0;i<10;i++) {
-		setTimeout(fnFusionGenerateMonsterFromAllySummon, 500*i);
+	//fnGrowl('Please wait, using Ally Summon...');
+	for (var j=0;j<10;j++) {
+		setTimeout(fnFusionGenerateMonsterFromAllySummon, 500*j);
 	}
 alert('yes');
 	setTimeout(function(){alert('no');
