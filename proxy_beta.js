@@ -2442,13 +2442,7 @@ function fnFusionGenerateMonsterFromAllySummon() {
 }
 
 function fnFusionAuto(pUniqueNo) {
-	fnGrowl('Please wait, using Ally Summon...');
-	var timeGap = 0;
-	var minGap = 500;
-	for (var j=0;j<10 && parseInt(monsters.length,10)+6+j < parseInt(player.summon_max,10);j++) {
-		timeGap+=minGap;
-		setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
-	}
+	
 	setTimeout(function () {
 		fnGrowl('Please wait, preparing to sac...');
 		var sacStr = "";
@@ -2487,7 +2481,7 @@ function fnFusionAuto(pUniqueNo) {
 function fnFusionFixDestPage() {
 	showMonsters = function (offset, limit)
 	{
-		if (fnAutoFusion() == 1) {
+		if (fnAutoFusion() > 0) {
 			fnFusionAuto(fnQueryString('uno'));
 		}
 	
@@ -2648,8 +2642,18 @@ function fnFusionFixPage() {
 		else {
 			base_tag.append('<div class="autodecide-button btn __red __WS __HS" style="position:absolute; top: 83px; left: 100px;">Auto</div>');
 			$('> .autodecide-button', base_tag).click(function () {
-				fnSetAutoFusion(1);
-				$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });				
+				fnSetAutoFusion(monster.unique_no);
+				
+				fnGrowl('Please wait, using Ally Summon...');
+				var timeGap = 0;
+				var minGap = 500;
+				for (var j=0;j<10 && parseInt(monsters.length,10)+j < parseInt(player.summon_max,10);j++) {
+					timeGap+=minGap;
+					fnFusionGenerateMonsterFromAllySummon();
+					//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
+				}
+				
+				$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });	
 			});
 			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
 			$('> .decide-button', base_tag).click(function () {
@@ -2662,6 +2666,22 @@ function fnFusionFixPage() {
 	  });
 	}
 
+}
+
+function fnFusionFusion() {
+	fnGrowl('Please wait, using Ally Summon...');
+	var timeGap = 0;
+	var minGap = 500;
+	for (var j=0;j<10 && parseInt(monsters.length,10)+j < parseInt(player.summon_max,10);j++) {
+		timeGap+=minGap;
+		fnFusionGenerateMonsterFromAllySummon();
+		//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
+	}
+	timeGap+=minGap;
+	if (fnAutoFusion() > 0) {
+		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, timeGap);
+		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, timeGap+5000);
+	}
 }
 
 function fnFusionDest() {
@@ -2822,5 +2842,8 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/fusion/dest") {
 		fnFusionDest();
+	}
+	if (window.location.pathname === "/en/ios/fusion/fusion") {
+		fnFusionFusion();
 	}
 }
