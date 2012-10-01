@@ -2651,9 +2651,9 @@ function fnFusionFixPage() {
 					timeGap+=minGap;
 					fnFusionGenerateMonsterFromAllySummon();
 					//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
-				}
-				
-				$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });	
+				}				
+				setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, timeGap);
+				setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, timeGap+5000);
 			});
 			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
 			$('> .decide-button', base_tag).click(function () {
