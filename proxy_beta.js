@@ -2424,43 +2424,45 @@ function fnTrade() {
 
 function fnFusionGenerateMonsterFromAllySummon() {
 	$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {});
+	alert('summon');
 }
 
 function fnFusionAuto(pUniqueNo) {
+alert('hi');
 	fnGrowl('Please wait, using Ally Summon...');
 	for (var i=0;i<10;i++) {
 		setTimeout(fnFusionGenerateMonsterFromAllySummon, 500*i);
 	}
-
-	setTimeout(function(){
+alert('yes');
+	setTimeout(function(){alert('no');
 		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
-		var sacStr = "";
-		var sacCount = 0;
-		for (var i=0;i<result.payload.length;i++) {
-			if (parseInt(result.payload[i].skill_id,10) == 0) { // no skill
-				if (parseInt(result.payload[i].grade,10) <= 3) { // <= rank B+
-					if (parseInt(result.payload[i].bp,10) < 100) { // no soul
-						if (result.payload[i].location ==0) { // not in formation
-							sacStr += '&uno_' + sacCount + '=' + result.payload[i].unique_no;
-							sacCount++;
-							if (sacCount >= 10) {
-								break;
+			var sacStr = "";
+			var sacCount = 0;
+			for (var i=0;i<result.payload.length;i++) {
+				if (parseInt(result.payload[i].skill_id,10) == 0) { // no skill
+					if (parseInt(result.payload[i].grade,10) <= 3) { // <= rank B+
+						if (parseInt(result.payload[i].bp,10) < 100) { // no soul
+							if (result.payload[i].location ==0) { // not in formation
+								sacStr += '&uno_' + sacCount + '=' + result.payload[i].unique_no;
+								sacCount++;
+								if (sacCount >= 10) {
+									break;
+								}
 							}
 						}
-					}
-				}					
+					}					
+				}
 			}
-		}
-		if (sacCount > 0) {
-			var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-			alert(link);
-			setTimeout(function(){$.redirect(link);}, 1000);
-			setTimeout(function(){$.redirect(link);}, 6000);
-		}
-		else {
-			alert("You have no monsters to sacrifice.");
-		}
-	});
+			if (sacCount > 0) {
+				var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+				alert(link);
+				setTimeout(function(){$.redirect(link);}, 1000);
+				setTimeout(function(){$.redirect(link);}, 6000);
+			}
+			else {
+				alert("You have no monsters to sacrifice.");
+			}
+		});
 	}, 5500);
 	return;
 }
