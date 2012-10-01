@@ -894,7 +894,9 @@ function fnFriendActionGiftProg() {
 			for (var i=0;i<result.payload.length;i++) {
 				for (var j=0;j<progressionList.length;j++) {
 					if (parseInt(result.payload[i].monster_id,10) == progressionList[j]) {
-						giftList.push('2:'+result.payload[i].unique_no+':1');				
+						if (result.payload[i].location ==0) {
+							giftList.push('2:'+result.payload[i].unique_no+':1');				
+						}
 					}					
 				}				
 			}
@@ -911,6 +913,66 @@ function fnFriendActionGiftProg() {
 	return;
 }
 
+function fnFriendActionGiftFormation() {
+	if (!confirm('Are you sure you want to gift your current formation to ' + friendship.nickname + '?')) {
+		return;
+	}
+	if (!confirm('Are you REALLY sure you want to gift your current formation to ' + friendship.nickname + '?')) {
+		return;
+	}
+	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		giftList = [];
+		var result_array = {"l1":"0", "l2":"0", "l3":"0", "l4":"0", "l5":"0"};
+		for (var i=0;i<result.payload.length;i++) {
+			if (result.payload[i].location > 0) {
+				giftList.push('2:'+result.payload[i].unique_no+':1');				
+			}			
+		}
+		
+		// auto formation
+		for (var j=0;j<5;j++) {
+			for (var i=0;i<result.payload.length;i++) {
+				if (result.payload[i].location > 0) {
+					continue;
+				}
+				var usedInTeam = false;
+				for (var k=0;k<j;k++) {
+					if (result.payload[i].unique_no == result_array['l'+(k+1)]) {
+						usedInTeam = true;
+					}
+				}
+				if (!usedInTeam) {
+					if (result_array['l'+(j+1)] == 0) {
+						result_array['l'+(j+1)] = result.payload[i].unique_no;
+						result_array['l'+(j+1)+'level'] = result.payload[i].lv;
+						result_array['l'+(j+1)+'skillLevel'] = result.payload[i].skill_lv;
+					}
+					else {
+						if (result.payload[i].lv > result_array['l'+(j+1)+'level'] || (result.payload[i].lv == result_array['l'+(j+1)+'level'] && result.payload[i].skill_lv > result_array['l'+(j+1)+'skillLevel'])) {
+							result_array['l'+(j+1)] = result.payload[i].unique_no;
+							result_array['l'+(j+1)+'level'] = result.payload[i].lv;
+							result_array['l'+(j+1)+'skillLevel'] = result.payload[i].skill_lv;
+						}
+					}
+					missed = false;
+				}
+			}
+		}
+		
+		if (result_array['l1'] == 0) {	
+			alert('No replacing monster');
+			return;
+		}
+		$.ajax_ex(false, '/en/ios/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, function(result) {});
+		
+		if (giftList.length > 0) {
+			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
+		}
+	});
+}
+
 function fnFriendActionGiftSoul() {
 	if (!confirm('Are you sure you want to gift all your Soul to ' + friendship.nickname + '?')) {
 		return;
@@ -919,7 +981,9 @@ function fnFriendActionGiftSoul() {
 		giftList = [];
 		for (var i=0;i<result.payload.length;i++) {
 			if (parseInt(result.payload[i].bp,10) >= 100) {
-				giftList.push('2:'+result.payload[i].unique_no+':1');				
+				if (result.payload[i].location ==0) {
+					giftList.push('2:'+result.payload[i].unique_no+':1');
+				}
 			}
 		}
 		if (giftList.length > 0) {
@@ -945,7 +1009,9 @@ function fnFriendActionGiftStacked() {
 		for (var i=0;i<result.payload.length;i++) {
 			if (parseInt(result.payload[i].skill_lv,10) == 4) {
 				if (parseInt(result.payload[i].grade,10) >= 2 && parseInt(result.payload[i].grade,10) <= 4) {
-					giftList.push('2:'+result.payload[i].unique_no+':1');	
+					if (result.payload[i].location ==0) {
+						giftList.push('2:'+result.payload[i].unique_no+':1');	
+					}
 				}					
 			}
 		}
@@ -972,7 +1038,9 @@ function fnFriendActionGiftSkill(pSkillID) {
 		for (var i=0;i<result.payload.length;i++) {
 			if (parseInt(result.payload[i].skill_id,10) == pSkillID) {
 				if (parseInt(result.payload[i].grade,10) >= 2 && parseInt(result.payload[i].grade,10) <= 4) {
-					giftList.push('2:'+result.payload[i].unique_no+':1');	
+					if (result.payload[i].location ==0) {
+						giftList.push('2:'+result.payload[i].unique_no+':1');	
+					}
 				}					
 			}
 		}
@@ -1121,6 +1189,9 @@ function fnFriendActionSelect(pAction) {
 	else if (pAction.startsWith("GiftSkill")) {
 		fnFriendActionGiftSkill(pAction.substr(9));
 	}
+	else if (pAction == "GiftFormation") {
+		fnFriendActionGiftFormation();
+	}
 }
 
 function fnProfileAddFriendActionSelector() {
@@ -1147,6 +1218,7 @@ function fnProfileAddFriendActionSelector() {
 	for (key in skillArray) {
 		selectorHTML += '<option value="GiftSkill'+key+'">Gift ' + skillArray[key] + '</option>';
 	}
+	selectorHTML += '<option value="GiftFormation">Gift Formation</option>';
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
