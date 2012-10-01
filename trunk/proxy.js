@@ -267,6 +267,21 @@ function fnSetAutoStatsUp(value) {
 	fnSetCookie(autoStatsUpKey, value);
 }
 
+// Auto Fusion
+
+var autoFusionKey = 'autoFusionKey';
+
+function fnAutoFusion() {
+	if(fnGetCookie(autoFusionKey) === null) {
+		fnSetAutoFusion(0);
+	}
+	return fnGetCookie(autoFusionKey);
+}
+
+function fnSetAutoFusion(value) {
+	fnSetCookie(autoFusionKey, value);
+}
+
 // Gift Cookies
 
 var giftCookiesKey = 'giftCookiesKey';
@@ -2405,6 +2420,147 @@ function fnTrade() {
 	fnFixTradeFunctions();
 }
 
+// fusion
+
+function fnFusionGenerateMonsterFromAllySummon() {
+	$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {});
+	
+}
+
+function fnFusionAuto(pUniqueNo) {
+	//fnGrowl('Please wait, using Ally Summon...');
+	for (var j=0;j<10;j++) {
+		setTimeout(fnFusionGenerateMonsterFromAllySummon, 500*j);
+	}
+	setTimeout(function(){
+		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+			var sacStr = "";
+			var sacCount = 0;
+			for (var i=0;i<result.payload.length;i++) {
+				if (parseInt(result.payload[i].skill_id,10) == 0) { // no skill
+					if (parseInt(result.payload[i].grade,10) <= 3) { // <= rank B+
+						if (parseInt(result.payload[i].bp,10) < 100) { // no soul
+							if (result.payload[i].location ==0) { // not in formation
+								sacStr += '&uno_' + sacCount + '=' + result.payload[i].unique_no;
+								sacCount++;
+								if (sacCount >= 10) {
+									break;
+								}
+							}
+						}
+					}					
+				}
+			}
+			if (sacCount > 0) {
+				var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+				location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+				//setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 1000);
+				//setTimeout(function(){$.redirect('/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false');}, 6000);
+			}
+			else {
+				alert("You have no monsters to sacrifice.");
+			}
+		});
+	}, 5500);
+	return;
+}
+
+function fnFusionFixPage() {
+	showMonsters = function (offset, limit)
+	{
+	  if (monsters === false) { return; }
+
+	  // 
+	  $('#monsters').empty();
+
+	  // 
+	  $.each(monsters, function(i, monster) {
+		if ( (i < offset) || (i >= (offset + limit)) ) { return true; }  
+		
+		var id = 'monster_' + i;
+		var base_tag = $('<div id="' + id + '" class="monster monster-tribe-' + monster.tribe + '"></div>');
+
+		base_tag
+		  .append('<div class="thumb"><img src="http://res.darksummoner.com/en/s/' + monster.small_thumb_image + '" /></div>')
+		  .append('<div class="information"><img src="http://res.darksummoner.com/en/s/misc/monster/information_' + monster.tribe + '.png" /></div>')
+		  .append('<div class="party"></div>')
+		  .append('<div class="name">' + monster.m.name + '</div>')
+		  .append('<div class="lv">' + monster.lv + '</div>')
+		  .append('<div class="bp">' + monster.bp + '</div>')
+		  .append('<div class="attack">' + monster.attack + '</div>')
+		  .append('<div class="defense">' + monster.defense + '</div>')
+		  .append('<div class="hp">' + monster.hp + '</div>')
+		  .append('<div class="skill">' + SKILLS[monster.skill_id][monster.skill_lv]['name'] + '</div>')
+		  .append('<div class="lv-icon">Lv </div>')
+		  .append('<div class="attack-icon">ATK</div>')
+		  .append('<div class="defense-icon">DEF</div>')
+		  .append('<div class="bp-icon">BP</div>')
+		  .append('<div class="hp-icon">HP</div>');
+
+		if (monster.location > 0) {
+		  var name_tag = $('.name', base_tag);
+		  name_tag.css({ left:'35px' });
+
+		  var icon_img = 'http://res.darksummoner.com/en/s/misc/icons/icon_' + ((monster.location == 1) ? 'leader' : 'party') + '.png'; 
+		  base_tag.append('<div class="party-icon"><img src="' + icon_img + '" /></div>');
+		}
+
+		$('> .thumb > img', base_tag).click(function() {
+		  monster.skill   = SKILLS[monster.skill_id][monster.skill_lv];
+		  monster.species = SPECIES[monster.m.species];
+		  $.showMonsterInformation(monster);
+	//      $.showMonserInformationWithAjax(monster.unique_no);
+		});
+
+		// 
+		var reason_for_disable = false;
+		
+		if (~~monster.is_locked != 0) {
+		  reason_for_disable = 1;
+		}
+		else if (~~monster.lv >= ~~monster.m.lv_max) {
+	//      reason_for_disable = 2;
+		  $('.lv', base_tag).addClass('lv_max');
+		}
+
+		if (reason_for_disable !== false) {
+		  var disable_tag = $('<div class="disable"></div>');
+		  disable_tag
+			.append('<img class="disable-icon" src="http://res.darksummoner.com/en/s/misc/icons/exclamation.png" />')
+			.append('<div class="disable-label">' + DISABLE_REASONS[reason_for_disable] + '</div>');
+
+		  base_tag.append(disable_tag);
+		}
+		else {
+			base_tag.append('<div class="autodecide-button btn __red __WS __HS" style="position:absolute; top: 83px; left: 100px;">Auto</div>');
+			$('> .autodecide-button', base_tag).click(function () {
+				fnSetAutoFusion(1);
+				$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });				
+			});
+			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
+			$('> .decide-button', base_tag).click(function () {
+				$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });
+			});
+		}
+		
+		
+		$('#monsters').append(base_tag);
+	  });
+	}
+
+}
+
+function fnFusionDest() {
+	if (fnAutoFusion() == 1) {
+		fnFusionAuto(fnQueryString('uno'));
+	}
+}
+
+function fnFusion() {
+	fnSetAutoFusion(0);
+	fnFusionFixPage();
+}
+
 // login Stamp
 
 function fnLoginStamp() {
@@ -2548,5 +2704,11 @@ function fnOnLoad() {
 	}
 	if (window.location.pathname === "/en/ios/trade") {
 		fnTrade();
+	}
+	if (window.location.pathname === "/en/ios/fusion") {
+		fnFusion();
+	}
+	if (window.location.pathname === "/en/ios/fusion/dest") {
+		fnFusionDest();
 	}
 }
