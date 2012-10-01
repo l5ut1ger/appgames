@@ -2476,6 +2476,7 @@ function fnFusionReal() {
 function fnFusionAuto(pUniqueNo) {
 	//fnGrowl('Please wait, using Ally Summon...');
 	fusionCounter = 0;
+	
 	for (var j=0;j<10;j++) {
 		setTimeout(fnFusionGenerateMonsterFromAllySummon, 3000*j);
 	}
@@ -2552,11 +2553,9 @@ function fnFusionFixPage() {
 		else {
 			base_tag.append('<div class="autodecide-button btn __red __WS __HS" style="position:absolute; top: 83px; left: 100px;">Auto</div>');
 			$('> .autodecide-button', base_tag).click(function () {
-				//fnSetAutoFusion(1);
-				//$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });				
-				for (var j=0;j<10;j++) {
-					setTimeout(fnFusionGenerateMonsterFromAllySummon, 3000*j);
-				}
+				fnSetAutoFusion(1);
+				alert("monsters count:"+monsters.length + ", max:"+player.summon_max);
+				$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });				
 			});
 			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
 			$('> .decide-button', base_tag).click(function () {
