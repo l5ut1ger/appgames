@@ -2466,7 +2466,6 @@ function fnFusionAuto(pUniqueNo) {
 			
 			var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
 			//location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-			alert(link);
 			setTimeout(function(){$.redirect(link);}, 1000);
 			setTimeout(function(){$.redirect(link);}, 6000);
 		}
