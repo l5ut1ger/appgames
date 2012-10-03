@@ -258,7 +258,7 @@ var autoStatsUpKey = 'autoStatsUp';
 
 function fnAutoStatsUp() {
 	if(fnGetCookie(autoStatsUpKey) === null) {
-		fnSetAutoStatsUp(1);
+		fnSetAutoStatsUp(0);
 	}
 	return fnGetCookie(autoStatsUpKey);
 }
@@ -1784,7 +1784,9 @@ function fnDungeonMission() {
 		}
 	}
 	else {
-		fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
+		if (dm['dungeon_tribe'] > 0) {
+			fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);	
+		}
 	}
 	
 
