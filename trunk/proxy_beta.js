@@ -1902,8 +1902,9 @@ function fnDungeon() {
 	if (fnDungeonTravelLevel() != 0) {
 		for (var i=1;i<=3;i++) {
 			if ($('img[src$="enter_'+i+'_d.png"]').length) {
+				$('img[src$="enter_'+i+'_d.png"]').attr('link', '/en/ios/dungeon/mission?area_id='+fnDungeonTravelLevel()+'&dungeon_tribe=' + i);
 				$('img[src$="enter_'+i+'_d.png"]').click(function(){
-					$.redirect('/en/ios/dungeon/mission?area_id='+fnDungeonTravelLevel()+'&dungeon_tribe=' + i);
+					$.redirect($(this).attr('link'));
 				});
 			}
 		}
