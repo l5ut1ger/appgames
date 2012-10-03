@@ -258,7 +258,7 @@ var autoStatsUpKey = 'autoStatsUp';
 
 function fnAutoStatsUp() {
 	if(fnGetCookie(autoStatsUpKey) === null) {
-		fnSetAutoStatsUp(1);
+		fnSetAutoStatsUp(0);
 	}
 	return fnGetCookie(autoStatsUpKey);
 }
