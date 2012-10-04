@@ -1785,6 +1785,10 @@ function fnTowerFinalRanking() {
 // dungeon mission
 
 function fnDungeonMission() {
+	if (fnQueryString('go_next') == '') {
+		fnTimeOutRedirect('/en/ios/dungeon/mission?go_next=true&area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
+		return;
+	}
 	if (dm['dungeon_tribe']==0) {
 		fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 		return;
