@@ -1954,6 +1954,7 @@ function fnDungeon() {
 	var impulseTeamSelectorHTML =  'VS Impulse Boss:<select name="impulse" onchange="fnSetDungeonImpulseTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Impulse Team:$\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonImpulseTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		alert(fnDungeonImpulseTeam() + " vs " + aFormationArray[i]);
 		impulseTeamSelectorHTML+='<option ' + (fnDungeonImpulseTeam()==aFormationArray[i]?'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	impulseTeamSelectorHTML+='</select><br/>'; 
