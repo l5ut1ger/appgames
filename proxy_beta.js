@@ -16,6 +16,8 @@ function fnTimeOutRedirect(pURL) {
 	if (fnGetGrindingSpeed() == -1) return;
 	setTimeout(function(){$.redirect(pURL);}, fnGetGrindingSpeed());
 	setTimeout(function(){$.redirect(pURL);}, fnGetGrindingSpeed()+5000);
+	setTimeout(function(){$.redirect(pURL);}, fnGetGrindingSpeed()+10000);
+	setTimeout(function(){$.redirect(pURL);}, fnGetGrindingSpeed()+15000);
 }
 
 function fnQueryString(name) {
