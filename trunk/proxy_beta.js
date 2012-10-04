@@ -1886,7 +1886,8 @@ function fnDungeonMissionPreload() {
 // dungeon battle
 
 function fnDungeonBattle() {
-	
+	frames = [];
+	fnTimeOutRedirect('/en/ios/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
 }
 
 function fnDungeonBattlePreload() {
@@ -1894,7 +1895,7 @@ function fnDungeonBattlePreload() {
 		return;
 	}*/
 	frames = [];
-	fnTimeOutRedirect('/en/ios/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
+	fnRedirect('/en/ios/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
 }
 
 // Dungeon Win
