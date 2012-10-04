@@ -1789,16 +1789,7 @@ function fnTowerFinalRanking() {
 function fnDungeonMission() {
 	if (fnGetGrindingSpeed() == -1) {
 		return;
-	}
-	if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/battle")) || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/win"))) {
-		if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
-			fnDeckChangeAdvance(fnDungeonProgTeam(), false);
-			fnTimeOutRedirect('/en/ios/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
-			return;
-		}
-		fnTimeOutRedirect('/en/ios/dungeon');
-		return;
-	}
+	}	
 	if (ig.game == null) {
 		setTimeout(fnDungeonMission, 100);
 		return;
@@ -1875,6 +1866,19 @@ function fnDungeonMission() {
 				fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 			}
 		}
+	}
+}
+
+function fnDungeonMissionPreload() {
+	if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/battle")) || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/win"))) {
+		if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
+			fnDeckChangeAdvance(fnDungeonProgTeam(), false);
+			fnTimeOutRedirect('/en/ios/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
+			return;
+		}
+		fnTimeOutRedirect('/en/ios/dungeon');
+		fnDungeonMission = function(){};
+		return;
 	}
 }
 
@@ -2887,7 +2891,10 @@ function fnAutoUsePoint() {
 }
 
 function fnPreLoad() {
-	if (window.location.pathname === "/en/ios/dungeon/battle") {
+	if (window.location.pathname === "/en/ios/dungeon/mission") {
+		fnDungeonMissionPreload();
+	}
+	else if (window.location.pathname === "/en/ios/dungeon/battle") {
 		fnDungeonBattlePreload();
 	}
 }
@@ -2908,94 +2915,94 @@ function fnOnLoad() {
 	if (window.location.pathname === "/en/ios/event/loginStamp") {
 		fnLoginStamp();
 	}
-	if (window.location.pathname === "/en/ios/home/profile") {
+	else if (window.location.pathname === "/en/ios/home/profile") {
 		fnProfile();
 	}
-	if (window.location.pathname === "/en/ios/home") {
+	else if (window.location.pathname === "/en/ios/home") {
 		fnHome();
 	}
-	if (window.location.pathname === "/en/ios/home/login") {
+	else if (window.location.pathname === "/en/ios/home/login") {
 		fnHomeLogin();
 	}
-	if (window.location.pathname === "/en/ios/home/bonus") {
+	else if (window.location.pathname === "/en/ios/home/bonus") {
 		fnHomeBonus();
 	}
-	if (window.location.pathname === "/en/ios/friends/profile") {
+	else if (window.location.pathname === "/en/ios/friends/profile") {
 		fnFriendProfile();
 	}
-	if (window.location.pathname === "/en/ios/deck/changeAllCheck") {
+	else if (window.location.pathname === "/en/ios/deck/changeAllCheck") {
 		fnDeckChangeAllCheck();
 	}
-	if (window.location.pathname === "/en/ios/mission") {
+	else if (window.location.pathname === "/en/ios/mission") {
 		fnMission();
 	}
-	if (window.location.pathname === "/en/ios/mission/battleResult") {
+	else if (window.location.pathname === "/en/ios/mission/battleResult") {
 		fnMissionBattleResult();
 	}
-	if (window.location.pathname === "/en/ios/tower") {
+	else if (window.location.pathname === "/en/ios/tower") {
 		fnTower();
 	}
-	if (window.location.pathname === "/en/ios/tower/summon") {
+	else if (window.location.pathname === "/en/ios/tower/summon") {
 		fnTowerSummon();
 	}
-	if (window.location.pathname === "/en/ios/tower/mission") {
+	else if (window.location.pathname === "/en/ios/tower/mission") {
 		fnTowerMission();
 	}
-	if (window.location.pathname === "/en/ios/tower/bossResult") {
+	else if (window.location.pathname === "/en/ios/tower/bossResult") {
 		fnTowerBossResult();
 	}
-	if (window.location.pathname === "/en/ios/tower/finalRanking") {
+	else if (window.location.pathname === "/en/ios/tower/finalRanking") {
 		fnTowerFinalRanking();
 	}
-	if (window.location.pathname === "/en/ios/dungeon" || window.location.pathname === "/en/ios/dungeon/index") {
+	else if (window.location.pathname === "/en/ios/dungeon" || window.location.pathname === "/en/ios/dungeon/index") {
 		fnDungeon();
 	}
-	if (window.location.pathname === "/en/ios/dungeon/mission") {
+	else if (window.location.pathname === "/en/ios/dungeon/mission") {
 		fnDungeonMission();
 	}
-	if (window.location.pathname === "/en/ios/dungeon/battle") {
+	else if (window.location.pathname === "/en/ios/dungeon/battle") {
 		fnDungeonBattle();
 	}
-	if (window.location.pathname === "/en/ios/dungeon/win") {
+	else if (window.location.pathname === "/en/ios/dungeon/win") {
 		fnDungeonWin();
 	}
-	if (window.location.pathname === "/en/ios/battle/battle") {
+	else if (window.location.pathname === "/en/ios/battle/battle") {
 		fnBattleBattle();
 	}
-	if (window.location.pathname === "/en/ios/present/box") {
+	else if (window.location.pathname === "/en/ios/present/box") {
 		fnPresentBox();
 	}
-	if (window.location.pathname === "/en/ios/present/suggest") {
+	else if (window.location.pathname === "/en/ios/present/suggest") {
 		fnPresentSuggest();
 	}
-	if (window.location.pathname === "/en/ios/present/confirm") {
+	else if (window.location.pathname === "/en/ios/present/confirm") {
 		fnPresentConfirm();
 	}
-	if (window.location.pathname === "/en/ios/trade/suggest1") {
+	else if (window.location.pathname === "/en/ios/trade/suggest1") {
 		fnTradeSuggest();
 	}
-	if (window.location.pathname === "/en/ios/achievement/monster") {
+	else if (window.location.pathname === "/en/ios/achievement/monster") {
 		fnMonsterCollection();
 	}
-	if (window.location.pathname === "/en/ios/achievement/monsterInformation") {
+	else if (window.location.pathname === "/en/ios/achievement/monsterInformation") {
 		fnMonsterInfo();
 	}
-	if (window.location.pathname === "/en/ios/auction") {
+	else if (window.location.pathname === "/en/ios/auction") {
 		fnAuction();
 	}
-	if (window.location.pathname === "/en/ios/auction/detail") {
+	else if (window.location.pathname === "/en/ios/auction/detail") {
 		fnAuctionDetail();
 	}
-	if (window.location.pathname === "/en/ios/trade") {
+	else if (window.location.pathname === "/en/ios/trade") {
 		fnTrade();
 	}
-	if (window.location.pathname === "/en/ios/fusion") {
+	else if (window.location.pathname === "/en/ios/fusion") {
 		fnFusion();
 	}
-	if (window.location.pathname === "/en/ios/fusion/dest") {
+	else if (window.location.pathname === "/en/ios/fusion/dest") {
 		fnFusionDest();
 	}
-	if (window.location.pathname === "/en/ios/fusion/fusion") {
+	else if (window.location.pathname === "/en/ios/fusion/fusion") {
 		fnFusionFusion();
 	}
 }
