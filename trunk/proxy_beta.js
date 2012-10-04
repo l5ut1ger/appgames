@@ -1785,12 +1785,7 @@ function fnTowerFinalRanking() {
 // dungeon mission
 
 function fnDungeonMission() {
-	if (fnQueryString('go_next') == '') {
-		fnTimeOutRedirect('/en/ios/dungeon/mission?go_next=true&area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
-		return;
-	}
-	if (dm['dungeon_tribe']==0) {
-		fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
+	if (fnGetGrindingSpeed() == -1) {
 		return;
 	}
 	if (fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length) {
@@ -1800,9 +1795,6 @@ function fnDungeonMission() {
 			return;
 		}
 		fnTimeOutRedirect('/en/ios/dungeon');
-		return;
-	}
-	if (fnGetGrindingSpeed() == -1) {
 		return;
 	}
 	if (ig.game == null) {
