@@ -1951,35 +1951,35 @@ function fnDungeon() {
 	
 	var aFormationArray = fnGetFormationArray();
 	
-	var impulseTeamSelectorHTML =  '<select name="sel" onchange="fnSetDungeonImpulseTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option value="">RedBossTeam</option><option ' + (fnDungeonImpulseTeam()=='':'selected':'') + ' value="">Auto Off</option>';	
+	var impulseTeamSelectorHTML =  '<select name="sel" onchange="fnSetDungeonImpulseTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option value="">RedBossTeam</option><option ' + (fnDungeonImpulseTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		impulseTeamSelectorHTML+='<option ' + (fnDungeonImpulseTeam()==aFormationArray[i]:'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		impulseTeamSelectorHTML+='<option ' + (fnDungeonImpulseTeam()==aFormationArray[i]?'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	impulseTeamSelectorHTML+='</select>'; 
 	
-	/*var covertTeamSelectorHTML =  '<select name="sel" onchange="fnSetDungeonCovertTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option value="">GreenBossTeam</option><option ' + (fnDungeonCovertTeam()=='':'selected':'') + ' value="">Auto Off</option>';	
+	var covertTeamSelectorHTML =  '<select name="sel" onchange="fnSetDungeonCovertTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option value="">GreenBossTeam</option><option ' + (fnDungeonCovertTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		covertTeamSelectorHTML+='<option ' + (fnDungeonCovertTeam()==aFormationArray[i]:'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		covertTeamSelectorHTML+='<option ' + (fnDungeonCovertTeam()==aFormationArray[i]?'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	covertTeamSelectorHTML+='</select>'; 
 	
-	var psychoTeamSelectorHTML =  '<select name="sel" onchange="fnSetDungeonPsychoTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option value="">PurpleBossTeam</option><option ' + (fnDungeonPsychoTeam()=='':'selected':'') + ' value="">Auto Off</option>';	
+	var psychoTeamSelectorHTML =  '<select name="sel" onchange="fnSetDungeonPsychoTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option value="">PurpleBossTeam</option><option ' + (fnDungeonPsychoTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		psychoTeamSelectorHTML+='<option ' + (fnDungeonPsychoTeam()==aFormationArray[i]:'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		psychoTeamSelectorHTML+='<option ' + (fnDungeonPsychoTeam()==aFormationArray[i]?'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	psychoTeamSelectorHTML+='</select>'; 
 	
-	var progTeamSelectorHTML =  '<br/><br/><select name="sel" onchange="fnSetDungeonProgTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option value="">ProgTeam</option><option ' + (fnDungeonProgTeam()=='':'selected':'') + ' value="">Auto Off</option>';	
+	var progTeamSelectorHTML =  '<br/><br/><select name="sel" onchange="fnSetDungeonProgTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option value="">ProgTeam</option><option ' + (fnDungeonProgTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		progTeamSelectorHTML+='<option ' + (fnDungeonProgTeam()==aFormationArray[i]:'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		progTeamSelectorHTML+='<option ' + (fnDungeonProgTeam()==aFormationArray[i]?'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
-	progTeamSelectorHTML+='</select>'; */
+	progTeamSelectorHTML+='</select>'; 
 
-	document.getElementById('infinity').innerHTML += impulseTeamSelectorHTML;// + covertTeamSelectorHTML + psychoTeamSelectorHTML + progTeamSelectorHTML;
+	document.getElementById('infinity').innerHTML += impulseTeamSelectorHTML + covertTeamSelectorHTML + psychoTeamSelectorHTML + progTeamSelectorHTML;
 	
 	popup_window = function () {
 
