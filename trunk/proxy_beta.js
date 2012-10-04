@@ -1884,6 +1884,7 @@ function fnDungeonBattle() {
 	if (fnGetGrindingSpeed() == -1) {
 		return;
 	}
+	frames = [];
 	fnTimeOutRedirect('/en/ios/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
 }
 
