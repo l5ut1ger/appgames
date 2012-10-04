@@ -1785,6 +1785,10 @@ function fnTowerFinalRanking() {
 // dungeon mission
 
 function fnDungeonMission() {
+	if (dm['dungeon_tribe']==0) {
+		fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
+		return;
+	}
 	if (fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length) {
 		if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
 			fnDeckChangeAdvance(fnDungeonProgTeam(), false);
@@ -1847,6 +1851,9 @@ function fnDungeonMission() {
 			ig.game.save(null);
 		}
 		else {
+			if (fnAutoDrink() == 1) {
+				$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:3019}, function(data) {});
+			}
 			setTimeout(function(){$.redirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);}, 60000);
 		}
 	}
