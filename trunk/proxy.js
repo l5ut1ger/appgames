@@ -400,6 +400,66 @@ function fnSetDungeonTravelLevel(value) {
 	fnSetCookie(dungeonTravelLevelKey, value);
 }
 
+// Dungeon Impulse Team
+
+var dungeonImpulseTeamKey = 'dungeonImpulseTeamKey';
+
+function fnDungeonImpulseTeam() {
+	if(fnGetCookie(dungeonImpulseTeamKey) === null) {
+		fnSetDungeonImpulseTeam('');
+	}
+	return fnGetCookie(dungeonImpulseTeamKey);
+}
+
+function fnSetDungeonImpulseTeam(value) {
+	fnSetCookie(dungeonImpulseTeamKey, value);
+}
+
+// Dungeon Covert Team
+
+var dungeonCovertTeamKey = 'dungeonCovertTeamKey';
+
+function fnDungeonCovertTeam() {
+	if(fnGetCookie(dungeonCovertTeamKey) === null) {
+		fnSetDungeonCovertTeam('');
+	}
+	return fnGetCookie(dungeonCovertTeamKey);
+}
+
+function fnSetDungeonCovertTeam(value) {
+	fnSetCookie(dungeonCovertTeamKey, value);
+}
+
+// Dungeon Psycho Team
+
+var dungeonPsychoTeamKey = 'dungeonPsychoTeamKey';
+
+function fnDungeonPsychoTeam() {
+	if(fnGetCookie(dungeonPsychoTeamKey) === null) {
+		fnSetDungeonPsychoTeam('');
+	}
+	return fnGetCookie(dungeonPsychoTeamKey);
+}
+
+function fnSetDungeonPsychoTeam(value) {
+	fnSetCookie(dungeonPsychoTeamKey, value);
+}
+
+// Dungeon Prog Team
+
+var dungeonProgTeamKey = 'dungeonProgTeamKey';
+
+function fnDungeonProgTeam() {
+	if(fnGetCookie(dungeonProgTeamKey) === null) {
+		fnSetDungeonProgTeam('');
+	}
+	return fnGetCookie(dungeonProgTeamKey);
+}
+
+function fnSetDungeonProgTeam(value) {
+	fnSetCookie(dungeonProgTeamKey, value);
+}
+
 // book mark function
 
 function fnGetSeparator() {
@@ -1326,7 +1386,7 @@ function fnDeckChange(pURL) {
 	document.location='/en/ios/home';
 }
 
-function fnDeckChangeAdvance(pFormation) {
+function fnDeckChangeAdvance(pFormation, pHome) {
 	if (pFormation=='') {
 		return;
 	}
@@ -1380,7 +1440,9 @@ function fnDeckChangeAdvance(pFormation) {
 			return;
 		}
 		$.ajax_ex(false, '/en/ios/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, function(result) {});
-		setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+		if (pHome) {
+			setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+		}
 	});
 	return;
 }
@@ -1398,7 +1460,7 @@ function fnDeckAddFormationSelector() {
 	divTag.style.left = "0px"; 
 	divTag.style.top = "120px"; 
 
-	var selectorHTML = '<select name="sel" onchange="fnDeckChangeAdvance(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option selected value="0">Formation</option><option value="prog">Progression On</option>';
+	var selectorHTML = '<select name="sel" onchange="fnDeckChangeAdvance(fnGetFormationArray()[this.options[this.options.selectedIndex].value], true);"><option selected value="0">Formation</option><option value="prog">Progression On</option>';
 	var aFormationArray = fnGetFormationArray();
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
@@ -1723,11 +1785,16 @@ function fnTowerFinalRanking() {
 // dungeon mission
 
 function fnDungeonMission() {
-	if (fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length) {
-		fnTimeOutRedirect('/en/ios/dungeon');
+	if (fnGetGrindingSpeed() == -1) {
 		return;
 	}
-	if (fnGetGrindingSpeed() == -1) {
+	if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/battle")) || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/win"))) {
+		if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
+			fnDeckChangeAdvance(fnDungeonProgTeam(), false);
+			fnTimeOutRedirect('/en/ios/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
+			return;
+		}
+		fnTimeOutRedirect('/en/ios/dungeon');
 		return;
 	}
 	if (ig.game == null) {
@@ -1780,16 +1847,33 @@ function fnDungeonMission() {
 			ig.game.save(null);
 		}
 		else {
+			if (fnAutoDrink() == 1) {
+				$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:3019}, function(data) {});
+				fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
+				return;
+			}
 			setTimeout(function(){$.redirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);}, 60000);
 		}
 	}
 	else {
 		if (dm['dungeon_tribe'] > 0) {
-			fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);	
+			fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
+		}
+		if (dm['dungeon_tribe'] == 0) {
+			if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
+				if ((bM.monster_id+'').startsWith('40') || (bM.monster_id+'').startsWith('60')) {
+					fnDeckChangeAdvance(fnDungeonImpulseTeam(), false);
+				}
+				else if ((bM.monster_id+'').startsWith('43') || (bM.monster_id+'').startsWith('63')) {
+					fnDeckChangeAdvance(fnDungeonCovertTeam(), false);
+				}
+				else if ((bM.monster_id+'').startsWith('46') || (bM.monster_id+'').startsWith('66')) {
+					fnDeckChangeAdvance(fnDungeonPsychoTeam(), false);
+				}
+				fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
+			}
 		}
 	}
-	
-
 }
 
 // dungeon battle
@@ -1821,7 +1905,8 @@ function fnDungeonWin() {
 		if ("") {
 			$.redirect("/en/ios/dungeon/complete");
 		} else {
-			$.redirect("/en/ios/dungeon/mission?go_next=true&area_id="+area_id+"&dungeon_tribe="+dungeon_tribe);
+			fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id);
+			//$.redirect("/en/ios/dungeon/mission?go_next=true&area_id="+area_id+"&dungeon_tribe="+dungeon_tribe);
 		}
 	});
 	//fnTimeOutRedirect('/en/ios/dungeon/ajaxSaveMissionBoss?area_id='+fnQueryString('area_id')+'&dungeon_tribe='+fnQueryString('tribe'));
@@ -1867,7 +1952,41 @@ function fnDungeon() {
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 100000 ?'selected':'') + ' value="100000">$100000</option>';
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">$500000</option>';
 	goldSelectorHTML += '</select>'; 
-	document.getElementById('deck_bg').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML;
+	
+	document.getElementById('deck_bg').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML ;	
+	
+	var aFormationArray = fnGetFormationArray();
+	var impulseTeamSelectorHTML =  'VS Impulse Boss:<select name="impulse" onchange="fnSetDungeonImpulseTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Impulse Team:$\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonImpulseTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		impulseTeamSelectorHTML+='<option ' + (fnDungeonImpulseTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	impulseTeamSelectorHTML+='</select><br/>'; 
+	
+	var covertTeamSelectorHTML =  'VS Covert Boss:<select name="convert" onchange="fnSetDungeonCovertTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Covert Team:$\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonCovertTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		covertTeamSelectorHTML+='<option ' + (fnDungeonCovertTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	covertTeamSelectorHTML+='</select><br/>'; 
+	
+	var psychoTeamSelectorHTML =  'VS Psycho Boss:<select name="psycho" onchange="fnSetDungeonPsychoTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Psycho Team:$\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonPsychoTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		psychoTeamSelectorHTML+='<option ' + (fnDungeonPsychoTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	psychoTeamSelectorHTML+='</select><br/>'; 
+	
+	var progTeamSelectorHTML =  'Prog Team<select name="prog" onchange="fnSetDungeonProgTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Prog Team:$\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonProgTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		progTeamSelectorHTML+='<option ' + (fnDungeonProgTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	progTeamSelectorHTML+='</select>'; 
+
+	document.getElementById('infinity').innerHTML += impulseTeamSelectorHTML + covertTeamSelectorHTML + psychoTeamSelectorHTML + progTeamSelectorHTML;
+	
+	document.getElementById('main_bg').style.height = (parseInt(document.getElementById('main_bg').style.height,10) + 100) + "px";
 	
 	popup_window = function () {
 
