@@ -1981,7 +1981,7 @@ function fnDungeon() {
 
 	document.getElementById('infinity').innerHTML += impulseTeamSelectorHTML + covertTeamSelectorHTML + psychoTeamSelectorHTML + progTeamSelectorHTML;
 	
-	document.getElementById('infinity').style.height = "80px";
+	document.getElementById('main_bg').style.height = (parseInt(document.getElementById('main_bg').style.height,10) + 100) + "px";
 	
 	popup_window = function () {
 
