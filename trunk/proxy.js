@@ -1865,13 +1865,13 @@ function fnDungeonMission() {
 		if (dm['dungeon_tribe'] == 0) {
 			if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
 				if ((bM.monster_id+'').startsWith('40') || (bM.monster_id+'').startsWith('60')) {
-					fnDeckChangeAdvance(fnDungeonImpulseTeam(), false);
+					fnDeckChangeAdvance(fnDungeonImpulseTeam(), false, function(){fnRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				}
 				else if ((bM.monster_id+'').startsWith('43') || (bM.monster_id+'').startsWith('63')) {
-					fnDeckChangeAdvance(fnDungeonCovertTeam(), false);
+					fnDeckChangeAdvance(fnDungeonCovertTeam(), false, function(){fnRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				}
 				else if ((bM.monster_id+'').startsWith('46') || (bM.monster_id+'').startsWith('66')) {
-					fnDeckChangeAdvance(fnDungeonPsychoTeam(), false);
+					fnDeckChangeAdvance(fnDungeonPsychoTeam(), false, function(){fnRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				}
 				fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 			}
