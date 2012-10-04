@@ -1951,28 +1951,28 @@ function fnDungeon() {
 	
 	var aFormationArray = fnGetFormationArray();
 	
-	var impulseTeamSelectorHTML =  'VS Impulse Boss:<select name="sel" onchange="fnSetDungeonImpulseTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option ' + (fnDungeonImpulseTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	var impulseTeamSelectorHTML =  'VS Impulse Boss:<select name="impulse" onchange="fnSetDungeonImpulseTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option ' + (fnDungeonImpulseTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
 		impulseTeamSelectorHTML+='<option ' + (fnDungeonImpulseTeam()==aFormationArray[i]?'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	impulseTeamSelectorHTML+='</select><br/>'; 
 	
-	var covertTeamSelectorHTML =  'VS Covert Boss:<select name="sel" onchange="fnSetDungeonCovertTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option ' + (fnDungeonCovertTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	var covertTeamSelectorHTML =  'VS Covert Boss:<select name="convert" onchange="fnSetDungeonCovertTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option ' + (fnDungeonCovertTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
 		covertTeamSelectorHTML+='<option ' + (fnDungeonCovertTeam()==aFormationArray[i]?'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	covertTeamSelectorHTML+='</select><br/>'; 
 	
-	var psychoTeamSelectorHTML =  'VS Psycho Boss:<select name="sel" onchange="fnSetDungeonPsychoTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option ' + (fnDungeonPsychoTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	var psychoTeamSelectorHTML =  'VS Psycho Boss:<select name="psycho" onchange="fnSetDungeonPsychoTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option ' + (fnDungeonPsychoTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
 		psychoTeamSelectorHTML+='<option ' + (fnDungeonPsychoTeam()==aFormationArray[i]?'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	psychoTeamSelectorHTML+='</select><br/>'; 
 	
-	var progTeamSelectorHTML =  'Prog Team<select name="sel" onchange="fnSetDungeonProgTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option ' + (fnDungeonProgTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	var progTeamSelectorHTML =  'Prog Team<select name="prog" onchange="fnSetDungeonProgTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option ' + (fnDungeonProgTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
 		progTeamSelectorHTML+='<option ' + (fnDungeonProgTeam()==aFormationArray[i]?'selected':'') + 'value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
