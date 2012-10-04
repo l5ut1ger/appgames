@@ -1888,6 +1888,10 @@ function fnDungeonBattle() {
 	fnTimeOutRedirect('/en/ios/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
 }
 
+function fnDungeonBattlePreload() {
+	fnDungeonBattle();
+}
+
 // Dungeon Win
 
 function fnDungeonWin() {
@@ -2882,6 +2886,12 @@ function fnAutoUsePoint() {
 	}
 }
 
+function fnPreLoad() {
+	if (window.location.pathname === "/en/ios/dungeon/battle") {
+		fnDungeonBattlePreload();
+	}
+}
+
 function fnOnLoad() {
 	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
@@ -2989,3 +2999,5 @@ function fnOnLoad() {
 		fnFusionFusion();
 	}
 }
+
+fnPreLoad();
