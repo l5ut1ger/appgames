@@ -1849,6 +1849,8 @@ function fnDungeonMission() {
 		else {
 			if (fnAutoDrink() == 1) {
 				$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:3019}, function(data) {});
+				fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
+				return;
 			}
 			setTimeout(function(){$.redirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);}, 60000);
 		}
