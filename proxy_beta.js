@@ -1949,7 +1949,7 @@ function fnDungeon() {
 	
 	document.getElementById('deck_bg').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML ;	
 	
-	var aFormationArray = fnGetFormationArray();
+	/*var aFormationArray = fnGetFormationArray();
 	
 	var impulseTeamSelectorHTML =  '<select name="sel" onchange="fnSetDungeonImpulseTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);"><option value="">RedBossTeam</option><option ' + (fnDungeonImpulseTeam()=='':'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
@@ -1979,7 +1979,7 @@ function fnDungeon() {
 	}
 	progTeamSelectorHTML+='</select>'; 
 
-	document.getElementById('infinity').innerHTML += impulseTeamSelectorHTML + covertTeamSelectorHTML + psychoTeamSelectorHTML + progTeamSelectorHTML;
+	document.getElementById('infinity').innerHTML += impulseTeamSelectorHTML + covertTeamSelectorHTML + psychoTeamSelectorHTML + progTeamSelectorHTML;*/
 	
 	popup_window = function () {
 
