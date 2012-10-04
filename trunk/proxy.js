@@ -1388,7 +1388,7 @@ function fnDeckChange(pURL) {
 	document.location='/en/ios/home';
 }
 
-function fnDeckChangeAdvance(pFormation, pHome) {
+function fnDeckChangeAdvance(pFormation, pHome, pFinishFunction) {
 	if (pFormation=='') {
 		return;
 	}
@@ -1441,7 +1441,7 @@ function fnDeckChangeAdvance(pFormation, pHome) {
 			alert("Missing Leader");
 			return;
 		}
-		$.ajax_ex(false, '/en/ios/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, function(result) {});
+		$.ajax_ex(false, '/en/ios/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, pFinishFunction);
 		if (pHome) {
 			setTimeout(function(){$.redirect("/en/ios/home");}, 1);
 		}
@@ -1789,7 +1789,17 @@ function fnTowerFinalRanking() {
 function fnDungeonMission() {
 	if (fnGetGrindingSpeed() == -1) {
 		return;
-	}	
+	}
+	if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/battle")) || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/win"))) {
+		if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
+			fnDeckChangeAdvance(fnDungeonProgTeam(), false, function(){fnTimeOutRedirect('/en/ios/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
+			
+			return;
+		}
+		fnTimeOutRedirect('/en/ios/dungeon');
+		fnDungeonMission = function(){};
+		return;
+	}
 	if (ig.game == null) {
 		setTimeout(fnDungeonMission, 100);
 		return;
@@ -1870,30 +1880,21 @@ function fnDungeonMission() {
 }
 
 function fnDungeonMissionPreload() {
-	if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/battle")) || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/win"))) {
-		if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
-			fnDeckChangeAdvance(fnDungeonProgTeam(), false);
-			fnTimeOutRedirect('/en/ios/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
-			return;
-		}
-		fnTimeOutRedirect('/en/ios/dungeon');
-		fnDungeonMission = function(){};
-		return;
-	}
+	
 }
 
 // dungeon battle
 
 function fnDungeonBattle() {
-	if (fnGetGrindingSpeed() == -1) {
-		return;
-	}
-	frames = [];
-	fnTimeOutRedirect('/en/ios/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
+	
 }
 
 function fnDungeonBattlePreload() {
-	fnDungeonBattle();
+	/*if (fnGetGrindingSpeed() == -1) {
+		return;
+	}*/
+	frames = [];
+	fnTimeOutRedirect('/en/ios/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
 }
 
 // Dungeon Win
