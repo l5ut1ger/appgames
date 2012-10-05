@@ -1109,7 +1109,7 @@ function fnFriendActionGiftStacked() {
 		giftList = [];
 		for (var i=0;i<result.payload.length;i++) {
 			if (parseInt(result.payload[i].skill_lv,10) == 4) {
-				if (parseInt(result.payload[i].grade,10) >= 2 && parseInt(result.payload[i].grade,10) <= 4) {
+				if ((parseInt(result.payload[i].grade,10) <= 4) || (parseInt(result.payload[i].grade,10) == 5 && (parseInt(result.payload[i].lv,10) < parseInt(result.payload[i].lv_max,10)))) { // rank C/C+/B/B+/A, or (A+ but not maxed lvl)
 					if (result.payload[i].location ==0) {
 						giftList.push('2:'+result.payload[i].unique_no+':1');	
 					}
@@ -1138,7 +1138,7 @@ function fnFriendActionGiftSkill(pSkillID) {
 		giftList = [];
 		for (var i=0;i<result.payload.length;i++) {
 			if (parseInt(result.payload[i].skill_id,10) == pSkillID) {
-				if (parseInt(result.payload[i].grade,10) >= 2 && parseInt(result.payload[i].grade,10) <= 4) {
+				if ((parseInt(result.payload[i].grade,10) <= 4) || (parseInt(result.payload[i].grade,10) == 5 && (parseInt(result.payload[i].lv,10) < parseInt(result.payload[i].lv_max,10)))) { // rank C/C+/B/B+/A, or (A+ but not maxed lvl)
 					if (result.payload[i].location ==0) {
 						giftList.push('2:'+result.payload[i].unique_no+':1');	
 					}
