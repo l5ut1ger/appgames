@@ -5,6 +5,8 @@ var missionInterval;
 var progressionGuildSpecific = false;
 var progressionList=[50066, 53067, 56067];
 var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "Revive", "16": "Pre-Strike", "17": "DEA", "20": "DED", "24": "Agility", "27": "Critical", "30": "Dodge", "37": "Venom", "47": "HellBlaze", "50": "Artic", "53": "Lightning", "57": "Health", "58": "ImpDown", "59": "CovDown", "60": "PsyDown", "61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
+var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
+var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 // Tools
 
 function fnRedirect(pURL) {
@@ -1122,7 +1124,71 @@ function fnFriendActionGiftStacked() {
 			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
 		}
 		else {
-			alert("You have no stacked(4) B/B+/A");
+			alert("You have no stacked(4) B/B+/A/A+");
+		}
+	});
+	return;
+}
+
+function fnFriendActionGiftGuildDown() {
+	if (!confirm('Are you sure you want to gift all your guild down to ' + friendship.nickname + '?')) {
+		return;
+	}
+	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		var leader=null;
+		var l1=0;
+		var key;
+		giftList = [];
+		for (var i=0;i<result.payload.length;i++) {
+			for (key in guildDownArray) {
+				if (parseInt(result.payload[i].skill_id,10) == key) {
+					if ((parseInt(result.payload[i].grade,10) <= 4) || (parseInt(result.payload[i].grade,10) == 5 && (parseInt(result.payload[i].lv,10) < parseInt(result.payload[i].lv_max,10)))) { // rank C/C+/B/B+/A, or (A+ but not maxed lvl)
+						if (result.payload[i].location ==0) {
+							giftList.push('2:'+result.payload[i].unique_no+':1');	
+						}
+					}
+				}
+			}
+		}
+		if (giftList.length > 0) {
+			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
+		}
+		else {
+			alert("You have no " + skillArray[pSkillID] + " B/B+/A/A+");
+		}
+	});
+	return;
+}
+
+function fnFriendActionGiftSpeciesDown() {
+	if (!confirm('Are you sure you want to gift all your species down to ' + friendship.nickname + '?')) {
+		return;
+	}
+	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		var leader=null;
+		var l1=0;
+		var key;
+		giftList = [];
+		for (var i=0;i<result.payload.length;i++) {
+			for (key in speciesDownArray) {
+				if (parseInt(result.payload[i].skill_id,10) == key) {
+					if ((parseInt(result.payload[i].grade,10) <= 4) || (parseInt(result.payload[i].grade,10) == 5 && (parseInt(result.payload[i].lv,10) < parseInt(result.payload[i].lv_max,10)))) { // rank C/C+/B/B+/A, or (A+ but not maxed lvl)
+						if (result.payload[i].location ==0) {
+							giftList.push('2:'+result.payload[i].unique_no+':1');	
+						}
+					}
+				}
+			}
+		}
+		if (giftList.length > 0) {
+			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
+		}
+		else {
+			alert("You have no " + skillArray[pSkillID] + " B/B+/A/A+");
 		}
 	});
 	return;
@@ -1142,7 +1208,7 @@ function fnFriendActionGiftSkill(pSkillID) {
 					if (result.payload[i].location ==0) {
 						giftList.push('2:'+result.payload[i].unique_no+':1');	
 					}
-				}					
+				}
 			}
 		}
 		if (giftList.length > 0) {
@@ -1287,6 +1353,12 @@ function fnFriendActionSelect(pAction) {
 	else if (pAction == "GiftStacked") {
 		fnFriendActionGiftStacked();
 	}
+	else if (pAction == "GiftGuildDown") {
+		fnFriendActionGiftGuildDown();
+	}
+	else if (pAction == "GiftSpeciesDown") {
+		fnFriendActionGiftSpeciesDown();
+	}
 	else if (pAction.startsWith("GiftSkill")) {
 		fnFriendActionGiftSkill(pAction.substr(9));
 	}
@@ -1316,6 +1388,8 @@ function fnProfileAddFriendActionSelector() {
 	selectorHTML += '<option value="GiftItemSummons">Gift Item&Sum</option>';
 	selectorHTML += '<option value="GiftSoul">Gift All Soul</option>';
 	selectorHTML += '<option value="GiftStacked">Gift Stacked(4)</option>';
+	selectorHTML += '<option value="GiftGuildDown">Gift Guild Down</option>';
+	selectorHTML += '<option value="GiftSpeciesDown">Gift Species Down</option>';
 	for (key in skillArray) {
 		selectorHTML += '<option value="GiftSkill'+key+'">Gift ' + skillArray[key] + '</option>';
 	}
