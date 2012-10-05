@@ -1962,7 +1962,7 @@ function fnDungeonMission() {
 				else if ((bM.monster_id+'').startsWith('46') || (bM.monster_id+'').startsWith('66')) {
 					fnDeckChangeAdvance(fnDungeonPsychoTeam(), false, function(){fnRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				}
-				fnSetDungeonBossRecord(fnDungeonBossRecord()+'<br/>'+Math.round(parseInt(dm.mission_count,10)/44)+'00% ' + bM.name);
+				//fnSetDungeonBossRecord(fnDungeonBossRecord()+'<br/>'+Math.round(parseInt(dm.mission_count,10)/44)+'00% ' + bM.name);
 				fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 			}
 		}
