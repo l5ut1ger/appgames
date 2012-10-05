@@ -357,6 +357,21 @@ function fnSetIsBattlingMcFly(value) {
 	fnSetCookie(battlingMcFlyKey, value);
 }
 
+// Dungeon Boss Record
+
+var dungeonBossRecordKey = 'dungeonBossRecordKey';
+
+function fnDungeonBossRecord() {
+	if(fnGetCookie(dungeonBossRecordKey) === null) {
+		fnSetDungeonBossRecord('');
+	}
+	return fnGetCookie(dungeonBossRecordKey);
+}
+
+function fnSetDungeonBossRecord(value) {
+	fnSetCookie(dungeonBossRecordKey, value);
+}
+
 // Dungeon Extra Exp
 
 var dungeonExtraExpKey = 'dungeonExtraExpKey';
@@ -1873,6 +1888,7 @@ function fnDungeonMission() {
 				else if ((bM.monster_id+'').startsWith('46') || (bM.monster_id+'').startsWith('66')) {
 					fnDeckChangeAdvance(fnDungeonPsychoTeam(), false, function(){fnRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				}
+				fnSetDungeonBossRecord(fnDungeonBossRecord()+'<br/>'+bM.name);
 				fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 			}
 		}
@@ -2009,6 +2025,11 @@ function fnDungeon() {
 	document.getElementById('infinity').innerHTML += impulseTeamSelectorHTML + covertTeamSelectorHTML + psychoTeamSelectorHTML + progTeamSelectorHTML;
 	
 	document.getElementById('main_bg').style.height = (parseInt(document.getElementById('main_bg').style.height,10) + 100) + "px";
+	
+	var divTag = document.createElement("div");
+	divTag.id = "bossRecordDiv";
+	divTag.innerHTML = fnDungeonBossRecord();
+	document.body.appendChild(divTag);
 	
 	popup_window = function () {
 
