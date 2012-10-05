@@ -2028,7 +2028,7 @@ function fnDungeon() {
 	
 	var divTag = document.createElement("div");
 	divTag.id = "bossRecordDiv";
-	divTag.innerHTML = fnDungeonBossRecord() + '<br/><a href="javascript:fnSetDungeonBossRecord(\'\');">Clear boss battle history</a>';
+	divTag.innerHTML = fnDungeonBossRecord() + '<br/><a href="javascript:fnSetDungeonBossRecord(\'\');location.reload();">Clear boss battle history</a>';
 	document.body.appendChild(divTag);
 	
 	popup_window = function () {
