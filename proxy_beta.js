@@ -2962,11 +2962,7 @@ function fnSlotInformationPreload() {
 }
 
 function fnSlotGame() {
-	alert('hi2 ' + now_date + " , " + confirm_id);
-	$.ajax_ex(false, "/en/ios/event/slotDecide", { now:now_date, cfmid:confirm_id }, function(data) {
-		alert('hi2');
-		fnRedirect("/en/ios/event/slotReward?now=" + now_date);
-	}, function(){alert('success');}, function(){alert('error');});
+	$('div.button_game').trigger('click'); 
 }
 
 function fnSlotGamePreload() {
@@ -3125,7 +3121,6 @@ function fnOnLoad() {
 }
 
 function fnPreLoad() {
-	alert(window.location.pathname);
 	if (window.location.pathname === "/en/ios/dungeon/mission") {
 		fnDungeonMissionPreload();
 	}
@@ -3136,7 +3131,6 @@ function fnPreLoad() {
 		fnSlotInformationPreload();
 	}
 	if (window.location.pathname === "/en/ios/event/slotGame") {
-		alert('hey');
 		fnSlotGamePreload();
 	}
 }
