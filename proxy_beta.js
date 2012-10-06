@@ -2961,6 +2961,10 @@ function fnSlotInformationPreload() {
 	fnRedirect("/en/ios/event/slotGame");
 }
 
+function fnSlotGamePreload() {
+	fnRedirect("/en/ios/event/slotReward?now=20121006");
+}
+
 // home
 
 function fnHome() {
@@ -3119,6 +3123,9 @@ function fnPreLoad() {
 	}
 	else if (window.location.pathname === "/en/ios/event/slotInformation") {
 		fnSlotInformationPreload();
+	}
+	else if (window.location.pathname === "/en/ios/event/slotGame") {
+		fnSlotGamePreload();
 	}
 }
 
