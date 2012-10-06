@@ -2962,13 +2962,13 @@ function fnSlotInformationPreload() {
 }
 
 function fnSlotGame() {
-	if (typeof($('div.button_game').fn['click']) !== 'undefined' && $('div.button_game').fn['click'] != null) {
-		alert('hi');
+	
+	if (typeof($('div.button_game')) !== 'undefined' && $('div.button_game') != null) {
 		$('div.button_game').trigger('click');
 	}
 	else {
-		alert('well');
 		setTimeout(fnSlotGame, 500);
+		$('div.button_game').trigger('click');
 	}
 }
 
