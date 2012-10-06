@@ -1571,7 +1571,7 @@ function fnDeckRemoveFormationSelector() {
 }
 
 function fnDeckRecordFormation() {
-	var team = document.getElementById('a-btn-ok').getAttribute('href');
+	var team = '.';//document.getElementById('a-btn-ok').getAttribute('href');
 	var aFormationArray = fnGetFormationArray();
 	var teamName = prompt("Please input a team name");
 	var monster_id_array = [];
@@ -2962,7 +2962,9 @@ function fnSlotInformationPreload() {
 }
 
 function fnSlotGamePreload() {
-	fnRedirect("/en/ios/event/slotReward?now=20121006");
+	$.getJSON("/en/ios/event/slotDecide", { now:now_date, cfmid:confirm_id }, function(data) {
+		fnRedirect("/en/ios/event/slotReward?now=20121006");
+	});
 }
 
 // home
