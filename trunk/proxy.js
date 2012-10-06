@@ -1571,7 +1571,7 @@ function fnDeckRemoveFormationSelector() {
 }
 
 function fnDeckRecordFormation() {
-	var team = document.getElementById('a-btn-ok').getAttribute('href');
+	var team = '.';//document.getElementById('a-btn-ok').getAttribute('href');
 	var aFormationArray = fnGetFormationArray();
 	var teamName = prompt("Please input a team name");
 	var monster_id_array = [];
@@ -2955,6 +2955,27 @@ function fnLoginStamp() {
 	setTimeout(function(){$.redirect("/en/ios/home");}, 1);
 }
 
+// slot stamp
+
+function fnSlotInformationPreload() {
+	fnRedirect("/en/ios/event/slotGame");
+}
+
+function fnSlotGame() {
+	setTimeout(fnSlotGame, 1000);
+	$('div.button_game').trigger('click');
+	$('div.end_click_ok').trigger('click');
+}
+
+function fnSlotReward() {
+	if ($('a[href^="/en/ios/event/slotPresent?now="]').length) {
+		fnTimeOutRedirect($('a[href^="/en/ios/event/slotPresent?now="]').eq(0).attr("href"));
+	}
+}
+
+function fnSlotGamePreload() {
+}
+
 // home
 
 function fnHome() {
@@ -2993,15 +3014,6 @@ function fnAutoUsePoint() {
 		else if (fnAutoStatsUp() == 2) {
 			$.ajax_ex(false, '/en/ios/home/stup?bp='+player.remain_point+'&pr=0&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 		}
-	}
-}
-
-function fnPreLoad() {
-	if (window.location.pathname === "/en/ios/dungeon/mission") {
-		fnDungeonMissionPreload();
-	}
-	else if (window.location.pathname === "/en/ios/dungeon/battle") {
-		fnDungeonBattlePreload();
 	}
 }
 
@@ -3110,6 +3122,27 @@ function fnOnLoad() {
 	}
 	else if (window.location.pathname === "/en/ios/fusion/fusion") {
 		fnFusionFusion();
+	}
+	else if (window.location.pathname === "/en/ios/event/slotGame") {
+		fnSlotGame();
+	}
+	else if (window.location.pathname === "/en/ios/event/slotReward") {
+		fnSlotReward();
+	}
+}
+
+function fnPreLoad() {
+	if (window.location.pathname === "/en/ios/dungeon/mission") {
+		fnDungeonMissionPreload();
+	}
+	else if (window.location.pathname === "/en/ios/dungeon/battle") {
+		fnDungeonBattlePreload();
+	}
+	else if (window.location.pathname === "/en/ios/event/slotInformation") {
+		fnSlotInformationPreload();
+	}
+	if (window.location.pathname === "/en/ios/event/slotGame") {
+		fnSlotGamePreload();
 	}
 }
 
