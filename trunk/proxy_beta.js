@@ -2955,6 +2955,12 @@ function fnLoginStamp() {
 	setTimeout(function(){$.redirect("/en/ios/home");}, 1);
 }
 
+// slot stamp
+
+function fnSlotInformationPreload() {
+	fnRedirect("/en/ios/event/slotGame");
+}
+
 // home
 
 function fnHome() {
@@ -2993,15 +2999,6 @@ function fnAutoUsePoint() {
 		else if (fnAutoStatsUp() == 2) {
 			$.ajax_ex(false, '/en/ios/home/stup?bp='+player.remain_point+'&pr=0&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 		}
-	}
-}
-
-function fnPreLoad() {
-	if (window.location.pathname === "/en/ios/dungeon/mission") {
-		fnDungeonMissionPreload();
-	}
-	else if (window.location.pathname === "/en/ios/dungeon/battle") {
-		fnDungeonBattlePreload();
 	}
 }
 
@@ -3110,6 +3107,18 @@ function fnOnLoad() {
 	}
 	else if (window.location.pathname === "/en/ios/fusion/fusion") {
 		fnFusionFusion();
+	}
+}
+
+function fnPreLoad() {
+	if (window.location.pathname === "/en/ios/dungeon/mission") {
+		fnDungeonMissionPreload();
+	}
+	else if (window.location.pathname === "/en/ios/dungeon/battle") {
+		fnDungeonBattlePreload();
+	}
+	else if (window.location.pathname === "/en/ios/event/slotInformation") {
+		fnSlotInformationPreload();
 	}
 }
 
