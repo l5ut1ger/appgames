@@ -2969,7 +2969,7 @@ function fnSlotGame() {
 
 function fnSlotReward() {
 	if ($('a[href^="/en/ios/event/slotPresent?now="]').length) {
-		location = $('a[href^="/en/ios/dungeon/mission?area_id"]').eq(0).attr("href");
+		location = $('a[href^="/en/ios/event/slotPresent?now="]').eq(0).attr("href");
 	}
 }
 
