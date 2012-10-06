@@ -2962,14 +2962,10 @@ function fnSlotInformationPreload() {
 }
 
 function fnSlotGame() {
-	
+	setTimeout(fnSlotGame, 1000);
+	$('div.button_game').trigger('click');
+	$('div.end_click_ok').trigger('click');
 
-	 {
-		setTimeout(fnSlotGame, 500);
-		alert('hi');
-		alert($('div.button_game'));
-		$('div.button_game').trigger('click');
-	}
 }
 
 function fnSlotGamePreload() {
