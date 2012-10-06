@@ -3139,7 +3139,7 @@ function fnPreLoad() {
 	else if (window.location.pathname === "/en/ios/event/slotInformation") {
 		fnSlotInformationPreload();
 	}
-	else if (window.location.pathname === "/en/ios/event/slotGame") {
+	if (window.location.pathname === "/en/ios/event/slotGame") {
 		fnSlotGamePreload();
 	}
 }
