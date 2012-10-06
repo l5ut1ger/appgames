@@ -2969,7 +2969,7 @@ function fnSlotGame() {
 
 function fnSlotReward() {
 	if ($('a[href^="/en/ios/event/slotPresent?now="]').length) {
-		location = $('a[href^="/en/ios/event/slotPresent?now="]').eq(0).attr("href");
+		fnRedirect($('a[href^="/en/ios/event/slotPresent?now="]').eq(0).attr("href"));
 	}
 }
 
