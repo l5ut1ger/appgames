@@ -2962,7 +2962,7 @@ function fnSlotInformationPreload() {
 }
 
 function fnSlotGame() {
-	$.getJSON("/en/ios/event/slotDecide", { now:now_date, cfmid:confirm_id }, function(data) {
+	$.ajax_ex(false, "/en/ios/event/slotDecide", { now:now_date, cfmid:confirm_id }, function(data) {
 		fnRedirect("/en/ios/event/slotReward?now=20121006");
 	});
 }
