@@ -2961,7 +2961,7 @@ function fnSlotInformationPreload() {
 	fnRedirect("/en/ios/event/slotGame");
 }
 
-function fnSlotGamePreload() {
+function fnSlotGame() {
 	$.getJSON("/en/ios/event/slotDecide", { now:now_date, cfmid:confirm_id }, function(data) {
 		fnRedirect("/en/ios/event/slotReward?now=20121006");
 	});
@@ -3114,6 +3114,9 @@ function fnOnLoad() {
 	else if (window.location.pathname === "/en/ios/fusion/fusion") {
 		fnFusionFusion();
 	}
+	else if (window.location.pathname === "/en/ios/event/slotGame") {
+		fnSlotGame();
+	}
 }
 
 function fnPreLoad() {
@@ -3125,10 +3128,7 @@ function fnPreLoad() {
 	}
 	else if (window.location.pathname === "/en/ios/event/slotInformation") {
 		fnSlotInformationPreload();
-	}
-	else if (window.location.pathname === "/en/ios/event/slotGame") {
-		fnSlotGamePreload();
-	}
+	}	
 }
 
 fnPreLoad();
