@@ -2963,10 +2963,8 @@ function fnSlotInformationPreload() {
 
 function fnSlotGame() {
 	
-	if (typeof($('div.button_game')) !== 'undefined' && $('div.button_game') != null) {
-		$('div.button_game').trigger('click');
-	}
-	else {
+
+	 {
 		setTimeout(fnSlotGame, 500);
 		alert('hi');
 		alert($('div.button_game'));
