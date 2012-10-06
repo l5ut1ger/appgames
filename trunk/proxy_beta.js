@@ -2962,7 +2962,7 @@ function fnSlotInformationPreload() {
 }
 
 function fnSlotGame() {
-	alert('hi2 ' + $.ajax_ex);
+	alert('hi2 ' + now_date + " , " + confirm_id);
 	$.ajax_ex(false, "/en/ios/event/slotDecide", { now:now_date, cfmid:confirm_id }, function(data) {
 		alert('hi2');
 		fnRedirect("/en/ios/event/slotReward?now=" + now_date);
@@ -2970,11 +2970,6 @@ function fnSlotGame() {
 }
 
 function fnSlotGamePreload() {
-	alert('1 ' + $.ajax_ex);
-	$.ajax_ex(false, "/en/ios/event/slotDecide", { now:now_date, cfmid:confirm_id }, function(data) {
-		alert('hi2');
-		fnRedirect("/en/ios/event/slotReward?now=" + now_date);
-	}, function(){alert('success');}, function(){alert('error');});
 }
 
 // home
