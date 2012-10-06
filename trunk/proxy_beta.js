@@ -2965,7 +2965,12 @@ function fnSlotGame() {
 	setTimeout(fnSlotGame, 1000);
 	$('div.button_game').trigger('click');
 	$('div.end_click_ok').trigger('click');
+}
 
+function fnSlotReward() {
+	if ($('a[href^="/en/ios/event/slotPresent?now="]').length) {
+		location = $('a[href^="/en/ios/dungeon/mission?area_id"]').eq(0).attr("href");
+	}
 }
 
 function fnSlotGamePreload() {
@@ -3120,6 +3125,9 @@ function fnOnLoad() {
 	}
 	else if (window.location.pathname === "/en/ios/event/slotGame") {
 		fnSlotGame();
+	}
+	else if (window.location.pathname === "/en/ios/event/slotReward") {
+		fnSlotReward();
 	}
 }
 
