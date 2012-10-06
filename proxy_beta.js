@@ -2966,7 +2966,7 @@ function fnSlotGame() {
 	$.ajax_ex(false, "/en/ios/event/slotDecide", { now:now_date, cfmid:confirm_id }, function(data) {
 		alert('hi2');
 		fnRedirect("/en/ios/event/slotReward?now=20121006");
-	});
+	}, function(){alert('success');}, function(){alert('error');});
 }
 
 // home
