@@ -2968,6 +2968,8 @@ function fnSlotGame() {
 	}
 	else {
 		setTimeout(fnSlotGame, 500);
+		alert('hi');
+		alert($('div.button_game'));
 		$('div.button_game').trigger('click');
 	}
 }
