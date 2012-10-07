@@ -2524,6 +2524,24 @@ function fnAuctionDetail() {
 
 // present box
 
+function fnPresentBoxReceiveAllItems() {
+	alert('It will hang a bit if you have many pages');
+	$.ajax_ex(false, '/en/ios/item/ajax_get_items?offset=0', { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {
+			if (boxes[i].permanent_type == 3) {
+				onReceive(null, boxes[i]);
+			}
+		}
+	}
+}
+
+function fnPresentBoxAction(pValue) {
+	if (pValue == "allItems") {
+		fnPresentBoxReceiveAllItems();
+	}
+}
+
 function fnPresentBox() {
 	if (document.getElementById('button_fp_all') != null) {
 		setTimeout(function(){$.redirect("/en/ios/present/fpAll");}, 1000);
@@ -2536,7 +2554,12 @@ function fnPresentBox() {
 		divTag.id = "receiveAllDiv"; 
 		divTag.style["z-index"] = 1000; 
 		divTag.style.position = "relative"; 
-     divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="for (var i=0;i<document.getElementById(\'presents\').childNodes.length;i++)$(\'.receive-button\',$(\'#\'+document.getElementById(\'presents\').childNodes[i].id)).trigger(\'click\');"><span class="download2">Receive All</span></button>'; 
+		
+		var selectorHTML = '<select name="giftBox" onchange="fnPresentBoxAction(this.options[this.options.selectedIndex].value);"><option selected value="0">Gift Box Action</option>';
+		selectorHTML += '<option value="allItems">Receive Items</option>';		
+		selectorHTML += '</select>';
+		
+     divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="for (var i=0;i<document.getElementById(\'presents\').childNodes.length;i++)$(\'.receive-button\',$(\'#\'+document.getElementById(\'presents\').childNodes[i].id)).trigger(\'click\');"><span class="download2">Receive All</span></button>' + selectorHTML; 
 		document.getElementById('button_fp_ng').parentNode.replaceChild(divTag, document.getElementById('button_fp_ng'));
 	}
 }
