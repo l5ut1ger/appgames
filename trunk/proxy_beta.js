@@ -2533,7 +2533,7 @@ function fnPresentBoxReceiveAllItems() {
 				onReceive(null, boxes[i]);
 			}
 		}
-	}
+	});
 }
 
 function fnPresentBoxAction(pValue) {
