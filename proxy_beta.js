@@ -2117,7 +2117,7 @@ function fnDungeon() {
 	}
 	progTeamSelectorHTML+='</select><br/>'; 
 	
-	var bpSelectorHTML =  'Auto BP<select name="bp" onchange="fnSetDungeonAutoBP(this.options[this.options.selectedIndex].value]);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnDungeonAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option></select>';	
+	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetDungeonAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnDungeonAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option></select>';	
 
 	document.getElementById('infinity').innerHTML += impulseTeamSelectorHTML + covertTeamSelectorHTML + psychoTeamSelectorHTML + progTeamSelectorHTML + bpSelectorHTML;
 	
