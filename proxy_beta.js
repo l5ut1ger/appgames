@@ -2526,7 +2526,7 @@ function fnAuctionDetail() {
 
 function fnPresentBoxReceiveAllItems() {
 	alert('It will hang a bit if you have many pages');
-	$.ajax_ex(false, '/en/ios/item/ajax_get_items?offset=0', { }, function(data) {
+	$.ajax_ex(false, '/en/ios/present/list?api=json&page=2', { }, function(data) {
 		var boxes = data.payload.boxes;
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 3) {
