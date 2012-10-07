@@ -1954,6 +1954,7 @@ function fnDungeonMission() {
 			ig.game.save(null);
 		}
 		else {
+			alert(fnDungeonAutoBP());
 			if (parseInt(fnDungeonAutoBP(),10) > 0) {
 				$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:fnDungeonAutoBP()}, function(data) {});
 				fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
