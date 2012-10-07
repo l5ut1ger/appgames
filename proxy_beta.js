@@ -2525,6 +2525,7 @@ function fnAuctionDetail() {
 // present box
 
 function fnPresentBoxReceiveAllItemsPerPage(pPage) {
+	fnGrowl('Receiving Page ' + pPage);
 	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+pPage, { }, function(data) {
 		var boxes = data.payload.boxes;
 		for (var i=0;i < boxes.length;i++) {
@@ -2533,7 +2534,7 @@ function fnPresentBoxReceiveAllItemsPerPage(pPage) {
 			}
 		}
 		if (pPage > 0) {
-			setTimeout(fnPresentBoxReceiveAllItemsPerPage,0,pPage-1);
+			setTimeout(fnPresentBoxReceiveAllItemsPerPage,1000,pPage-1);
 		}
 	});
 }
