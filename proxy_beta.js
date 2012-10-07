@@ -2037,6 +2037,16 @@ function fnDungeonWin() {
 		}
 	});
 	fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id);
+	
+	var divTag = document.createElement("div"); 
+	divTag.id = "battleButtonDiv"; 
+	divTag.style["z-index"] = 1000; 
+	divTag.style.position = "absolute"; 
+	divTag.style.left = "250px"; 
+	divTag.style.top = "140px"; 
+	divTag.innerHTML = '<a href="/en/ios/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id + '" class="btn __red __WS __HL" id="button_boss">Next Boss</a>'; 
+	document.body.appendChild(divTag); 
+	
 	//fnTimeOutRedirect('/en/ios/dungeon/ajaxSaveMissionBoss?area_id='+fnQueryString('area_id')+'&dungeon_tribe='+fnQueryString('tribe'));
 }
 
