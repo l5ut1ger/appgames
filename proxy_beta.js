@@ -1954,8 +1954,8 @@ function fnDungeonMission() {
 			ig.game.save(null);
 		}
 		else {
-			if (fnAutoDrink() == 1) {
-				$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:3019}, function(data) {});
+			if (parseInt(fnDungeonAutoBP(),10) > 0) {
+				$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:fnDungeonAutoBP()}, function(data) {});
 				fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
 				return;
 			}
@@ -2120,7 +2120,7 @@ function fnDungeon() {
 
 	document.getElementById('infinity').innerHTML += impulseTeamSelectorHTML + covertTeamSelectorHTML + psychoTeamSelectorHTML + progTeamSelectorHTML + bpSelectorHTML;
 	
-	document.getElementById('main_bg').style.height = (parseInt(document.getElementById('main_bg').style.height,10) + 100) + "px";
+	document.getElementById('main_bg').style.height = (parseInt(document.getElementById('main_bg').style.height,10) + 125) + "px";
 	
 	var divTag = document.createElement("div");
 	divTag.id = "bossRecordDiv";
