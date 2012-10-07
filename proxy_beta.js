@@ -2525,7 +2525,6 @@ function fnAuctionDetail() {
 // present box
 
 function fnPresentBoxReceiveAllItemsPerPage(pPage) {
-	alert('hi '+pPage);
 	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+pPage, { }, function(data) {
 		var boxes = data.payload.boxes;
 		for (var i=0;i < boxes.length;i++) {
