@@ -2532,16 +2532,16 @@ function fnPresentBoxReceiveAllItemsPerPage(pPage) {
 				onReceive(null, boxes[i]);
 			}
 		}
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxReceiveAllItemsPerPage,0,pPage-1);
+		}
 	});
 }
 
 function fnPresentBoxReceiveAllItems() {
 	alert('It will hang a bit if you have many pages');
 	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
-		var pages = parseInt(metaData.payload.pages,10);
-		for (var p=pages-1;p >=0 ; p--) {
-			setTimeout(fnPresentBoxReceiveAllItemsPerPage,(pages-p)*500,p);
-		}
+		setTimeout(fnPresentBoxReceiveAllItemsPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
 }
 
