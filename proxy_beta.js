@@ -2042,7 +2042,7 @@ function fnDungeonWin() {
 	divTag.id = "battleButtonDiv"; 
 	divTag.style["z-index"] = 1000; 
 	divTag.style.position = "absolute"; 
-	divTag.style.left = "250px"; 
+	divTag.style.left = "150px"; 
 	divTag.style.top = "140px"; 
 	divTag.innerHTML = '<a href="/en/ios/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id + '" class="btn __red __WS __HL" id="button_boss">Next Boss</a>'; 
 	document.body.appendChild(divTag); 
