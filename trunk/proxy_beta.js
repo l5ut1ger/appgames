@@ -2524,20 +2524,24 @@ function fnAuctionDetail() {
 
 // present box
 
+function fnPresentBoxReceiveAllItemsPerPage(pPage) {
+	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+p, { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {
+			if (boxes[i].permanent_type == 3) {
+				onReceive(null, boxes[i]);
+			}
+		}
+	});
+}
+
 function fnPresentBoxReceiveAllItems() {
 	alert('It will hang a bit if you have many pages');
-	$.ajax_ex(false, '/en/ios/present/list?api=json&page=2', { }, function(metaData) {
+	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
 		var pages = metaData.payload.pages;
 		for (var p=pages.length-1;p >=0 ; p--) {
-			$.ajax_ex(false, '/en/ios/present/list?api=json&page='+p, { }, function(data) {
-				var boxes = data.payload.boxes;
-				for (var i=0;i < boxes.length;i++) {
-					if (boxes[i].permanent_type == 3) {
-						onReceive(null, boxes[i]);
-					}
-				}
-			});
-		}		
+			setTimeout(fnPresentBoxReceiveAllItemsPerPage,(pages.length-p)*500,p);
+		}
 	});
 }
 
