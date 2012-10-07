@@ -2541,6 +2541,7 @@ function fnPresentBoxReceiveAllItems() {
 	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
 		var pages = metaData.payload.pages;
 		for (var p=pages.length-1;p >=0 ; p--) {
+			alert((pages.length-p)*500);
 			setTimeout(fnPresentBoxReceiveAllItemsPerPage,(pages.length-p)*500,p);
 		}
 	});
