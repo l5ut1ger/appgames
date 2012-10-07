@@ -2539,10 +2539,9 @@ function fnPresentBoxReceiveAllItemsPerPage(pPage) {
 function fnPresentBoxReceiveAllItems() {
 	alert('It will hang a bit if you have many pages');
 	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
-		var pages = metaData.payload.pages;
-		for (var p=pages.length-1;p >=0 ; p--) {
-			alert((pages.length-p)*500);
-			setTimeout(fnPresentBoxReceiveAllItemsPerPage,(pages.length-p)*500,p);
+		var pages = parseInt(metaData.payload.pages,10);
+		for (var p=pages-1;p >=0 ; p--) {
+			setTimeout(fnPresentBoxReceiveAllItemsPerPage,(pages-p)*500,p);
 		}
 	});
 }
