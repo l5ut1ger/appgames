@@ -2042,9 +2042,9 @@ function fnDungeonWin() {
 	divTag.id = "battleButtonDiv"; 
 	divTag.style["z-index"] = 1000; 
 	divTag.style.position = "absolute"; 
-	divTag.style.left = "150px"; 
+	divTag.style.left = "240px"; 
 	divTag.style.top = "140px"; 
-	divTag.innerHTML = '<a href="/en/ios/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id + '" class="btn __red __WS __HL" id="button_boss">Next Boss</a>'; 
+	divTag.innerHTML = '<a href="/en/ios/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id + '" class="btn __red __WS __HL" id="button_boss">Boss</a>'; 
 	document.body.appendChild(divTag); 
 	
 	//fnTimeOutRedirect('/en/ios/dungeon/ajaxSaveMissionBoss?area_id='+fnQueryString('area_id')+'&dungeon_tribe='+fnQueryString('tribe'));
@@ -3049,19 +3049,7 @@ function fnAutoUsePoint() {
 	}
 }
 
-function fnOnLoad() {
-	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");
-	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
-
-	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
-	fnSetupPurrCSS();
-
-	fnCreateBackButton();
-	
-	fnAutoUsePoint();
-	
-	fnCheckAlly();
-	
+function fnTimeoutOnLoad() {
 	if (window.location.pathname === "/en/ios/event/loginStamp") {
 		fnLoginStamp();
 	}
@@ -3161,6 +3149,22 @@ function fnOnLoad() {
 	else if (window.location.pathname === "/en/ios/event/slotReward") {
 		fnSlotReward();
 	}
+}
+
+function fnOnLoad() {
+	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");
+	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
+
+	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
+	fnSetupPurrCSS();
+
+	fnCreateBackButton();
+	
+	fnAutoUsePoint();
+	
+	fnCheckAlly();
+	
+	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	
 }
 
 function fnPreLoad() {
