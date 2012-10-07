@@ -2534,7 +2534,7 @@ function fnPresentBoxReceiveAllItemsPerPage(pPage) {
 			}
 		}
 		if (pPage > 0) {
-			setTimeout(fnPresentBoxReceiveAllItemsPerPage,1000,pPage-1);
+			setTimeout(fnPresentBoxReceiveAllItemsPerPage,500,pPage-1);
 		}
 	});
 }
@@ -2546,9 +2546,35 @@ function fnPresentBoxReceiveAllItems() {
 	});
 }
 
+function fnPresentBoxReceiveAllAAsPerPage(pPage) {
+	fnGrowl('Receiving Page ' + pPage);
+	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+pPage, { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {
+			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 5) {
+				onReceive(null, boxes[i]);
+				alert("Receiving " + boxes[i].monster_name);
+			}
+		}
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxReceiveAllAAsPerPage,500,pPage-1);
+		}
+	});
+}
+
+function fnPresentBoxReceiveAllAAs() {
+	alert('It will hang a bit if you have many pages');
+	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxReceiveAllAAsPerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
 function fnPresentBoxAction(pValue) {
 	if (pValue == "allItems") {
 		fnPresentBoxReceiveAllItems();
+	}
+	else if (pValue == "allAAs") {
+		fnPresentBoxReceiveAllAAs();
 	}
 }
 
@@ -2566,7 +2592,8 @@ function fnPresentBox() {
 		divTag.style.position = "relative"; 
 		
 		var selectorHTML = '<select name="giftBox" onchange="fnPresentBoxAction(this.options[this.options.selectedIndex].value);"><option selected value="0">Gift Box Action</option>';
-		selectorHTML += '<option value="allItems">Receive Items</option>';		
+		selectorHTML += '<option value="allItems">Receive Items</option>';
+		selectorHTML += '<option value="allAAs">Receive AA/+</option>';
 		selectorHTML += '</select>';
 		
      divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="for (var i=0;i<document.getElementById(\'presents\').childNodes.length;i++)$(\'.receive-button\',$(\'#\'+document.getElementById(\'presents\').childNodes[i].id)).trigger(\'click\');"><span class="download2">Receive All</span></button>' + selectorHTML; 
