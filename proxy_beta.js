@@ -2569,9 +2569,35 @@ function fnPresentBoxReceiveAllAAs() {
 	});
 }
 
+function fnPresentBoxReceiveAll100kGoldPerPage(pPage) {
+	fnGrowl('Receiving Page ' + pPage);
+	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+pPage, { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {
+			if (boxes[i].permanent_type == 1 && boxes[i].jewel <= 100000) {
+				onReceive(null, boxes[i]);
+				alert("Receiving " + boxes[i].monster_name);
+			}
+		}
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxReceiveAllAAsPerPage,500,pPage-1);
+		}
+	});
+}
+
+function fnPresentBoxReceiveAll100kGold() {
+	alert('It will hang a bit if you have many pages');
+	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxReceiveAll100kGoldPerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
 function fnPresentBoxAction(pValue) {
 	if (pValue == "allItems") {
 		fnPresentBoxReceiveAllItems();
+	}
+	else if (pValue == "all100kGold") {
+		fnPresentBoxReceiveAll100kGold();
 	}
 	else if (pValue == "allAAs") {
 		fnPresentBoxReceiveAllAAs();
@@ -2593,6 +2619,7 @@ function fnPresentBox() {
 		
 		var selectorHTML = '<select name="giftBox" onchange="fnPresentBoxAction(this.options[this.options.selectedIndex].value);"><option selected value="0">Gift Box Action</option>';
 		selectorHTML += '<option value="allItems">Receive Items</option>';
+		selectorHTML += '<option value="all100kGold">Receive <100k$</option>';
 		selectorHTML += '<option value="allAAs">Receive AA/+</option>';
 		selectorHTML += '</select>';
 		
@@ -3209,6 +3236,8 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === "/en/ios/event/slotReward") {
 		fnSlotReward();
 	}
+	// /en/ios/dungeon/recovery
+	// /en/ios/dungeon/recoveryproc
 }
 
 function fnOnLoad() {
