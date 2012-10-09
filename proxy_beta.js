@@ -2576,7 +2576,7 @@ function fnPresentBoxReceiveAll100kGoldPerPage(pPage) {
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 1 && boxes[i].jewel <= 100000) {
 				onReceive(null, boxes[i]);
-				alert("Receiving " + boxes[i].monster_name);
+				alert("Receiving $" + boxes[i].jewel);
 			}
 		}
 		if (pPage > 0) {
