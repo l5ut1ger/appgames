@@ -2036,7 +2036,12 @@ function fnDungeonWin() {
 			//$.redirect("/en/ios/dungeon/mission?go_next=true&area_id="+area_id+"&dungeon_tribe="+dungeon_tribe);
 		}
 	});
-	fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id);
+	if (dungeon_tribe == 0) {
+		fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id);
+	}
+	else {
+		fnTimeOutRedirect('/en/ios/dungeon/mission?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id);
+	}
 	
 	var divTag = document.createElement("div"); 
 	divTag.id = "battleButtonDiv"; 
