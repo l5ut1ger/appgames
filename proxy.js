@@ -1277,9 +1277,9 @@ function fnFriendActionGiftSummons() {
 		if (result.find('#summon_a_grade').find('.cost_ticket').length) {
 			items.push('3:5005:'+parseInt(result.find('#summon_a_grade').find('.cost_ticket').html(),10));
 		}
-		if (result.find('#summon_special').find('.cost_ticket').length) {
-			if (parseInt(result.find('#summon_special').find('.cost_ticket').html(),10) > 0) {
-				items.push('3:5200:'+parseInt(result.find('#summon_special').find('.cost_ticket').html(),10));
+		if (result.find('#summon_special_ticket').find('.cost_ticket').length) {
+			if (parseInt(result.find('#summon_special_ticket').find('.cost_ticket').html(),10) > 0) {
+				items.push('3:5200:'+parseInt(result.find('#summon_special_ticket').find('.cost_ticket').html(),10));
 			}
 		}
 		if (result.find('#summon_super_special').find('.cost_ticket').length) {
@@ -1323,9 +1323,9 @@ function fnFriendActionGiftItemsAndSummons() {
 			if (result.find('#summon_a_grade').find('.cost_ticket').length) {
 				giftList.push('3:5005:'+parseInt(result.find('#summon_a_grade').find('.cost_ticket').html(),10));
 			}
-			if (result.find('#summon_special').find('.cost_ticket').length) {
-				if (parseInt(result.find('#summon_special').find('.cost_ticket').html(),10) > 0) {
-					giftList.push('3:5200:'+parseInt(result.find('#summon_special').find('.cost_ticket').html(),10));
+			if (result.find('#summon_special_ticket').find('.cost_ticket').length) {
+				if (parseInt(result.find('#summon_special_ticket').find('.cost_ticket').html(),10) > 0) {
+					giftList.push('3:5200:'+parseInt(result.find('#summon_special_ticket').find('.cost_ticket').html(),10));
 				}
 			}
 			if (result.find('#summon_super_special').find('.cost_ticket').length) {
@@ -2669,8 +2669,8 @@ function fnGiftMyItems() {
 			if (result.find('#summon_a_grade').find('.cost_ticket').length) {
 				items.push({"item_id":"5005","name":"Rank A Summon","amount":parseInt(result.find('#summon_a_grade').find('.cost_ticket').html(),10),"thumb_image":"items/5005_small.png"});
 			}
-			if (result.find('#summon_special').find('.cost_ticket').length) {
-				items.push({"item_id":"5200","name":"Dark Summon","amount":parseInt(result.find('#summon_special').find('.cost_ticket').html(),10),"thumb_image":"items/5200_small.png"});
+			if (result.find('#summon_special_ticket').find('.cost_ticket').length) {
+				items.push({"item_id":"5200","name":"Dark Summon","amount":parseInt(result.find('#summon_special_ticket').find('.cost_ticket').html(),10),"thumb_image":"items/5200_small.png"});
 			}
 			if (result.find('#summon_super_special').find('.cost_ticket').length) {
 				items.push({"item_id":"5026","name":"EPIC Dark Summon","amount":parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10),"thumb_image":"items/5026_small.png"});
