@@ -3130,6 +3130,7 @@ function fnEventBingo() {
 	for (i=0;i<tList.length;i++){
 		if($('div.pos_'+tList[i]).hasClass('scratch')){
 			onScratch($('div.pos_'+tList[i]),tList[i]);
+			alert('hi');
 			break;
 		}
 	}
