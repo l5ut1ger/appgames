@@ -3107,7 +3107,7 @@ function fnSlotGamePreload() {
 // event bingo
 
 function fnEventBingo() {
-	alert('well');
+
 	launchRewards = function (rewards, is_continue)
 	{
 		window.location=(is_continue > 0) ?'/en/ios/event/bingo':'/en/ios/home';
@@ -3125,10 +3125,11 @@ function fnEventBingo() {
 		$('div.scratch').unbind('click');
 		onScratch(self, pos[1]);
 	}
-	alert('hey');
+
 	var tList=[12,8,4,16,20,0,6,18,24,7,5,9,10,15,14,19,17,11,13,1,21,2,3,22,23];
 	for (i=0;i<tList.length;i++){
-		if($('div.pos_'+tList[i]).hasClass('scratch')){
+		if ($('div.pos_'+tList[i]).hasClass('scratch')) {
+			alert('yes');
 			onScratch($('div.pos_'+tList[i]),tList[i]);
 			alert('hi');
 			break;
