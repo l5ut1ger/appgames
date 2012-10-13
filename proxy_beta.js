@@ -11,7 +11,7 @@ var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown"
 
 function fnRedirect(pURL) {
 	var meta = document.createElement('meta');meta.httpEquiv='refresh';meta.content='0;url='+pURL;document.getElementsByTagName('head')[0].appendChild(meta);
-	setTimeout(function(){$.redirect(pURL);}, 10000);
+	setTimeout(function(){$.redirect(pURL);}, 6000);
 }
 
 function fnTimeOutRedirect(pURL) {
@@ -3104,6 +3104,37 @@ function fnSlotReward() {
 function fnSlotGamePreload() {
 }
 
+// event bingo
+
+function fnEventBingo() {
+
+	function launchRewards(rewards, is_continue)
+	{
+		window.location=(is_continue > 0) ?'/en/ios/event/bingo':'/en/ios/home';
+		fnRedirect((is_continue > 0) ?'/en/ios/event/bingo':'/en/ios/home');
+	}
+
+	onScratchTap = function ()
+	{
+		var self    = $(this);
+		var rex_pos = /pos_(\d+)/;
+		var pos     = rex_pos.exec(self.attr('class'));
+
+		if (pos.length < 1) { return; }
+
+		$('div.scratch').unbind('click');
+		onScratch(self, pos[1]);
+	}
+
+	var tList=[12,8,4,16,20,0,6,18,24,7,5,9,10,15,14,19,17,11,13,1,21,2,3,22,23];
+	for (i=0;i<tList.length;i++){
+		if($('div.pos_'+tList[i]).hasClass('scratch')){
+			onScratch($('div.pos_'+tList[i]),tList[i]);
+			break;
+		}
+	}
+}
+
 // home
 
 function fnHome() {
@@ -3244,6 +3275,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === "/en/ios/event/slotReward") {
 		fnSlotReward();
+	}
+	else if (window.location.pathname === "/en/ios/event/bingo") {
+		fnEventBingo();
 	}
 	// /en/ios/dungeon/recovery
 	// /en/ios/dungeon/recoveryproc
