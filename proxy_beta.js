@@ -3115,7 +3115,7 @@ function fnEventBingo() {
 	}
 
 	onScratchTap = function ()
-	{
+	{alert('me');
 		var self    = $(this);
 		var rex_pos = /pos_(\d+)/;
 		var pos     = rex_pos.exec(self.attr('class'));
