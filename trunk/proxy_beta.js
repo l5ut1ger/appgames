@@ -2931,7 +2931,6 @@ function fnStackAuto(pUniqueNo) {
 		//location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 6000);
-		alert('stack');
 	}
 	else {
 		alert("You have no same skill monsters to sacrifice.");
@@ -3157,8 +3156,8 @@ function fnFusionFusion() {
 	}
 	if (parseInt(fnAutoStack(),10) > 0) {
 		var timeGap = 0;
-		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoFusion() });}, timeGap);
-		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoFusion() });}, timeGap+5000);
+		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoStack() });}, timeGap);
+		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoStack() });}, timeGap+5000);
 	}
 }
 
