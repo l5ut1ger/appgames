@@ -3116,12 +3116,14 @@ function fnFusionFixPage() {
 				setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, timeGap);
 				setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, timeGap+5000);
 			});
-			base_tag.append('<div class="autoStack-button btn __red __WS __HS" style="position:absolute; top: 10px; left: 150px;">Stack</div>');
-			$('> .autoStack-button', base_tag).click(function () {
-				fnSetAutoStack(monster.unique_no);		
-				setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, 0);
-				setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, 0+5000);
-			});
+			if (monster.skill_id > 0 && monster.grade <= 3) {
+				base_tag.append('<div class="autoStack-button btn __red __WS __HS" style="position:absolute; top: 2px; left: 150px;">Stack</div>');
+				$('> .autoStack-button', base_tag).click(function () {
+					fnSetAutoStack(monster.unique_no);		
+					setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, 0);
+					setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, 0+5000);
+				});
+			}
 			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
 			$('> .decide-button', base_tag).click(function () {
 				$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });
