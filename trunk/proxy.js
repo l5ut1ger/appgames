@@ -11,7 +11,7 @@ var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown"
 
 function fnRedirect(pURL) {
 	var meta = document.createElement('meta');meta.httpEquiv='refresh';meta.content='0;url='+pURL;document.getElementsByTagName('head')[0].appendChild(meta);
-	setTimeout(function(){$.redirect(pURL);}, 10000);
+	setTimeout(function(){$.redirect(pURL);}, 6000);
 }
 
 function fnTimeOutRedirect(pURL) {
@@ -284,6 +284,34 @@ function fnAutoFusion() {
 
 function fnSetAutoFusion(value) {
 	fnSetCookie(autoFusionKey, value);
+}
+
+// Auto Stack
+
+var autoStackKey = 'autoStack';
+
+function fnAutoStack() {
+	if(fnGetCookie(autoStackKey) === null) {
+		fnSetAutoStack(0);
+	}
+	return fnGetCookie(autoStackKey);
+}
+
+function fnSetAutoStack(value) {
+	fnSetCookie(autoStackKey, value);
+}
+
+var autoStackBPKey = 'autoStackBP';
+
+function fnAutoStackBP() {
+	if(fnGetCookie(autoStackBPKey) === null) {
+		fnSetAutoStackBP(10);
+	}
+	return fnGetCookie(autoStackBPKey);
+}
+
+function fnSetAutoStackBP(value) {
+	fnSetCookie(autoStackBPKey, value);
 }
 
 // Gift Cookies
@@ -805,6 +833,14 @@ function fnProfileFixTabs() {
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 2 ?'selected':'') + ' value="2">On, BP</option>';
 	autoStatsUpselectorHTML += '</select><br/><br/>'; 
 	
+	// Auto Stack BP Settings
+	var stackSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Stack Rank A max BP</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	stackSelectorHTML += '<select name="sel" onchange="fnSetAutoStackBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Stack Rank A max BP \'+this.options[this.options.selectedIndex].text);">';
+	for (var i=1;i<=30;i++) {
+		stackSelectorHTML += '<option ' + (fnAutoStackBP() == (i) ?'selected':'') + ' value="' + (i) + '">' + (i) + '</option>';
+	}	
+	stackSelectorHTML += '</select><br/><br/>';
+	
 	// Tower Event Target Settings
 	var towerSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Tower Event</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>Target Floor<br/>';
 	towerSelectorHTML += '<select name="sel" onchange="fnSetTowerEventTarget(this.options[this.options.selectedIndex].value);fnGrowl(\'Tower Event Target \'+this.options[this.options.selectedIndex].text);">';
@@ -837,7 +873,7 @@ function fnProfileFixTabs() {
 	}
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
    
-	divTag.innerHTML = grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
+	divTag.innerHTML = grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 
 	onChangeProfile = function (id) 
@@ -2826,7 +2862,7 @@ function fnFusionAuto(pUniqueNo) {
 		return;
 	}
 	for (var i=0;i<monsters.length;i++) {
-		if (parseInt(monsters[i].lv, 10)== 1) {
+		if (parseInt(monsters[i].lv, 10)== 1) {  //sac level 1
 			if (parseInt(monsters[i].skill_id,10) == 0) { // no skill
 				if (parseInt(monsters[i].grade,10) <= 3) { // <= rank B+
 					if (parseInt(monsters[i].bp,10) < 100) { // no soul
@@ -2862,11 +2898,55 @@ function fnFusionAuto(pUniqueNo) {
 	return;
 }
 
+function fnStackAuto(pUniqueNo) {
+	var sacStr = "";
+	var sacCount = 0;
+	var sacGrade = -1;
+	if (parseInt(source.skill_lv,10) == 4) {
+		fnSetAutoStack(0);
+		alert('Auto Stack Done');
+		return;
+	}
+	for (var i=0;i<monsters.length;i++) {
+		if (parseInt(monsters[i].lv, 10)== 1) {  //sac level 1
+			if (parseInt(monsters[i].skill_id,10) == parseInt(source.skill_id,10)) { // same skill
+				if (parseInt(monsters[i].skill_lv,10) == 1) {  // skill 1
+					if (parseInt(monsters[i].grade,10) <= 3 || (parseInt(monsters[i].grade,10) == 4 && parseInt(monsters[i].bp,10) <= fnAutoStackBP())) { // <= rank B+ or low bp rank A
+						if (parseInt(monsters[i].grade,10) > parseInt(sacGrade, 10)) { // prefer sac higher grade
+							if (monsters[i].unique_no != pUniqueNo) {
+								if (monsters[i].location ==0) { // not in formation
+									sacStr = '&uno_0=' + monsters[i].unique_no;
+									sacCount=1;
+									sacGrade = monsters[i].grade;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	if (sacCount > 0) {		
+		var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+		//location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+		setTimeout(function(){$.redirect(link);}, 1000);
+		setTimeout(function(){$.redirect(link);}, 6000);
+	}
+	else {
+		alert("You have no same skill monsters to sacrifice.");
+	}
+	return;
+}
+
 function fnFusionFixDestPage() {
 	showMonsters = function (offset, limit)
 	{
 		if (parseInt(fnAutoFusion(),10) > 0) {
 			fnFusionAuto(fnQueryString('uno'));
+		}
+		
+		if (parseInt(fnAutoStack(),10) > 0) {
+			fnStackAuto(fnQueryString('uno'));
 		}
 	
 		if (monsters === false) { return; }
@@ -3039,6 +3119,14 @@ function fnFusionFixPage() {
 				setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, timeGap);
 				setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, timeGap+5000);
 			});
+			if (monster.skill_id > 0 && monster.grade <= 3) {
+				base_tag.append('<div class="autoStack-button btn __red __WS __HS" style="position:absolute; top: 2px; left: 150px;">Stack</div>');
+				$('> .autoStack-button', base_tag).click(function () {
+					fnSetAutoStack(monster.unique_no);		
+					setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, 0);
+					setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, 0+5000);
+				});
+			}
 			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
 			$('> .decide-button', base_tag).click(function () {
 				$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });
@@ -3066,6 +3154,11 @@ function fnFusionFusion() {
 		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoFusion() });}, timeGap);
 		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoFusion() });}, timeGap+5000);
 	}
+	if (parseInt(fnAutoStack(),10) > 0) {
+		var timeGap = 0;
+		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoStack() });}, timeGap);
+		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoStack() });}, timeGap+5000);
+	}
 }
 
 function fnFusionDest() {
@@ -3074,6 +3167,7 @@ function fnFusionDest() {
 
 function fnFusion() {
 	fnSetAutoFusion(0);
+	fnSetAutoStack(0);
 	fnFusionFixPage();
 }
 
@@ -3102,6 +3196,37 @@ function fnSlotReward() {
 }
 
 function fnSlotGamePreload() {
+}
+
+// event bingo
+
+function fnEventBingo() {
+
+	launchRewards = function (rewards, is_continue)
+	{
+		window.location=(is_continue > 0) ?'/en/ios/event/bingo':'/en/ios/home';
+		fnRedirect((is_continue > 0) ?'/en/ios/event/bingo':'/en/ios/home');
+	}
+
+	onScratchTap = function ()
+	{
+		var self    = $(this);
+		var rex_pos = /pos_(\d+)/;
+		var pos     = rex_pos.exec(self.attr('class'));
+
+		if (pos.length < 1) { return; }
+
+		$('div.scratch').unbind('click');
+		onScratch(self, pos[1]);
+	}
+
+	var tList=[12,8,4,16,20,0,6,18,24,7,5,9,10,15,14,19,17,11,13,1,21,2,3,22,23];
+	for (i=0;i<tList.length;i++){
+		if ($('div.pos_'+tList[i]).hasClass('scratch')) {
+			onScratch($('div.pos_'+tList[i]),tList[i]);
+			break;
+		}
+	}
 }
 
 // home
@@ -3244,6 +3369,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === "/en/ios/event/slotReward") {
 		fnSlotReward();
+	}
+	else if (window.location.pathname === "/en/ios/event/bingo") {
+		//fnEventBingo();
 	}
 	// /en/ios/dungeon/recovery
 	// /en/ios/dungeon/recoveryproc
