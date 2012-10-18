@@ -2931,6 +2931,7 @@ function fnStackAuto(pUniqueNo) {
 		//location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 6000);
+		alert('stack');
 	}
 	else {
 		alert("You have no same skill monsters to sacrifice.");
