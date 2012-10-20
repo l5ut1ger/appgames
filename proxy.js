@@ -2616,6 +2616,52 @@ function fnPresentBoxReceiveAllAAs() {
 	});
 }
 
+function fnPresentBoxReceiveAll20sPerPage(pPage) {
+	fnGrowl('Receiving Page ' + pPage);
+	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+pPage, { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {
+			if (boxes[i].permanent_type == 2 && boxes[i].monster_bp >= 20) {
+				onReceive(null, boxes[i]);
+				alert("Receiving " + boxes[i].monster_name);
+			}
+		}
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxReceiveAll20sPerPage,500,pPage-1);
+		}
+	});
+}
+
+function fnPresentBoxReceiveAll20s() {
+	alert('It will hang a bit if you have many pages');
+	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxReceiveAll20sPerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
+function fnPresentBoxReceiveAll30sPerPage(pPage) {
+	fnGrowl('Receiving Page ' + pPage);
+	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+pPage, { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {
+			if (boxes[i].permanent_type == 2 && boxes[i].monster_bp >= 30) {
+				onReceive(null, boxes[i]);
+				alert("Receiving " + boxes[i].monster_name);
+			}
+		}
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxReceiveAll30sPerPage,500,pPage-1);
+		}
+	});
+}
+
+function fnPresentBoxReceiveAll30s() {
+	alert('It will hang a bit if you have many pages');
+	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxReceiveAll30sPerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
 function fnPresentBoxReceiveAll100kGoldPerPage(pPage) {
 	fnGrowl('Receiving Page ' + pPage);
 	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+pPage, { }, function(data) {
@@ -2649,6 +2695,12 @@ function fnPresentBoxAction(pValue) {
 	else if (pValue == "allAAs") {
 		fnPresentBoxReceiveAllAAs();
 	}
+	else if (pValue == "all20s") {
+		fnPresentBoxReceiveAll20s();
+	}
+	else if (pValue == "all30s") {
+		fnPresentBoxReceiveAll30s();
+	}
 }
 
 function fnPresentBox() {
@@ -2668,6 +2720,8 @@ function fnPresentBox() {
 		selectorHTML += '<option value="allItems">Receive Items</option>';
 		selectorHTML += '<option value="all100kGold">Receive <100k$</option>';
 		selectorHTML += '<option value="allAAs">Receive AA/+</option>';
+		selectorHTML += '<option value="all20s">Receive 20+BP</option>';
+		selectorHTML += '<option value="all30s">Receive 30+BP</option>';
 		selectorHTML += '</select>';
 		
      divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="for (var i=0;i<document.getElementById(\'presents\').childNodes.length;i++)$(\'.receive-button\',$(\'#\'+document.getElementById(\'presents\').childNodes[i].id)).trigger(\'click\');"><span class="download2">Receive All</span></button>' + selectorHTML; 
