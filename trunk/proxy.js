@@ -1,5 +1,7 @@
 // 149
 
+var platform = window.location.pathname.indexOf("android") >= 0 ? 'android' : 'ios';
+
 // define
 var missionInterval;
 var progressionGuildSpecific = false;
@@ -150,7 +152,7 @@ function fnSetCheckAllyTimer(value) {
 }
 
 function fnSendAllyMsg(pID, pName, pMsg) {
-	$.getJSON('/en/ios/bbs/write', {
+	$.getJSON('/en/'+platform+'/bbs/write', {
 	'target_id': pID,
 	'body': pMsg.replace("{lv}",(player.lv>=80?"Lv "+ player.lv + " ":""))
 	}, function(result) {
@@ -159,7 +161,7 @@ function fnSendAllyMsg(pID, pName, pMsg) {
 }
 
 function fnSpamAllyMsg() {
-	$.ajax_ex(false, '/en/ios/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
+	$.ajax_ex(false, '/en/'+platform+'/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		for (var i=0;i<=2;i++) {
 			setTimeout(fnSendAllyMsg, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, fnAutoAllyMsg());
@@ -187,10 +189,10 @@ function fnHasAllyApplied() {
 	divTag.style.display = "none";
 	document.body.appendChild(divTag); 	
 	
-	var result= $('#checkAllyDiv').load('/en/ios/friends #list-applied', {}, function(){
+	var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
 		for (var i=0;i < result.find('.pid').length;i++) {
 			hasAllyApplied = true;
-			$.ajax_ex(false, '/en/ios/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
+			$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
 		}	
 	});
 	return hasAllyApplied;
@@ -594,23 +596,23 @@ function fnCreateBackButton() {
 	document.body.appendChild(divTag); 
 }
 
-// Profile section /en/ios/friends/profile
+// Profile section /en/'+platform+'/friends/profile
 
 function fnProfileGotoWallBookmark(pWall) {
 	if (pWall === "weekly1") {
-		$.ajax_ex(false, '/en/ios/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
+		$.ajax_ex(false, '/en/'+platform+'/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
 			if ( (data == null) || (data.status != 0) ) { return; }
-			window.location='/en/ios/friends/profile?pid='+data.payload.rankers[0].player_id;
+			window.location='/en/'+platform+'/friends/profile?pid='+data.payload.rankers[0].player_id;
 		});
 	}
 	else if (pWall === "overall1") {
-		$.ajax_ex(false, '/en/ios/ranking/list?page=0&tribe=0', { }, function(data) {
+		$.ajax_ex(false, '/en/'+platform+'/ranking/list?page=0&tribe=0', { }, function(data) {
 			if ( (data == null) || (data.status != 0) ) { return; }
-			window.location='/en/ios/friends/profile?pid='+data.payload.rankers[0].player_id;
+			window.location='/en/'+platform+'/friends/profile?pid='+data.payload.rankers[0].player_id;
 		});
 	}
 	else {
-		window.location='/en/ios/friends/profile?pid='+pWall;
+		window.location='/en/'+platform+'/friends/profile?pid='+pWall;
 	}
 }
 
@@ -682,7 +684,7 @@ function fnProfileRemoveWallBookmarkSelector() {
 function fnSpam(pID, pName, pMsg) {
 	var excludeList=["1408766097", "1833667105"];
 	if (excludeList.indexOf(pID) != -1) return;	
-	$.getJSON('/en/ios/bbs/write', {
+	$.getJSON('/en/'+platform+'/bbs/write', {
 	'target_id': pID,
 	'body': pMsg
 	}, function(result) {
@@ -712,7 +714,7 @@ function fnProfileAddSpamButton() {
 		  $('<div>' + BBS_TEXT_SYSTEM.warning_1 + '</div>').msgbox({'closeText':'OK'}).open();
 		  return false;
 		} else {
-			$.ajax_ex(false, '/en/ios/ranking/list?page=0&tribe=0', { }, function(data) {
+			$.ajax_ex(false, '/en/'+platform+'/ranking/list?page=0&tribe=0', { }, function(data) {
 				if ( (data == null) || (data.status != 0) ) { return; }
 				for (var i=0;i<=data.payload.rankers.length;i++) {
 					setTimeout(fnSpam, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
@@ -742,7 +744,7 @@ function fnProfileAddSpamButton() {
 		  $('<div>' + BBS_TEXT_SYSTEM.warning_1 + '</div>').msgbox({'closeText':'OK'}).open();
 		  return false;
 		} else {
-			$.ajax_ex(false, '/en/ios/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
+			$.ajax_ex(false, '/en/'+platform+'/ranking/weeklyList?page=0&tribe=0', { }, function(data) {
 				if ( (data == null) || (data.status != 0) ) { return; }
 				for (var i=0;i<=2;i++) {
 					setTimeout(fnSpam, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
@@ -773,7 +775,7 @@ function fnProfileAddSpamButton() {
 		  return false;
 		} else {
 			for (var j=0;j<10;j++) {
-				$.ajax_ex(false, '/en/ios/ranking/list?page='+j+'&tribe=0', { }, function(data) {
+				$.ajax_ex(false, '/en/'+platform+'/ranking/list?page='+j+'&tribe=0', { }, function(data) {
 					if ( (data == null) || (data.status != 0) ) { return; }
 					for (var i=0;i<=data.payload.rankers.length;i++) {
 						setTimeout(fnSpam, (j*100+i)*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, spamMsg);
@@ -950,7 +952,7 @@ function fnProfile() {
 	fnProfileAddSpamButton();
 }
 
-// Friend section /en/ios/friends/profile
+// Friend section /en/'+platform+'/friends/profile
 
 function fnProfileAddFriendWallBookmarkButtons() {
 	var divTag = document.createElement("div"); 
@@ -981,7 +983,7 @@ function fnProfileAddFriendWallBookmarkSelector() {
 
 function fnFriendActionGiftC() {
 	fnGrowl("fnFriendActionGiftC ver 15" );
-	$.ajax_ex(false, '/en/ios/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
+	$.ajax_ex(false, '/en/'+platform+'/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 
 		var monsters = data.payload;
@@ -989,9 +991,9 @@ function fnFriendActionGiftC() {
 		for (var i=0;i<monsters.length;i++) {
 			var monster = monsters[i];
 			if (monster.grade <= 1) {				
-				$.ajax({url: '/en/ios/present/suggest', cache: false, type:"GET", data:{'pid' : friendship.pid },dataType: "html"});
-				$.ajax({url: '/en/ios/present/confirm', cache: false, type:"GET", data:{'ctg':2, 'amt':1, 'pid' : monster.unique_no}, dataType: "html"});
-				$.ajax({url: '/en/ios/present/request', cache: false, type:"GET", data:{'msg' : '' }, dataType: "html"});
+				$.ajax({url: '/en/'+platform+'/present/suggest', cache: false, type:"GET", data:{'pid' : friendship.pid },dataType: "html"});
+				$.ajax({url: '/en/'+platform+'/present/confirm', cache: false, type:"GET", data:{'ctg':2, 'amt':1, 'pid' : monster.unique_no}, dataType: "html"});
+				$.ajax({url: '/en/'+platform+'/present/request', cache: false, type:"GET", data:{'msg' : '' }, dataType: "html"});
 				fnGrowl("Gifted " + monster.m.name);
 				return;
 			}
@@ -1015,7 +1017,7 @@ function fnFriendActionGiftProg() {
 		if ($('.label-tribe-3').length) {
 			tribe = 3;
 		}
-		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		$.ajax_ex(false, '/en/'+platform+'/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 			var leader=null;
 			var l1=0;
 			
@@ -1028,7 +1030,7 @@ function fnFriendActionGiftProg() {
 				}
 			}
 			if (leader !=null) {
-				setTimeout(function(){$.redirect('/en/ios/present/suggest?pid='+ friendship.pid + '&mid='+ l1 +"&name="+encodeURIComponent(friendship.nickname));}, 1);
+				setTimeout(function(){$.redirect('/en/'+platform+'/present/suggest?pid='+ friendship.pid + '&mid='+ l1 +"&name="+encodeURIComponent(friendship.nickname));}, 1);
 			}
 			else {
 				alert('you dont have available prog+');
@@ -1036,7 +1038,7 @@ function fnFriendActionGiftProg() {
 		});
 	}
 	else {
-		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		$.ajax_ex(false, '/en/'+platform+'/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 			giftList = [];
 			for (var i=0;i<result.payload.length;i++) {
 				for (var j=0;j<progressionList.length;j++) {
@@ -1067,7 +1069,7 @@ function fnFriendActionGiftFormation() {
 	if (!confirm('Are you REALLY sure you want to gift your current formation to ' + friendship.nickname + '?')) {
 		return;
 	}
-	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+	$.ajax_ex(false, '/en/'+platform+'/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		giftList = [];
 		var result_array = {"l1":"0", "l2":"0", "l3":"0", "l4":"0", "l5":"0"};
 		for (var i=0;i<result.payload.length;i++) {
@@ -1119,7 +1121,7 @@ function fnFriendActionGiftFormation() {
 			alert('No replacing monster');
 			return;
 		}
-		$.ajax_ex(false, '/en/ios/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, function(result) {});
 		
 		if (giftList.length > 0) {
 			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
@@ -1133,7 +1135,7 @@ function fnFriendActionGiftSoul() {
 	if (!confirm('Are you sure you want to gift all your Soul to ' + friendship.nickname + '?')) {
 		return;
 	}
-	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+	$.ajax_ex(false, '/en/'+platform+'/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		giftList = [];
 		for (var i=0;i<result.payload.length;i++) {
 			if (parseInt(result.payload[i].bp,10) >= 100) {
@@ -1158,7 +1160,7 @@ function fnFriendActionGiftStacked() {
 	if (!confirm('Are you sure you want to gift all your stacked(4) to ' + friendship.nickname + '?')) {
 		return;
 	}
-	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+	$.ajax_ex(false, '/en/'+platform+'/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		var leader=null;
 		var l1=0;
 		giftList = [];
@@ -1187,7 +1189,7 @@ function fnFriendActionGiftGuildDown() {
 	if (!confirm('Are you sure you want to gift all your guild down to ' + friendship.nickname + '?')) {
 		return;
 	}
-	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+	$.ajax_ex(false, '/en/'+platform+'/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		var leader=null;
 		var l1=0;
 		var key;
@@ -1219,7 +1221,7 @@ function fnFriendActionGiftSpeciesDown() {
 	if (!confirm('Are you sure you want to gift all your species down to ' + friendship.nickname + '?')) {
 		return;
 	}
-	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+	$.ajax_ex(false, '/en/'+platform+'/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		var leader=null;
 		var l1=0;
 		var key;
@@ -1251,7 +1253,7 @@ function fnFriendActionGiftSkill(pSkillID) {
 	if (!confirm('Are you sure you want to gift all your ' + skillArray[pSkillID] + ' to ' + friendship.nickname + '?')) {
 		return;
 	}
-	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+	$.ajax_ex(false, '/en/'+platform+'/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		var leader=null;
 		var l1=0;
 		giftList = [];
@@ -1280,7 +1282,7 @@ function fnFriendActionGiftAllItems() {
 	if (!confirm('Are you sure you want to gift all your items to ' + friendship.nickname + '?')) {
 		return;
 	}
-	$.ajax_ex(false, '/en/ios/item/ajax_get_items?offset=0', { }, function(data) {
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = [];
 		for (var i=0;i<data.payload.items.length;i++) {				
@@ -1307,7 +1309,7 @@ function fnFriendActionGiftSummons() {
 	divTag.style.display = "none";
 	document.body.appendChild(divTag); 	
 	
-	var result= $('#checkSummonDiv').load('/en/ios/summon #summon_group', {}, function(){
+	var result= $('#checkSummonDiv').load('/en/'+platform+'/summon #summon_group', {}, function(){
 		var items = [];
 		if (result.find('#summon_b_grade').find('.cost_ticket').length) {
 			items.push('3:5000:'+parseInt(result.find('#summon_b_grade').find('.cost_ticket').html(),10));
@@ -1343,7 +1345,7 @@ function fnFriendActionGiftItemsAndSummons() {
 		return;
 	}
 	giftList = [];
-	$.ajax_ex(false, '/en/ios/item/ajax_get_items?offset=0', { }, function(data) {
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }		
 		for (var i=0;i<data.payload.items.length;i++) {				
 			giftList.push('3:'+data.payload.items[i].item_id+':'+data.payload.items[i].amount);			
@@ -1354,7 +1356,7 @@ function fnFriendActionGiftItemsAndSummons() {
 		divTag.style.display = "none";
 		document.body.appendChild(divTag); 	
 		
-		var result= $('#checkSummonDiv').load('/en/ios/summon #summon_group', {}, function(){
+		var result= $('#checkSummonDiv').load('/en/'+platform+'/summon #summon_group', {}, function(){
 			if (result.find('#summon_b_grade').find('.cost_ticket').length) {
 				giftList.push('3:5000:'+parseInt(result.find('#summon_b_grade').find('.cost_ticket').html(),10));
 			}
@@ -1488,7 +1490,7 @@ function fnGetFormationArray() {
 function fnDeckChange(pURL) {
 	if (pURL == 0) return;
 	if (pURL == "prog") {
-		$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		$.ajax_ex(false, '/en/'+platform+'/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 			var leader=null;
 			var l1=0;
 			var l2=0;
@@ -1516,8 +1518,8 @@ function fnDeckChange(pURL) {
 				}
 			}
 			if (leader !=null) {
-				$.ajax_ex(false, '/en/ios/deck/autoOrganize?l1='+l1+'&l2='+l2+'&l3='+l3+'&l4='+l4+'&l5='+l5, {}, function(result) {});
-				setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+				$.ajax_ex(false, '/en/'+platform+'/deck/autoOrganize?l1='+l1+'&l2='+l2+'&l3='+l3+'&l4='+l4+'&l5='+l5, {}, function(result) {});
+				setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 			}
 			else {
 				alert('you dont have available prog+');
@@ -1527,14 +1529,14 @@ function fnDeckChange(pURL) {
 	}
 	$.ajax_ex(false, pURL, {}, function(data) {
 	});	
-	document.location='/en/ios/home';
+	document.location='/en/'+platform+'/home';
 }
 
 function fnDeckChangeAdvance(pFormation, pHome, pFinishFunction) {
 	if (pFormation=='') {
 		return;
 	}
-	$.ajax_ex(false, '/en/ios/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+	$.ajax_ex(false, '/en/'+platform+'/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		var unique_no_array = pFormation.split(fnGetConnector())[2].split(':');
 		var monster_id_array = pFormation.split(fnGetConnector())[3].split(':');
 		var result_array = {"l1":"0", "l2":"0", "l3":"0", "l4":"0", "l5":"0"};
@@ -1583,9 +1585,9 @@ function fnDeckChangeAdvance(pFormation, pHome, pFinishFunction) {
 			alert("Missing Leader");
 			return;
 		}
-		$.ajax_ex(false, '/en/ios/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, pFinishFunction);
+		$.ajax_ex(false, '/en/'+platform+'/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, pFinishFunction);
 		if (pHome) {
-			setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+			setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 		}
 	});
 	return;
@@ -1707,7 +1709,7 @@ function fnDeckChangeAllCheck() {
 
 function fnFixMissionProcess() {
 	missionProcess = function() {
-		$.ajax_ex(false, '/en/ios/tower/process', {'area_id'    : areaMaster.area_id,'mission_id' : mission.last_mission_id, api : 'json', '__hash': ('' + (new Date()).getTime())}, function(result) {
+		$.ajax_ex(false, '/en/'+platform+'/tower/process', {'area_id'    : areaMaster.area_id,'mission_id' : mission.last_mission_id, api : 'json', '__hash': ('' + (new Date()).getTime())}, function(result) {
 			if (result.status != 0) {
 				if (result.status == 901) {
 					if (fnAutoDrink() == 1 && parseInt(areaMaster.area_id,10)*5 <= parseInt(fnTowerEventTarget(), 10)) {
@@ -1736,10 +1738,10 @@ function fnFixMissionProcess() {
 							}
 						}
 						if (useEnergy100) {
-							$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:3022}, function(data) {});
+							$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3022}, function(data) {});
 						}
 						else {
-							$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:result.payload.recoverItems[0].item_id}, function(data) {});
+							$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.recoverItems[0].item_id}, function(data) {});
 						}
 					}
 					else {
@@ -1755,8 +1757,8 @@ function fnFixMissionProcess() {
 					}
 				}
 				clearInterval(missionInterval);
-				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
-				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);
 				return;
 			}
 			mission = result.payload.mission;
@@ -1784,17 +1786,17 @@ function fnFixMissionProcess() {
 			EfectMng.push('process', processData);
 
 			if (result.payload.process.rndBoss) {
-				//document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003';	1068	  
-					setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);		
-					setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
+				//document.location='/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003';	1068	  
+					setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);		
+					setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
 				clearInterval(missionInterval);
 			}
 			if (result.payload.process.clear) {
 			  if (!isShadow) EfectMng.push('shadowShow', null);
 			  isShadow = true;
 			  if (mission.is_boss) {
-				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
-				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);
 				clearInterval(missionInterval);
 				return true;
 			  }
@@ -1813,9 +1815,9 @@ function fnFixMissionProcess() {
 				if (!isShadow) EfectMng.push('shadowShow', null);
 				isShadow = true;
 				clearInterval(missionInterval);
-				$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
-				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 1000);
-				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);
+				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);
 				return true;
 				/*EfectMng.push('cageSelect', {
 				grade : result.payload.process.cage,
@@ -1830,8 +1832,8 @@ function fnFixMissionProcess() {
 
 			  }
 			  else {
-				setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
-				setTimeout(function(){$.redirect('/en/ios/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
+				setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
 				clearInterval(missionInterval);
 				return true;
 			  }
@@ -1845,7 +1847,7 @@ function fnFixMissionProcess() {
 	};
 	EfectMng.efectList.process = __effect_process = function(data) {};
 	EfectMng.efectList.cageSelect = __effect_cageSelect = function(data) {
-		$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
 		EfectMng.push('reload', null);
 		clearInterval(missionInterval);
 	}
@@ -1854,7 +1856,7 @@ function fnFixMissionProcess() {
 function fnTowerMission() {
 	fnFixMissionProcess();
 	if (document.getElementById('cage-select').style.display != "none") {
-		$.ajax_ex(false, '/en/ios/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  			
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  			
 		});	
 	}
 
@@ -1868,8 +1870,8 @@ function fnTowerMission() {
 				fnSetIsBattlingMcFly(1);
 				$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
 			}
-			setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 1000);
-			setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
+			setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 1000);
+			setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
 		}
 		else {
 			if (fnGetGrindingSpeed() == 1) {
@@ -1881,24 +1883,24 @@ function fnTowerMission() {
 		}
 	}
 	else {		
-		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
-		setTimeout(function(){$.redirect('/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 8000);
-		//document.location='/en/ios/battle/battleact?tower=1&aid='+areaMaster.area_id;
+		setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
+		setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 8000);
+		//document.location='/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id;
 	}
 }
 
 function fnTower() {
 	if (document.getElementById('div-btn-system') != null) {
-		fnRedirect('/en/ios/tower/subpoena');
+		fnRedirect('/en/'+platform+'/tower/subpoena');
 		return;
 	}
-	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/battle/battle") || document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/boss") || document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/subpoena")) {
-		fnRedirect("/en/ios/tower/mission");
+	if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/battle/battle') || document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/tower/boss') || document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/tower/subpoena')) {
+		fnRedirect('/en/'+platform+'/tower/mission');
 	}
 }
 
 function fnTowerSummon() {
-	fnRedirect("/en/ios/tower/mission");
+	fnRedirect('/en/'+platform+'/tower/mission');
 }
 
 // tower boss result
@@ -1908,13 +1910,13 @@ function fnTowerBossResult() {
 		fnSetIsBattlingMcFly(0);
 		$.ajax_ex(false, fnTowerProgTeam().split(fnGetConnector())[0], {}, function(data) {	});
 	}
-	$.ajax_ex(false, '/en/ios/tower/bossGetResources', {choice : 1, '__hash' : ('' + (new Date()).getTime()) },function(result) {
+	$.ajax_ex(false, '/en/'+platform+'/tower/bossGetResources', {choice : 1, '__hash' : ('' + (new Date()).getTime()) },function(result) {
 		if (result.status == 101) {
-			setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 1000);
+			setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
 		} else if (result.payload.resources.foundType != null && result.payload.resources.foundType==10 && result.payload.resResult.items[result.payload.itemMaster.item_id].collected_count==6) { 
-			setTimeout(function(){$.redirect("/en/ios/tower");}, 1000);
+			setTimeout(function(){$.redirect('/en/'+platform+'/tower');}, 1000);
 		} else  {
-			setTimeout(function(){$.redirect("/en/ios/tower/mission");}, 1000);
+			setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
 		}
 	});
 }
@@ -1923,7 +1925,7 @@ function fnTowerBossResult() {
 
 function fnTowerFinalRanking() {
 	// receiving multiple event rewards wont work haha
-	//$('.__receive_info').html($('.__receive_info').html() + ' <a class="__btn_receive btn __stone_red __HS" href="javascript:$.ajax_ex(false, \'/en/ios/tower/ReceiveReward\', { }, function(data) {});$.ajax_ex(false, \'/en/ios/tower/ReceiveReward\', { }, function(data) {});$.ajax_ex(false, \'/en/ios/tower/ReceiveReward\', { }, function(data) {});">Receive Reward</a>');
+	//$('.__receive_info').html($('.__receive_info').html() + ' <a class="__btn_receive btn __stone_red __HS" href="javascript:$.ajax_ex(false, \'/en/'+platform+'/tower/ReceiveReward\', { }, function(data) {});$.ajax_ex(false, \'/en/'+platform+'/tower/ReceiveReward\', { }, function(data) {});$.ajax_ex(false, \'/en/'+platform+'/tower/ReceiveReward\', { }, function(data) {});">Receive Reward</a>');
 }
 
 // dungeon mission
@@ -1933,13 +1935,13 @@ function fnDungeonMission() {
 		return;
 	}
 	if (parseInt(fnQueryString('dungeon_tribe'), 10) == 0) {
-		if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/battle")) || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/win"))) {
+		if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/dungeon/battle')) || (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/dungeon/win'))) {
 			if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
-				fnDeckChangeAdvance(fnDungeonProgTeam(), false, function(){fnRedirect('/en/ios/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
-				fnRedirect('/en/ios/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
+				fnDeckChangeAdvance(fnDungeonProgTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
+				fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 				return;
 			}
-			fnTimeOutRedirect('/en/ios/dungeon');
+			fnTimeOutRedirect('/en/'+platform+'/dungeon');
 			fnDungeonMission = function(){};
 			return;
 		}
@@ -1976,7 +1978,7 @@ function fnDungeonMission() {
 		ig.game.decreaseBp = 0;
 		ig.game.addJewel = 0;
 		ig.game.addExp = 0;		
-		fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
+		fnTimeOutRedirect('/en/'+platform+'/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
     }
 	if (ig.game.mission_type != ig.game.MISSION_TYPE.BOSS) {
 		var willDoProgress = player.bp >= (ig.game.getMissionMaster()['use_bp'] * (parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)))?(parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)):Math.floor(player.bp/ig.game.getMissionMaster()['use_bp']);
@@ -1995,30 +1997,30 @@ function fnDungeonMission() {
 		}
 		else {
 			if (parseInt(fnDungeonAutoBP(),10) > 0) {
-				$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:fnDungeonAutoBP()}, function(data) {});
-				fnTimeOutRedirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnDungeonAutoBP()}, function(data) {});
+				fnTimeOutRedirect('/en/'+platform+'/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
 				return;
 			}
-			setTimeout(function(){$.redirect('/en/ios/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);}, 60000);
+			setTimeout(function(){$.redirect('/en/'+platform+'/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);}, 60000);
 		}
 	}
 	else {
 		if (dm['dungeon_tribe'] > 0) {
-			fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
+			fnTimeOutRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 		}
 		if (dm['dungeon_tribe'] == 0) {
 			if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
 				if ((bM.monster_id+'').startsWith('40') || (bM.monster_id+'').startsWith('60')) {
-					fnDeckChangeAdvance(fnDungeonImpulseTeam(), false, function(){fnRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
+					fnDeckChangeAdvance(fnDungeonImpulseTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				}
 				else if ((bM.monster_id+'').startsWith('43') || (bM.monster_id+'').startsWith('63')) {
-					fnDeckChangeAdvance(fnDungeonCovertTeam(), false, function(){fnRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
+					fnDeckChangeAdvance(fnDungeonCovertTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				}
 				else if ((bM.monster_id+'').startsWith('46') || (bM.monster_id+'').startsWith('66')) {
-					fnDeckChangeAdvance(fnDungeonPsychoTeam(), false, function(){fnRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
+					fnDeckChangeAdvance(fnDungeonPsychoTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				}
 				//fnSetDungeonBossRecord(fnDungeonBossRecord()+'<br/>'+Math.round(parseInt(dm.mission_count,10)/44)+' ' + bM.name);
-				fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
+				fnTimeOutRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 			}
 		}
 	}
@@ -2026,13 +2028,13 @@ function fnDungeonMission() {
 
 function fnDungeonMissionPreload() {
 	if (parseInt(fnQueryString('dungeon_tribe'), 10) == 0) {
-		if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/battle")) || (document.referrer.startsWith("http://game.darksummoner.com/en/ios/dungeon/win"))) {
+		if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/dungeon/battle')) || (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/dungeon/win'))) {
 			if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
-				fnDeckChangeAdvance(fnDungeonProgTeam(), false, function(){fnRedirect('/en/ios/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
-				fnRedirect('/en/ios/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
+				fnDeckChangeAdvance(fnDungeonProgTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
+				fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 				return;
 			}
-			fnTimeOutRedirect('/en/ios/dungeon');
+			fnTimeOutRedirect('/en/'+platform+'/dungeon');
 			fnDungeonMission = function(){};
 			return;
 		}
@@ -2043,7 +2045,7 @@ function fnDungeonMissionPreload() {
 
 function fnDungeonBattle() {
 	frames = [];
-	fnTimeOutRedirect('/en/ios/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
+	fnTimeOutRedirect('/en/'+platform+'/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
 }
 
 function fnDungeonBattlePreload() {
@@ -2051,7 +2053,7 @@ function fnDungeonBattlePreload() {
 		return;
 	}*/
 	frames = [];
-	fnRedirect('/en/ios/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
+	fnRedirect('/en/'+platform+'/dungeon/win?area_id='+fnQueryString('area_id')+'&tribe='+fnQueryString('dungeon_tribe'));
 }
 
 // Dungeon Win
@@ -2060,29 +2062,29 @@ function fnDungeonWin() {
 	if (fnGetGrindingSpeed() == -1) {
 		return;
 	}
-	$.ajax_ex(false, "/en/ios/dungeon/ajaxSaveMissionBoss", {
+	$.ajax_ex(false, '/en/'+platform+'/dungeon/ajaxSaveMissionBoss', {
 		area_id: area_id,
 		dungeon_tribe: dungeon_tribe,
 		cfmId: cfm_id,
 		__hash: ('' + (new Date()).getTime())
 	}, function(result) {
 		if (! result.status) {
-			$.redirect("/en/ios/dungeon");
+			$.redirect('/en/'+platform+'/dungeon');
 			return;
 		}
 		cfm_id = result.status['cfm_id'];
 		if ("") {
-			$.redirect("/en/ios/dungeon/complete");
+			$.redirect('/en/'+platform+'/dungeon/complete');
 		} else {
-			//fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id);
-			//$.redirect("/en/ios/dungeon/mission?go_next=true&area_id="+area_id+"&dungeon_tribe="+dungeon_tribe);
+			//fnTimeOutRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id);
+			//$.redirect('/en/'+platform+'/dungeon/mission?go_next=true&area_id='+area_id+"&dungeon_tribe="+dungeon_tribe);
 		}
 	});
 	if (dungeon_tribe == 0) {
-		fnTimeOutRedirect('/en/ios/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id);
+		fnTimeOutRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id);
 	}
 	else {
-		fnTimeOutRedirect('/en/ios/dungeon/mission?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id);
+		fnTimeOutRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id);
 	}
 	
 	var divTag = document.createElement("div"); 
@@ -2091,10 +2093,10 @@ function fnDungeonWin() {
 	divTag.style.position = "absolute"; 
 	divTag.style.left = "240px"; 
 	divTag.style.top = "140px"; 
-	divTag.innerHTML = '<a href="/en/ios/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id + '" class="btn __red __WS __HL" id="button_boss">Boss</a>'; 
+	divTag.innerHTML = '<a href="/en/'+platform+'/dungeon/battle?dungeon_tribe='+dungeon_tribe+'&area_id='+area_id + '" class="btn __red __WS __HL" id="button_boss">Boss</a>'; 
 	document.body.appendChild(divTag); 
 	
-	//fnTimeOutRedirect('/en/ios/dungeon/ajaxSaveMissionBoss?area_id='+fnQueryString('area_id')+'&dungeon_tribe='+fnQueryString('tribe'));
+	//fnTimeOutRedirect('/en/'+platform+'/dungeon/ajaxSaveMissionBoss?area_id='+fnQueryString('area_id')+'&dungeon_tribe='+fnQueryString('tribe'));
 }
 
 function fnDungeonWinPreload() {
@@ -2212,14 +2214,14 @@ function fnDungeon() {
 	}
 	
 	if (fnDungeonTravelLevel() != 0) {
-		for (var i=0;i<$('a[href^="/en/ios/dungeon/mission?area_id"]').length;i++){
-			$('a[href^="/en/ios/dungeon/mission?area_id"]').eq(i).attr("href", "/en/ios/dungeon/mission?area_id="+fnDungeonTravelLevel()+"&dungeon_tribe=" + $('a[href^="/en/ios/dungeon/mission?area_id"]').eq(i).attr("href").substr(-1));
+		for (var i=0;i<$('a[href^="/en/'+platform+'/dungeon/mission?area_id"]').length;i++){
+			$('a[href^="/en/'+platform+'/dungeon/mission?area_id"]').eq(i).attr("href", '/en/'+platform+'/dungeon/mission?area_id='+fnDungeonTravelLevel()+"&dungeon_tribe=" + $('a[href^="/en/'+platform+'/dungeon/mission?area_id"]').eq(i).attr("href").substr(-1));
 		}
 	}
 	if (fnDungeonTravelLevel() != 0) {
 		for (var i=1;i<=3;i++) {
 			if ($('img[src$="enter_'+i+'_d.png"]').length) {
-				$('img[src$="enter_'+i+'_d.png"]').attr('link', '/en/ios/dungeon/mission?area_id='+fnDungeonTravelLevel()+'&dungeon_tribe=' + i);
+				$('img[src$="enter_'+i+'_d.png"]').attr('link', '/en/'+platform+'/dungeon/mission?area_id='+fnDungeonTravelLevel()+'&dungeon_tribe=' + i);
 				$('img[src$="enter_'+i+'_d.png"]').click(function(){
 					$.redirect($(this).attr('link'));
 				});
@@ -2232,11 +2234,11 @@ function fnDungeon() {
 
 function fnBattleBattle() {
 	// skip to result
-	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/tower/mission")) {
-		fnRedirect("/en/ios/tower/bossResult");
+	if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/tower/mission')) {
+		fnRedirect('/en/'+platform+'/tower/bossResult');
 	}
-	if (document.referrer.startsWith("http://game.darksummoner.com/en/ios/mission")) {
-		fnRedirect("/en/ios/mission/battleResult");
+	if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/mission')) {
+		fnRedirect('/en/'+platform+'/mission/battleResult');
 	}
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
@@ -2251,7 +2253,7 @@ function fnFixMissionExec() {
 			clearInterval(missionInterval);
 			return;
 		}
-		$.ajax_ex(false, '/en/ios/mission/process', {
+		$.ajax_ex(false, '/en/'+platform+'/mission/process', {
 			area_id: area_id,
 			mission: (fnAutoNewMission()==0?mission.current_mission:mission.last_mission),
 			confirm_id: confirm_id
@@ -2283,10 +2285,10 @@ function fnFixMissionExec() {
 						}
 					}
 					if (useEnergy100) {
-						$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:3022}, function(data) {});
+						$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3022}, function(data) {});
 					}
 					else {
-						$.ajax_ex(false, '/en/ios/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
+						$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
 					}
 					if (fnGetGrindingSpeed() == 1) {
 						mission_exec();
@@ -2332,7 +2334,7 @@ function fnFixMissionExec() {
 			if(event.clear) {
 				if(mission.last_mission == 5) {
 					clearInterval(missionInterval);
-					$.ajax_ex(false, '/en/ios/mission/battle', { area_id: area_id, '__hash': ('' + (new Date()).getTime()) }, function(result) {
+					$.ajax_ex(false, '/en/'+platform+'/mission/battle', { area_id: area_id, '__hash': ('' + (new Date()).getTime()) }, function(result) {
 						if (result.status != 0) {
 						//              console.log('error-code:'+result.status);
 						return;
@@ -2367,8 +2369,8 @@ function fnMission() {
 // mission battle result
 
 function fnMissionBattleResult() {
-	setTimeout(function(){$.redirect("/en/ios/mission");}, 1000);
-	setTimeout(function(){$.redirect("/en/ios/mission");}, 8000);
+	setTimeout(function(){$.redirect('/en/'+platform+'/mission');}, 1000);
+	setTimeout(function(){$.redirect('/en/'+platform+'/mission');}, 8000);
 }
 
 // monster collection
@@ -2379,7 +2381,7 @@ function fnMonsterCollection() {
 		var box = monsterImgList.eq(i);
 		var frame = box.parent();
 		var monsterID = $('div', frame).html();
-		frame.html('<a href="/en/ios/achievement/monsterInformation?mid='+monsterID+'&amp;attr=0&amp;offset=4"><img src="http://res.darksummoner.com/en/s/cards/'+monsterID+'_small.png" width="55" height="55" alt="'+monsterID+'" />'+monsterID+'</a>');
+		frame.html('<a href="/en/'+platform+'/achievement/monsterInformation?mid='+monsterID+'&amp;attr=0&amp;offset=4"><img src="http://res.darksummoner.com/en/s/cards/'+monsterID+'_small.png" width="55" height="55" alt="'+monsterID+'" />'+monsterID+'</a>');
 	}
 }
 
@@ -2428,7 +2430,7 @@ function fnAuctionDisplayCommission() {
 			$('.bid-count' , base_tag).text(str);
 		}
 
-		$('.nickname', base_tag).append('<a href="/en/ios/friends/profile?pid='+entry.player_id+'"><font color="#00FF00">'+entry.player_nickname+'</font></a>' + (entry.commission!=undefined?('<br/>$ '+entry.commission):''));
+		$('.nickname', base_tag).append('<a href="/en/'+platform+'/friends/profile?pid='+entry.player_id+'"><font color="#00FF00">'+entry.player_nickname+'</font></a>' + (entry.commission!=undefined?('<br/>$ '+entry.commission):''));
 		
 		if (entry.comment != "") {
 			$('.comment', base_tag).append('<div class="box-blood"></div>');
@@ -2454,7 +2456,7 @@ function fnAuctionDisplayCommission() {
 			$('.item_4', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_4);
 		}
 		
-		$('.exhibit-offer', base_tag).click(function() {$.redirect('/en/ios/auction?tb=2&no='+entry.exhibit_id);});if (entry.bid_id != null) {$('.exhibit-offer', base_tag).hide();}
+		$('.exhibit-offer', base_tag).click(function() {$.redirect('/en/'+platform+'/auction?tb=2&no='+entry.exhibit_id);});if (entry.bid_id != null) {$('.exhibit-offer', base_tag).hide();}
 	}
 }
 
@@ -2501,7 +2503,7 @@ function fnAuctionPeek() {
 			$('.exhibit-btn2', base_tag).show();
 			$('.exhibit-detail', base_tag).click(function() {
 				var params = { no:enableExhibit.exhibit_id, reason:'1' };
-				$.redirect('/en/ios/auction/detail', params);
+				$.redirect('/en/'+platform+'/auction/detail', params);
 			});
 			$('.exhibit-cancel', base_tag).html('Cancel Auction').click(function() {
 				$('#popup-text').text('Cancel This Auction?');
@@ -2519,7 +2521,7 @@ function fnAuctionPeek() {
 			$('#exhibit-templ-main-comment').text(enableExhibit.comment);
 		}
 
-		$.ajax_ex(false, '/en/ios/auction/ajaxPendingList', { api: 'json', page: page,no:fnQueryString('no')==''?enableExhibit.exhibit_id:fnQueryString('no'), '__hash': ('' + (new Date()).getTime()) }, function(data) {
+		$.ajax_ex(false, '/en/'+platform+'/auction/ajaxPendingList', { api: 'json', page: page,no:fnQueryString('no')==''?enableExhibit.exhibit_id:fnQueryString('no'), '__hash': ('' + (new Date()).getTime()) }, function(data) {
 			// update pager
 			var pages = ~~data.payload.pages;
 			var page  = $.clamp(~~data.payload.page + 1, 1, pages);
@@ -2546,7 +2548,7 @@ function fnAuctionPeek() {
 
 				$('.exhibit-check', base_tag).click(function() {
 					var params = { no:entry.bid_id, reason:'2' };
-					$.redirect('/en/ios/auction/detail', params);
+					$.redirect('/en/'+platform+'/auction/detail', params);
 				});
 				$('#auction-entries').append(base_tag);
 			});
@@ -2573,7 +2575,7 @@ function fnAuctionDetail() {
 
 function fnPresentBoxReceiveAllItemsPerPage(pPage) {
 	fnGrowl('Receiving Page ' + pPage);
-	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+pPage, { }, function(data) {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
 		var boxes = data.payload.boxes;
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 3) {
@@ -2588,14 +2590,14 @@ function fnPresentBoxReceiveAllItemsPerPage(pPage) {
 
 function fnPresentBoxReceiveAllItems() {
 	alert('It will hang a bit if you have many pages');
-	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAllItemsPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
 }
 
 function fnPresentBoxReceiveAllAAsPerPage(pPage) {
 	fnGrowl('Receiving Page ' + pPage);
-	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+pPage, { }, function(data) {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
 		var boxes = data.payload.boxes;
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 5) {
@@ -2611,14 +2613,14 @@ function fnPresentBoxReceiveAllAAsPerPage(pPage) {
 
 function fnPresentBoxReceiveAllAAs() {
 	alert('It will hang a bit if you have many pages');
-	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAllAAsPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
 }
 
 function fnPresentBoxReceiveAll20sPerPage(pPage) {
 	fnGrowl('Receiving Page ' + pPage);
-	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+pPage, { }, function(data) {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
 		var boxes = data.payload.boxes;
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 2 && boxes[i].monster_bp >= 20) {
@@ -2634,14 +2636,14 @@ function fnPresentBoxReceiveAll20sPerPage(pPage) {
 
 function fnPresentBoxReceiveAll20s() {
 	alert('It will hang a bit if you have many pages');
-	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAll20sPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
 }
 
 function fnPresentBoxReceiveAll30sPerPage(pPage) {
 	fnGrowl('Receiving Page ' + pPage);
-	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+pPage, { }, function(data) {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
 		var boxes = data.payload.boxes;
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 2 && boxes[i].monster_bp >= 30) {
@@ -2657,14 +2659,14 @@ function fnPresentBoxReceiveAll30sPerPage(pPage) {
 
 function fnPresentBoxReceiveAll30s() {
 	alert('It will hang a bit if you have many pages');
-	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAll30sPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
 }
 
 function fnPresentBoxReceiveAll100kGoldPerPage(pPage) {
 	fnGrowl('Receiving Page ' + pPage);
-	$.ajax_ex(false, '/en/ios/present/list?api=json&page='+pPage, { }, function(data) {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
 		var boxes = data.payload.boxes;
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 1 && boxes[i].jewel <= 100000) {
@@ -2680,7 +2682,7 @@ function fnPresentBoxReceiveAll100kGoldPerPage(pPage) {
 
 function fnPresentBoxReceiveAll100kGold() {
 	alert('It will hang a bit if you have many pages');
-	$.ajax_ex(false, '/en/ios/present/list?api=json&page=0', { }, function(metaData) {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAll100kGoldPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
 }
@@ -2705,7 +2707,7 @@ function fnPresentBoxAction(pValue) {
 
 function fnPresentBox() {
 	if (document.getElementById('button_fp_all') != null) {
-		setTimeout(function(){$.redirect("/en/ios/present/fpAll");}, 1000);
+		setTimeout(function(){$.redirect('/en/'+platform+'/present/fpAll');}, 1000);
 		return;
 	}
 	if (document.getElementById('button_fp_ng') != null) {
@@ -2732,7 +2734,7 @@ function fnPresentBox() {
 // add my item gifting/trading
 function fnGiftMyItems() {
 	if (typeof(items) !== 'undefined' && items != null) {
-		$.ajax_ex(false, '/en/ios/item/ajax_get_items?offset=0', { }, function(data) {
+		$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 			if ( (data == null) || (data.status != 0) ) { return; }
 			var hasItemInList;
 			for (var i=0;i<data.payload.items.length;i++) {
@@ -2754,7 +2756,7 @@ function fnGiftMyItems() {
 		divTag.style.display = "none";
 		document.body.appendChild(divTag); 	
 		
-		var result= $('#checkSummonDiv').load('/en/ios/summon #summon_group', {}, function(){
+		var result= $('#checkSummonDiv').load('/en/'+platform+'/summon #summon_group', {}, function(){
 			if (result.find('#summon_b_grade').find('.cost_ticket').length) {
 				items.push({"item_id":"5000","name":"Rank B Summon","amount":parseInt(result.find('#summon_b_grade').find('.cost_ticket').html(),10),"thumb_image":"items/5000_small.png"});
 			}
@@ -2775,16 +2777,16 @@ function fnGiftMyItems() {
 
 function fnPresentSuggest() {
 	if (fnQueryString('mid')!='') {
-		$.redirect("/en/ios/present/confirm?ctg=2&amt=1&pid="+fnQueryString('mid'));
-		setTimeout(function(){$.redirect("/en/ios/present/confirm?ctg=2&amt=1&pid="+fnQueryString('mid'));}, 1000);
-		setTimeout(function(){$.redirect("/en/ios/present/confirm?ctg=2&amt=1&pid="+fnQueryString('mid'));}, 5000);
+		$.redirect('/en/'+platform+'/present/confirm?ctg=2&amt=1&pid='+fnQueryString('mid'));
+		setTimeout(function(){$.redirect('/en/'+platform+'/present/confirm?ctg=2&amt=1&pid='+fnQueryString('mid'));}, 1000);
+		setTimeout(function(){$.redirect('/en/'+platform+'/present/confirm?ctg=2&amt=1&pid='+fnQueryString('mid'));}, 5000);
 		return;
 	}
 	if (fnGiftCookies() != '') {
 		var itemArray = fnGiftCookies().split(fnGetSeparator());
 		var itemResultArray = itemArray.splice(0,1);
 		fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-		var link = "/en/ios/present/confirm?ctg="+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
+		var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 5000);
 	}
@@ -2797,13 +2799,13 @@ function fnPresentConfirm() {
 	$('#present-cancel').unbind('click');
 	$('#present-cancel').click(function(){
 		$('#present-cancel').unbind('click');
-		$.redirect('/en/ios/present/suggest?&name='+fnReferrerQueryString('name'));
+		$.redirect('/en/'+platform+'/present/suggest?&name='+fnReferrerQueryString('name'));
 	});
 	$('#present-commit').unbind('click');
 	$('#present-commit').click(function(){
 		$('#present-commit').unbind('click');
-		$.ajax_ex(false, '/en/ios/present/request', { msg:$('#present-comment').val() },function(result) {return;}) ;
-		$.redirect('/en/ios/present/suggest?&name='+fnReferrerQueryString('name'));
+		$.ajax_ex(false, '/en/'+platform+'/present/request', { msg:$('#present-comment').val() },function(result) {return;}) ;
+		$.redirect('/en/'+platform+'/present/suggest?&name='+fnReferrerQueryString('name'));
 	});
 
 	if (fnReferrerQueryString('name') != '') {
@@ -2827,14 +2829,14 @@ function fnFixTradeFunctions() {
 		base_tag.attr('id', 'trade-suggest-' + i).css('display', 'block');
 
 		var shared_tag = $('> .trade-shared', base_tag);
-		$('> .trade-nickname', shared_tag).append('<a href="/en/ios/friends/profile?pid=' + entry.target_id + '">'+entry.target_nickname+'</a>');
+		$('> .trade-nickname', shared_tag).append('<a href="/en/'+platform+'/friends/profile?pid=' + entry.target_id + '">'+entry.target_nickname+'</a>');
 		$('> .trade-ago', shared_tag).text($.ago(entry.updated_at));
 		$('> .trade-thumb > img', shared_tag).attr('src', IMG_BASE + entry.target_thumb_image);
 		$('> .trade-comment-tag > .trade-comment', shared_tag).text(entry.player_comment);
 		
 		$('> .trade-check', shared_tag).click(function() {
 		  var params = { pid:entry.player_id, no:entry.trade_no, st:1 };
-		  $.redirect('/en/ios/trade/check', params);
+		  $.redirect('/en/'+platform+'/trade/check', params);
 		});
 
 		$('#trade-entries').append(base_tag);
@@ -2848,14 +2850,14 @@ function fnFixTradeFunctions() {
 		base_tag.attr('id', 'trade-suggest-' + i).css('display', 'block');
 
 		var shared_tag = $('> .trade-shared', base_tag);
-		$('> .trade-nickname', shared_tag).append('<a href="/en/ios/friends/profile?pid=' + entry.player_id + '">'+entry.player_nickname+'</a>');
+		$('> .trade-nickname', shared_tag).append('<a href="/en/'+platform+'/friends/profile?pid=' + entry.player_id + '">'+entry.player_nickname+'</a>');
 		$('> .trade-ago', shared_tag).text($.ago(entry.updated_at));
 		$('> .trade-thumb > img', shared_tag).attr('src', IMG_BASE + entry.player_thumb_image);
 		$('> .trade-comment-tag > .trade-comment', shared_tag).text(entry.player_comment);
 		
 		$('> .trade-check', shared_tag).click(function() {
 		  var params = { pid:entry.player_id, no:entry.trade_no, st:2 };
-		  $.redirect('/en/ios/trade/check', params);
+		  $.redirect('/en/'+platform+'/trade/check', params);
 		});
 		
 		$('#trade-entries').append(base_tag);
@@ -2870,13 +2872,13 @@ function fnFixTradeFunctions() {
 
 		var shared_tag = $('> .trade-shared', base_tag);
 		if (entry.player_id == player.player_id) {
-		  $('> .trade-nickname', shared_tag).append('<a href="/en/ios/friends/profile?pid=' + entry.target_id + '">'+entry.target_nickname+'</a>');
+		  $('> .trade-nickname', shared_tag).append('<a href="/en/'+platform+'/friends/profile?pid=' + entry.target_id + '">'+entry.target_nickname+'</a>');
 		  $('> .trade-ago', shared_tag).text($.ago(entry.updated_at));
 		  $('> .trade-thumb > img', shared_tag).attr('src', IMG_BASE + entry.target_thumb_image);
 		  $('> .trade-comment-tag > .trade-comment', shared_tag).text(entry.target_comment);
 		}
 		else {
-		  $('> .trade-nickname', shared_tag).append('<a href="/en/ios/friends/profile?pid=' + entry.player_id + '">'+entry.player_nickname+'</a>');
+		  $('> .trade-nickname', shared_tag).append('<a href="/en/'+platform+'/friends/profile?pid=' + entry.player_id + '">'+entry.player_nickname+'</a>');
 		  $('> .trade-ago', shared_tag).text($.ago(entry.updated_at));
 		  $('> .trade-thumb > img', shared_tag).attr('src', IMG_BASE + entry.player_thumb_image);
 		  $('> .trade-comment-tag > .trade-comment', shared_tag).text(entry.player_comment);
@@ -2884,7 +2886,7 @@ function fnFixTradeFunctions() {
 		
 		$('> .trade-check', shared_tag).click(function() {
 		  var params = { pid:entry.player_id, no:entry.trade_no, st:3 };
-		  $.redirect('/en/ios/trade/check', params);
+		  $.redirect('/en/'+platform+'/trade/check', params);
 		});
 		
 		$('#trade-entries').append(base_tag);
@@ -2905,8 +2907,8 @@ function fnFusionGenerateMonsterFromAllySummon() {
 	divTag.style.display = "none";
 	document.body.appendChild(divTag); 	
 	
-	var result= $('#summon').load('/en/ios/summon/act?type=0', {}, function(){});
-	//$.ajax_ex(false, "/en/ios/summon/act", {"type":0}, function(data) {});	
+	var result= $('#summon').load('/en/'+platform+'/summon/act?type=0', {}, function(){});
+	//$.ajax_ex(false, '/en/'+platform+'/summon/act', {"type":0}, function(data) {});	
 }
 
 function fnFusionAuto(pUniqueNo) {
@@ -2943,8 +2945,8 @@ function fnFusionAuto(pUniqueNo) {
 	}
 	if (sacCount > 0) {
 		
-		var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-		//location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+		var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+		//location = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 6000);
 	}
@@ -2983,8 +2985,8 @@ function fnStackAuto(pUniqueNo) {
 		}
 	}
 	if (sacCount > 0) {		
-		var link = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-		//location = '/en/ios/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+		var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+		//location = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 6000);
 	}
@@ -3172,20 +3174,20 @@ function fnFusionFixPage() {
 					fnFusionGenerateMonsterFromAllySummon();
 					//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 				}				
-				setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, timeGap);
-				setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, timeGap+5000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, timeGap);
+				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, timeGap+5000);
 			});
 			if (monster.skill_id > 0 && monster.grade <= 3) {
 				base_tag.append('<div class="autoStack-button btn __red __WS __HS" style="position:absolute; top: 2px; left: 150px;">Stack</div>');
 				$('> .autoStack-button', base_tag).click(function () {
 					fnSetAutoStack(monster.unique_no);		
-					setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, 0);
-					setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });}, 0+5000);
+					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0);
+					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0+5000);
 				});
 			}
 			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
 			$('> .decide-button', base_tag).click(function () {
-				$.redirect('/en/ios/fusion/dest', { uno:monster.unique_no });
+				$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });
 			});
 		}
 		
@@ -3207,13 +3209,13 @@ function fnFusionFusion() {
 		}
 		timeGap+=minGap;
 	
-		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoFusion() });}, timeGap);
-		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoFusion() });}, timeGap+5000);
+		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoFusion() });}, timeGap);
+		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoFusion() });}, timeGap+5000);
 	}
 	if (parseInt(fnAutoStack(),10) > 0) {
 		var timeGap = 0;
-		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoStack() });}, timeGap);
-		setTimeout(function(){$.redirect('/en/ios/fusion/dest', { uno:fnAutoStack() });}, timeGap+5000);
+		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoStack() });}, timeGap);
+		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoStack() });}, timeGap+5000);
 	}
 }
 
@@ -3230,13 +3232,13 @@ function fnFusion() {
 // login Stamp
 
 function fnLoginStamp() {
-	setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 }
 
 // slot stamp
 
 function fnSlotInformationPreload() {
-	fnRedirect("/en/ios/event/slotGame");
+	fnRedirect('/en/'+platform+'/event/slotGame');
 }
 
 function fnSlotGame() {
@@ -3246,8 +3248,8 @@ function fnSlotGame() {
 }
 
 function fnSlotReward() {
-	if ($('a[href^="/en/ios/event/slotPresent?now="]').length) {
-		fnTimeOutRedirect($('a[href^="/en/ios/event/slotPresent?now="]').eq(0).attr("href"));
+	if ($('a[href^="/en/'+platform+'/event/slotPresent?now="]').length) {
+		fnTimeOutRedirect($('a[href^="/en/'+platform+'/event/slotPresent?now="]').eq(0).attr("href"));
 	}
 }
 
@@ -3260,8 +3262,8 @@ function fnEventBingo() {
 
 	launchRewards = function (rewards, is_continue)
 	{
-		window.location=(is_continue > 0) ?'/en/ios/event/bingo':'/en/ios/home';
-		fnRedirect((is_continue > 0) ?'/en/ios/event/bingo':'/en/ios/home');
+		window.location=(is_continue > 0) ?'/en/'+platform+'/event/bingo':'/en/'+platform+'/home';
+		fnRedirect((is_continue > 0) ?'/en/'+platform+'/event/bingo':'/en/'+platform+'/home');
 	}
 
 	onScratchTap = function ()
@@ -3296,15 +3298,15 @@ function fnHome() {
 // home login
 
 function fnHomeLogin() {
-	$.ajax_ex(false, '/en/ios/present/fpAll', {},function(result) {return;}) ;
-	setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+	$.ajax_ex(false, '/en/'+platform+'/present/fpAll', {},function(result) {return;}) ;
+	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 }
 
 // home bonus
 
 function fnHomeBonus() {
-	$.ajax_ex(false, '/en/ios/present/fpAll', {},function(result) {return;}) ;
-	setTimeout(function(){$.redirect("/en/ios/home");}, 1);
+	$.ajax_ex(false, '/en/'+platform+'/present/fpAll', {},function(result) {return;}) ;
+	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 }
 
 // on load
@@ -3318,119 +3320,119 @@ function fnSetupPurrCSS() {
 function fnAutoUsePoint() {
 	if (player.remain_point > 0) {
 		if (fnAutoStatsUp() == 1) {
-			$.ajax_ex(false, '/en/ios/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 		}
 		else if (fnAutoStatsUp() == 2) {
-			$.ajax_ex(false, '/en/ios/home/stup?bp='+player.remain_point+'&pr=0&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+player.remain_point+'&pr=0&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 		}
 	}
 }
 
 function fnTimeoutOnLoad() {
-	if (window.location.pathname === "/en/ios/event/loginStamp") {
+	if (window.location.pathname === '/en/'+platform+'/event/loginStamp') {
 		fnLoginStamp();
 	}
-	else if (window.location.pathname === "/en/ios/home/profile") {
+	else if (window.location.pathname === '/en/'+platform+'/home/profile') {
 		fnProfile();
 	}
-	else if (window.location.pathname === "/en/ios/home") {
+	else if (window.location.pathname === '/en/'+platform+'/home') {
 		fnHome();
 	}
-	else if (window.location.pathname === "/en/ios/home/login") {
+	else if (window.location.pathname === '/en/'+platform+'/home/login') {
 		fnHomeLogin();
 	}
-	else if (window.location.pathname === "/en/ios/home/bonus") {
+	else if (window.location.pathname === '/en/'+platform+'/home/bonus') {
 		fnHomeBonus();
 	}
-	else if (window.location.pathname === "/en/ios/friends/profile") {
+	else if (window.location.pathname === '/en/'+platform+'/friends/profile') {
 		fnFriendProfile();
 	}
-	else if (window.location.pathname === "/en/ios/deck/changeAllCheck") {
+	else if (window.location.pathname === '/en/'+platform+'/deck/changeAllCheck') {
 		fnDeckChangeAllCheck();
 	}
-	else if (window.location.pathname === "/en/ios/mission") {
+	else if (window.location.pathname === '/en/'+platform+'/mission') {
 		fnMission();
 	}
-	else if (window.location.pathname === "/en/ios/mission/battleResult") {
+	else if (window.location.pathname === '/en/'+platform+'/mission/battleResult') {
 		fnMissionBattleResult();
 	}
-	else if (window.location.pathname === "/en/ios/tower") {
+	else if (window.location.pathname === '/en/'+platform+'/tower') {
 		fnTower();
 	}
-	else if (window.location.pathname === "/en/ios/tower/summon") {
+	else if (window.location.pathname === '/en/'+platform+'/tower/summon') {
 		fnTowerSummon();
 	}
-	else if (window.location.pathname === "/en/ios/tower/mission") {
+	else if (window.location.pathname === '/en/'+platform+'/tower/mission') {
 		fnTowerMission();
 	}
-	else if (window.location.pathname === "/en/ios/tower/bossResult") {
+	else if (window.location.pathname === '/en/'+platform+'/tower/bossResult') {
 		fnTowerBossResult();
 	}
-	else if (window.location.pathname === "/en/ios/tower/finalRanking") {
+	else if (window.location.pathname === '/en/'+platform+'/tower/finalRanking') {
 		fnTowerFinalRanking();
 	}
-	else if (window.location.pathname === "/en/ios/dungeon" || window.location.pathname === "/en/ios/dungeon/index") {
+	else if (window.location.pathname === '/en/'+platform+'/dungeon' || window.location.pathname === '/en/'+platform+'/dungeon/index') {
 		fnDungeon();
 	}
-	else if (window.location.pathname === "/en/ios/dungeon/mission") {
+	else if (window.location.pathname === '/en/'+platform+'/dungeon/mission') {
 		fnDungeonMission();
 	}
-	else if (window.location.pathname === "/en/ios/dungeon/battle") {
+	else if (window.location.pathname === '/en/'+platform+'/dungeon/battle') {
 		fnDungeonBattle();
 	}
-	else if (window.location.pathname === "/en/ios/dungeon/win") {
+	else if (window.location.pathname === '/en/'+platform+'/dungeon/win') {
 		fnDungeonWin();
 	}
-	else if (window.location.pathname === "/en/ios/battle/battle") {
+	else if (window.location.pathname === '/en/'+platform+'/battle/battle') {
 		fnBattleBattle();
 	}
-	else if (window.location.pathname === "/en/ios/present/box") {
+	else if (window.location.pathname === '/en/'+platform+'/present/box') {
 		fnPresentBox();
 	}
-	else if (window.location.pathname === "/en/ios/present/suggest") {
+	else if (window.location.pathname === '/en/'+platform+'/present/suggest') {
 		fnPresentSuggest();
 	}
-	else if (window.location.pathname === "/en/ios/present/confirm") {
+	else if (window.location.pathname === '/en/'+platform+'/present/confirm') {
 		fnPresentConfirm();
 	}
-	else if (window.location.pathname === "/en/ios/trade/suggest1") {
+	else if (window.location.pathname === '/en/'+platform+'/trade/suggest1') {
 		fnTradeSuggest();
 	}
-	else if (window.location.pathname === "/en/ios/achievement/monster") {
+	else if (window.location.pathname === '/en/'+platform+'/achievement/monster') {
 		fnMonsterCollection();
 	}
-	else if (window.location.pathname === "/en/ios/achievement/monsterInformation") {
+	else if (window.location.pathname === '/en/'+platform+'/achievement/monsterInformation') {
 		fnMonsterInfo();
 	}
-	else if (window.location.pathname === "/en/ios/auction") {
+	else if (window.location.pathname === '/en/'+platform+'/auction') {
 		fnAuction();
 	}
-	else if (window.location.pathname === "/en/ios/auction/detail") {
+	else if (window.location.pathname === '/en/'+platform+'/auction/detail') {
 		fnAuctionDetail();
 	}
-	else if (window.location.pathname === "/en/ios/trade") {
+	else if (window.location.pathname === '/en/'+platform+'/trade') {
 		fnTrade();
 	}
-	else if (window.location.pathname === "/en/ios/fusion") {
+	else if (window.location.pathname === '/en/'+platform+'/fusion') {
 		fnFusion();
 	}
-	else if (window.location.pathname === "/en/ios/fusion/dest") {
+	else if (window.location.pathname === '/en/'+platform+'/fusion/dest') {
 		fnFusionDest();
 	}
-	else if (window.location.pathname === "/en/ios/fusion/fusion") {
+	else if (window.location.pathname === '/en/'+platform+'/fusion/fusion') {
 		fnFusionFusion();
 	}
-	else if (window.location.pathname === "/en/ios/event/slotGame") {
+	else if (window.location.pathname === '/en/'+platform+'/event/slotGame') {
 		fnSlotGame();
 	}
-	else if (window.location.pathname === "/en/ios/event/slotReward") {
+	else if (window.location.pathname === '/en/'+platform+'/event/slotReward') {
 		fnSlotReward();
 	}
-	else if (window.location.pathname === "/en/ios/event/bingo") {
+	else if (window.location.pathname === '/en/'+platform+'/event/bingo') {
 		//fnEventBingo();
 	}
-	// /en/ios/dungeon/recovery
-	// /en/ios/dungeon/recoveryproc
+	// /en/'+platform+'/dungeon/recovery
+	// /en/'+platform+'/dungeon/recoveryproc
 }
 
 function fnOnLoad() {
@@ -3450,19 +3452,19 @@ function fnOnLoad() {
 }
 
 function fnPreLoad() {
-	if (window.location.pathname === "/en/ios/dungeon/mission") {
+	if (window.location.pathname === '/en/'+platform+'/dungeon/mission') {
 		fnDungeonMissionPreload();
 	}
-	else if (window.location.pathname === "/en/ios/dungeon/battle") {
+	else if (window.location.pathname === '/en/'+platform+'/dungeon/battle') {
 		fnDungeonBattlePreload();
 	}
-	else if (window.location.pathname === "/en/ios/dungeon/win") {
+	else if (window.location.pathname === '/en/'+platform+'/dungeon/win') {
 		fnDungeonWinPreload();
 	}
-	else if (window.location.pathname === "/en/ios/event/slotInformation") {
+	else if (window.location.pathname === '/en/'+platform+'/event/slotInformation') {
 		fnSlotInformationPreload();
 	}
-	else if (window.location.pathname === "/en/ios/event/slotGame") {
+	else if (window.location.pathname === '/en/'+platform+'/event/slotGame') {
 		fnSlotGamePreload();
 	}	
 }
