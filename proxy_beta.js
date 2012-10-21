@@ -2530,7 +2530,7 @@ function fnMonsterInfo() {
 	$('.status-text').css('width', '1000px');
 	if (parseInt(monsterMaster['grade'], 10) >= 6) {
 		$('a[href^="/en/'+platform+'/achievement/monster"]').eq(0).attr("href", 'javascript:history.go(-1);');
-		$('#button-back-img').html($('#button-back-img').html() + '<br/><img src="http://res.darksummoner.com/en/s/misc/table/decoration_left.png" /><a style="position:relative; " class="__WM __HM btn __red" href="/en/ios/achievement/monster?attr=0&offset=4">Auction</a><img src="http://res.darksummoner.com/en/s/misc/table/decoration_right.png" /> ');
+		$('#button-back-img').html($('#button-back-img').html() + '<br/><img src="http://res.darksummoner.com/en/s/misc/table/decoration_left.png" /><a style="position:relative; " class="__WM __HM btn __red" href="javascript:alert(\'test\');">Auction</a><img src="http://res.darksummoner.com/en/s/misc/table/decoration_right.png" /> ');
 	}
 }
 
