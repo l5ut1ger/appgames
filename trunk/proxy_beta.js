@@ -2002,7 +2002,7 @@ function fnFixForkRoadMissionProcess() {
 			//      loop_count = result.payload.loop_count ;
 			event.phase = new Array();
 
-			event.phase.push('default_resource');
+			//event.phase.push('default_resource');
 
 			/*if(mini_potion.flag != 0)                event.phase.push('herb');
 			if(event.monster)                        event.phase.push('get_monster');
