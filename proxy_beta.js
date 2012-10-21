@@ -2521,6 +2521,31 @@ function fnMonsterCollection() {
 
 // monster info
 
+function fnMonsterInfoSearchAuctionAAPerPage(pPage,pMonsterID) {
+	fnGrowl('Search AA Auction Page ' + pPage);
+	$.ajax_ex(false, '/en/'+platform+'/auction/ajaxExhibitList?api=json&page='+pPage+'&search=grade_aa', { '__hash': ('' + (new Date()).getTime()) }, function(data) {
+		var exhibits = data.payload.exhibits;
+		for (var i=0;i < exhibits.length;i++) {
+			for (var j=0;j<parseInt(exhibits[i].permanent_count,10);j++) {
+				if (exhibits[i]['permanent_type_'+j] == 2 && parseInt(exhibits[i]['permanent_desc_'+j].monster_id,10) == parseInt(pMonsterID,10)) {
+					fnGrowl('Found.');
+					$('#button-back-img').html($('#button-back-img').html() + '<br/><a href="/en/'+platform+'/auction/detail?no='+exhibits[i].exhibit_id+'&reason=0&page=0&search=0">page:'+ (parseInt(pPage,10)+1)+' exhibit_id:'+exhibits[i].exhibit_id+'</a> by <a href="/en/'+platform+'/friends/profile?pid='+exhibits[i].player_id+'"><font color="#00FF00">'+exhibits[i].player_nickname+'</font></a>');
+				}
+			}			
+		}
+		if (pPage > 0) {
+			setTimeout(fnMonsterInfoSearchAuctionAAPerPage,500,pPage-1,pMonsterID);
+		}
+	});
+}
+
+function fnMonsterInfoSearchAuctionAA(pMonsterID) {
+	alert('Start searching auctions of this monster...');
+	$.ajax_ex(false, '/en/'+platform+'/auction/ajaxExhibitList?api=json&page=0&search=grade_aa', { '__hash': ('' + (new Date()).getTime()) }, function(metaData) {
+		setTimeout(fnMonsterInfoSearchAuctionAAPerPage,0,parseInt(metaData.payload.pages,10)-1,pMonsterID);
+	});
+}
+
 function fnMonsterInfo() {
 	$('#status-text-area').html($('#status-text-area').html()+'<span id="status-agility" style="position:absolute; right:5px; top:-16px;width:200px;text-align:right; color:#c0c1ff;">agility</span><div style="position:absolute; left:25px; top:-16px;">AGILITY</div>');
 	$('#status-agility').html(addFigure(paramMaster['agility']));
@@ -2530,7 +2555,7 @@ function fnMonsterInfo() {
 	$('.status-text').css('width', '1000px');
 	if (parseInt(monsterMaster['grade'], 10) >= 6) {
 		$('a[href^="/en/'+platform+'/achievement/monster"]').eq(0).attr("href", 'javascript:history.go(-1);');
-		$('#button-back-img').html($('#button-back-img').html() + '<br/><img src="http://res.darksummoner.com/en/s/misc/table/decoration_left.png" /><a style="position:relative; " class="__WM __HM btn __red" href="javascript:alert(\'test\');">Auction</a><img src="http://res.darksummoner.com/en/s/misc/table/decoration_right.png" /> ');
+		$('#button-back-img').html($('#button-back-img').html() + '<br/><img src="http://res.darksummoner.com/en/s/misc/table/decoration_left.png" /><a style="position:relative; " class="__WM __HM btn __red" href="javascript:fnMonsterInfoSearchAuctionAA(paramMaster[\'monster_id\']);">Auction</a><img src="http://res.darksummoner.com/en/s/misc/table/decoration_right.png" /> ');
 	}
 }
 
