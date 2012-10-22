@@ -2912,14 +2912,14 @@ function fnPresentBoxReceiveSkillPerPage(pPage, pSkill) {
 		var boxes = data.payload.boxes;
 		for (var i=0;i < boxes.length;i++) {			
 			if (boxes[i].permanent_type == 2) {
-				if (parseInt(boxes[i].skill_id,10) == pSkill) {
+				if (parseInt(boxes[i].skill_id,10) == parseInt(pSkill,10)) {
 					onReceive(null, boxes[i]);
 					alert("Receiving " + boxes[i].monster_name);
 				}
 			}
 		}
 		if (pPage > 0) {
-			setTimeout(fnPresentBoxReceiveSkillPerPage,500,pPage-1);
+			setTimeout(fnPresentBoxReceiveSkillPerPage,500,pPage-1, pSkill);
 		}
 	});
 }
