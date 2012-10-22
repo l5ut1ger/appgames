@@ -2980,7 +2980,7 @@ function fnPresentBoxAction(pValue) {
 		fnPresentBoxReceiveAllSpeciesDown();
 	}
 	else if (pValue.startsWith("skill")) {
-		fnPresentBoxReceiveSkill(pAction.substr(5));
+		fnPresentBoxReceiveSkill(pValue.substr(5));
 	}
 }
 
