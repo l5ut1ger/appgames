@@ -2804,26 +2804,130 @@ function fnPresentBoxReceiveAll20s() {
 	});
 }
 
-function fnPresentBoxReceiveAll30sPerPage(pPage) {
+function fnPresentBoxReceiveAll25sPerPage(pPage) {
 	fnGrowl('Receiving Page ' + pPage);
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
 		var boxes = data.payload.boxes;
 		for (var i=0;i < boxes.length;i++) {
-			if (boxes[i].permanent_type == 2 && boxes[i].monster_bp >= 30) {
+			if (boxes[i].permanent_type == 2 && boxes[i].monster_bp >= 25) {
 				onReceive(null, boxes[i]);
 				alert("Receiving " + boxes[i].monster_name);
 			}
 		}
 		if (pPage > 0) {
-			setTimeout(fnPresentBoxReceiveAll30sPerPage,500,pPage-1);
+			setTimeout(fnPresentBoxReceiveAll25sPerPage,500,pPage-1);
 		}
 	});
 }
 
-function fnPresentBoxReceiveAll30s() {
+function fnPresentBoxReceiveAll25s() {
 	alert('It will hang a bit if you have many pages');
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
-		setTimeout(fnPresentBoxReceiveAll30sPerPage,0,parseInt(metaData.payload.pages,10)-1);
+		setTimeout(fnPresentBoxReceiveAll25sPerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
+function fnPresentBoxReceiveAllGuildDownPerPage(pPage) {
+	fnGrowl('Receiving Page ' + pPage);
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {			
+			if (boxes[i].permanent_type == 2) {
+				for (key in guildDownArray) {
+					if (parseInt(boxes[i].skill_id,10) == key) {
+						onReceive(null, boxes[i]);
+						alert("Receiving " + boxes[i].monster_name);
+					}
+				}
+			}
+		}
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxReceiveAllGuildDownPerPage,500,pPage-1);
+		}
+	});
+}
+
+function fnPresentBoxReceiveAllGuildDown() {
+	alert('It will hang a bit if you have many pages');
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxReceiveAllGuildDownPerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
+function fnPresentBoxReceiveAllSpeciesDownPerPage(pPage) {
+	fnGrowl('Receiving Page ' + pPage);
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {			
+			if (boxes[i].permanent_type == 2) {
+				for (key in speciesDownArray) {
+					if (parseInt(boxes[i].skill_id,10) == key) {
+						onReceive(null, boxes[i]);
+						alert("Receiving " + boxes[i].monster_name);
+					}
+				}
+			}
+		}
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxReceiveAllSpeciesDownPerPage,500,pPage-1);
+		}
+	});
+}
+
+function fnPresentBoxReceiveAllSpeciesDown() {
+	alert('It will hang a bit if you have many pages');
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxReceiveAllSpeciesDownPerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
+function fnPresentBoxReceiveAllSkillPerPage(pPage) {
+	fnGrowl('Receiving Page ' + pPage);
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {			
+			if (boxes[i].permanent_type == 2) {
+				if (parseInt(boxes[i].skill_id,10) > 0) {
+					onReceive(null, boxes[i]);
+					alert("Receiving " + boxes[i].monster_name);
+				}
+			}
+		}
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxReceiveAllSkillPerPage,500,pPage-1);
+		}
+	});
+}
+
+function fnPresentBoxReceiveAllSkill() {
+	alert('It will hang a bit if you have many pages');
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxReceiveAllSkillPerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
+function fnPresentBoxReceiveSkillPerPage(pPage, pSkill) {
+	fnGrowl('Receiving Page ' + pPage);
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {			
+			if (boxes[i].permanent_type == 2) {
+				if (parseInt(boxes[i].skill_id,10) == pSkill) {
+					onReceive(null, boxes[i]);
+					alert("Receiving " + boxes[i].monster_name);
+				}
+			}
+		}
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxReceiveSkillPerPage,500,pPage-1);
+		}
+	});
+}
+
+function fnPresentBoxReceiveSkill(pSkill) {
+	alert('It will hang a bit if you have many pages');
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxReceiveSkillPerPage,0,parseInt(metaData.payload.pages,10)-1, pSkill);
 	});
 }
 
@@ -2863,8 +2967,20 @@ function fnPresentBoxAction(pValue) {
 	else if (pValue == "all20s") {
 		fnPresentBoxReceiveAll20s();
 	}
-	else if (pValue == "all30s") {
-		fnPresentBoxReceiveAll30s();
+	else if (pValue == "all25s") {
+		fnPresentBoxReceiveAll25s();
+	}
+	else if (pValue == "allSkill") {
+		fnPresentBoxReceiveAllSkill();
+	}
+	else if (pValue == "allGuildDown") {
+		fnPresentBoxReceiveAllGuildDown();
+	}
+	else if (pValue == "allSpeciesDown") {
+		fnPresentBoxReceiveAllSpeciesDown();
+	}
+	else if (pValue.startsWith("skill")) {
+		fnPresentBoxReceiveSkill(pAction.substr(5));
 	}
 }
 
@@ -2886,7 +3002,13 @@ function fnPresentBox() {
 		selectorHTML += '<option value="all100kGold">Receive <100k$</option>';
 		selectorHTML += '<option value="allAAs">Receive AA/+</option>';
 		selectorHTML += '<option value="all20s">Receive 20+BP</option>';
-		selectorHTML += '<option value="all30s">Receive 30+BP</option>';
+		selectorHTML += '<option value="all25s">Receive 25+BP</option>';
+		selectorHTML += '<option value="allSkill">Receive All Skill</option>';
+		selectorHTML += '<option value="allGuildDown">Receive Guild Down</option>';
+		selectorHTML += '<option value="allSpeciesDown">Receive Species Down</option>';
+		for (key in skillArray) {
+			selectorHTML += '<option value="skill'+key+'">Receive ' + skillArray[key] + '</option>';
+		}
 		selectorHTML += '</select>';
 		
      divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="for (var i=0;i<document.getElementById(\'presents\').childNodes.length;i++)$(\'.receive-button\',$(\'#\'+document.getElementById(\'presents\').childNodes[i].id)).trigger(\'click\');"><span class="download2">Receive All</span></button>' + selectorHTML; 
