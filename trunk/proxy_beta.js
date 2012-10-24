@@ -876,8 +876,10 @@ function fnProfileFixTabs() {
 		mcFlyTeamSelectorHTML+='<option ' + (fnTowerMcFlyTeam()==aFormationArray[i]?'selected':'') + ' value="' + aFormationArray[i].split(fnGetConnector())[0] + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
+	
+	var loginSessionHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Tower Event</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>Login Key<br/><textarea>' + fnGetCookie('darksummoner_en') + '</textarea><br/><br/>';
    
-	divTag.innerHTML = grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
+	divTag.innerHTML = grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML + loginSessionHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 
 	onChangeProfile = function (id) 
