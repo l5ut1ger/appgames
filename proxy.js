@@ -876,8 +876,10 @@ function fnProfileFixTabs() {
 		mcFlyTeamSelectorHTML+='<option ' + (fnTowerMcFlyTeam()==aFormationArray[i]?'selected':'') + ' value="' + aFormationArray[i].split(fnGetConnector())[0] + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
+	
+	var loginSessionHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Tower Event</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>Login Key<br/><textarea rows="10" cols="50">' + document.cookie + ' ' + fnGetCookie('darksummoner_en') + '</textarea><br/><br/>';
    
-	divTag.innerHTML = grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
+	divTag.innerHTML = grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML + loginSessionHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 
 	onChangeProfile = function (id) 
@@ -2059,6 +2061,12 @@ function fnForkRoadMission() {
 	}
 	else {
 		missionInterval = setInterval(mission_exec,fnGetGrindingSpeed());
+	}
+}
+
+function fnForkRoad() {
+	if (player.deck_total_bp == 1) {
+		setInterval(function(){$.redirect('/en/'+platform+'/forkroad/list');}, 60000);
 	}
 }
 
@@ -3706,6 +3714,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/fusion/fusion') {
 		fnFusionFusion();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/forkroad') {
+		fnForkRoad();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/mission') {
 		fnForkRoadMission();
