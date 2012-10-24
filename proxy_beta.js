@@ -2064,6 +2064,12 @@ function fnForkRoadMission() {
 	}
 }
 
+function fnForkRoad() {
+	if (player.deck_total_bp == 1) {
+		setInterval(function(){$.redirect('/en/'+platform+'forkroad/list');}, 60000);
+	}
+}
+
 // dungeon mission
 
 function fnDungeonMission() {
@@ -3708,6 +3714,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/fusion/fusion') {
 		fnFusionFusion();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/forkroad') {
+		fnForkRoad();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/mission') {
 		fnForkRoadMission();
