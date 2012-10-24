@@ -2065,7 +2065,7 @@ function fnForkRoadMission() {
 }
 
 function fnForkRoad() {
-	if (player.deck_total_bp == 1) {
+	if (parseInt(player.deck_total_bp,10) == 1) {
 		setInterval(function(){$.redirect('/en/'+platform+'/forkroad/list');}, 60000);
 	}
 }
