@@ -2796,7 +2796,12 @@ function fnPresentBoxReceiveAll20sPerPage(pPage) {
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 2 && boxes[i].monster_bp >= 20) {
 				onReceive(null, boxes[i]);
-				alert("Receiving " + boxes[i].monster_name);
+				if (boxes[i].monster_grade > 5) {
+					alert("Receiving " + boxes[i].monster_name);
+				}
+				else {
+					fnGrowl("Receiving " + boxes[i].monster_name);
+				}
 			}
 		}
 		if (pPage > 0) {
@@ -2819,7 +2824,12 @@ function fnPresentBoxReceiveAll25sPerPage(pPage) {
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 2 && boxes[i].monster_bp >= 25) {
 				onReceive(null, boxes[i]);
-				alert("Receiving " + boxes[i].monster_name);
+				if (boxes[i].monster_grade > 5) {
+					alert("Receiving " + boxes[i].monster_name);
+				}
+				else {
+					fnGrowl("Receiving " + boxes[i].monster_name);
+				}
 			}
 		}
 		if (pPage > 0) {
@@ -2844,7 +2854,12 @@ function fnPresentBoxReceiveAllGuildDownPerPage(pPage) {
 				for (key in guildDownArray) {
 					if (parseInt(boxes[i].skill_id,10) == key) {
 						onReceive(null, boxes[i]);
-						alert("Receiving " + boxes[i].monster_name);
+						if (boxes[i].monster_grade > 5) {
+							alert("Receiving " + boxes[i].monster_name);
+						}
+						else {
+							fnGrowl("Receiving " + boxes[i].monster_name);
+						}
 					}
 				}
 			}
@@ -2871,7 +2886,12 @@ function fnPresentBoxReceiveAllSpeciesDownPerPage(pPage) {
 				for (key in speciesDownArray) {
 					if (parseInt(boxes[i].skill_id,10) == key) {
 						onReceive(null, boxes[i]);
-						alert("Receiving " + boxes[i].monster_name);
+						if (boxes[i].monster_grade > 5) {
+							alert("Receiving " + boxes[i].monster_name);
+						}
+						else {
+							fnGrowl("Receiving " + boxes[i].monster_name);
+						}
 					}
 				}
 			}
@@ -2897,7 +2917,12 @@ function fnPresentBoxReceiveAllSkillPerPage(pPage) {
 			if (boxes[i].permanent_type == 2) {
 				if (parseInt(boxes[i].skill_id,10) > 0) {
 					onReceive(null, boxes[i]);
-					alert("Receiving " + boxes[i].monster_name);
+					if (boxes[i].monster_grade > 5) {
+						alert("Receiving " + boxes[i].monster_name);
+					}
+					else {
+						fnGrowl("Receiving " + boxes[i].monster_name);
+					}
 				}
 			}
 		}
@@ -2922,7 +2947,12 @@ function fnPresentBoxReceiveSkillPerPage(pPage, pSkill) {
 			if (boxes[i].permanent_type == 2) {
 				if (parseInt(boxes[i].skill_id,10) == parseInt(pSkill,10)) {
 					onReceive(null, boxes[i]);
-					alert("Receiving " + boxes[i].monster_name);
+					if (boxes[i].monster_grade > 5) {
+						alert("Receiving " + boxes[i].monster_name);
+					}
+					else {
+						fnGrowl("Receiving " + boxes[i].monster_name);
+					}
 				}
 			}
 		}
