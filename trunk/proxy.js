@@ -62,7 +62,7 @@ function loadjscssfile(filename, filetype){
 
 function fnGrowl(msg) {
 	var notice = '<div class="notice"><div class="notice-body"><p>' + msg + '</p></div><div class="notice-bottom"></div></div>';							  
-	$( notice ).purr({usingTransparentPNG: true, fadeInSpeed: 200,  fadeOutSpeed: 200,      removeTimer: 1000});
+	$( notice ).purr({usingTransparentPNG: true, fadeInSpeed: 1,  fadeOutSpeed: 1,      removeTimer: 400});
 }
 
 function fnArrayHasItem(originalArray, itemToDetect) {
