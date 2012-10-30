@@ -3610,6 +3610,12 @@ function fnEventBingo() {
 	}
 }
 
+// event number ticket
+
+function fnEventNumberTicketInformationPreload() {
+	window.location = '/en/'+platform+'/home';
+}
+
 // home
 
 function fnHome() {
@@ -3795,6 +3801,9 @@ function fnPreLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/slotGame') {
 		fnSlotGamePreload();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/event/numberTicketInformation') {
+		fnEventNumberTicketInformationPreload();
 	}	
 }
 
