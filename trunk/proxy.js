@@ -857,23 +857,22 @@ function fnProfileFixTabs() {
 	
 	var i;
 	
-	var progTeamSelectorHTML = 'Progression Team<br/>';
-	progTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerProgTeam(this.options[this.options.selectedIndex].value+fnGetConnector()+this.options[this.options.selectedIndex].text);fnGrowl(\'Tower Event Prog Team \'+this.options[this.options.selectedIndex].text);">';	
-	progTeamSelectorHTML += '<option ' + (fnTowerProgTeam()==''?'selected':'') + ' value="">Nil</option>';
 	var aFormationArray = fnGetFormationArray();
+	
+	var progTeamSelectorHTML =  'Progression Team<br/>';
+	progTeamSelectorHTML += '<select name="prog" onchange="fnSetTowerProgTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Tower Event Prog Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnTowerProgTeam()==''?'selected':'') + ' value="">Nil</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		progTeamSelectorHTML+='<option ' + (fnTowerProgTeam()==aFormationArray[i]?'selected':'') + ' value="' + aFormationArray[i].split(fnGetConnector())[0] + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		progTeamSelectorHTML+='<option ' + (fnTowerProgTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	progTeamSelectorHTML+='</select><br/><br/>'; 
 
 	var mcFlyTeamSelectorHTML = 'VS McFly Team<br/>';
-	mcFlyTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerMcFlyTeam(this.options[this.options.selectedIndex].value+fnGetConnector()+this.options[this.options.selectedIndex].text);fnGrowl(\'Tower Event Prog Team \'+this.options[this.options.selectedIndex].text);">';	
-	mcFlyTeamSelectorHTML += '<option ' + (fnTowerMcFlyTeam()==''?'selected':'') + ' value="">Nil</option>';
-	var aFormationArray = fnGetFormationArray();
+	mcFlyTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerMcFlyTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Tower Event VS McFly Team \'+this.options[this.options.selectedIndex].text);">';	
+	mcFlyTeamSelectorHTML += '<option ' + (fnTowerMcFlyTeam()==''?'selected':'') + ' value="">Nil</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		mcFlyTeamSelectorHTML+='<option ' + (fnTowerMcFlyTeam()==aFormationArray[i]?'selected':'') + ' value="' + aFormationArray[i].split(fnGetConnector())[0] + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		mcFlyTeamSelectorHTML+='<option ' + (fnTowerMcFlyTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
 	
@@ -1870,7 +1869,8 @@ function fnTowerMission() {
 		if (typeof mission.boss_battle_rnd && mission.boss_battle_rnd > 0) {
 			if (fnTowerMcFlyTeam() != '' && fnTowerProgTeam() != '') {
 				fnSetIsBattlingMcFly(1);
-				$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
+				fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
+				//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
 			}
 			setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 1000);
 			setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
@@ -1910,7 +1910,8 @@ function fnTowerSummon() {
 function fnTowerBossResult() {
 	if (fnIsBattlingMcFly() == 1 && fnTowerMcFlyTeam() != '' && fnTowerProgTeam() != '') {
 		fnSetIsBattlingMcFly(0);
-		$.ajax_ex(false, fnTowerProgTeam().split(fnGetConnector())[0], {}, function(data) {	});
+		fnDeckChangeAdvance(fnTowerProgTeam(), false, function(){});
+		//$.ajax_ex(false, fnTowerProgTeam().split(fnGetConnector())[0], {}, function(data) {	});
 	}
 	$.ajax_ex(false, '/en/'+platform+'/tower/bossGetResources', {choice : 1, '__hash' : ('' + (new Date()).getTime()) },function(result) {
 		if (result.status == 101) {
@@ -3610,6 +3611,12 @@ function fnEventBingo() {
 	}
 }
 
+// event number ticket
+
+function fnEventNumberTicketInformationPreload() {
+	window.location = '/en/'+platform+'/home';
+}
+
 // home
 
 function fnHome() {
@@ -3795,6 +3802,9 @@ function fnPreLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/slotGame') {
 		fnSlotGamePreload();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/event/numberTicketInformation') {
+		fnEventNumberTicketInformationPreload();
 	}	
 }
 
