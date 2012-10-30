@@ -860,7 +860,7 @@ function fnProfileFixTabs() {
 	var aFormationArray = fnGetFormationArray();
 	
 	var progTeamSelectorHTML =  'Progression Team<br/>';
-	progTeamSelectorHTML = '<select name="prog" onchange="fnSetTowerProgTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Tower Event Prog Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnTowerProgTeam()==''?'selected':'') + ' value="">Nil</option>';	
+	progTeamSelectorHTML += '<select name="prog" onchange="fnSetTowerProgTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Tower Event Prog Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnTowerProgTeam()==''?'selected':'') + ' value="">Nil</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
 		progTeamSelectorHTML+='<option ' + (fnTowerProgTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
