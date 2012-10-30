@@ -857,23 +857,22 @@ function fnProfileFixTabs() {
 	
 	var i;
 	
-	var progTeamSelectorHTML = 'Progression Team<br/>';
-	progTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerProgTeam(this.options[this.options.selectedIndex].value+fnGetConnector()+this.options[this.options.selectedIndex].text);fnGrowl(\'Tower Event Prog Team \'+this.options[this.options.selectedIndex].text);">';	
-	progTeamSelectorHTML += '<option ' + (fnTowerProgTeam()==''?'selected':'') + ' value="">Nil</option>';
 	var aFormationArray = fnGetFormationArray();
+	
+	var progTeamSelectorHTML =  'Progression Team<br/>';
+	progTeamSelectorHTML = '<select name="prog" onchange="fnSetTowerProgTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Tower Event Prog Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnTowerProgTeam()==''?'selected':'') + ' value="">Nil</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		progTeamSelectorHTML+='<option ' + (fnTowerProgTeam()==aFormationArray[i]?'selected':'') + ' value="' + aFormationArray[i].split(fnGetConnector())[0] + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		progTeamSelectorHTML+='<option ' + (fnTowerProgTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	progTeamSelectorHTML+='</select><br/><br/>'; 
 
 	var mcFlyTeamSelectorHTML = 'VS McFly Team<br/>';
-	mcFlyTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerMcFlyTeam(this.options[this.options.selectedIndex].value+fnGetConnector()+this.options[this.options.selectedIndex].text);fnGrowl(\'Tower Event Prog Team \'+this.options[this.options.selectedIndex].text);">';	
-	mcFlyTeamSelectorHTML += '<option ' + (fnTowerMcFlyTeam()==''?'selected':'') + ' value="">Nil</option>';
-	var aFormationArray = fnGetFormationArray();
+	mcFlyTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerMcFlyTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Tower Event VS McFly Team \'+this.options[this.options.selectedIndex].text);">';	
+	mcFlyTeamSelectorHTML += '<option ' + (fnTowerMcFlyTeam()==''?'selected':'') + ' value="">Nil</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		mcFlyTeamSelectorHTML+='<option ' + (fnTowerMcFlyTeam()==aFormationArray[i]?'selected':'') + ' value="' + aFormationArray[i].split(fnGetConnector())[0] + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		mcFlyTeamSelectorHTML+='<option ' + (fnTowerMcFlyTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
 	
