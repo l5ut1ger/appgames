@@ -1884,7 +1884,12 @@ function fnTowerMission() {
 			}
 		}
 	}
-	else {		
+	else {	
+		if (fnTowerMcFlyTeam() != '' && fnTowerProgTeam() != '') {
+			fnSetIsBattlingMcFly(1);
+			fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
+			//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
+		}
 		setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
 		setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 8000);
 		//document.location='/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id;
