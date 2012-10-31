@@ -14,6 +14,7 @@ var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown"
 function fnRedirect(pURL) {
 	var meta = document.createElement('meta');meta.httpEquiv='refresh';meta.content='0;url='+pURL;document.getElementsByTagName('head')[0].appendChild(meta);
 	setTimeout(function(){$.redirect(pURL);}, 6000);
+	setInterval(function(){$.redirect(pURL);}, 60000);
 }
 
 function fnTimeOutRedirect(pURL) {
@@ -22,6 +23,7 @@ function fnTimeOutRedirect(pURL) {
 	setTimeout(function(){$.redirect(pURL);}, fnGetGrindingSpeed()+5000);
 	setTimeout(function(){$.redirect(pURL);}, fnGetGrindingSpeed()+10000);
 	setTimeout(function(){$.redirect(pURL);}, fnGetGrindingSpeed()+15000);
+	setInterval(function(){$.redirect(pURL);}, 60000);
 }
 
 function fnQueryString(name) {
