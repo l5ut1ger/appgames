@@ -5,7 +5,7 @@ var platform = window.location.pathname.indexOf("android") >= 0 ? 'android' : 'i
 // define
 var missionInterval;
 var progressionGuildSpecific = false;
-var progressionList=[50066, 53067, 56067];
+var progressionList=[50081, 53081, 56081];
 var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "Revive", "16": "Pre-Strike", "17": "DEA", "20": "DED", "24": "Agility", "27": "Critical", "30": "Dodge", "37": "Venom", "47": "HellBlaze", "50": "Artic", "53": "Lightning", "57": "Health", "58": "ImpDown", "59": "CovDown", "60": "PsyDown", "61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
 var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
@@ -1104,7 +1104,7 @@ function fnFriendActionGiftFormation() {
 						}
 					}
 					else {
-						if (result.payload[i].lv > result_array['l'+(j+1)+'level'] || (result.payload[i].lv == result_array['l'+(j+1)+'level'] && result.payload[i].skill_lv > result_array['l'+(j+1)+'skillLevel'])) {
+						if (parseInt(result.payload[i].lv,10) > parseInt(result_array['l'+(j+1)+'level'],10) || (parseInt(result.payload[i].lv, 10) == parseInt(result_array['l'+(j+1)+'level'],10) && parseInt(result.payload[i].skill_lv,10) > parseInt(result_array['l'+(j+1)+'skillLevel'], 10)) || (parseInt(result.payload[i].lv, 10) == parseInt(result_array['l'+(j+1)+'level'],10) && parseInt(result.payload[i].skill_lv, 10) == parseInt(result_array['l'+(j+1)+'skillLevel'],10) && parseInt(result.payload[i].bp,10) > parseInt(result_array['l'+(j+1)+'bp'], 10))) {
 							if (totalBP - result_array['l'+(j+1)+'bp'] + result.payload[i].bp <= player.bp_max) { 
 								totalBP -= result_array['l'+(j+1)+'bp'];
 								result_array['l'+(j+1)] = result.payload[i].unique_no;
