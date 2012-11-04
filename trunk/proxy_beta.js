@@ -1922,11 +1922,11 @@ function fnTowerBossResult() {
 	}
 	$.ajax_ex(false, '/en/'+platform+'/tower/bossGetResources', {choice : 1, '__hash' : ('' + (new Date()).getTime()) },function(result) {
 		if (result.status == 101) {
-			setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
+			fnRedirect('/en/'+platform+'/tower/mission');
 		} else if (result.payload.resources.foundType != null && result.payload.resources.foundType==10 && result.payload.resResult.items[result.payload.itemMaster.item_id].collected_count==6) { 
-			setTimeout(function(){$.redirect('/en/'+platform+'/tower');}, 1000);
+			fnRedirect('/en/'+platform+'/tower');
 		} else  {
-			setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
+			fnRedirect('/en/'+platform+'/tower/mission');
 		}
 	});
 }
