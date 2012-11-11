@@ -3302,11 +3302,13 @@ function fnStackAuto(pUniqueNo) {
 				if (parseInt(monsters[i].skill_lv,10) == 1) {  // skill 1
 					if (parseInt(monsters[i].grade,10) <= 3 || (parseInt(monsters[i].grade,10) == 4 && parseInt(monsters[i].bp,10) <= fnAutoStackBP())) { // <= rank B+ or low bp rank A
 						if (parseInt(monsters[i].grade,10) > parseInt(sacGrade, 10)) { // prefer sac higher grade
-							if (monsters[i].unique_no != pUniqueNo) {
-								if (monsters[i].location ==0) { // not in formation
-									sacStr = '&uno_0=' + monsters[i].unique_no;
-									sacCount=1;
-									sacGrade = monsters[i].grade;
+							if (parseInt(monsters[i].bp,10) > 1) { // dont sac spirit!
+								if (monsters[i].unique_no != pUniqueNo) {
+									if (monsters[i].location ==0) { // not in formation
+										sacStr = '&uno_0=' + monsters[i].unique_no;
+										sacCount=1;
+										sacGrade = monsters[i].grade;
+									}
 								}
 							}
 						}
