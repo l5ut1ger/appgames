@@ -1719,7 +1719,7 @@ function fnFixMissionProcess() {
 						var useEnergy100 = false;
 						for (var i=0;i<result.payload.recoverItems.length;i++) {
 							if (result.payload.recoverItems[i].item_id==3022) {
-								if (player.power_max <= 300 && (player.next_exp - player.now_exp < result.payload.recoverItems[i].amount * 100)) {
+								if (player.power_max <= 400 && (player.next_exp - player.now_exp < result.payload.recoverItems[i].amount * 100)) {
 									// max energy too low, drink enenrgy100 to level up instead of full ep
 									useEnergy100 = true;
 									break;
