@@ -5,7 +5,7 @@ var platform = window.location.pathname.indexOf("android") >= 0 ? 'android' : 'i
 // define
 var missionInterval;
 var progressionGuildSpecific = false;
-var progressionList=[50081, 53081, 56081];
+var progressionList=[50084, 53084, 56084];
 var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "Revive", "16": "Pre-Strike", "17": "DEA", "20": "DED", "24": "Agility", "27": "Critical", "30": "Dodge", "37": "Venom", "47": "HellBlaze", "50": "Artic", "53": "Lightning", "57": "Health", "58": "ImpDown", "59": "CovDown", "60": "PsyDown", "61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
 var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
@@ -797,8 +797,9 @@ function fnProfileGetAllCompenation(pID) {
 
 function fnProfileGetCompensation(pID) {
 	if (pID == "") return;
+	fnGrowl('Trying to receive compensation gift '+ pID);
 	$.ajax_ex(false, '/en/'+platform+'/compensation/receive?compensation_id='+pID, { }, function(data) {
-		fnGrowl('Tried compensation gift '+ pID);
+		
 	});
 }
 
