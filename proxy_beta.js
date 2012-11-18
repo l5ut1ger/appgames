@@ -791,7 +791,7 @@ function fnProfileAddSpamButton() {
 function fnProfileGetAllCompenation(pID) {
 	if (pID == "") return;
 	for (var i=1;i<=pID;i++) {
-		setTimeout(fnProfileGetCompensation, i*1000, pID);
+		setTimeout(fnProfileGetCompensation, i*1000, i);
 	}
 }
 
