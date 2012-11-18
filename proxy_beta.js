@@ -787,7 +787,7 @@ function fnProfileAddSpamButton() {
 		}
 	});
 }
-
+/*
 function fnProfileGetAllCompenation(pID) {
 	if (pID == "") return;
 	for (int i=1;i<=pID;i++) {
@@ -801,7 +801,7 @@ function fnProfileGetCompensation(pID) {
 		fnGrowl('Tried compensation gift '+ pID);
 	});
 }
-
+*/
 function fnProfileFixTabs() {
 	document.getElementById('_1').childNodes[7].childNodes[0].innerHTML = "Strategy";
 	var divTag = document.createElement("div"); 
