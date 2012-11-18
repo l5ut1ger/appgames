@@ -788,11 +788,55 @@ function fnProfileAddSpamButton() {
 	});
 }
 
+function fnProfileGetAllCompenation(pID) {
+	if (pID == "") return;
+	for (var i=18;i<=pID;i++) {
+		setTimeout(fnProfileGetCompensation, i*1000, i);
+	}
+}
+
+function fnProfileGetCompensation(pID) {
+	if (pID == "") return;
+	$.ajax_ex(false, '/en/'+platform+'/compensation/receive?compensation_id='+pID, { }, function(data) {
+		fnGrowl('Tried compensation gift '+ pID);
+	});
+}
+
 function fnProfileFixTabs() {
 	document.getElementById('_1').childNodes[7].childNodes[0].innerHTML = "Strategy";
 	var divTag = document.createElement("div"); 
 	divTag.id = "profile-strategy"; 
 	divTag.style.position = "relative"; 
+	
+	// Compensation gift setting
+	var compensationHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Compensation Gifts</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	compensationHTML += 'Collect Individual Missed Compensation Gift:<br/><select name="sel" onchange="fnProfileGetCompensation(this.options[this.options.selectedIndex].value);">';
+	compensationHTML += '<option selected value="">Select a gift ID</option>';
+	for (var i=18;i<=25;i++) {
+		compensationHTML += '<option value="' + i + '">' + i + '</option>';
+	}
+	compensationHTML += '</select><br/>';
+	compensationHTML += 'Collect All Missed Compensation Gifts Up To:<br/><select name="sel" onchange="fnProfileGetAllCompenation(this.options[this.options.selectedIndex].value);">';
+	compensationHTML += '<option selected value="">Select a gift ID</option>';
+	for (var i=18;i<=25;i++) {
+		compensationHTML += '<option value="' + i + '">' + i + '</option>';
+	}
+	compensationHTML += '</select><br/><br/>'; 	
+	
+	// auto grind setting
+	var grindSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Grinding Speed</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	grindSelectorHTML += '<select name="sel" onchange="fnSetGrindingSpeed(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == -1 ?'selected':'') + ' value="-1">Thumb</option>'
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 4000 ?'selected':'') + ' value="4000">Seems Legit</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 3000 ?'selected':'') + ' value="2000">Barely Legal</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 2000 ?'selected':'') + ' value="2000">Ferrari</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1000 ?'selected':'') + ' value="1000">CC Speed</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 500 ?'selected':'') + ' value="500">Too Fast</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 200 ?'selected':'') + ' value="200">Too Furious</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 100 ?'selected':'') + ' value="100">Light</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1 ?'selected':'') + ' value="1">Time Travel</option>';
+	grindSelectorHTML += '</select><br/><br/>'; 
 	
 	// auto grind setting
 	var grindSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Grinding Speed</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
@@ -878,9 +922,9 @@ function fnProfileFixTabs() {
 	}
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
 	
-	var loginSessionHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Tower Event</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>Login Key<br/><textarea rows="10" cols="50">' + document.cookie + ' ' + fnGetCookie('darksummoner_en') + '</textarea><br/><br/>';
+	var loginSessionHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Login Session</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>Login Key<br/><textarea rows="10" cols="50">' + document.cookie + ' ' + fnGetCookie('darksummoner_en') + '</textarea><br/><br/>';
    
-	divTag.innerHTML = grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML + loginSessionHTML; 
+	divTag.innerHTML = compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML + loginSessionHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 
 	onChangeProfile = function (id) 
