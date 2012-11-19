@@ -1375,6 +1375,16 @@ function fnFriendActionGiftSummons() {
 				items.push('3:5026:'+parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10));
 			}
 		}
+		if (result.find('#summon_bingo').find('.cost_ticket').length) {
+			if (parseInt(result.find('#summon_bingo').find('.cost_ticket').html(),10) > 0) {
+				items.push('3:5007:'+parseInt(result.find('#summon_bingo').find('.cost_ticket').html(),10));
+			}
+		}
+		if (result.find('#summon_dark_drop').find('.cost_ticket').length) {
+			if (parseInt(result.find('#summon_dark_drop').find('.cost_ticket').html(),10) > 0) {
+				items.push('3:5030:'+parseInt(result.find('#summon_dark_drop').find('.cost_ticket').html(),10));
+			}
+		}
 		if (items.length > 0) {
 			fnSetGiftCookies(items.join(fnGetSeparator()));	
 			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
@@ -1419,6 +1429,16 @@ function fnFriendActionGiftItemsAndSummons() {
 			if (result.find('#summon_super_special').find('.cost_ticket').length) {
 				if (parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10) > 0) {
 					giftList.push('3:5026:'+parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10));
+				}
+			}
+			if (result.find('#summon_bingo').find('.cost_ticket').length) {
+				if (parseInt(result.find('#summon_bingo').find('.cost_ticket').html(),10) > 0) {
+					giftList.push('3:5007:'+parseInt(result.find('#summon_bingo').find('.cost_ticket').html(),10));
+				}
+			}
+			if (result.find('#summon_dark_drop').find('.cost_ticket').length) {
+				if (parseInt(result.find('#summon_dark_drop').find('.cost_ticket').html(),10) > 0) {
+					giftList.push('3:5030:'+parseInt(result.find('#summon_dark_drop').find('.cost_ticket').html(),10));
 				}
 			}
 			if (giftList.length > 0) {
@@ -3144,6 +3164,12 @@ function fnGiftMyItems() {
 			}
 			if (result.find('#summon_super_special').find('.cost_ticket').length) {
 				items.push({"item_id":"5026","name":"EPIC Dark Summon","amount":parseInt(result.find('#summon_super_special').find('.cost_ticket').html(),10),"thumb_image":"items/5026_small.png"});
+			}
+			if (result.find('#summon_bingo').find('.cost_ticket').length) {
+				items.push({"item_id":"5007","name":"Bingo Summon","amount":parseInt(result.find('#summon_bingo').find('.cost_ticket').html(),10),"thumb_image":"items/5007_small.png"});
+			}
+			if (result.find('#summon_dark_drop').find('.cost_ticket').length) {
+				items.push({"item_id":"5030","name":"Stalactites Summon","amount":parseInt(result.find('#summon_dark_drop').find('.cost_ticket').html(),10),"thumb_image":"items/5030_small.png"});
 			}			
 		});		
 	}
