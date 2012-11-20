@@ -2109,7 +2109,7 @@ function fnFixForkRoadMissionProcess() {
 				event.phase.push('fork_end');
 			}
 
-			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
+			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
 			if(event.enemy_encount) {
 				setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);}, 1000);
 				setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);}, 6000);
@@ -2579,6 +2579,10 @@ function fnMission() {
 	else {
 		missionInterval = setInterval(mission_exec,fnGetGrindingSpeed());
 	}
+}
+
+function fnMissionAreaChange() {
+	fnRedirect("/en/ios/mission?area_change=true");
 }
 
 // mission battle result
@@ -3762,6 +3766,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/mission') {
 		fnMission();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/mission/areaChange') {
+		fnMissionAreaChange();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/mission/battleResult') {
 		fnMissionBattleResult();
