@@ -2323,14 +2323,14 @@ function fnDungeonWinPreload() {
 function fnDungeon() {
 	
 	// level select setting
-	var levelSelectorHTML = '<select style="position:absolute;top:100px;left:0px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(\'Level:\'+this.options[this.options.selectedIndex].text);location.reload();">';
+	var levelSelectorHTML = '<select style="position:absolute;top:0px;left:0px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(\'Level:\'+this.options[this.options.selectedIndex].text);location.reload();">';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Current Level</option>'
 	for (var j=1;j<=10;j++) {
 		levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == j ?'selected':'') + ' value="'+j+'">Level '+j+'</option>';
 	}
 	levelSelectorHTML += '</select>'; 
 	
-	var expSelectorHTML = '<select style="position:absolute;top:100px;left:110px" onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Exp:\'+this.options[this.options.selectedIndex].text);">';
+	var expSelectorHTML = '<select style="position:absolute;top:0px;left:110px" onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Exp:\'+this.options[this.options.selectedIndex].text);">';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == "Smart" ?'selected':'') + ' value="Smart">Smart Exp</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 0 ?'selected':'') + ' value="0">Extra Exp:0</option>'
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 10 ?'selected':'') + ' value="10">10</option>';
@@ -2345,7 +2345,7 @@ function fnDungeon() {
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 500000 ?'selected':'') + ' value="500000">500000</option>';	
 	expSelectorHTML += '</select>'; 
 	
-	var goldSelectorHTML = '<select style="position:absolute;top:100px;left:210px"  onchange="fnSetDungeonExtraGold(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Gold:$\'+this.options[this.options.selectedIndex].text);">';
+	var goldSelectorHTML = '<select style="position:absolute;top:0px;left:210px"  onchange="fnSetDungeonExtraGold(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Gold:$\'+this.options[this.options.selectedIndex].text);">';
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 0 ?'selected':'') + ' value="0">Extra Gold:$0</option>'
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 10 ?'selected':'') + ' value="10">$10</option>';
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 50 ?'selected':'') + ' value="50">$50</option>';
@@ -2359,7 +2359,7 @@ function fnDungeon() {
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">$500000</option>';
 	goldSelectorHTML += '</select>'; 
 	
-	document.getElementById('deck_bg').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML ;	
+	document.getElementById('div-header').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML ;	
 	
 	var aFormationArray = fnGetFormationArray();
 	var impulseTeamSelectorHTML =  'VS Impulse Boss:<select name="impulse" onchange="fnSetDungeonImpulseTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Impulse Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonImpulseTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
@@ -2392,9 +2392,9 @@ function fnDungeon() {
 	
 	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetDungeonAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnDungeonAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option></select>';	
 
-	document.getElementById('infinity').innerHTML += impulseTeamSelectorHTML + covertTeamSelectorHTML + psychoTeamSelectorHTML + progTeamSelectorHTML + bpSelectorHTML;
+	document.getElementById('main_bg').innerHTML += impulseTeamSelectorHTML + covertTeamSelectorHTML + psychoTeamSelectorHTML + progTeamSelectorHTML + bpSelectorHTML;
 	
-	document.getElementById('main_bg').style.height = (parseInt(document.getElementById('main_bg').style.height,10) + 125) + "px";
+	//infinitydocument.getElementById('main_bg').style.height = (parseInt(document.getElementById('main_bg').style.height,10) + 125) + "px";
 	
 	var divTag = document.createElement("div");
 	divTag.id = "bossRecordDiv";
