@@ -2151,6 +2151,14 @@ function fnForkRoadList() {
 	seeBattle(tList[Math.floor(Math.random()*tList.length)],1);	
 }
 
+function fnForkRoadBattleResult() {
+	if (document.getElementById('result_summon') != null) {
+		fnRedirect('/en/'+platform+'/forkroad/subpoena');
+	}
+	else {
+		fnRedirect('/en/'+platform+'/forkroad/list');
+	}
+}
 // dungeon mission
 
 function fnDungeonMission() {
@@ -3855,6 +3863,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/mission') {
 		fnForkRoadMission();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/forkroad/battleResult') {
+		fnForkRoadBattleResult();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/slotGame') {
 		fnSlotGame();
