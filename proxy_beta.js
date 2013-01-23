@@ -2141,6 +2141,7 @@ function fnForkRoad() {
 	if (parseInt(player.deck_total_bp,10) == 1) {
 		setInterval(function(){$.redirect('/en/'+platform+'/forkroad/list');}, 60000);
 	}
+   $('#unlock_comment').hide();
 }
 
 // dungeon mission
