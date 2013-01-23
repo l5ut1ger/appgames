@@ -2142,6 +2142,7 @@ function fnForkRoad() {
 		setInterval(function(){$.redirect('/en/'+platform+'/forkroad/list');}, 60000);
 	}
    $('#unlock_comment').hide();
+   $('#button_battle').removeClass('__disable');
 }
 
 // dungeon mission
