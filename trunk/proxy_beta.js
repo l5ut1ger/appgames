@@ -2146,6 +2146,11 @@ function fnForkRoad() {
   $('#button_battle').click(function() { $.redirect('/en/'+platform+'/forkroad/list');});
 }
 
+function fnForkRoadList() {
+	var tList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
+	seeBattle(tList[Math.floor(Math.random()*tList.length)],1);	
+}
+
 // dungeon mission
 
 function fnDungeonMission() {
@@ -3844,6 +3849,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad') {
 		fnForkRoad();
+	}
+   else if (window.location.pathname === '/en/'+platform+'/forkroad/list') {
+		fnForkRoadList();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/mission') {
 		fnForkRoadMission();
