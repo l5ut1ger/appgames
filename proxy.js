@@ -830,7 +830,7 @@ function fnProfileFixTabs() {
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == -1 ?'selected':'') + ' value="-1">Thumb</option>'
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 4000 ?'selected':'') + ' value="4000">Seems Legit</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 3000 ?'selected':'') + ' value="3000">Barely Legal</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 3000 ?'selected':'') + ' value="2000">Barely Legal</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 2000 ?'selected':'') + ' value="2000">Ferrari</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1000 ?'selected':'') + ' value="1000">CC Speed</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 500 ?'selected':'') + ' value="500">Too Fast</option>';
@@ -845,7 +845,7 @@ function fnProfileFixTabs() {
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == -1 ?'selected':'') + ' value="-1">Thumb</option>'
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 4000 ?'selected':'') + ' value="4000">Seems Legit</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 3000 ?'selected':'') + ' value="3000">Barely Legal</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 3000 ?'selected':'') + ' value="2000">Barely Legal</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 2000 ?'selected':'') + ' value="2000">Ferrari</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1000 ?'selected':'') + ' value="1000">CC Speed</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 500 ?'selected':'') + ' value="500">Too Fast</option>';
@@ -2146,9 +2146,10 @@ function fnForkRoad() {
   $('#button_battle').click(function() { $.redirect('/en/'+platform+'/forkroad/list');});
 }
 
-function fnForkRoadList() {
+function fnForkRoadList() {	
 	var tList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
-	seeBattle(tList[Math.floor(Math.random()*tList.length)],1);	
+	//seeBattle(tList[Math.floor(Math.random()*tList.length)],1);	
+	setTimeout(seeBattle, fnGetGrindingSpeed(), tList[Math.floor(Math.random()*tList.length)],1);
 }
 
 function fnForkRoadBattleResult() {
@@ -2161,7 +2162,7 @@ function fnForkRoadBattleResult() {
 }
 
 function fnForkRoadSummon() {
-fnRedirect('/en/'+platform+'/forkroad/list');
+	fnRedirect('/en/'+platform+'/forkroad/list');
 }
 
 // dungeon mission
@@ -3872,9 +3873,9 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/battleResult') {
 		fnForkRoadBattleResult();
 	}
-  else if (window.location.pathname === '/en/'+platform+'/forkroad/summon') {
-    fnForkRoadSummon();
-  }
+	else if (window.location.pathname === '/en/'+platform+'/forkroad/summon') {
+		fnForkRoadSummon();
+	}
 	else if (window.location.pathname === '/en/'+platform+'/event/slotGame') {
 		fnSlotGame();
 	}
