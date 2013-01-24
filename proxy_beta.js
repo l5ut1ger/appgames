@@ -2147,8 +2147,10 @@ function fnForkRoad() {
 }
 
 function fnForkRoadList() {
+	alert('test');
 	var tList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
 	seeBattle(tList[Math.floor(Math.random()*tList.length)],1);	
+	alert('test2');
 }
 
 function fnForkRoadBattleResult() {
