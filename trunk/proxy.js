@@ -2159,6 +2159,10 @@ function fnForkRoadBattleResult() {
 		fnRedirect('/en/'+platform+'/forkroad/list');
 	}
 }
+function fnForkRoadSummon() {
+fnRedirect('/en/'+platform+'/forkroad/list');
+}
+
 // dungeon mission
 
 function fnDungeonMission() {
@@ -3867,6 +3871,9 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/battleResult') {
 		fnForkRoadBattleResult();
 	}
+  else if (window.location.pathname === '/en/'+platform+'/forkroad/summon') {
+    fnForkRoadSummon();
+  }
 	else if (window.location.pathname === '/en/'+platform+'/event/slotGame') {
 		fnSlotGame();
 	}
