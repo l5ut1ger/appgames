@@ -2146,11 +2146,10 @@ function fnForkRoad() {
   $('#button_battle').click(function() { $.redirect('/en/'+platform+'/forkroad/list');});
 }
 
-function fnForkRoadList() {
-	alert('test');
+function fnForkRoadList() {	
 	var tList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
-	seeBattle(tList[Math.floor(Math.random()*tList.length)],1);	
-	alert('test2');
+	//seeBattle(tList[Math.floor(Math.random()*tList.length)],1);	
+	setTimeout(seeBattle, fnGetGrindingSpeed(), tList[Math.floor(Math.random()*tList.length)],1);
 }
 
 function fnForkRoadBattleResult() {
