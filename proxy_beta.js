@@ -2344,11 +2344,10 @@ function fnDungeon() {
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">$500000</option>';
 	goldSelectorHTML += '</select>'; 
 	
-	//document.getElementById('div-header').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML ;	
-	alert('well');
+	document.getElementById('div-header').innerHTML += levelSelectorHTML ;	
 	var divTag = document.createElement("div");
 	divTag.id = "dungeonDiv";
-	alert('well2');
+
 	var aFormationArray = fnGetFormationArray();
 	var bossTeamSelectorHTML =  'VS Boss:<select name="boss" onchange="fnSetDungeonBossTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Boss Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonBossTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
@@ -2356,7 +2355,7 @@ function fnDungeon() {
 		bossTeamSelectorHTML+='<option ' + (fnDungeonBossTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	bossTeamSelectorHTML+='</select><br/>'; 
-	alert('well3');
+
 	var progTeamSelectorHTML =  'Prog Team<select name="prog" onchange="fnSetDungeonProgTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Prog Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonProgTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
@@ -2366,9 +2365,9 @@ function fnDungeon() {
 	
 	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetDungeonAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnDungeonAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option></select>';	
 
-	divTag.innerHTML = bossTeamSelectorHTML + progTeamSelectorHTML + bpSelectorHTML;
+	divTag.innerHTML = bossTeamSelectorHTML + progTeamSelectorHTML + bpSelectorHTML  + expSelectorHTML + goldSelectorHTML;
 	document.body.appendChild(divTag);
-	alert('yes');
+
 	//infinitydocument.getElementById('main_bg').style.height = (parseInt(document.getElementById('main_bg').style.height,10) + 125) + "px";
 	
 	//var divTag = document.createElement("div");
