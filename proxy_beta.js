@@ -2345,7 +2345,7 @@ function fnDungeon() {
 	goldSelectorHTML += '</select>'; 
 	
 	//document.getElementById('div-header').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML ;	
-	
+	alert('well');
 	var divTag = document.createElement("div");
 	divTag.id = "dungeonDiv";
 	
