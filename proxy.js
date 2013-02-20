@@ -468,47 +468,17 @@ function fnSetDungeonTravelLevel(value) {
 
 // Dungeon Impulse Team
 
-var dungeonImpulseTeamKey = 'dungeonImpulseTeamKey';
+var dungeonBossTeamKey = 'dungeonBossTeamKey';
 
-function fnDungeonImpulseTeam() {
-	if(fnGetCookie(dungeonImpulseTeamKey) === null) {
-		fnSetDungeonImpulseTeam('');
+function fnDungeonBossTeam() {
+	if(fnGetCookie(dungeonBossTeamKey) === null) {
+		fnSetDungeonBossTeam('');
 	}
-	return fnGetCookie(dungeonImpulseTeamKey);
+	return fnGetCookie(dungeonBossTeamKey);
 }
 
-function fnSetDungeonImpulseTeam(value) {
-	fnSetCookie(dungeonImpulseTeamKey, value);
-}
-
-// Dungeon Covert Team
-
-var dungeonCovertTeamKey = 'dungeonCovertTeamKey';
-
-function fnDungeonCovertTeam() {
-	if(fnGetCookie(dungeonCovertTeamKey) === null) {
-		fnSetDungeonCovertTeam('');
-	}
-	return fnGetCookie(dungeonCovertTeamKey);
-}
-
-function fnSetDungeonCovertTeam(value) {
-	fnSetCookie(dungeonCovertTeamKey, value);
-}
-
-// Dungeon Psycho Team
-
-var dungeonPsychoTeamKey = 'dungeonPsychoTeamKey';
-
-function fnDungeonPsychoTeam() {
-	if(fnGetCookie(dungeonPsychoTeamKey) === null) {
-		fnSetDungeonPsychoTeam('');
-	}
-	return fnGetCookie(dungeonPsychoTeamKey);
-}
-
-function fnSetDungeonPsychoTeam(value) {
-	fnSetCookie(dungeonPsychoTeamKey, value);
+function fnSetDungeonBossTeam(value) {
+	fnSetCookie(dungeonBossTeamKey, value);
 }
 
 // Dungeon Prog Team
@@ -2174,7 +2144,7 @@ function fnDungeonMission() {
 	}
 	if (parseInt(fnQueryString('dungeon_tribe'), 10) == 0) {
 		if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/dungeon/battle')) || (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/dungeon/win'))) {
-			if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
+			if (fnDungeonProgTeam() != '' && fnDungeonBossTeam() != '') {
 				fnDeckChangeAdvance(fnDungeonProgTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 				return;
@@ -2247,16 +2217,8 @@ function fnDungeonMission() {
 			fnTimeOutRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 		}
 		if (dm['dungeon_tribe'] == 0) {
-			if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
-				if ((bM.monster_id+'').startsWith('40') || (bM.monster_id+'').startsWith('60')) {
-					fnDeckChangeAdvance(fnDungeonImpulseTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
-				}
-				else if ((bM.monster_id+'').startsWith('43') || (bM.monster_id+'').startsWith('63')) {
-					fnDeckChangeAdvance(fnDungeonCovertTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
-				}
-				else if ((bM.monster_id+'').startsWith('46') || (bM.monster_id+'').startsWith('66')) {
-					fnDeckChangeAdvance(fnDungeonPsychoTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
-				}
+			if (fnDungeonProgTeam() != '' && fnDungeonBossTeam() != '') {
+				fnDeckChangeAdvance(fnDungeonBossTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				//fnSetDungeonBossRecord(fnDungeonBossRecord()+'<br/>'+Math.round(parseInt(dm.mission_count,10)/44)+' ' + bM.name);
 				fnTimeOutRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 			}
@@ -2267,7 +2229,7 @@ function fnDungeonMission() {
 function fnDungeonMissionPreload() {
 	if (parseInt(fnQueryString('dungeon_tribe'), 10) == 0) {
 		if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/dungeon/battle')) || (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/dungeon/win'))) {
-			if (fnDungeonProgTeam() != '' && fnDungeonImpulseTeam() != '' && fnDungeonCovertTeam() != '' && fnDungeonPsychoTeam() != '') {
+			if (fnDungeonProgTeam() != '' && fnDungeonBossTeam() != '') {
 				fnDeckChangeAdvance(fnDungeonProgTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 				return;
@@ -2344,7 +2306,7 @@ function fnDungeonWinPreload() {
 // dungeon
 
 function fnDungeon() {
-	
+
 	// level select setting
 	var levelSelectorHTML = '<select style="position:absolute;top:0px;left:0px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(\'Level:\'+this.options[this.options.selectedIndex].text);location.reload();">';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Current Level</option>'
@@ -2353,7 +2315,7 @@ function fnDungeon() {
 	}
 	levelSelectorHTML += '</select>'; 
 	
-	var expSelectorHTML = '<select style="position:absolute;top:0px;left:110px" onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Exp:\'+this.options[this.options.selectedIndex].text);">';
+	var expSelectorHTML = 'Exp:<select onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Exp:\'+this.options[this.options.selectedIndex].text);">';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == "Smart" ?'selected':'') + ' value="Smart">Smart Exp</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 0 ?'selected':'') + ' value="0">Extra Exp:0</option>'
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 10 ?'selected':'') + ' value="10">10</option>';
@@ -2366,9 +2328,9 @@ function fnDungeon() {
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 50000 ?'selected':'') + ' value="50000">50000</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 100000 ?'selected':'') + ' value="100000">100000</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 500000 ?'selected':'') + ' value="500000">500000</option>';	
-	expSelectorHTML += '</select>'; 
+	expSelectorHTML += '</select><br/>'; 
 	
-	var goldSelectorHTML = '<select style="position:absolute;top:0px;left:210px"  onchange="fnSetDungeonExtraGold(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Gold:$\'+this.options[this.options.selectedIndex].text);">';
+	var goldSelectorHTML = 'Gold:<select onchange="fnSetDungeonExtraGold(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Gold:$\'+this.options[this.options.selectedIndex].text);">';
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 0 ?'selected':'') + ' value="0">Extra Gold:$0</option>'
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 10 ?'selected':'') + ' value="10">$10</option>';
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 50 ?'selected':'') + ' value="50">$50</option>';
@@ -2380,32 +2342,19 @@ function fnDungeon() {
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 50000 ?'selected':'') + ' value="50000">$50000</option>';
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 100000 ?'selected':'') + ' value="100000">$100000</option>';
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">$500000</option>';
-	goldSelectorHTML += '</select>'; 
+	goldSelectorHTML += '</select><br/>'; 
 	
-	document.getElementById('div-header').innerHTML += levelSelectorHTML + expSelectorHTML + goldSelectorHTML ;	
-	
+	var divTag = document.createElement("div");
+	divTag.id = "dungeonDiv";
+
 	var aFormationArray = fnGetFormationArray();
-	var impulseTeamSelectorHTML =  'VS Impulse Boss:<select name="impulse" onchange="fnSetDungeonImpulseTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Impulse Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonImpulseTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	var bossTeamSelectorHTML =  'VS Boss:<select name="boss" onchange="fnSetDungeonBossTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Boss Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonBossTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		impulseTeamSelectorHTML+='<option ' + (fnDungeonImpulseTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		bossTeamSelectorHTML+='<option ' + (fnDungeonBossTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
-	impulseTeamSelectorHTML+='</select><br/>'; 
-	
-	var covertTeamSelectorHTML =  'VS Covert Boss:<select name="convert" onchange="fnSetDungeonCovertTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Covert Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonCovertTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
-	for (i=0;i<aFormationArray.length;i++) {
-		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		covertTeamSelectorHTML+='<option ' + (fnDungeonCovertTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
-	}
-	covertTeamSelectorHTML+='</select><br/>'; 
-	
-	var psychoTeamSelectorHTML =  'VS Psycho Boss:<select name="psycho" onchange="fnSetDungeonPsychoTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Psycho Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonPsychoTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
-	for (i=0;i<aFormationArray.length;i++) {
-		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		psychoTeamSelectorHTML+='<option ' + (fnDungeonPsychoTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
-	}
-	psychoTeamSelectorHTML+='</select><br/>'; 
-	
+	bossTeamSelectorHTML+='</select><br/>'; 
+
 	var progTeamSelectorHTML =  'Prog Team<select name="prog" onchange="fnSetDungeonProgTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Prog Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonProgTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
@@ -2413,16 +2362,17 @@ function fnDungeon() {
 	}
 	progTeamSelectorHTML+='</select><br/>'; 
 	
-	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetDungeonAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnDungeonAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option></select>';	
+	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetDungeonAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnDungeonAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option></select><br/>';	
 
-	document.getElementById('main_bg').innerHTML += impulseTeamSelectorHTML + covertTeamSelectorHTML + psychoTeamSelectorHTML + progTeamSelectorHTML + bpSelectorHTML;
-	
+	divTag.innerHTML = bossTeamSelectorHTML + progTeamSelectorHTML + bpSelectorHTML  + expSelectorHTML + goldSelectorHTML;
+	document.body.appendChild(divTag);
+
 	//infinitydocument.getElementById('main_bg').style.height = (parseInt(document.getElementById('main_bg').style.height,10) + 125) + "px";
 	
-	var divTag = document.createElement("div");
-	divTag.id = "bossRecordDiv";
-	divTag.innerHTML = fnDungeonBossRecord() + '<br/><a href="javascript:fnSetDungeonBossRecord(\'\');location.reload();">Clear boss battle history</a>';
-	document.body.appendChild(divTag);
+	//var divTag = document.createElement("div");
+	//divTag.id = "bossRecordDiv";
+	//divTag.innerHTML = fnDungeonBossRecord() + '<br/><a href="javascript:fnSetDungeonBossRecord(\'\');location.reload();">Clear boss battle history</a>';
+	//document.body.appendChild(divTag);
 	
 	popup_window = function () {
 
