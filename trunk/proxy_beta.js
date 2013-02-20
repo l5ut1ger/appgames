@@ -2315,7 +2315,7 @@ function fnDungeon() {
 	}
 	levelSelectorHTML += '</select>'; 
 	
-	var expSelectorHTML = '<select style="position:absolute;top:0px;left:110px" onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Exp:\'+this.options[this.options.selectedIndex].text);">';
+	var expSelectorHTML = 'Exp:<select style="position:absolute;top:0px;left:110px" onchange="fnSetDungeonExtraExp(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Exp:\'+this.options[this.options.selectedIndex].text);">';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == "Smart" ?'selected':'') + ' value="Smart">Smart Exp</option>';
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 0 ?'selected':'') + ' value="0">Extra Exp:0</option>'
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 10 ?'selected':'') + ' value="10">10</option>';
@@ -2330,7 +2330,7 @@ function fnDungeon() {
 	expSelectorHTML += '<option ' + (fnDungeonExtraExp() == 500000 ?'selected':'') + ' value="500000">500000</option>';	
 	expSelectorHTML += '</select>'; 
 	
-	var goldSelectorHTML = '<select style="position:absolute;top:0px;left:210px"  onchange="fnSetDungeonExtraGold(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Gold:$\'+this.options[this.options.selectedIndex].text);">';
+	var goldSelectorHTML = 'Gold:<select style="position:absolute;top:0px;left:210px"  onchange="fnSetDungeonExtraGold(this.options[this.options.selectedIndex].value);fnGrowl(\'Extra Gold:$\'+this.options[this.options.selectedIndex].text);">';
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 0 ?'selected':'') + ' value="0">Extra Gold:$0</option>'
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 10 ?'selected':'') + ' value="10">$10</option>';
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 50 ?'selected':'') + ' value="50">$50</option>';
