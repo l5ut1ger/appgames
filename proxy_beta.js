@@ -2353,7 +2353,7 @@ function fnDungeon() {
 	var bossTeamSelectorHTML =  'VS Boss:<select name="boss" onchange="fnSetDungeonBossTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Boss Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonBossTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		bossTeamSelectorHTML+='<option ' + (fnDungeonTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		bossTeamSelectorHTML+='<option ' + (fnDungeonBossTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	bossTeamSelectorHTML+='</select><br/>'; 
 	alert('well3');
