@@ -2344,7 +2344,6 @@ function fnDungeon() {
 	goldSelectorHTML += '<option ' + (fnDungeonExtraGold() == 500000 ?'selected':'') + ' value="500000">$500000</option>';
 	goldSelectorHTML += '</select>'; 
 	
-	document.getElementById('div-header').innerHTML += levelSelectorHTML ;	
 	var divTag = document.createElement("div");
 	divTag.id = "dungeonDiv";
 
