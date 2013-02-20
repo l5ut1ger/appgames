@@ -2348,7 +2348,7 @@ function fnDungeon() {
 	alert('well');
 	var divTag = document.createElement("div");
 	divTag.id = "dungeonDiv";
-	
+	alert('well2');
 	var aFormationArray = fnGetFormationArray();
 	var bossTeamSelectorHTML =  'VS Boss:<select name="boss" onchange="fnSetDungeonBossTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Boss Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonBossTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
@@ -2356,7 +2356,7 @@ function fnDungeon() {
 		bossTeamSelectorHTML+='<option ' + (fnDungeonTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	bossTeamSelectorHTML+='</select><br/>'; 
-	
+	alert('well3');
 	var progTeamSelectorHTML =  'Prog Team<select name="prog" onchange="fnSetDungeonProgTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Prog Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonProgTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
