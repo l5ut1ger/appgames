@@ -2368,6 +2368,7 @@ function fnDungeon() {
 
 	divTag.innerHTML = bossTeamSelectorHTML + progTeamSelectorHTML + bpSelectorHTML;
 	document.body.appendChild(divTag);
+	alert('yes');
 	//infinitydocument.getElementById('main_bg').style.height = (parseInt(document.getElementById('main_bg').style.height,10) + 125) + "px";
 	
 	//var divTag = document.createElement("div");
@@ -2375,7 +2376,6 @@ function fnDungeon() {
 	//divTag.innerHTML = fnDungeonBossRecord() + '<br/><a href="javascript:fnSetDungeonBossRecord(\'\');location.reload();">Clear boss battle history</a>';
 	//document.body.appendChild(divTag);
 	
-	/*
 	popup_window = function () {
 
 		$('#fade').css({
@@ -2417,7 +2417,7 @@ function fnDungeon() {
 				});
 			}
 		}
-	}*/
+	}
 }
 
 // battle
