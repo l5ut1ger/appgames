@@ -2344,7 +2344,7 @@ function fnDungeonWinPreload() {
 // dungeon
 
 function fnDungeon() {
-	
+	alert('yes');
 	// level select setting
 	var levelSelectorHTML = '<select style="position:absolute;top:0px;left:0px" onchange="fnSetDungeonTravelLevel(this.options[this.options.selectedIndex].value);fnGrowl(\'Level:\'+this.options[this.options.selectedIndex].text);location.reload();">';
 	levelSelectorHTML += '<option ' + (fnDungeonTravelLevel() == 0 ?'selected':'') + ' value="0">Current Level</option>'
