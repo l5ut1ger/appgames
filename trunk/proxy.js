@@ -2651,9 +2651,9 @@ function fnMonsterInfo() {
 	$('#status-defense').html(addFigure(paramMaster['defense'])+' ('+ addFigure(paramMaster['i_defense']) +'-'+ addFigure(paramMaster['m_defense']) +')');
 	$('#status-hp').html(addFigure(paramMaster['hp'])+' ('+ addFigure(paramMaster['i_hp']) +'-'+ addFigure(paramMaster['m_hp']) +')');
 	$('.status-text').css('width', '1000px');
+	$('#prev').html('<a href="monsterInformation?mid='+ (parseInt(monsterMaster['monster_id'],10)-1)+'"><img src="http://res.darksummoner.com/en/s/misc/pager/button_pager_prev_s.png" /></a><a href="monsterInformation?mid='+ (parseInt(monsterMaster['monster_id'],10)+1) +'"><img src="http://res.darksummoner.com/en/s/misc/pager/button_pager_next_s.png" /></a>');
 	if (parseInt(monsterMaster['grade'], 10) >= 6) {
-		$('a[href^="/en/'+platform+'/achievement/monster"]').eq(0).attr("href", 'javascript:history.go(-1);');
-		$('#button-back-img').html($('#button-back-img').html() + '<br/><img src="http://res.darksummoner.com/en/s/misc/table/decoration_left.png" /><a style="position:relative; " class="__WM __HM btn __red" href="javascript:fnMonsterInfoSearchAuctionAA(paramMaster[\'monster_id\']);">Auction</a><img src="http://res.darksummoner.com/en/s/misc/table/decoration_right.png" /> ');
+		$('#button-back-img').html($('#button-back-img').html() + '<br/><img src="http://res.darksummoner.com/en/s/misc/table/decoration_left.png" /> <a style="position:relative; " class="__WM __HM btn __red" href="javascript:fnMonsterInfoSearchAuctionAA(paramMaster[\'monster_id\']);">Auction</a> <img src="http://res.darksummoner.com/en/s/misc/table/decoration_right.png" /> ');
 	}
 }
 
