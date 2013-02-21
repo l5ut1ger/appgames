@@ -674,7 +674,7 @@ function fnProfileAddSkypeClanSelector() {
 	selectorHTML += '<option value="2747200019">Getr3kt</option>';
 	selectorHTML += '<option value="2578795263">Joe</option>';
 	//selectorHTML += '<option value="2121751804">Josh</option>';
-	selectorHTML += '<option value="2337077116">Josh</option>';
+	selectorHTML += '<option value="2337077116">devistator(Josh)</option>';
   selectorHTML += '<option value="2993558878">mr_saving</option>';
 	//selectorHTML += '<option value="1806070535">Kissy</option>';
 	selectorHTML += '<option value="2656724949">Kissy</option>';
