@@ -1664,7 +1664,7 @@ function fnDeckChangeAdvance(pFormation, pHome, pFinishFunction) {
 			alert("Missing Leader");
 			return;
 		}
-		$.ajax_ex(false, '/en/'+platform+'/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, pFinishFunction);
+		$.ajax_ex(false, '/en/'+platform+'/deck2/autoOrganize?deck_number=0&l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, pFinishFunction);
 		if (pHome) {
 			setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 		}
