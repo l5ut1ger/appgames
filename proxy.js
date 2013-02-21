@@ -674,8 +674,8 @@ function fnProfileAddSkypeClanSelector() {
 	selectorHTML += '<option value="2747200019">Getr3kt</option>';
 	selectorHTML += '<option value="2578795263">Joe</option>';
 	//selectorHTML += '<option value="2121751804">Josh</option>';
-  selectorHTML += '<option value="2337077116">devistator(Josh)</option>';
-	selectorHTML += '<option value="2993558878">mr_saving</option>';
+	selectorHTML += '<option value="2337077116">devistator(Josh)</option>';
+  selectorHTML += '<option value="2993558878">mr_saving</option>';
 	//selectorHTML += '<option value="1806070535">Kissy</option>';
 	selectorHTML += '<option value="2656724949">Kissy</option>';
 	selectorHTML += '<option value="1330745254">Unreality</option>';
@@ -1664,7 +1664,7 @@ function fnDeckChangeAdvance(pFormation, pHome, pFinishFunction) {
 			alert("Missing Leader");
 			return;
 		}
-		$.ajax_ex(false, '/en/'+platform+'/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, pFinishFunction);
+		$.ajax_ex(false, '/en/'+platform+'/deck2/autoOrganize?deck_number=0&l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, pFinishFunction);
 		if (pHome) {
 			setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 		}
@@ -3775,7 +3775,7 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/friends/profile') {
 		fnFriendProfile();
 	}
-	else if (window.location.pathname === '/en/'+platform+'/deck/changeAllCheck') {
+	else if (window.location.pathname === '/en/'+platform+'/deck2/changeAllCheck') {
 		fnDeckChangeAllCheck();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/mission') {
