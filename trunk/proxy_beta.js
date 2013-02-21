@@ -3775,7 +3775,7 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/friends/profile') {
 		fnFriendProfile();
 	}
-	else if (window.location.pathname === '/en/'+platform+'/deck/changeAllCheck') {
+	else if (window.location.pathname === '/en/'+platform+'/deck2/changeAllCheck') {
 		fnDeckChangeAllCheck();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/mission') {
