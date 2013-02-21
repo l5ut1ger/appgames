@@ -11,6 +11,46 @@ var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
 var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 // Tools
 
+// decimal to binary
+function fnDecToBin(arg)
+{
+	res1 = 999;
+	args = arg;
+	while(args>1)
+	{
+		arg1 = parseInt(args/2);
+		arg2 = args%2;
+		args = arg1;
+		if(res1 == 999)
+		{
+			res1 = arg2.toString();
+		}
+		else
+		{
+			res1 = arg2.toString()+res1.toString();
+		}
+	}
+	if(args == 1 && res1 != 999)
+	{
+		res1 = args.toString()+res1.toString();
+	}
+	else if(args == 0 && res1 == 999)
+	{
+		res1 = 0;
+	}
+	else if(res1 == 999)
+	{
+		res1 = 1;
+	}
+	var ll = res1.length;
+	while(ll%4 != 0)
+	{
+		res1 = "0"+res1;
+		ll = res1.length;
+	}	
+	return res1;
+}
+
 function fnRedirect(pURL) {
 	var meta = document.createElement('meta');meta.httpEquiv='refresh';meta.content='0;url='+pURL;document.getElementsByTagName('head')[0].appendChild(meta);
 	setTimeout(function(){$.redirect(pURL);}, 6000);
@@ -2605,7 +2645,7 @@ function fnMonsterInfoSearchAuctionAA(pMonsterID) {
 }
 
 function fnMonsterInfo() {
-	$('#status-text-area').html($('#status-text-area').html()+'<span id="status-agility" style="position:absolute; right:5px; top:-16px;width:200px;text-align:right; color:#c0c1ff;">agility</span><div style="position:absolute; left:25px; top:-16px;">AGILITY</div>');
+  $('#status-text-area').html($('#status-text-area').html()+'<span id="status-agility" style="position:absolute; right:5px; top:-16px;width:200px;text-align:right; color:#c0c1ff;">agility</span><div style="position:absolute; left:25px; top:-16px;">AGILITY</div><div style="position:absolute; left:25px; top:130px;">' + (fnDecToBin(monsterMaster['combo_flag']).substr(0,1)==1?"*special* ":"") + (fnDecToBin(monsterMaster['combo_flag']).substr(1,1)==1?"*winged* ":"") + (fnDecToBin(monsterMaster['combo_flag']).substr(2,1)==1?"*special* ":"") + (fnDecToBin(monsterMaster['combo_flag']).substr(3,1)==1?"*lord* ":"") + (monsterMaster['is_ng_grade']?"*ng grade* ":"") + '</div>');
 	$('#status-agility').html(addFigure(paramMaster['agility']));
 	$('#status-attack').html(addFigure(paramMaster['attack'])+' ('+ addFigure(paramMaster['i_attack']) +'-'+ addFigure(paramMaster['m_attack']) +')');
 	$('#status-defense').html(addFigure(paramMaster['defense'])+' ('+ addFigure(paramMaster['i_defense']) +'-'+ addFigure(paramMaster['m_defense']) +')');
