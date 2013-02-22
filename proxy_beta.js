@@ -2207,6 +2207,7 @@ function fnDungeonMission() {
 			addJewel: (parseInt(ig.game.addJewel,10) + parseInt(fnDungeonExtraGold(),10)),
 			decreaseBp: ig.game.decreaseBp,
 			addExp: (parseInt(ig.game.addExp,10) + parseInt(fnDungeonExtraExp()=="Smart"?0:fnDungeonExtraExp(),10)),
+      feverTime: 1,
 			cfmId: cfm_id,
 			__hash: ('' + (new Date()).getTime())
 		}, function(result) {
@@ -2232,8 +2233,8 @@ function fnDungeonMission() {
 	if (ig.game.mission_type != ig.game.MISSION_TYPE.BOSS) {
 		var willDoProgress = player.bp >= (ig.game.getMissionMaster()['use_bp'] * (parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)))?(parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)):Math.floor(player.bp/ig.game.getMissionMaster()['use_bp']);
 		if (willDoProgress >= 1) {
-			ig.game.decreaseBp = willDoProgress*ig.game.getMissionMaster()['use_bp'];
-			ig.game.addJewel = willDoProgress*ig.game.getMissionMaster()['use_bp'];
+			ig.game.decreaseBp = willDoProgress*(ig.game.getMissionMaster()['use_bp']-1);
+			ig.game.addJewel = willDoProgress*ig.game.getMissionMaster()['jewel_max'];
 			ig.game.addExp = (willDoProgress == (parseInt(ig.game.getMissionMaster()['progress_max'],10)-parseInt(dm['progress'],10)))? ig.game.getMissionMaster()['exp_max']:0;
 			if (fnDungeonExtraExp() == "Smart") {
 				if (player.bp-ig.game.decreaseBp < ig.game.getMissionMaster()['use_bp']) {
