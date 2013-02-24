@@ -1180,7 +1180,7 @@ function fnFriendActionGiftFormation() {
 			alert('No replacing monster');
 			return;
 		}
-		$.ajax_ex(false, '/en/'+platform+'/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/deck2/autoOrganize?deck_number=0&l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, function(result) {});
 		
 		if (giftList.length > 0) {
 			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
@@ -1597,7 +1597,7 @@ function fnDeckChange(pURL) {
 				}
 			}
 			if (leader !=null) {
-				$.ajax_ex(false, '/en/'+platform+'/deck/autoOrganize?l1='+l1+'&l2='+l2+'&l3='+l3+'&l4='+l4+'&l5='+l5, {}, function(result) {});
+				$.ajax_ex(false, '/en/'+platform+'/deck2/autoOrganize?deck_number=0&l1='+l1+'&l2='+l2+'&l3='+l3+'&l4='+l4+'&l5='+l5, {}, function(result) {});
 				setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 			}
 			else {
@@ -2404,7 +2404,7 @@ function fnDungeon() {
 	}
 	progTeamSelectorHTML+='</select><br/>'; 
 	
-	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetDungeonAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnDungeonAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option></select><br/>';	
+	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetDungeonAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnDungeonAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option></select><br/>';	
 
 	divTag.innerHTML = bossTeamSelectorHTML + progTeamSelectorHTML + bpSelectorHTML  + expSelectorHTML + goldSelectorHTML;
 	document.body.appendChild(divTag);
