@@ -1180,7 +1180,7 @@ function fnFriendActionGiftFormation() {
 			alert('No replacing monster');
 			return;
 		}
-		$.ajax_ex(false, '/en/'+platform+'/deck/autoOrganize?l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/deck2/autoOrganize?deck_number=0&l1='+result_array['l1']+'&l2='+result_array['l2']+'&l3='+result_array['l3']+'&l4='+result_array['l4']+'&l5='+result_array['l5'], {}, function(result) {});
 		
 		if (giftList.length > 0) {
 			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
@@ -1597,7 +1597,7 @@ function fnDeckChange(pURL) {
 				}
 			}
 			if (leader !=null) {
-				$.ajax_ex(false, '/en/'+platform+'/deck/autoOrganize?l1='+l1+'&l2='+l2+'&l3='+l3+'&l4='+l4+'&l5='+l5, {}, function(result) {});
+				$.ajax_ex(false, '/en/'+platform+'/deck2/autoOrganize?deck_number=0&l1='+l1+'&l2='+l2+'&l3='+l3+'&l4='+l4+'&l5='+l5, {}, function(result) {});
 				setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 			}
 			else {
