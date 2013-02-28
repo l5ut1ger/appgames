@@ -3908,13 +3908,12 @@ function fnTimeoutOnLoad() {
 	// /en/'+platform+'/dungeon/recoveryproc
 }
 
-function fnOnLoad() {alert('a');
+function fnOnLoad() {
 	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
 
-	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	alert('b');
+	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");
 	fnSetupPurrCSS();
-alert('c');
 	fnCreateBackButton();
 	alert('d');
 	fnAutoUsePoint();
