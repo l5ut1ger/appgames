@@ -2192,6 +2192,24 @@ function fnForkRoadSummon() {
 	fnRedirect('/en/'+platform+'/forkroad/list');
 }
 
+// fnSubjugationMission
+
+function fnSubjugationMission() {
+	var divTag = document.createElement("div"); 
+
+	divTag.id = "loopDiv"; 
+
+	divTag.style["z-index"] = 1000; 
+
+	divTag.style.position = "absolute"; 
+
+	divTag.style.left = "280px"; 
+	divTag.style.top = "80px"; 
+
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="phase_loop_add();">loop</button>'; 
+	document.body.appendChild(divTag); 
+}
+
 // dungeon mission
 
 function fnDungeonMission() {
@@ -3969,6 +3987,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/summon') {
 		fnForkRoadSummon();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/subjugation/mission') {
+		fnSubjugationMission();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/slotGame') {
 		fnSlotGame();
