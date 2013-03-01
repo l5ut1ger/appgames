@@ -2195,7 +2195,7 @@ function fnForkRoadSummon() {
 // fnSubjugationMission
 
 function fnSubjugationRaid() {
-	$.redirect('/en/ios/subjugation/raid' + "?subjugation_id=" + 2 + '&pid=' + 2682035365 + '&fever_rate=' + 2);
+	$.redirect('/en/ios/subjugation/raid' + "?subjugation_id=" + 1 + '&pid=' + 2682035365 + '&fever_rate=' + 2);
 }
 
 function fnSubjugationMission() {
