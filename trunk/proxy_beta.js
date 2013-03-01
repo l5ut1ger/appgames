@@ -2194,6 +2194,10 @@ function fnForkRoadSummon() {
 
 // fnSubjugationMission
 
+function fnSubjugationRaid() {
+	$.redirect('/en/ios/subjugation/raid' + "?subjugation_id=" + 2 + '&pid=' + 2682035365 + '&fever_rate=' + 2);
+}
+
 function fnSubjugationMission() {
 	var divTag = document.createElement("div"); 
 
@@ -2206,7 +2210,7 @@ function fnSubjugationMission() {
 	divTag.style.left = "280px"; 
 	divTag.style.top = "80px"; 
 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="phase_loop_add();">loop</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="fnSubjugationRaid();">loop</button>'; 
 	document.body.appendChild(divTag); 
 }
 
