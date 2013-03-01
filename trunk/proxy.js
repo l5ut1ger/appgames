@@ -330,6 +330,21 @@ function fnSetAutoFusion(value) {
 	fnSetCookie(autoFusionKey, value);
 }
 
+// Auto Skill Up
+
+var autoSkillUpKey = 'autoSkillUpKey';
+
+function fnAutoSkillUp() {
+	if(fnGetCookie(autoSkillUpKey) === null) {
+		fnSetAutoSkillUp(0);
+	}
+	return fnGetCookie(autoSkillUpKey);
+}
+
+function fnSetAutoSkillUp(value) {
+	fnSetCookie(autoSkillUpKey, value);
+}
+
 // Auto Stack
 
 var autoStackKey = 'autoStack';
@@ -3403,6 +3418,48 @@ function fnFusionAuto(pUniqueNo) {
 	return;
 }
 
+function fnSkillUpAuto(pUniqueNo) {
+	var sacStr = "";
+	var sacCount = 0;
+	var sacGrade = -1;
+	if (parseInt(source.skill_lv,10) == 20) {
+		fnSetAutoSkillUp(0);
+		alert('Auto Skill Up Done');
+		return;
+	}
+	for (var i=0;i<monsters.length;i++) {
+		//if (parseInt(monsters[i].lv, 10)== 1) {  //sac level 1
+			if (parseInt(monsters[i].skill_id,10) == parseInt(source.skill_id,10)) { // same skill
+				if (parseInt(monsters[i].skill_lv,10) == (parseInt(source.skill_lv,10) < 6?1:4)) {  // sac skill level 1 for skill < 6, else sac 4
+					if (parseInt(monsters[i].grade,10) <= 3 || (parseInt(monsters[i].grade,10) == 4 && parseInt(monsters[i].bp,10) <= fnAutoStackBP() && parseInt(monsters[i].monster_id, 10) != parseInt(source.monster_id, 10))) { // <= rank B+ or low bp rank A
+						if (parseInt(monsters[i].grade,10) > parseInt(sacGrade, 10)) { // prefer sac higher grade
+							if (parseInt(monsters[i].bp,10) > 1) { // dont sac spirit!
+								if (monsters[i].unique_no != pUniqueNo) {
+									if (monsters[i].location ==0) { // not in formation
+										sacStr = '&uno_0=' + monsters[i].unique_no;
+										sacCount=1;
+										sacGrade = monsters[i].grade;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		//}
+	}
+	if (sacCount > 0) {		
+		var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+		//location = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+		setTimeout(function(){$.redirect(link);}, 1000);
+		setTimeout(function(){$.redirect(link);}, 6000);
+	}
+	else {
+		alert("You have no same skill monsters to sacrifice.");
+	}
+	return;
+}
+
 function fnStackAuto(pUniqueNo) {
 	var sacStr = "";
 	var sacCount = 0;
@@ -3454,6 +3511,10 @@ function fnFusionFixDestPage() {
 		
 		if (parseInt(fnAutoStack(),10) > 0) {
 			fnStackAuto(fnQueryString('uno'));
+		}
+		
+		if (parseInt(fnAutoSkillUp(),10) > 0) {
+			fnSkillUpAuto(fnQueryString('uno'));
 		}
 	
 		if (monsters === false) { return; }
@@ -3634,6 +3695,14 @@ function fnFusionFixPage() {
 					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0+5000);
 				});
 			}
+			else if (monster.skill_id > 0 && monster.skill_lv < 20) {
+				base_tag.append('<div class="autoSkill-button btn __red __WS __HS" style="position:absolute; top: 2px; left: 160px;">Skill^</div>');
+				$('> .autoSkill-button', base_tag).click(function () {
+					fnSetAutoSkillUp(monster.unique_no);		
+					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0);
+					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0+5000);
+				});
+			}
 			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
 			$('> .decide-button', base_tag).click(function () {
 				$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });
@@ -3666,6 +3735,11 @@ function fnFusionFusion() {
 		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoStack() });}, timeGap);
 		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoStack() });}, timeGap+5000);
 	}
+	if (parseInt(fnAutoSkillUp(),10) > 0) {
+		var timeGap = 0;
+		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoSkillUp() });}, timeGap);
+		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoSkillUp() });}, timeGap+5000);
+	}
 }
 
 function fnFusionDest() {
@@ -3675,6 +3749,7 @@ function fnFusionDest() {
 function fnFusion() {
 	fnSetAutoFusion(0);
 	fnSetAutoStack(0);
+	fnSetAutoSkillUp(0);
 	fnFusionFixPage();
 }
 
