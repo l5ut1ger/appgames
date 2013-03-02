@@ -2313,7 +2313,7 @@ function fnSubjugationFixAttack() {
 
 				reward_id = data.payload.reward_id;
 			} else {
-
+				/*
 				var obj = document.getElementById('effect_attack_damage');
 				obj.innerHTML = document.getElementById('damage_text').innerHTML + data.payload.damage;
 
@@ -2323,7 +2323,7 @@ function fnSubjugationFixAttack() {
 					//        obj = document.getElementById('effect_attack_bonus');
 					//            obj.innerHTML = "Damage Bonus!";
 				} else {
-				var type = 1;
+					var type = 1;
 					if      (rate_hp >= 75) type = 1;
 					else if (rate_hp >= 50) type = 2;
 					else if (rate_hp >= 25) type = 3;
@@ -2342,7 +2342,7 @@ function fnSubjugationFixAttack() {
 
 				timer_stop = false;
 				countdown_timer('raid_normal_time_text', data.payload['end_at_u'], timeout);
-
+				*/
 				//result = document.getElementById('result_attack');
 			}
 			//result.style.display = 'block';
