@@ -2394,6 +2394,7 @@ function fnSubjugationRaid() {
 	}
 	
 	onDeviceReady = function() {
+		alert('device ready');
 		all_hide();
 
 		$('#raid_normal_use_power_text').change(function() {
