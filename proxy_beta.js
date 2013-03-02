@@ -2195,7 +2195,9 @@ function fnForkRoadSummon() {
 // fnSubjugationMission
 
 function fnSubjugation() {
-	
+	if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/dungeon/battle')) {
+		
+	}
 }
 
 function fnSubjugationRaidDamageDisplay() {
@@ -2490,9 +2492,9 @@ function fnSubjugationMission() {
 
 			else if(result.status != 0) {
 				if (result.status == -5) {
-				$.redirect('/en/'+platform+'/subjugation?intentional=1');
-				return;
-			}
+					//$.redirect('/en/'+platform+'/subjugation?intentional=1');
+					return;
+				}
 				confirm_id = 0;//result.payload.confirm_id;
 				return;
 			}
@@ -2508,6 +2510,7 @@ function fnSubjugationMission() {
 			subjugation_id = event.subjugation_id;
 			if (parseInt(event.subjugation_id,10) > 0) {
 				mission_exec = null;
+				clearInterval(missionInterval);
 			}
 
 			$('#clock_count').html("guild_raid_point"      .replace('%point%',  1));
@@ -2549,6 +2552,9 @@ function fnSubjugationMission() {
 
 			event = eventManager(event);
 			//$('#act_mission').hide();
+			if (fnGetGrindingSpeed() == 1) {
+				mission_exec();
+			}
 		});
 	}
 	
