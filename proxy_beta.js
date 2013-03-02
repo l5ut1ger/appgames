@@ -2303,7 +2303,6 @@ function fnSubjugationFixAttack() {
 			}*/
 			//     var result;
 			if (data.payload.hp <= 0) {
-				alert('killed');
 				fnRedirect('/en/'+platform+'/subjugation?');
 				if (data.payload.result == 1) {
 					
@@ -2376,6 +2375,10 @@ function fnSubjugationRaid() {
 	if (parseInt(fnQueryString('fever_rate'),10) < 3) {
 		fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 		return;
+	}
+	raid_defeated = function () {
+		alert('killed');
+		fnRedirect('/en/'+platform+'/subjugation?');
 	}
 	raid_get = function (offset) {
 		offset = offset || 1;
