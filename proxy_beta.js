@@ -2220,7 +2220,7 @@ function fnSubjucatorRaidAddAttackOption() {
 
 function fnSubjugationFixAttack() {
 	attack = function (bonus, debug_attack) {
-		if (timer_stop) return;
+		//if (timer_stop) return;
 
 		debug_attack = debug_attack || 0;
 
@@ -2228,7 +2228,7 @@ function fnSubjugationFixAttack() {
 		rate = Math.max(0, Math.min(rate, 300));
 
 		//if (g_use_power && player.power >= g_use_power) {
-		timer_stop = true;
+		//timer_stop = true;
 		//}
 
 		/*if (g_use_power === null || player.power < g_use_power) {
