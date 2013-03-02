@@ -2198,6 +2198,11 @@ function fnSubjugationRaidDamageDisplay() {
 	$('#raid_normal_attack_text').html($('#raid_normal_attack_value').html() + '-'+raid_data.boss_defense+'='+(parseInt($('#raid_normal_attack_value').html(),10)-parseInt(raid_data.boss_defense,10)));
 }
 
+function fnSubjucatorRaidAddAttackOption() {
+	var myRate = Math.ceil((parseInt(data.payload.hp,10)+parseInt(raid_data.boss_defense, 10))/parseInt($('#raid_normal_attack_value').html(),10)*100);
+	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)</option>');
+}
+
 function fnSubjugationFixAttack() {
 	attack = function (bonus, debug_attack) {
 		if (timer_stop) return;
@@ -2313,6 +2318,8 @@ function fnSubjugationFixAttack() {
 
 				reward_id = data.payload.reward_id;
 			} else {
+				fnSubjucatorRaidAddAttackOption();
+			
 				/*
 				var obj = document.getElementById('effect_attack_damage');
 				obj.innerHTML = document.getElementById('damage_text').innerHTML + data.payload.damage;
@@ -2383,6 +2390,8 @@ function fnSubjugationRaid() {
 			fnSubjugationRaidDamageDisplay();
 
 			countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
+			
+			fnSubjucatorRaidAddAttackOption();
 			
 			if (parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_mhp, 10)) {
 				attack(true, 0);
