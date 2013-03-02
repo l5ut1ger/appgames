@@ -2219,6 +2219,7 @@ function fnSubjugationFixAttack() {
 
 		var rate = $('#raid_normal_use_power_text').val();
 		rate = Math.max(0, Math.min(rate, 300));
+		alert('rate:'+rate);
 
 		//if (g_use_power && player.power >= g_use_power) {
 		timer_stop = true;
