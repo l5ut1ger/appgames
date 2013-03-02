@@ -2194,41 +2194,40 @@ function fnForkRoadSummon() {
 
 // fnSubjugationMission
 
-
+function fnSubjugationRaidDamageDisplay() {
+	$('#raid_normal_attack_text').html($('#raid_normal_attack_value').html() + '-'+raid_data.boss_defense+(parseInt($('#raid_normal_attack_value').html(),10)-parseInt(raid_data.boss_defense,10)));
+}
 
 function fnSubjugationRaid() {
 
 	raid_get = function (offset) {alert('set1');
 		offset = offset || 1;
 		$.getJSON('/en/ios/subjugation/ajax_raid_get', {'offset': offset - 1, 'subjugation_id': raid_data.subjugation_id, 'pid': raid_data.player_id}, function(data) {
-		var payload = data['payload'];
+			var payload = data['payload'];
 
-		var raid   = payload.raid;
-		var m_raid = payload.m_raid;
-		var boss_name = m_raid.boss_name + '&nbsp;Lv' + raid.boss_lv;
+			var raid   = payload.raid;
+			var m_raid = payload.m_raid;
+			var boss_name = m_raid.boss_name + '&nbsp;Lv' + raid.boss_lv;
+			//      g_use_power = m_raid.use_power;
+			if (raid.boss_hp <= 0) {
+			raid_defeated(true);
+			}
 
-		//      g_use_power = m_raid.use_power;
+			if (! update_hp_gauge) {
+			$('#hp_bar').progressbar().setValue(~~Math.ceil((raid.boss_hp / m_raid.boss_hp) * 100), 0);
+			}
 
-		if (raid.boss_hp <= 0) {
-		raid_defeated(true);
-		}
+			raid_data.boss_defense = m_raid.boss_defense;
+			fnSubjugationRaidDamageDisplay();
 
-		if (! update_hp_gauge) {
-		$('#hp_bar').progressbar().setValue(~~Math.ceil((raid.boss_hp / m_raid.boss_hp) * 100), 0);
-		}
-
-		raid_data.boss_defense = m_raid.boss_defense;
-		
-
-		countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
+			countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
 		});
 	}
-
-	setAttackText = function() {
-		alert('set2');
-		$('#raid_normal_attack_value').html($('#raid_normal_attack_value').html() + '-'+raid_data.boss_defense);
-		
-	}
+	
+	$('#raid_normal_use_power_text').change(function() {
+		setAttackText();
+		fnSubjugationRaidDamageDisplay();
+	});
 }
 
 function fnSubjugationMission() {
