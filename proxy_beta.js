@@ -2223,7 +2223,7 @@ function fnSubjugationRaid() {
 		});
 	}
 	raid_get();
-	
+	alert(parseInt($('#boss_hp_text').text, 10)==parseInt(raid_data.boss_hp, 10)?true:false);
 	attack = function (bonus, debug_attack) {
 		if (timer_stop) return;
 
