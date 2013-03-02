@@ -2201,7 +2201,7 @@ function fnSubjugationRaidDamageDisplay() {
 function fnSubjugationRaid() {
 	raid_get = function (offset) {
 		offset = offset || 1;
-		$.getJSON('/en/ios/subjugation/ajax_raid_get', {'offset': offset - 1, 'subjugation_id': raid_data.subjugation_id, 'pid': raid_data.player_id}, function(data) {
+		$.getJSON('/en/'+platform+'/subjugation/ajax_raid_get', {'offset': offset - 1, 'subjugation_id': raid_data.subjugation_id, 'pid': raid_data.player_id}, function(data) {
 			var payload = data['payload'];
 
 			var raid   = payload.raid;
@@ -2223,6 +2223,172 @@ function fnSubjugationRaid() {
 		});
 	}
 	raid_get();
+	
+	attack = function (bonus, debug_attack) {
+		if (timer_stop) return;
+
+		debug_attack = debug_attack || 0;
+
+		var rate = $('#raid_normal_use_power_text').val();
+		rate = Math.max(20, Math.min(rate, 100));
+
+		//if (g_use_power && player.power >= g_use_power) {
+		timer_stop = true;
+		//}
+
+		/*if (g_use_power === null || player.power < g_use_power) {
+		return;
+		}*/
+		var short_of_bp = false;
+
+		$.ajax_ex(false, '/en/'+platform+'/subjugation/ajax_raid_act', {
+			'subjugation_id': raid_data.subjugation_id,
+			'pid': player.player_id,
+			'da': debug_attack,
+			'rate': rate,
+			'bonus': parseInt($('#boss_hp_text').text, 10)==parseInt(raid_data.boss_hp, 10)?true:false,
+			'fever_rate': '3',
+			'__hash':  (new Date()).getTime(),
+		}, function(data) {
+			if (data.status == -6) {
+				short_of_bp = true;
+			}
+			if (data.status == -9) {
+				short_of_bp = true;
+				timer_stop = false;
+				return;
+			}
+			if (data.status == -5) {
+				$.redirect('/en/'+platform+'/subjugation?intentional=1');
+				return;
+			}
+			if (data.status == 2) {
+				$.redirect('/en/'+platform+'/subjugation?intentional=1');
+				return;
+			}
+			if (data.status == -7) {
+				if (typeof(data.payload) != 'undefined' && typeof(data.payload.end_at_u) != 'undefined') {
+					timer_stop = false;
+					countdown_timer('raid_normal_time_text', data.payload['end_at_u'], timeout);
+					return;
+				} else {
+					$.reload();
+					return;
+				}
+			}
+			if (data.status == -8) {
+				$.reload();
+				return;
+			}
+			if (data.payload.short_of_bp) {
+				timer_stop = false;
+				for (var i = 0; i < 10; i++) {
+					clearTimeout(timer);
+				}
+				countdown_timer('raid_normal_time_text', data.payload['end_at_u'], timeout);
+				mission_exec();
+				//          msg_box_short_of_power();
+				return;
+			}
+
+			var power = 0;
+
+			if (typeof(data.payload.power) != 'undefined') {
+				power = data.payload.power;
+			}
+
+			$.refreshStatus(true);
+
+			rate_hp = ~~Math.ceil(((data.payload.hp / data.payload.hp_max) * 100));
+
+			update_hp_gauge = true;
+			$('#hp_bar').progressbar().setValue(rate_hp, 0);
+			$('#boss_hp_text').text(data.payload.hp);
+
+			$('#effect_attack_cover').show();
+
+			var tmp_wait = 1;
+			if (raid_data.cheer_attack && ~~raid_data.cheer_attack > 0 && raid_data.member_count) {
+				for (var i = 0; i < raid_data.member_count; i++) {
+					tmp_wait += 50;
+					var pos_left = Math.floor(Math.random() * 240) - 30;
+					var pos_top  = Math.floor(Math.random() * 100) + 80;
+					$('.effect_attack_img_sub:eq('+i+')').css({left: pos_left, top: pos_top})
+							 .delay(i*50)
+							 .show(1)
+							 .fadeOut(500);
+				}
+			}
+			//     var result;
+			if (data.payload.hp <= 0) {
+
+				if (data.payload.result == 1) {
+					anim_blood(data.payload.id, tmp_wait);
+
+					//raid_defeated(true);
+
+					//document.images["raid_normal_boss_img"].src = "http://res.darksummoner.com/en/s/raid/raidbattle_bossimage_01_Defeated.png";
+
+					//result = document.getElementById('result_defeated');
+				} else {
+					timeout();
+				}
+
+				timer_stop = true;
+
+				reward_id = data.payload.reward_id;
+			} else {
+
+				var obj = document.getElementById('effect_attack_damage');
+				obj.innerHTML = document.getElementById('damage_text').innerHTML + data.payload.damage;
+
+				$('#effect_attack_bonus').hide();
+				if (data.payload['bonus']) {
+					$('#effect_attack_bonus').show();
+					//        obj = document.getElementById('effect_attack_bonus');
+					//            obj.innerHTML = "Damage Bonus!";
+				} else {
+				var type = 1;
+					if      (rate_hp >= 75) type = 1;
+					else if (rate_hp >= 50) type = 2;
+					else if (rate_hp >= 25) type = 3;
+					else                    type = 4;
+
+					obj = document.getElementById('effect_attack_text');
+					obj.innerHTML = document.getElementById('attack_text_' + type).innerHTML;
+				}
+
+				obj = document.getElementById('effect_attack');
+				obj.style.display = 'block';
+
+				$('#effect_attack_finish').delay(tmp_wait).show(1);
+
+				$('#effect_attack_cover').css('height', $(document).height() + 'px');
+
+				timer_stop = false;
+				countdown_timer('raid_normal_time_text', data.payload['end_at_u'], timeout);
+
+				//result = document.getElementById('result_attack');
+			}
+			//result.style.display = 'block';
+		});
+
+		if (! short_of_bp) {
+			// ææ´ãæ¶ã
+			raid_data.cheer_attack = 0;
+			raid_data.member_count = 0;
+
+			// é¨éå¡ã®æ»æåè¡¨è¨ ON OFF
+			ClanAttack();
+
+			// ã¬ã¼ãã«ããè¡¨ç¤º
+			setAttackText();
+		}
+	}
+	
+	
+	
+	
 	$('#raid_normal_use_power_text').change(function() {
 		setAttackText();
 		fnSubjugationRaidDamageDisplay();
