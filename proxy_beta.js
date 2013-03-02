@@ -2231,7 +2231,7 @@ alert('raid');
 }
 
 function fnSubjugationRaidBoss() {
-	$.redirect('/en/'+platform+'/subjugation/raid?subjugation_id=6&pid='+player.player_id+'&fever_rate=3);
+	$.redirect('/en/'+platform+'/subjugation/raid?subjugation_id=6&pid='+player.player_id+'&fever_rate=3');
 }
 
 function fnSubjugationMission() {
