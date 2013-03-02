@@ -2493,7 +2493,10 @@ function fnSubjugationMission() {
 			'__hash':  (new Date()).getTime(),
 		}, function(result) {
 			if (result.status == 4) {
-				phase_no_power(result.payload);
+				//phase_no_power(result.payload);
+				if (fnAutoDrink() == 1) {
+					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
+				}
 				return;
 			}
 			//      if (result.status == 5) {
