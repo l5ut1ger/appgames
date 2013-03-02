@@ -2199,8 +2199,7 @@ function fnSubjugationRaidDamageDisplay() {
 }
 
 function fnSubjugationRaid() {
-alert('raid');
-	raid_get = function (offset) {alert('set1');
+	raid_get = function (offset) {
 		offset = offset || 1;
 		$.getJSON('/en/ios/subjugation/ajax_raid_get', {'offset': offset - 1, 'subjugation_id': raid_data.subjugation_id, 'pid': raid_data.player_id}, function(data) {
 			var payload = data['payload'];
