@@ -2194,7 +2194,7 @@ function fnForkRoadSummon() {
 
 // fnSubjugationMission
 
-function raid_get(offset) {
+raid_get = function (offset) {
   offset = offset || 1;
   $.getJSON('/en/ios/subjugation/ajax_raid_get', {'offset': offset - 1, 'subjugation_id': raid_data.subjugation_id, 'pid': raid_data.player_id}, function(data) {
     var payload = data['payload'];
@@ -2214,10 +2214,15 @@ function raid_get(offset) {
       }
 	  
 	  raid_data.boss_defense = m_raid.boss_defense;
-		$('#raid_normal_attack_value').html($('#raid_normal_attack_value').html() + '-'+m_raid.boss_defense);
+		alert('set1');
 
       countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
   });
+}
+
+setAttackText = function() {
+	$('#raid_normal_attack_value').html($('#raid_normal_attack_value').html() + '-'+raid_data.boss_defense);
+	alert('set2');
 }
 
 function fnSubjugationRaid() {
