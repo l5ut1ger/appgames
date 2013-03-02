@@ -2218,7 +2218,7 @@ function fnSubjugationFixAttack() {
 		debug_attack = debug_attack || 0;
 
 		var rate = $('#raid_normal_use_power_text').val();
-		rate = Math.max(20, Math.min(rate, 100));
+		rate = Math.max(0, Math.min(rate, 300));
 
 		//if (g_use_power && player.power >= g_use_power) {
 		timer_stop = true;
@@ -2379,8 +2379,7 @@ function fnSubjugationRaid() {
 		return;
 	}
 	raid_defeated = function () {
-		alert('killed');
-		fnRedirect('/en/'+platform+'/subjugation?');
+		fnRedirect('/en/'+platform+'/subjugation/mission?');
 	}
 	raid_get = function (offset) {
 		offset = offset || 1;
