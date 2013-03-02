@@ -2194,6 +2194,12 @@ function fnForkRoadSummon() {
 
 // fnSubjugationMission
 
+function fnSubjugation() {
+	$('.__advent_raid', $grs).unbind('click').one('click', function () {
+	$.redirect("\/en\/ios\/subjugation\/raid?subjugation_id=" + SUBJUGATION['subjugation_id'] + '&pid=' + SUBJUGATION['player_id'] + '&fever_rate=3'); 
+  });
+}
+
 function fnSubjugationRaidDamageDisplay() {
 	$('#raid_normal_attack_text').html($('#raid_normal_attack_value').html() + '-'+raid_data.boss_defense+'='+(parseInt($('#raid_normal_attack_value').html(),10)-parseInt(raid_data.boss_defense,10)));
 }
@@ -4328,6 +4334,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/summon') {
 		fnForkRoadSummon();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/subjugation') {
+		fnSubjugation();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/subjugation/mission') {
 		fnSubjugationMission();
