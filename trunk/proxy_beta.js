@@ -2383,6 +2383,10 @@ function fnSubjugationRaid() {
 			fnSubjugationRaidDamageDisplay();
 
 			countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
+			
+			if (parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_mhp, 10)) {
+				attack(true, 0);
+			}
 		});
 	}
 	
@@ -2395,19 +2399,15 @@ function fnSubjugationRaid() {
 
 		$('#under_sos').one("click", sos_call);
 		$('#button_skip').bind("click", skip_call);
-
-		raid_get();
-		fnSubjugationFixAttack();
 		
-		$("#raid_normal_submit_button_attack").unbind('click');
+		fnSubjugationFixAttack();
+		raid_get();		
+		
+		/*$("#raid_normal_submit_button_attack").unbind('click');
 		$("#raid_normal_submit_button_attack").click(function() {
 			attack(false, 0);
 			$('#raid_free_use_power_label').hide();
-		});
-		
-		if (parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_mhp, 10)) {
-			attack(true, 0);
-		}
+		});*/
 	}
 	onDeviceReady();
 	
