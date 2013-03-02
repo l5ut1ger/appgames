@@ -2395,6 +2395,10 @@ function fnSubjugationRaid() {
 	});
 }
 
+function fnSubjugationResult() {
+	fnRedirect('/en/'+platform+'/subjugation?');
+}
+
 function fnSubjugationRaidBoss() {
 	$.redirect('/en/'+platform+'/subjugation/raid?subjugation_id=6&pid='+player.player_id+'&fever_rate=3');
 }
@@ -4278,6 +4282,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/subjugation/raid') {
 		fnSubjugationRaid();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/subjugation/result') {
+		fnSubjugationResult();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/slotGame') {
 		fnSlotGame();
