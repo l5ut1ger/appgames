@@ -2210,7 +2210,7 @@ function fnSubjucatorRaidAddAttackOption() {
 	$('#raid_normal_use_power_text option:last').attr("selected", "selected");
 	if (fnGetGrindingSpeed()>0) {
 		if (parseInt(player.bp,10) >=  Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))) {
-			
+			attack(false, 0);
 		}
 	}
 	myRate = Math.floor(parseInt(player.bp,10)/parseInt(player.deck_total_bp,10)*100);
