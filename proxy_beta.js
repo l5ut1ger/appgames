@@ -2416,10 +2416,11 @@ function fnSubjugationRaid() {
 
 			countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
 			
-			fnSubjucatorRaidAddAttackOption();
-			
 			if (parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_mhp, 10)) {
 				attack(true, 0);
+			}
+			else {
+				fnSubjucatorRaidAddAttackOption();
 			}
 		});
 	}
