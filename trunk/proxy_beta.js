@@ -2372,11 +2372,14 @@ function fnSubjugationFixAttack() {
 	}
 }
 
-function fnSubjugationRaid() {
+function fnSubjugationRaidPreload() {
 	if (parseInt(fnQueryString('fever_rate'),10) < 3) {
 		fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 		return;
 	}
+}
+
+function fnSubjugationRaid() {	
 	raid_get = function (offset) {
 		offset = offset || 1;
 		$.getJSON('/en/'+platform+'/subjugation/ajax_raid_get', {'offset': offset - 1, 'subjugation_id': raid_data.subjugation_id, 'pid': raid_data.player_id}, function(data) {
@@ -4396,7 +4399,10 @@ function fnPreLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/numberTicketInformation') {
 		fnEventNumberTicketInformationPreload();
-	}	
+	}
+	else if (window.location.pathname === '/en/'+platform+'/subjugation/raid') {
+		fnSubjugationRaidPreload();
+	}
 }
 
 fnPreLoad();
