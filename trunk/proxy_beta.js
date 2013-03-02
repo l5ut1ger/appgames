@@ -2486,6 +2486,9 @@ function fnSubjugationMission() {
 			use_item_count = result.payload.use_item_count;
 			raid_point = result.payload;
 			subjugation_id = event.subjugation_id;
+			if (parseInt(event.subjugation_id,10) > 0) {
+				mission_exec = null;
+			}
 
 			$('#clock_count').html("guild_raid_point"      .replace('%point%',  1));
 
