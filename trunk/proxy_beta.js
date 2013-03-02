@@ -2372,6 +2372,11 @@ function fnSubjugationFixAttack() {
 			setAttackText();
 		}
 	}
+	$("#raid_normal_submit_button_attack").unbind('click');
+	$("#raid_normal_submit_button_attack").click(function() {
+		attack(false, 0);
+		$('#raid_free_use_power_label').hide();
+	});
 }
 
 function fnSubjugationRaid() {
