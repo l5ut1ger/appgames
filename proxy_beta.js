@@ -2324,7 +2324,7 @@ function fnSubjugationMission() {
 			} 
 
 			event = eventManager(event);
-			$('#act_mission').hide();
+			//$('#act_mission').hide();
 		});
 	}
 	
