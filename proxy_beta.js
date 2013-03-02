@@ -2240,7 +2240,9 @@ function fnSubjugationRaid() {
 		return;
 		}*/
 		var short_of_bp = false;
-
+		alert(parseInt($('#boss_hp_text').text(), 10));
+		alert(parseInt(raid_data.boss_hp, 10));
+		alert(parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_hp, 10)?true:false);
 		$.ajax_ex(false, '/en/'+platform+'/subjugation/ajax_raid_act', {
 			'subjugation_id': raid_data.subjugation_id,
 			'pid': player.player_id,
