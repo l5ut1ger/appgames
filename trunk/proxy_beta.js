@@ -2195,11 +2195,7 @@ function fnForkRoadSummon() {
 // fnSubjugationMission
 
 function fnSubjugation() {
-alert('prehi');
-	$('.__advent_raid', $grs).unbind('click').one('click', function () {
-	$.redirect("\/en\/ios\/subjugation\/raid?subjugation_id=" + SUBJUGATION['subjugation_id'] + '&pid=' + SUBJUGATION['player_id'] + '&fever_rate=3'); 
-  });
-  alert('hi');
+	
 }
 
 function fnSubjugationRaidDamageDisplay() {
@@ -2377,6 +2373,10 @@ function fnSubjugationFixAttack() {
 }
 
 function fnSubjugationRaid() {
+	if (parseInt(fnQueryString('fever_rate'),10) < 3) {
+		fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+		return;
+	}
 	raid_get = function (offset) {
 		offset = offset || 1;
 		$.getJSON('/en/'+platform+'/subjugation/ajax_raid_get', {'offset': offset - 1, 'subjugation_id': raid_data.subjugation_id, 'pid': raid_data.player_id}, function(data) {
