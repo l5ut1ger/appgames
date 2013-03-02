@@ -2299,6 +2299,7 @@ function fnSubjugationFixAttack() {
 			}*/
 			//     var result;
 			if (data.payload.hp <= 0) {
+				alert('killed');
 				fnRedirect('/en/'+platform+'/subjugation?');
 				if (data.payload.result == 1) {
 					
