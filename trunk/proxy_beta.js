@@ -2223,9 +2223,7 @@ function fnSubjugationRaid() {
 		});
 	}
 	raid_get();
-	alert(parseInt($('#boss_hp_text').text(), 10));
-	alert(parseInt(raid_data.boss_hp, 10));
-	alert(parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_hp, 10)?true:false);
+
 	attack = function (bonus, debug_attack) {
 		if (timer_stop) return;
 
@@ -2248,7 +2246,7 @@ function fnSubjugationRaid() {
 			'pid': player.player_id,
 			'da': debug_attack,
 			'rate': rate,
-			'bonus': parseInt($('#boss_hp_text').text, 10)==parseInt(raid_data.boss_hp, 10)?true:false,
+			'bonus': parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_hp, 10)?true:false,
 			'fever_rate': '3',
 			'__hash':  (new Date()).getTime(),
 		}, function(data) {
