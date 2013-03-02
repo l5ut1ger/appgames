@@ -2199,9 +2199,6 @@ function fnSubjugationRaidDamageDisplay() {
 }
 
 function fnSubjugationFixAttack() {
-	alert(parseInt($('#boss_hp_text').text(), 10));
-	alert(parseInt(raid_data.boss_mhp, 10));
-	alert(parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_mhp, 10)?true:false);
 	attack = function (bonus, debug_attack) {
 		if (timer_stop) return;
 
@@ -2218,9 +2215,6 @@ function fnSubjugationFixAttack() {
 		return;
 		}*/
 		var short_of_bp = false;
-		alert(parseInt($('#boss_hp_text').text(), 10));
-		alert(parseInt(raid_data.boss_hp, 10));
-		alert(parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_hp, 10)?true:false);
 		$.ajax_ex(false, '/en/'+platform+'/subjugation/ajax_raid_act', {
 			'subjugation_id': raid_data.subjugation_id,
 			'pid': player.player_id,
@@ -2358,10 +2352,8 @@ function fnSubjugationFixAttack() {
 			raid_data.cheer_attack = 0;
 			raid_data.member_count = 0;
 
-			// é¨éå¡ã®æ»æåè¡¨è¨ ON OFF
 			ClanAttack();
 
-			// ã¬ã¼ãã«ããè¡¨ç¤º
 			setAttackText();
 		}
 	}
@@ -2523,6 +2515,16 @@ function fnSubjugationMission() {
 		});
 	}
 	
+	if (fnGetGrindingSpeed() == -1) {
+		// user press by himself, dont automate
+		return;
+	}
+	if (fnGetGrindingSpeed() == 1) {
+		mission_exec();
+	}
+	else {
+		missionInterval = setInterval(mission_exec,fnGetGrindingSpeed());
+	}	
 }
 
 // dungeon mission
