@@ -2200,7 +2200,7 @@ function fnSubjugationRaidDamageDisplay() {
 
 function fnSubjucatorRaidAddAttackOption() {
 	alert('hi');
-	var myRate = Math.ceil((parseInt(data.payload.hp,10)+parseInt(raid_data.boss_defense, 10))/parseInt($('#raid_normal_attack_value').html(),10)*100);
+	var myRate = Math.ceil((parseInt(raid_data.boss_hp,10)+parseInt(raid_data.boss_defense, 10))/parseInt($('#raid_normal_attack_value').html(),10)*100);
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)</option>');
 	alert('hi2');
 }
@@ -2320,6 +2320,7 @@ function fnSubjugationFixAttack() {
 
 				reward_id = data.payload.reward_id;
 			} else {
+				raid_data.boss_hp = data.payload.hp;
 				fnSubjucatorRaidAddAttackOption();
 			
 				/*
