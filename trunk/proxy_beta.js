@@ -2260,6 +2260,13 @@ function fnSubjugationFixAttack() {
 				$.redirect('/en/'+platform+'/subjugation?intentional=1');
 				return;
 			}
+			if (data.status == -2) {
+				//retry
+				if (fnGetGrindingSpeed()>0) {
+					fnSubjucatorRaidAddAttackOption();
+				}
+				return;
+			}
 			if (data.status == -7) {
 				if (typeof(data.payload) != 'undefined' && typeof(data.payload.end_at_u) != 'undefined') {
 					timer_stop = false;
