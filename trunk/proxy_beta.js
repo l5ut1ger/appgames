@@ -2247,7 +2247,87 @@ function fnSubjugationMission() {
 	divTag.style.top = "80px"; 
 
 	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="fnSubjugationRaidBoss();">loop</button>'; 
-	document.body.appendChild(divTag); 
+	//document.body.appendChild(divTag); 
+	
+	
+	mission_exec = function(superroll) {
+		$.ajax_ex(false, '/en/'+platform+'/subjugation/process', {
+			area_id: area_id,
+			mission: mission.last_mission,
+			confirm_id: confirm_id,
+			superroll: 3,
+			'__hash':  (new Date()).getTime(),
+		}, function(result) {
+			if (result.status == 4) {
+				phase_no_power(result.payload);
+				return;
+			}
+			//      if (result.status == 5) {
+			//        phase_raid_battle();
+			//        return;
+			//      }
+
+			else if(result.status != 0) {
+				if (result.status == -5) {
+				$.redirect('/en/'+platform+'/subjugation?intentional=1');
+				return;
+			}
+				confirm_id = 0;//result.payload.confirm_id;
+				return;
+			}
+
+			confirm_id = result.payload.confirm_id;
+
+			mission = result.payload.mission;
+			event = result.payload.event;
+			event.phase = new Array();
+			loop_count = result.payload.loop_count ;
+			use_item_count = result.payload.use_item_count;
+			raid_point = result.payload;
+			subjugation_id = event.subjugation_id;
+
+			$('#clock_count').html("guild_raid_point"      .replace('%point%',  1));
+
+			draw();
+			//      console.log(result.payload);
+			//      console.log(event.event_resource.result);
+			//      console.log(event.event_resource);
+			/*
+			if (event.event_resource.result) {
+				event.phase.push('event_resource');
+			} else {
+				event.phase.push('default_resource');
+			}
+			if (event.event_resource.reward) {
+				event.phase.push('get_ex_resource');
+			}*/
+
+			if(event.bouns_time_effect)  event.phase.push('happen_bonus_time');
+			//if(event.monster)            event.phase.push('get_monster');
+			//      if(event.treasure)           event.phase.push('get_treasure');
+			//if(event.clear)              event.phase.push('mission_clear');
+			//if(event.exp.lvup > 0)       event.phase.push('level_up');
+			//if(event.exp.lvup > 0)       event.phase.push('status_up');
+			//      if(event.treasure)
+			//      if(event.treasure.complete)  event.phase.push('treasure_complete');
+			if(event.clear)
+			if(mission.last_mission == 5) event.phase.push('time_warp');
+			if(event.raid_encount == 1){
+				event.phase.push('raid_effect');
+				encount_flag = 1;
+			} else if(event.raid_encount == 2){
+				event.phase.push('raid_effect');
+				encount_flag = 2;
+			}else if(event.raid_encount == 3){
+				event.phase.push('raid_effect');
+				encount_flag = 3;
+			} 
+
+			event = eventManager(event);
+			$('#act_mission').hide();
+		});
+	}
+	
 }
 
 // dungeon mission
