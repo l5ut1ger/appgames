@@ -2297,7 +2297,8 @@ function fnSubjugationFixAttack() {
 			if (data.payload.hp <= 0) {
 
 				if (data.payload.result == 1) {
-					anim_blood(data.payload.id, tmp_wait);
+					fnRedirect('/en/'+platform+'/subjugation?');
+					//anim_blood(data.payload.id, tmp_wait);
 
 					//raid_defeated(true);
 
@@ -2386,7 +2387,6 @@ function fnSubjugationRaid() {
 	}
 	
 	onDeviceReady = function() {
-		alert('device ready');
 		all_hide();
 
 		$('#raid_normal_use_power_text').change(function() {
@@ -2404,6 +2404,10 @@ function fnSubjugationRaid() {
 			attack(false, 0);
 			$('#raid_free_use_power_label').hide();
 		});
+		
+		if (parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_mhp, 10)) {
+			attack(true, 0);
+		}
 	}
 	onDeviceReady();
 	
