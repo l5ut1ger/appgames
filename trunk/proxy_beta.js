@@ -2195,6 +2195,7 @@ function fnForkRoadSummon() {
 // fnSubjugationMission
 
 function fnSubjugation() {
+alert('prehi');
 	$('.__advent_raid', $grs).unbind('click').one('click', function () {
 	$.redirect("\/en\/ios\/subjugation\/raid?subjugation_id=" + SUBJUGATION['subjugation_id'] + '&pid=' + SUBJUGATION['player_id'] + '&fever_rate=3'); 
   });
