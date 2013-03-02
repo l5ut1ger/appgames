@@ -2392,9 +2392,25 @@ function fnSubjugationRaid() {
 			countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
 		});
 	}
-	raid_get();
 	
-	setTimeout(fnSubjugationFixAttack, 100);
+	onDeviceReady = function() {
+		all_hide();
+
+		$('#raid_normal_use_power_text').change(function() {
+			setAttackText();
+		});
+
+		$('#under_sos').one("click", sos_call);
+		$('#button_skip').bind("click", skip_call);
+
+		raid_get();
+		fnSubjugationFixAttack();
+	
+		$("#raid_normal_submit_button_attack").click(function() {
+			attack(false, 0);
+			$('#raid_free_use_power_label').hide();
+		});
+	}
 	
 	$('#raid_normal_use_power_text').change(function() {
 		setAttackText();
