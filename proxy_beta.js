@@ -2406,12 +2406,14 @@ function fnSubjugationRaid() {
 
 		raid_get();
 		fnSubjugationFixAttack();
-	
+		
+		$("#raid_normal_submit_button_attack").unbind('click');
 		$("#raid_normal_submit_button_attack").click(function() {
 			attack(false, 0);
 			$('#raid_free_use_power_label').hide();
 		});
 	}
+	onDeviceReady();
 	
 	$('#raid_normal_use_power_text').change(function() {
 		setAttackText();
