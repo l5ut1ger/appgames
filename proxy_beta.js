@@ -2200,8 +2200,8 @@ function fnSubjugationRaidDamageDisplay() {
 
 function fnSubjugationFixAttack() {
 	alert(parseInt($('#boss_hp_text').text(), 10));
-	alert(parseInt(raid_data.boss_hp, 10));
-	alert(parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_hp, 10)?true:false);
+	alert(parseInt(raid_data.boss_mhp, 10));
+	alert(parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_mhp, 10)?true:false);
 	attack = function (bonus, debug_attack) {
 		if (timer_stop) return;
 
@@ -2226,7 +2226,7 @@ function fnSubjugationFixAttack() {
 			'pid': player.player_id,
 			'da': debug_attack,
 			'rate': rate,
-			'bonus': parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_hp, 10)?true:false,
+			'bonus': parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_mhp, 10)?true:false,
 			'fever_rate': '3',
 			'__hash':  (new Date()).getTime(),
 		}, function(data) {
@@ -2378,14 +2378,15 @@ function fnSubjugationRaid() {
 			var boss_name = m_raid.boss_name + '&nbsp;Lv' + raid.boss_lv;
 			//      g_use_power = m_raid.use_power;
 			if (raid.boss_hp <= 0) {
-			raid_defeated(true);
+				raid_defeated(true);
 			}
 
 			if (! update_hp_gauge) {
-			$('#hp_bar').progressbar().setValue(~~Math.ceil((raid.boss_hp / m_raid.boss_hp) * 100), 0);
+				$('#hp_bar').progressbar().setValue(~~Math.ceil((raid.boss_hp / m_raid.boss_hp) * 100), 0);
 			}
 
 			raid_data.boss_defense = m_raid.boss_defense;
+			raid_data.boss_mhp = m_raid.boss_hp;
 			fnSubjugationRaidDamageDisplay();
 
 			countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
