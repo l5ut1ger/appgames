@@ -2230,6 +2230,10 @@ alert('raid');
 	});
 }
 
+function fnSubjugationRaidBoss() {
+	$.redirect('/en/'+platform+'/subjugation/raid?subjugation_id=6&pid='+player.player_id+'&fever_rate=3);
+}
+
 function fnSubjugationMission() {
 	var divTag = document.createElement("div"); 
 
@@ -2242,8 +2246,8 @@ function fnSubjugationMission() {
 	divTag.style.left = "280px"; 
 	divTag.style.top = "80px"; 
 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="fnSubjugationRaid();">loop</button>'; 
-	//document.body.appendChild(divTag); 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="fnSubjugationRaidBoss();">loop</button>'; 
+	document.body.appendChild(divTag); 
 }
 
 // dungeon mission
