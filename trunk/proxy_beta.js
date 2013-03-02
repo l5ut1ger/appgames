@@ -2199,10 +2199,8 @@ function fnSubjugationRaidDamageDisplay() {
 }
 
 function fnSubjucatorRaidAddAttackOption() {
-	alert('hi');
 	var myRate = Math.ceil((parseInt(raid_data.boss_hp,10)+parseInt(raid_data.boss_defense, 10))/(parseInt($('#raid_normal_attack_value').html(),10)/($('#raid_normal_use_power_text').val()>=100?1.2:1)/$('#raid_normal_use_power_text').val()));
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)</option>');
-	alert('hi2');
 }
 
 function fnSubjugationFixAttack() {
@@ -2302,9 +2300,9 @@ function fnSubjugationFixAttack() {
 			}
 			//     var result;
 			if (data.payload.hp <= 0) {
-
+				fnRedirect('/en/'+platform+'/subjugation?');
 				if (data.payload.result == 1) {
-					fnRedirect('/en/'+platform+'/subjugation?');
+					
 					//anim_blood(data.payload.id, tmp_wait);
 
 					//raid_defeated(true);
