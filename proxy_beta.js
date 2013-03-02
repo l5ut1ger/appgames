@@ -2286,20 +2286,17 @@ function fnSubjugationFixAttack() {
 			$('#hp_bar').progressbar().setValue(rate_hp, 0);
 			$('#boss_hp_text').text(data.payload.hp);
 
-			$('#effect_attack_cover').show();
+			//$('#effect_attack_cover').show();
 
 			var tmp_wait = 1;
-			if (raid_data.cheer_attack && ~~raid_data.cheer_attack > 0 && raid_data.member_count) {
+			/*if (raid_data.cheer_attack && ~~raid_data.cheer_attack > 0 && raid_data.member_count) {
 				for (var i = 0; i < raid_data.member_count; i++) {
 					tmp_wait += 50;
 					var pos_left = Math.floor(Math.random() * 240) - 30;
 					var pos_top  = Math.floor(Math.random() * 100) + 80;
-					$('.effect_attack_img_sub:eq('+i+')').css({left: pos_left, top: pos_top})
-							 .delay(i*50)
-							 .show(1)
-							 .fadeOut(500);
+					$('.effect_attack_img_sub:eq('+i+')').css({left: pos_left, top: pos_top}).delay(i*50).show(1).fadeOut(500);
 				}
-			}
+			}*/
 			//     var result;
 			if (data.payload.hp <= 0) {
 				fnRedirect('/en/'+platform+'/subjugation?');
