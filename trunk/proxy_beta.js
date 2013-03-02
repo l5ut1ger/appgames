@@ -2411,7 +2411,14 @@ function fnSubjugationRaid() {
 		$('#button_skip').bind("click", skip_call);
 		
 		fnSubjugationFixAttack();
-		raid_get();		
+		raid_get();
+		
+		sos_call2 = sos_call;
+		sos_call = function () {
+			alert('fixed sos call');
+			sos_call2();
+			fnSubjucatorRaidAddAttackOption();
+		}
 		
 		/*$("#raid_normal_submit_button_attack").unbind('click');
 		$("#raid_normal_submit_button_attack").click(function() {
