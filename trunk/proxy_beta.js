@@ -2329,7 +2329,7 @@ function fnSubjugationFixAttack() {
 
 				reward_id = data.payload.reward_id;
 			} else {
-				raid_data.boss_hp = data.payload.hp;
+				raid_data.boss_hp = parseInt(data.payload.hp,10);
 				fnSubjucatorRaidAddAttackOption();
 			
 				/*
