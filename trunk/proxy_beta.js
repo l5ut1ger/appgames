@@ -2210,13 +2210,31 @@ function fnSubjucatorRaidAddAttackOption() {
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)optimized</option>');
 	$('#raid_normal_use_power_text option:last').attr("selected", "selected");
 	if (fnGetGrindingSpeed()>0) {
+		// too heavy bp consume, call for sos help
 		if ($('#under_sos').is(":visible") && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.power_max,10)/10 && parseInt(player.power,10) > parseInt(player.power_max,10)/10) {
 			sos_call();
 			fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 			return;
 		}
-		else if (parseInt(player.bp,10) >=  Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))) {
+		// attack
+		else if (parseInt(player.bp,10) >=  Math.min(100, Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)))) {
 			attack(false, 0);
+		}
+		else { // not enough bp
+			$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+				if ( (data == null) || (data.status != 0) ) { return; }
+				var hasItemInList;
+				for (var i=0;i<data.payload.items.length;i++) {
+					hasItemInList = false;
+					for (var j=0;j<items.length;j++) {
+						if (items[j].item_id == 3043 || items[j].item_id == 3024) { // consume my 100 bp or my 100 elixir
+							$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+							fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+							return;
+						}
+					}		
+				}
+			});	
 		}
 	}
 	myRate = Math.floor(parseInt(player.bp,10)/parseInt(player.deck_total_bp,10)*100);
@@ -2230,7 +2248,7 @@ function fnSubjugationFixAttack() {
 		debug_attack = debug_attack || 0;
 
 		var rate = $('#raid_normal_use_power_text').val();
-		rate = Math.max(0, Math.min(rate, 300));
+		rate = Math.max(0, Math.min(rate, 100));
 
 		//if (g_use_power && player.power >= g_use_power) {
 		//timer_stop = true;
