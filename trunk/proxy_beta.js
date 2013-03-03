@@ -2219,10 +2219,6 @@ function fnSubjucatorRaidAddAttackOption() {
 		// attack
 		else if (parseInt(player.bp,10) >=  Math.min(parseInt(player.deck_total_bp,10), Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)))) {
 			attack(false, 0);
-			if (!$('#under_sos').is(":visible")) {
-				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
-				return;
-			}
 		}
 		else { // not enough bp
 			fnDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
@@ -2371,6 +2367,10 @@ function fnSubjugationFixAttack() {
 				reward_id = data.payload.reward_id;
 			} else {
 				raid_data.boss_hp = parseInt(data.payload.hp,10);
+				if (raid_data.cheer_count == "1") {
+					fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+					return;
+				}
 				fnSubjucatorRaidAddAttackOption();
 			
 				/*
