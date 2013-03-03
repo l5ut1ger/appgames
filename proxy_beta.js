@@ -2219,7 +2219,7 @@ function fnSubjucatorRaidAddAttackOption() {
 		// attack
 		else if (parseInt(player.bp,10) >=  Math.min(parseInt(player.deck_total_bp,10), Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)))) {
 			attack(false, 0);
-			if (raid_data.cheer_count == "1") {
+			if (!$('#under_sos').is(":visible")) {
 				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 				return;
 			}
