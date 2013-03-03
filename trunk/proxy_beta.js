@@ -2210,7 +2210,11 @@ function fnSubjucatorRaidAddAttackOption() {
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)optimized</option>');
 	$('#raid_normal_use_power_text option:last').attr("selected", "selected");
 	if (fnGetGrindingSpeed()>0) {
-		if (parseInt(player.bp,10) >=  Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))) {
+		if ($('#under_sos').is(":visible") && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.power_max,10)/10 && parseInt(player.power,10) > parseInt(player.power_max,10)/10) {
+			sos_call();
+			fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+		}
+		else if (parseInt(player.bp,10) >=  Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))) {
 			attack(false, 0);
 		}
 	}
