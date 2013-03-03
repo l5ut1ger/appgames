@@ -2209,7 +2209,7 @@ function fnSubjucatorRaidAddAttackOption() {
 	var myRate = Math.ceil((parseInt(raid_data.boss_hp,10)+parseInt(raid_data.boss_defense, 10))/(parseInt($('#raid_normal_attack_value').html(),10)/($('#raid_normal_use_power_text').val()>=100?1.2:1)/$('#raid_normal_use_power_text').val()));
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)optimized</option>');
 	$('#raid_normal_use_power_text option:last').attr("selected", "selected");
-	if (fnGetGrindingSpeed()>0) {
+	if (fnGetGrindingSpeed()>0 && parseInt(raid_data.boss_hp,10)>0) {
 		// too heavy bp consume, call for sos help
 		if ($('#under_sos').is(":visible") && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.power_max,10)/10 && parseInt(player.power,10) > parseInt(player.power_max,10)/10) {
 			sos_call();
@@ -2224,18 +2224,15 @@ function fnSubjucatorRaidAddAttackOption() {
 				return;
 			}
 		}
-		else if (parseInt(raid_data.boss_hp,10)>0) { // not enough bp
-			fnDrink100bp('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
-		}
-		else {
-			//stopped.. why.. probably no bp
+		else { // not enough bp
+			fnDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 		}
 	}
 	myRate = Math.floor(parseInt(player.bp,10)/parseInt(player.deck_total_bp,10)*100);
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)full</option>');
 }
 
-function fnDrink100bp(pRedirect) {
+function fnDrinkBP(pRedirect) {
 	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
@@ -2315,7 +2312,7 @@ function fnSubjugationFixAttack() {
 				return;
 			}
 			if (data.payload.short_of_bp) {
-				fnDrink100bp('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				fnDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 				return;
 				/*
 				timer_stop = false;
