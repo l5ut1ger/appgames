@@ -2223,6 +2223,9 @@ function fnSubjucatorRaidAddAttackOption() {
 		else if (parseInt(raid_data.boss_hp,10)>0) { // not enough bp
 			fnDrink100bp('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 		}
+		else {
+			alert('stopped...');
+		}
 	}
 	myRate = Math.floor(parseInt(player.bp,10)/parseInt(player.deck_total_bp,10)*100);
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)full</option>');
