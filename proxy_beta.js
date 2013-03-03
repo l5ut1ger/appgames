@@ -2217,10 +2217,11 @@ function fnSubjucatorRaidAddAttackOption() {
 			return;
 		}
 		// attack
-		else if (parseInt(player.bp,10) >=  Math.min(100, Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)))) {
+		else if (parseInt(player.bp,10) >=  Math.min(parseInt(player.deck_total_bp,10), Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)))) {
 			attack(false, 0);
 		}
 		else { // not enough bp
+			alert("consume bp");
 			$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 				if ( (data == null) || (data.status != 0) ) { return; }
 				var hasItemInList;
