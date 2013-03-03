@@ -2209,13 +2209,39 @@ function fnSubjucatorRaidAddAttackOption() {
 	var myRate = Math.ceil((parseInt(raid_data.boss_hp,10)+parseInt(raid_data.boss_defense, 10))/(parseInt($('#raid_normal_attack_value').html(),10)/($('#raid_normal_use_power_text').val()>=100?1.2:1)/$('#raid_normal_use_power_text').val()));
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)optimized</option>');
 	$('#raid_normal_use_power_text option:last').attr("selected", "selected");
-	if (fnGetGrindingSpeed()>0) {
-		if (parseInt(player.bp,10) >=  Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))) {
+	if (fnGetGrindingSpeed()>0 && parseInt(raid_data.boss_hp,10)>0) {
+		// too heavy bp consume, call for sos help
+		if ($('#under_sos').is(":visible") && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.power_max,10)/10 && parseInt(player.power,10) > parseInt(player.power_max,10)/10) {
+			sos_call();
+			fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+			return;
+		}
+		// attack
+		else if (parseInt(player.bp,10) >=  Math.min(parseInt(player.deck_total_bp,10), Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)))) {
 			attack(false, 0);
+		}
+		else { // not enough bp
+			fnDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 		}
 	}
 	myRate = Math.floor(parseInt(player.bp,10)/parseInt(player.deck_total_bp,10)*100);
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)full</option>');
+}
+
+function fnDrinkBP(pRedirect) {
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		var items = data.payload.items;
+		for (var i=0;i<items.length;i++) {
+			for (var j=0;j<items.length;j++) {
+				if (items[j].item_id == 3043 || items[j].item_id == 3024) { // consume my 100 bp or my 100 elixir
+					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+					fnRedirect(pRedirect);
+					return;
+				}
+			}		
+		}
+	});	
 }
 
 function fnSubjugationFixAttack() {
@@ -2225,7 +2251,7 @@ function fnSubjugationFixAttack() {
 		debug_attack = debug_attack || 0;
 
 		var rate = $('#raid_normal_use_power_text').val();
-		rate = Math.max(0, Math.min(rate, 300));
+		rate = Math.max(0, Math.min(rate, 100));
 
 		//if (g_use_power && player.power >= g_use_power) {
 		//timer_stop = true;
@@ -2282,14 +2308,17 @@ function fnSubjugationFixAttack() {
 				return;
 			}
 			if (data.payload.short_of_bp) {
+				fnDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				return;
+				/*
 				timer_stop = false;
 				for (var i = 0; i < 10; i++) {
 					clearTimeout(timer);
 				}
 				countdown_timer('raid_normal_time_text', data.payload['end_at_u'], timeout);
-				mission_exec();
+				//mission_exec();
 				//          msg_box_short_of_power();
-				return;
+				return;*/
 			}
 
 			var power = 0;
@@ -2338,6 +2367,10 @@ function fnSubjugationFixAttack() {
 				reward_id = data.payload.reward_id;
 			} else {
 				raid_data.boss_hp = parseInt(data.payload.hp,10);
+				if (raid_data.cheer_count == "1") {
+					fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+					return;
+				}
 				fnSubjucatorRaidAddAttackOption();
 			
 				/*
@@ -2419,6 +2452,8 @@ function fnSubjugationRaid() {
 
 			raid_data.boss_defense = m_raid.boss_defense;
 			raid_data.boss_mhp = m_raid.boss_hp;
+			raid_data.cheer_count = raid.cheer_count;
+			
 			fnSubjugationRaidDamageDisplay();
 
 			countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
@@ -2445,12 +2480,11 @@ function fnSubjugationRaid() {
 		fnSubjugationFixAttack();
 		raid_get();
 		
-		sos_call2 = sos_call;
+		/*sos_call2 = sos_call;
 		sos_call = function () {
-			alert('fixed sos call');
 			sos_call2();
 			fnSubjucatorRaidAddAttackOption();
-		}
+		}*/
 		$('#under_sos').unbind("click");
 		$('#under_sos').one("click", sos_call);
 		
