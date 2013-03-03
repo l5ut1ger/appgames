@@ -2213,6 +2213,7 @@ function fnSubjucatorRaidAddAttackOption() {
 		if ($('#under_sos').is(":visible") && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.power_max,10)/10 && parseInt(player.power,10) > parseInt(player.power_max,10)/10) {
 			sos_call();
 			fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+			return;
 		}
 		else if (parseInt(player.bp,10) >=  Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))) {
 			attack(false, 0);
@@ -2449,12 +2450,11 @@ function fnSubjugationRaid() {
 		fnSubjugationFixAttack();
 		raid_get();
 		
-		sos_call2 = sos_call;
+		/*sos_call2 = sos_call;
 		sos_call = function () {
-			alert('fixed sos call');
 			sos_call2();
 			fnSubjucatorRaidAddAttackOption();
-		}
+		}*/
 		$('#under_sos').unbind("click");
 		$('#under_sos').one("click", sos_call);
 		
