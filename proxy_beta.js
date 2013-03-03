@@ -2228,7 +2228,7 @@ function fnSubjucatorRaidAddAttackOption() {
 			fnDrink100bp('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 		}
 		else {
-			alert('stopped...');
+			//stopped.. why.. probably no bp
 		}
 	}
 	myRate = Math.floor(parseInt(player.bp,10)/parseInt(player.deck_total_bp,10)*100);
