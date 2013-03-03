@@ -2224,9 +2224,8 @@ function fnSubjucatorRaidAddAttackOption() {
 			alert("consume bp");
 			$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 				if ( (data == null) || (data.status != 0) ) { return; }
-				var hasItemInList;
-				for (var i=0;i<data.payload.items.length;i++) {
-					hasItemInList = false;
+				var items = data.payload.items;
+				for (var i=0;i<items.length;i++) {
 					for (var j=0;j<items.length;j++) {
 						if (items[j].item_id == 3043 || items[j].item_id == 3024) { // consume my 100 bp or my 100 elixir
 							$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
