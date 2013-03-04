@@ -2527,6 +2527,14 @@ function fnSubjugationMission() {
 	
 	
 	mission_exec = function(superroll) {
+		if ($('#raid_boss').length) {
+			if (parseInt(player.bp, 10) >= parseInt(player.deck_total_bp,10)) {
+				$('#raid_boss').trigger('click');
+				mission_exec = null;
+				clearInterval(missionInterval);
+				return;
+			}
+		}
 		$.ajax_ex(false, '/en/'+platform+'/subjugation/process', {
 			area_id: area_id,
 			mission: mission.last_mission,
