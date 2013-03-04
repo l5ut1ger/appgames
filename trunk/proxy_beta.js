@@ -2221,26 +2221,26 @@ function fnSubjucatorRaidAddAttackOption() {
 			attack(false, 0);
 		}
 		else { // not enough bp
-			fnDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+			fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 		}
 	}
 	myRate = Math.floor(parseInt(player.bp,10)/parseInt(player.deck_total_bp,10)*100);
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)full</option>');
 }
 
-function fnDrinkBP(pRedirect) {
+function fnSubjugationDrinkBP(pRedirect) {
 	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
-		for (var i=0;i<items.length;i++) {
-			for (var j=0;j<items.length;j++) {
-				if (items[j].item_id == 3043 || items[j].item_id == 3024) { // consume my 100 bp or my 100 elixir
-					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
-					fnRedirect(pRedirect);
-					return;
-				}
-			}		
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3043 || items[j].item_id == 3024) { // consume my 100 bp or my 100 elixir
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect(pRedirect);
+				return;
+			}
 		}
+		// no bp to drink, do mission to gain bp
+		fnRedirect('/en/'+platform+'/subjugation/mission?');
 	});	
 }
 
@@ -2308,7 +2308,7 @@ function fnSubjugationFixAttack() {
 				return;
 			}
 			if (data.payload.short_of_bp) {
-				fnDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 				return;
 				/*
 				timer_stop = false;
