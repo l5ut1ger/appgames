@@ -2266,7 +2266,7 @@ function fnSubjugationFixAttack() {
 			'pid': player.player_id,
 			'da': debug_attack,
 			'rate': rate,
-			'bonus': bonus,
+			'bonus': bonus && (raid_data.boss_mhp == raid_data.boss_hp),
 			'fever_rate': '3',
 			'__hash':  (new Date()).getTime(),
 		}, function(data) {
@@ -2303,8 +2303,12 @@ function fnSubjugationFixAttack() {
 					return;
 				}
 			}
-			if (data.status == -8 || data.status==-10) {
+			if (data.status == -8) {
 				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				return;
+			}
+      if (data.status == -10) {
+				fnSubjucatorRaidAddAttackOption();
 				return;
 			}
 			if (data.payload.short_of_bp) {
@@ -2459,6 +2463,7 @@ function fnSubjugationRaid() {
 			countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
 			
 			if (parseInt(m_raid.boss_hp,10) == parseInt(raid.boss_hp,10)) {
+         //alert(m_raid.boss_hp + " - " + m_raid.boss_hp);
 				attack(true, 0);
 			}
 			else {
