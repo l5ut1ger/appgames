@@ -2458,7 +2458,7 @@ function fnSubjugationRaid() {
 
 			countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
 			
-			if (parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_mhp, 10)) {
+			if (m_raid.boss_hp == raid.boss_hp) {
 				attack(true, 0);
 			}
 			else {
