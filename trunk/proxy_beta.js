@@ -2266,7 +2266,7 @@ function fnSubjugationFixAttack() {
 			'pid': player.player_id,
 			'da': debug_attack,
 			'rate': rate,
-			'bonus': parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_mhp, 10)?true:false,
+			'bonus': bonus,
 			'fever_rate': '3',
 			'__hash':  (new Date()).getTime(),
 		}, function(data) {
