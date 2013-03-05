@@ -2303,7 +2303,7 @@ function fnSubjugationFixAttack() {
 					return;
 				}
 			}
-			if (data.status == -8) {
+			if (data.status == -8 || data.status=-10) {
 				$.reload();
 				return;
 			}
