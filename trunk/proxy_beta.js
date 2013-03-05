@@ -2303,8 +2303,8 @@ function fnSubjugationFixAttack() {
 					return;
 				}
 			}
-			if (data.status == -8 || data.status=-10) {
-				$.reload();
+			if (data.status == -8 || data.status==-10) {
+				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 				return;
 			}
 			if (data.payload.short_of_bp) {
