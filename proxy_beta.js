@@ -2266,7 +2266,7 @@ function fnSubjugationFixAttack() {
 			'pid': player.player_id,
 			'da': debug_attack,
 			'rate': rate,
-			'bonus': bonus,
+			'bonus': bonus && (raid_data.boss_mhp == raid_data.boss_hp),
 			'fever_rate': '3',
 			'__hash':  (new Date()).getTime(),
 		}, function(data) {
@@ -2459,7 +2459,7 @@ function fnSubjugationRaid() {
 			countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
 			
 			if (parseInt(m_raid.boss_hp,10) == parseInt(raid.boss_hp,10)) {
-         alert(m_raid.boss_hp + " - " + m_raid.boss_hp);
+         //alert(m_raid.boss_hp + " - " + m_raid.boss_hp);
 				attack(true, 0);
 			}
 			else {
