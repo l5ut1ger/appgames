@@ -2303,8 +2303,8 @@ function fnSubjugationFixAttack() {
 					return;
 				}
 			}
-			if (data.status == -8) {
-				$.reload();
+			if (data.status == -8 || data.status==-10) {
+				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 				return;
 			}
 			if (data.payload.short_of_bp) {
@@ -2458,7 +2458,7 @@ function fnSubjugationRaid() {
 
 			countdown_timer('raid_normal_time_text', payload['raid']['end_at_u'], timeout);
 			
-			if (parseInt($('#boss_hp_text').text(), 10)==parseInt(raid_data.boss_mhp, 10)) {
+			if (m_raid.boss_hp == raid.boss_hp) {
 				attack(true, 0);
 			}
 			else {
