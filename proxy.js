@@ -839,13 +839,13 @@ function fnProfileFixTabs() {
 	var compensationHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Compensation Gifts</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	compensationHTML += 'Collect Individual Missed Compensation Gift:<br/><select name="sel" onchange="fnProfileGetCompensation(this.options[this.options.selectedIndex].value);">';
 	compensationHTML += '<option selected value="">Select a gift ID</option>';
-	for (var i=18;i<=41;i++) {
+	for (var i=40;i<=41;i++) {
 		compensationHTML += '<option value="' + i + '">' + i + '</option>';
 	}
 	compensationHTML += '</select><br/>';
 	compensationHTML += 'Collect All Missed Compensation Gifts Up To:<br/><select name="sel" onchange="fnProfileGetAllCompenation(this.options[this.options.selectedIndex].value);">';
 	compensationHTML += '<option selected value="">Select a gift ID</option>';
-	for (var i=18;i<=41;i++) {
+	for (var i=40;i<=41;i++) {
 		compensationHTML += '<option value="' + i + '">' + i + '</option>';
 	}
 	compensationHTML += '</select><br/><br/>'; 	
@@ -2219,7 +2219,7 @@ function fnSubjucatorRaidAddAttackOption() {
 	$('#raid_normal_use_power_text option:last').attr("selected", "selected");
 	if (fnGetGrindingSpeed()>0 && parseInt(raid_data.boss_hp,10)>0) {
 		// too heavy bp consume, call for sos help
-		if ($('#under_sos').is(":visible") && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.power_max,10)/10 && parseInt(player.power,10) > parseInt(player.power_max,10)/10) {
+		if ($('#under_sos').is(":visible") && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.power_max,10)/10 && parseInt(player.power,10) > parseInt(player.power_max,10)/10 && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.deck_total_bp,10)) {
 			sos_call();
 			fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 			return;
