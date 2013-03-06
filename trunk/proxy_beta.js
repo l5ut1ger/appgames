@@ -2211,6 +2211,10 @@ function fnSubjucatorRaidAddAttackOption() {
   }
 	$('#raid_normal_use_power_text option:eq(0)').attr("selected", "selected");
 	var myRate = Math.ceil((parseInt(raid_data.boss_hp,10)+parseInt(raid_data.boss_defense, 10))/(parseInt($('#raid_normal_attack_value').html(),10)/($('#raid_normal_use_power_text').val()>=100?1.2:1)/$('#raid_normal_use_power_text').val()));
+   if (isNaN(myRate)) {
+   fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+			return;
+  }
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)optimized</option>');
 	$('#raid_normal_use_power_text option:last').attr("selected", "selected");
 	if (fnGetGrindingSpeed()>0 && parseInt(raid_data.boss_hp,10)>0) {
