@@ -2241,42 +2241,49 @@ function fnSubjugationDrinkBP(pRedirect) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
 		for (var j=0;j<items.length;j++) {
-			if (items[j].item_id == 3043 || items[j].item_id == 3024) { // consume my 100 bp or my 100 elixir
+			if (items[j].item_id == 3043) { // consume my 100 bp 
 				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
 				fnRedirect(pRedirect);
 				return;
 			}
 		}
-      if (player.bp_max >= 300 && raid_data.boss_id == 17) {
-      for (var j=0;j<items.length;j++) {
-			if (items[j].item_id == 3019) { // consume my battle potions
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3024 && (player.power + 100 <= player.power_max)) { // consume my 100 elixir
 				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
 				fnRedirect(pRedirect);
 				return;
 			}
 		}
-      for (var j=0;j<items.length;j++) {
-      if (items[j].item_id == 3020) { // consume my battle points
-				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
-				fnRedirect(pRedirect);
-				return;
+		if (player.bp_max >= 300 && raid_data.boss_id == 17) {
+			for (var j=0;j<items.length;j++) {
+				if (items[j].item_id == 3019) { // consume my battle potions
+					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+					fnRedirect(pRedirect);
+					return;
+				}
+			}
+			for (var j=0;j<items.length;j++) {
+				if (items[j].item_id == 3020) { // consume my battle points
+					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+					fnRedirect(pRedirect);
+					return;
+				}
+			}
+			for (var j=0;j<items.length;j++) {
+				if (items[j].item_id == 3003) { // consum battle points
+					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+					fnRedirect(pRedirect);
+					return;
+				}
+			}
+			for (var j=0;j<items.length;j++) {
+				if (items[j].item_id == 3011) { // consum elixir
+					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+					fnRedirect(pRedirect);
+					return;
+				}
 			}
 		}
-      for (var j=0;j<items.length;j++) {
-      if (items[j].item_id == 3003) { // consum battle points
-				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
-				fnRedirect(pRedirect);
-				return;
-			}
-		}
-      for (var j=0;j<items.length;j++) {
-      if (items[j].item_id == 3011) { // consum elixir
-				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
-				fnRedirect(pRedirect);
-				return;
-			}
-		}
-      }
 		// no bp to drink, do mission to gain bp
 		fnRedirect('/en/'+platform+'/subjugation/mission?');
 	});	

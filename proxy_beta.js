@@ -2248,7 +2248,7 @@ function fnSubjugationDrinkBP(pRedirect) {
 			}
 		}
 		for (var j=0;j<items.length;j++) {
-			if (items[j].item_id == 3024 && player.power + 100 <= player.power_max) { // consume my 100 elixir
+			if (items[j].item_id == 3024 && (player.power + 100 <= player.power_max)) { // consume my 100 elixir
 				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
 				fnRedirect(pRedirect);
 				return;
