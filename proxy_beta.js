@@ -559,7 +559,7 @@ function fnSetDungeonProgTeam(value) {
 
 // Subjucation missionStayThere
 
-var subjucationMissionStayKey = 'subjucationMissionStayKey';
+var subjucationMissionStayKey = 'subjuMisStay';
 
 function fnSubjucationMissionStay() {
 	if(fnGetCookie(subjucationMissionStayKey) === null) {
