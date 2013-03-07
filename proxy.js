@@ -2089,7 +2089,7 @@ function fnFixForkRoadMissionProcess() {
 				return;
 			}
 
-			// é²æã«åãããä½ç½®ã«å¤æ´
+			// Ã©Â€Â²Ã¦ÂÂ—Ã£ÂÂ«Ã¥ÂÂˆÃ£Â‚ÂÃ£ÂÂ›Ã£ÂÂŸÃ¤Â½ÂÃ§Â½Â®Ã£ÂÂ«Ã¥Â¤Â‰Ã¦Â›Â´
 			var m_area = missionAreaMaster[result.payload.mission.unique_id];
 			scrollTemplate.setPosition((320 - m_area.pos_x) - (320 / 2) - 30, (200 - m_area.pos_y) - (200 / 2) - 30);
 
@@ -2117,7 +2117,7 @@ function fnFixForkRoadMissionProcess() {
 				return;
 			}//event.phase.push('fragment_complete');
 
-			//ã¤ãã³ãã®å¤å®
+			//Ã£Â‚Â¤Ã£ÂƒÂ™Ã£ÂƒÂ³Ã£ÂƒÂˆÃ£ÂÂ®Ã¥ÂˆÂ¤Ã¥Â®Âš
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
 					event.phase.push('goal_effect');
@@ -2125,17 +2125,17 @@ function fnFixForkRoadMissionProcess() {
 				event.phase.push('fork_event_' + result.payload.event.event_info.params.type);
 			}
 
-			//åå²é¸æã®å¤å®
+			//Ã¥ÂˆÂ†Ã¥Â²ÂÃ©ÂÂ¸Ã¦ÂŠÂžÃ£ÂÂ®Ã¥ÂˆÂ¤Ã¥Â®Âš
 			if(result.payload.process.fork_flag > 0) {
 				event.phase.push('fork_select');
 			}
 
-			//åå²çµäºã®å¤å®
+			//Ã¥ÂˆÂ†Ã¥Â²ÂÃ§ÂµÂ‚Ã¤ÂºÂ†Ã£ÂÂ®Ã¥ÂˆÂ¤Ã¥Â®Âš
 			if(result.payload.event.event_info.fork == 64 && result.payload.event.clear) {
 				event.phase.push('fork_end');
 			}
 
-			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
+			//Ã£ÂƒÂ©Ã£ÂƒÂ³Ã£ÂƒÂ€Ã£Âƒ Ã£ÂƒÂœÃ£Â‚Â¹Ã£ÂÂ¨Ã£ÂÂ®Ã©ÂÂ­Ã©ÂÂ‡Ã¥ÂˆÂ¤Ã¥Â®Âš
 			if(event.enemy_encount) {
 				setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);}, 1000);
 				setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);}, 6000);
@@ -2248,7 +2248,7 @@ function fnSubjugationDrinkBP(pRedirect) {
 			}
 		}
 		for (var j=0;j<items.length;j++) {
-			if (items[j].item_id == 3024 && (player.power + 100 <= player.power_max)) { // consume my 100 elixir
+			if (items[j].item_id == 3024 && (parseInt(player.power,10) + 100 <= parseInt(player.power_max,10))) { // consume my 100 elixir
 				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
 				fnRedirect(pRedirect);
 				return;
@@ -2454,7 +2454,7 @@ function fnSubjugationFixAttack() {
 		});
 
 		if (! short_of_bp) {
-			// ææ´ãæ¶ã
+			// Ã¦Â•Â‘Ã¦ÂÂ´Ã£Â‚Â’Ã¦Â¶ÂˆÃ£ÂÂ™
 			raid_data.cheer_attack = 0;
 			raid_data.member_count = 0;
 
@@ -3205,7 +3205,7 @@ function fnAuctionDisplayCommission() {
 			$('.img_auction_comment', base_tag).hide();
 		}
 
-		// a-?a?¡Lc¢Foea?a??a??a??
+		// a-?a?Â¡LcÂ¢Foea?a??a??a??
 		if(entry.permanent_thumb_image_0){
 			$('.item_0', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_0);
 		}
