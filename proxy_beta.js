@@ -2586,7 +2586,7 @@ function fnSubjugationMission() {
 				clearInterval(missionInterval);
 				return;
 			}
-		}
+		}alert('hi');
 		$.ajax_ex(false, '/en/'+platform+'/subjugation/process', {
 			area_id: 1, //area_id,
 			mission: 1, //mission.last_mission,
