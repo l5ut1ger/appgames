@@ -209,6 +209,12 @@ function fnSpamAllyMsg() {
 			setTimeout(fnSendAllyMsg, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, fnAutoAllyMsg());
 		}
 	});
+	$.ajax_ex(false, '/en/'+platform+'/ranking/list?page=0&tribe=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		for (var i=0;i<=2;i++) {
+			setTimeout(fnSendAllyMsg, i*1000+3000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, fnAutoAllyMsg());
+		}
+	});
 }
 
 function fnHasAllySpot() {
@@ -2582,8 +2588,8 @@ function fnSubjugationMission() {
 			}
 		}
 		$.ajax_ex(false, '/en/'+platform+'/subjugation/process', {
-			area_id: area_id,
-			mission: mission.last_mission,
+			area_id: 1, //area_id,
+			mission: 1, //mission.last_mission,
 			confirm_id: confirm_id,
 			superroll: 3,
 			'__hash':  (new Date()).getTime(),
