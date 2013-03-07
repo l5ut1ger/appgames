@@ -209,6 +209,12 @@ function fnSpamAllyMsg() {
 			setTimeout(fnSendAllyMsg, i*1000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, fnAutoAllyMsg());
 		}
 	});
+	$.ajax_ex(false, '/en/'+platform+'/ranking/list?page=0&tribe=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		for (var i=0;i<=2;i++) {
+			setTimeout(fnSendAllyMsg, i*1000+3000, data.payload.rankers[i].player_id, data.payload.rankers[i].player.nickname, fnAutoAllyMsg());
+		}
+	});
 }
 
 function fnHasAllySpot() {
@@ -549,6 +555,21 @@ function fnDungeonProgTeam() {
 
 function fnSetDungeonProgTeam(value) {
 	fnSetCookie(dungeonProgTeamKey, value);
+}
+
+// Subjucation missionStayThere
+
+var subjucationMissionStayKey = 'subjuMisStay';
+
+function fnSubjucationMissionStay() {
+	if(fnGetCookie(subjucationMissionStayKey) === null) {
+		fnSetSubjucationMissionStay(0);
+	}
+	return fnGetCookie(subjucationMissionStayKey);
+}
+
+function fnSetSubjucationMissionStay(value) {
+	fnSetCookie(subjucationMissionStayKey, value);
 }
 
 // book mark function
@@ -2089,7 +2110,7 @@ function fnFixForkRoadMissionProcess() {
 				return;
 			}
 
-			// Ã©Â€Â²Ã¦ÂÂ—Ã£ÂÂ«Ã¥ÂÂˆÃ£Â‚ÂÃ£ÂÂ›Ã£ÂÂŸÃ¤Â½ÂÃ§Â½Â®Ã£ÂÂ«Ã¥Â¤Â‰Ã¦Â›Â´
+			// é²æã«åãããä½ç½®ã«å¤æ´
 			var m_area = missionAreaMaster[result.payload.mission.unique_id];
 			scrollTemplate.setPosition((320 - m_area.pos_x) - (320 / 2) - 30, (200 - m_area.pos_y) - (200 / 2) - 30);
 
@@ -2117,7 +2138,7 @@ function fnFixForkRoadMissionProcess() {
 				return;
 			}//event.phase.push('fragment_complete');
 
-			//Ã£Â‚Â¤Ã£ÂƒÂ™Ã£ÂƒÂ³Ã£ÂƒÂˆÃ£ÂÂ®Ã¥ÂˆÂ¤Ã¥Â®Âš
+			//ã¤ãã³ãã®å¤å®
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
 					event.phase.push('goal_effect');
@@ -2125,17 +2146,17 @@ function fnFixForkRoadMissionProcess() {
 				event.phase.push('fork_event_' + result.payload.event.event_info.params.type);
 			}
 
-			//Ã¥ÂˆÂ†Ã¥Â²ÂÃ©ÂÂ¸Ã¦ÂŠÂžÃ£ÂÂ®Ã¥ÂˆÂ¤Ã¥Â®Âš
+			//åå²é¸æã®å¤å®
 			if(result.payload.process.fork_flag > 0) {
 				event.phase.push('fork_select');
 			}
 
-			//Ã¥ÂˆÂ†Ã¥Â²ÂÃ§ÂµÂ‚Ã¤ÂºÂ†Ã£ÂÂ®Ã¥ÂˆÂ¤Ã¥Â®Âš
+			//åå²çµäºã®å¤å®
 			if(result.payload.event.event_info.fork == 64 && result.payload.event.clear) {
 				event.phase.push('fork_end');
 			}
 
-			//Ã£ÂƒÂ©Ã£ÂƒÂ³Ã£ÂƒÂ€Ã£Âƒ Ã£ÂƒÂœÃ£Â‚Â¹Ã£ÂÂ¨Ã£ÂÂ®Ã©ÂÂ­Ã©ÂÂ‡Ã¥ÂˆÂ¤Ã¥Â®Âš
+			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
 			if(event.enemy_encount) {
 				setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);}, 1000);
 				setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);}, 6000);
@@ -2195,9 +2216,13 @@ function fnForkRoadSummon() {
 // fnSubjugationMission
 
 function fnSubjugation() {
-	if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/dungeon/battle')) {
-		
-	}
+	var divTag = document.createElement("div");
+	divTag.id = "subDiv";
+
+	var missionSelectorHTML =  'Mission:<select name="mission" onchange="fnSetSubjucationMissionStay(this.options[this.options.selectedIndex].value);fnGrowl(\'Mission:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnSubjucationMissionStay(),10)==0?'selected':'') + ' value="0">Move on</option><option ' + (parseInt(fnSubjucationMissionStay(),10)==1?'selected':'') + ' value="1">Stay at current mission</option></select><br/>';	
+
+	divTag.innerHTML = missionSelectorHTML;
+	document.body.appendChild(divTag);
 }
 
 function fnSubjugationRaidDamageDisplay() {
@@ -2454,7 +2479,7 @@ function fnSubjugationFixAttack() {
 		});
 
 		if (! short_of_bp) {
-			// Ã¦Â•Â‘Ã¦ÂÂ´Ã£Â‚Â’Ã¦Â¶ÂˆÃ£ÂÂ™
+			// ææ´ãæ¶ã
 			raid_data.cheer_attack = 0;
 			raid_data.member_count = 0;
 
@@ -2582,8 +2607,8 @@ function fnSubjugationMission() {
 			}
 		}
 		$.ajax_ex(false, '/en/'+platform+'/subjugation/process', {
-			area_id: area_id,
-			mission: mission.last_mission,
+			area_id: parseInt(fnSubjucationMissionStay(),10)==1?1:area_id, 
+			mission: parseInt(fnSubjucationMissionStay(),10)==1?0:mission.last_mission,
 			confirm_id: confirm_id,
 			superroll: 3,
 			'__hash':  (new Date()).getTime(),
@@ -3205,7 +3230,7 @@ function fnAuctionDisplayCommission() {
 			$('.img_auction_comment', base_tag).hide();
 		}
 
-		// a-?a?Â¡LcÂ¢Foea?a??a??a??
+		// a-?a?¡Lc¢Foea?a??a??a??
 		if(entry.permanent_thumb_image_0){
 			$('.item_0', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_0);
 		}
