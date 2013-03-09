@@ -2628,7 +2628,7 @@ function fnSubjugationRewardGuild() {
 	divTag.style.left = "100px"; 
 	divTag.style.top = "70px"; 
 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="for (i=1;i<=10;i++) {rewardOnclick(i);}">Receive All Gift</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="for (i=1;i<=10;i++) {click_reward = false;rewardOnclick(i);}">Receive All Gift</button>'; 
 	document.body.appendChild(divTag); 
 }
 
