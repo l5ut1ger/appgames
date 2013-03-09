@@ -3730,6 +3730,10 @@ function fnPresentBox() {
 		setTimeout(function(){$.redirect('/en/'+platform+'/present/fpAll');}, 1000);
 		return;
 	}
+	if (document.getElementById('button_gold_all') != null) {
+		setTimeout(function(){$.redirect('/en/'+platform+'/present/jewelAll');}, 1000);
+		return;
+	}
 	if (document.getElementById('button_fp_ng') != null) {
 		//document.getElementById('button_fp_ng').style.display = "none";
 		
@@ -4407,6 +4411,7 @@ function fnHomeLogin() {
 
 function fnHomeBonus() {
 	$.ajax_ex(false, '/en/'+platform+'/present/fpAll', {},function(result) {return;}) ;
+	$.ajax_ex(false, '/en/'+platform+'/present/jewelAll', {},function(result) {return;}) ;
 	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 }
 
