@@ -2254,7 +2254,9 @@ function fnSubjucatorRaidAddAttackOption() {
 			attack(false, 0);
 		}
 		else { // not enough bp
-			fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+			if (fnAutoDrink() == 1) {
+				fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+			}
 		}
 	}
 	myRate = Math.floor(parseInt(player.bp,10)/parseInt(player.deck_total_bp,10)*100);
@@ -2314,6 +2316,41 @@ function fnSubjugationDrinkBP(pRedirect) {
 	});	
 }
 
+function fnSubjugationDrinkEP() {
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		var items = data.payload.items;
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3022) { // consume my 100 ep 
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect('/en/'+platform+'/subjugation/mission?');
+				return;
+			}
+		}
+		for (var j=0;j<items.length;j++) { // consume my 100 elixir
+			if (items[j].item_id == 3024 && (parseInt(player.power,10) + 100 <= parseInt(player.power_max,10))) { 
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect('/en/'+platform+'/subjugation/mission?');
+				return;
+			}
+		}
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3018) { // consume my e potions
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect('/en/'+platform+'/subjugation/mission?');
+				return;
+			}
+		}
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3001) { // consume ep
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect('/en/'+platform+'/subjugation/mission?');
+				return;
+			}
+		}
+	});	
+}
+
 function fnSubjugationFixAttack() {
 	attack = function (bonus, debug_attack) {
 		//if (timer_stop) return;
@@ -2344,8 +2381,10 @@ function fnSubjugationFixAttack() {
 				short_of_bp = true;
 			}
 			if (data.status == -9) {
-				short_of_bp = true;
-				timer_stop = false;
+				//short_of_bp = true;
+				//timer_stop = false;
+				//return;
+				fnSubjucatorRaidAddAttackOption();
 				return;
 			}
 			if (data.status == -5 || data.status == 2) {
@@ -2373,7 +2412,7 @@ function fnSubjugationFixAttack() {
 				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 				return;
 			}
-      if (data.status == -10) {
+			if (data.status == -10) {
 				fnSubjucatorRaidAddAttackOption();
 				return;
 			}
@@ -2616,8 +2655,11 @@ function fnSubjugationMission() {
 			if (result.status == 4) {
 				//phase_no_power(result.payload);
 				if (fnAutoDrink() == 1) {
-					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
+					//$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
+					fnSubjugationDrinkEP();
+					mission_exec = null;					
 				}
+				clearInterval(missionInterval);
 				return;
 			}
 			//      if (result.status == 5) {
