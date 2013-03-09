@@ -2628,7 +2628,7 @@ function fnSubjugationRewardGuild() {
 	divTag.style.left = "100px"; 
 	divTag.style.top = "70px"; 
 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="for (i=1;i<=10;i++) {setTimeout(function(prize){click_reward = false;fnGrowl(\'receive \'+prize);$.ajax_ex(false, \'/en/ios/subjugation/ajaxGuildReceive\', {rewardKey: prize},null);}, (i-1)*1100, i);}">Receive All Gift</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="for (i=1;i<=10;i++) {setTimeout(function(prize){click_reward = false;fnGrowl(\'receive \'+prize);$.ajax_ex(false, \'/en/ios/subjugation/ajaxGuildReceive\', {rewardKey: prize},null);}, (i-1)*2000, i);}">Receive All Gift</button>'; 
 	document.body.appendChild(divTag); 
 }
 
