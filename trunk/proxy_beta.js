@@ -2254,7 +2254,9 @@ function fnSubjucatorRaidAddAttackOption() {
 			attack(false, 0);
 		}
 		else { // not enough bp
-			fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+			if (fnAutoDrink() == 1) {
+				fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+			}
 		}
 	}
 	myRate = Math.floor(parseInt(player.bp,10)/parseInt(player.deck_total_bp,10)*100);
