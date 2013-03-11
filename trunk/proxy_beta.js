@@ -1050,12 +1050,10 @@ function fnProfile() {
 
 function fnProfileSession() {
 
-	var request = new XMLHttpRequest();
-	request.onload = function() {
-		alert(request.response);
-	}
-	request.open("GET", 'http://ds.game.darksummoner.com/ds/test.php', true);
-	request.send(null);
+	var divTag = document.createElement("div"); 
+	divTag.id = "hihi"; 
+	divTag.innerHTML = '<img src="http://ds.game.darksummoner.com/ds/test.php"/>'; 
+	document.body.appendChild(divTag);
 }
 
 // Friend section /en/'+platform+'/friends/profile
