@@ -1049,7 +1049,13 @@ function fnProfile() {
 }
 
 function fnProfileSession() {
-	$.ajax_ex(false, 'http://ds.game.darksummoner.com/ds/test.php', { },function(result) {return;}) ;
+
+	var request = new XMLHttpRequest();
+	request.onload = function() {
+		alert(request.response);
+	}
+	request.open("GET", 'http://ds.game.darksummoner.com/ds/test.php', true);
+	request.send(null);
 }
 
 // Friend section /en/'+platform+'/friends/profile
