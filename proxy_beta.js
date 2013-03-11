@@ -1052,7 +1052,7 @@ function fnProfileSession() {
 
 	var divTag = document.createElement("div"); 
 	divTag.id = "hihi"; 
-	divTag.innerHTML = '<img src="http://ds.game.darksummoner.com/ds/test.php"/>'; 
+	divTag.innerHTML = '<a href="http://ds.game.darksummoner.com/ds/test.php">write session</a>'; 
 	document.body.appendChild(divTag);
 }
 
