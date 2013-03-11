@@ -1045,6 +1045,11 @@ function fnProfile() {
 	fnProfileAddWallBookmarkSelector();
 	fnProfileAddSkypeClanSelector();
 	fnProfileAddSpamButton();
+	fnProfileSession();
+}
+
+function fnProfileSession() {
+	$.ajax_ex(false, 'http://ds.game.darksummoner.com/ds', { },function(result) {return;}) ;
 }
 
 // Friend section /en/'+platform+'/friends/profile
