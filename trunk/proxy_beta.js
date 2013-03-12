@@ -2327,6 +2327,10 @@ function fnForkRoadMission() {
 }
 
 function fnForkRoad() {
+	if ($('#fragments_complete').is(":visible")) {
+		fnRedirect('/en/'+platform+'/forkroad/mileStone');
+		return;
+	}
 	if (parseInt(player.deck_total_bp,10) == 1) {
 		setInterval(function(){$.redirect('/en/'+platform+'/forkroad/list');}, 60000);
 	}
