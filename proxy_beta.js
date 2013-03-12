@@ -2422,7 +2422,14 @@ function fnForkRoadBattleAttempt() {
 		return true;
 	}
 	else if (parseInt(fnAutoBP(),10) > 0) {
-		$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnAutoBP()}, function(data) {fnForkRoadBattleAttempt()});
+		$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnAutoBP()}, function(data) {
+			if (parseInt(data.status,10) >= 0) {
+				fnRedirect('/en/'+platform+'/battle/battleact?pid='+forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)]+'&skip=1&event=5');
+			}
+			else {
+				fnSetAutoBP(0);
+			}
+		});
 		return true;
 	}
 	return false;
