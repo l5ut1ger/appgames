@@ -1038,8 +1038,8 @@ function fnProfileFixTabs() {
 		}
 	});
 	
-	onChangeProfile = onChangeProfileFix = function (id) 
-	{	onChangeProfile = null;
+	onChangeProfileFix = function (id) 
+	{	
 		var PROFILE_BLOCKS = [
 			'profile-status', 
 			'profile-statusup', 
