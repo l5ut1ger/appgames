@@ -2188,6 +2188,7 @@ function fnFixForkRoadMissionProcess() {
 
 			//åå²é¸æã®å¤å®
 			if(result.payload.process.fork_flag) {
+				alert('hi');
 				clearInterval(missionInterval);
 				$.ajax_ex(false, '/en/'+platform+'/forkroad/ajax_area_select?fflag='+(player.deck_total_attack < 50000)?1:2, {}, function(result) {
 					fnForkRoadAutoGrind();	
