@@ -2339,6 +2339,16 @@ function fnForkRoad() {
   $('#button_battle').click(function() { $.redirect('/en/'+platform+'/forkroad/list');});
 }
 
+function fnForkRoadMileStone() {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
+		$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.count, {}, function(data) {
+			if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/forkroad/mission?')) {
+				fnRedirect('/en/'+platform+'/forkroad/mission?');
+			}			
+		});		
+	});
+}
+
 function fnForkRoadDrawACard() {
 	$.ajax_ex(false, '/en/'+platform+'/forkroad/ajaxDrawACard', {}, function(data) {
 		fnRedirect('/en/'+platform+'/forkroad/mission?');
@@ -3205,10 +3215,10 @@ function fnBattleBattle() {
 	if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/tower/mission')) {
 		fnRedirect('/en/'+platform+'/tower/bossResult');
 	}
-	if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/mission')) {
+	else if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/mission')) {
 		fnRedirect('/en/'+platform+'/mission/battleResult');
 	}
-	if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/forkroad/mission')) {
+	else if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/forkroad/mission')) {
 		fnRedirect('/en/'+platform+'/forkroad/battleResult');
 	}
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
@@ -3593,7 +3603,8 @@ function fnPresentBoxReceiveAllItemsPerPage(pPage) {
 }
 
 function fnPresentBoxReceiveAllItems() {
-	alert('It will hang a bit if you have many pages');
+	//alert('It will hang a bit if you have many pages');
+	fnGrowl("Receiving...");
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAllItemsPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
@@ -4695,8 +4706,8 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/mission') {
 		fnForkRoadMission();
 	}
-	else if (window.location.pathname === '/en/'+platform+'/forkroad/mission') {
-		fnForkRoadMission();
+	else if (window.location.pathname === '/en/'+platform+'/forkroad/mileStone') {
+		fnForkRoadMileStone();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/battleResult') {
 		fnForkRoadBattleResult();
