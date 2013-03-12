@@ -2428,6 +2428,7 @@ function fnForkRoadBattleAttempt() {
 			}
 			else {
 				fnSetAutoBP(0);
+				return false;
 			}
 		});
 		return true;
