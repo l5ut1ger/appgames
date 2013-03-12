@@ -2442,8 +2442,13 @@ function fnForkRoadRedirection() {
 		return;
 	}
 	if (parseInt(player.deck_total_bp,10) == 1) {
-		if (fnForkRoadBattleAttempt()) {		
+		if (fnForkRoadBattleAttempt()) {	
 			return;
+		}
+		else if (fnForkRoadMissionTeam() != '' && fnForkRoadBattleTeam() != '') {
+				fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad/mission');});
+				fnRedirect('/en/'+platform+'/forkroad/mission');
+				return;
 		}
 		else {
 			if (window.location.pathname === '/en/'+platform+'/forkroad') {
