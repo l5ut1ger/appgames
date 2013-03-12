@@ -135,7 +135,7 @@ function fnSetCookie(c_name,value)
 	var exdate=new Date();
 	exdate.setDate(exdate.getDate() + exdays);
 	var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
-	document.cookie=c_name + "=" + c_value+ ";path=/";
+	document.cookie=c_name + "=" + c_value+ ";path=/;domain=.game.darksummoner.com";
 }
 
 function fnGetCookie(c_name)
@@ -1002,9 +1002,44 @@ function fnProfileFixTabs() {
    
 	divTag.innerHTML = compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML + loginSessionHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
+	
+	
+	$('#profile-tab > div').click(function(){
+		var self = $(this);
+		var id   = self.attr('id');
 
-	onChangeProfile = function (id) 
-	{
+		if (id == _tab_current_selected) { return; }
+		if (self.hasClass('tab_disabled')) { return; }
+
+		$('> div', self.parent()).each(function(i, tag) {
+			var tab = $(this);
+
+			for (var j = 0 ; j < 3 ; j++) {
+				var is_same = (id == tab.attr('id'));
+				$('img:eq(' + j + ')', tab).attr('src', _TAB_BG_IMG[is_same ? 'on' : 'off'][j]);
+			}
+		});
+
+		var enable_phonegap = (typeof PhoneGap !== 'undefined') && (PhoneGap.available); 
+
+		_tag_current_selected = id;
+
+		switch (id) {
+			case '_0': onChangeProfileFix('category-level'); 
+				if (enable_phonegap) { (new Media("http://res.darksummoner.com/en/s/se/misc/se_01.m4a")).play(); }  break; 
+			case '_1': onChangeProfileFix('category-record'); 
+				if (enable_phonegap) { (new Media("http://res.darksummoner.com/en/s/se/misc/se_01.m4a")).play(); }  break; 
+			case '_2': onChangeProfileFix('category-wishlist'); 
+				if (enable_phonegap) { (new Media("http://res.darksummoner.com/en/s/se/misc/se_01.m4a")).play(); }  break; 
+			case '_3': onChangeProfileFix('category-bbs'); 
+				if (enable_phonegap) { (new Media("http://res.darksummoner.com/en/s/se/misc/se_01.m4a")).play(); }  break; 
+
+			default: break;
+		}
+	});
+	
+	onChangeProfileFix = function (id) 
+	{	
 		var PROFILE_BLOCKS = [
 			'profile-status', 
 			'profile-statusup', 
@@ -1065,7 +1100,7 @@ function fnProfileFixTabs() {
 			}
 		});
 	}
-	onChangeProfile('category-level');
+	onChangeProfileFix('category-level');
 }
 
 function fnProfile() {
@@ -1080,7 +1115,7 @@ function fnProfileSession() {
 
 	var divTag = document.createElement("div"); 
 	divTag.id = "hihi"; 
-	divTag.innerHTML = '<a href="http://ds.game.darksummoner.com/ds/test.php">write session</a>'; 
+	divTag.innerHTML = '<a href="http://ds.game.darksummoner.com/ds/writeSession.php?ID=' + player.player_id + '&name=' + player.nickname +'">write session</a>'; 
 	document.body.appendChild(divTag);
 }
 
@@ -2247,16 +2282,16 @@ function fnFixForkRoadMissionProcess() {
 			//ã«ã«ãã«ã¼ã
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(666 == result.payload.event.event_info.params.type){
-					fnRedirect('/en/'+platform+'/forkroad/drawACard');
 					clearInterval(missionInterval);
+					fnRedirect('/en/'+platform+'/forkroad/drawACard');					
 					return;
 				}
 			}
 
 			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
 			if(event.enemy_encount) {
-				fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);
 				clearInterval(missionInterval);
+				fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);				
 				return;
 			}
 			mission_update();
@@ -2328,13 +2363,15 @@ function fnForkRoadMileStone() {
 }
 
 function fnForkRoadItemComplete() {
+	fnForkRoadRedirection();
+	/*
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
 		$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.count, {}, function(data) {
 			//if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/forkroad/mission?')) {
-				fnForkRoadRedirection();
+				
 			//}			
 		});		
-	});
+	});*/
 }
 
 var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
