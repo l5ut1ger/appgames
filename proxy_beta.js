@@ -2393,7 +2393,7 @@ function fnForkRoad() {
 	}
 	battleTeamSelectorHTML+='</select><br/>'; 
 	
-	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option></select><br/>';	
+	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnAutoBP(),10)==3043?'selected':'') + ' value="3043">My 100 BP</option><option ' + (parseInt(fnAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3024?'selected':'') + ' value="3024">My 100 Elixir</option></select><br/>';	
 
 	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;
 	document.body.appendChild(divTag);
