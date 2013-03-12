@@ -1618,9 +1618,10 @@ function fnResetGiftCookies() {
 
 function fnFriend() {
 	alert("pid length " + $('.pid').length);
-	for (var i=0;i<$('.pid').length;i++){
-		alert($('.pid')[i].html());
-	}
+	$('.pid').each(function() {
+		var Content = $(".each", this) .text();
+		alert("text " + Content);
+	});
 }
 
 function fnFriendProfile() {
