@@ -2446,10 +2446,8 @@ function fnForkRoadRedirection() {
 			return;
 		}
 		else {
-			alert('a');
 			if (window.location.pathname === '/en/'+platform+'/forkroad') {
-				alert('b');
-				setInterval(fnForkRoad, 60000);
+				setInterval(fnRedirect, 60000, '/en/'+platform+'/forkroad');
 			}
 			else {
 				fnRedirect('/en/'+platform+'/forkroad');
