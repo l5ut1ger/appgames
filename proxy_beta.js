@@ -2346,11 +2346,8 @@ function fnForkRoad() {
 	}
 	// auto battle with 1bp formation
 	if (parseInt(player.deck_total_bp,10) == 1) {
-		alert('a');
 		if ($('#unlock_comment').is(":visible")) {
-			alert('b');
 			if (parseInt(player.bp,10) >= 1) {
-				alert('c');
 				var tList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
 				fnRedirect('/en/'+platform+'/battle/battleact?pid='+tList[Math.floor(Math.random()*tList.length)]+'&skip=1&event=5');
 			}
