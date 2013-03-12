@@ -2247,16 +2247,16 @@ function fnFixForkRoadMissionProcess() {
 			//ã«ã«ãã«ã¼ã
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(666 == result.payload.event.event_info.params.type){
-					fnRedirect('/en/'+platform+'/forkroad/drawACard');
 					clearInterval(missionInterval);
+					fnRedirect('/en/'+platform+'/forkroad/drawACard');					
 					return;
 				}
 			}
 
 			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
 			if(event.enemy_encount) {
-				fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);
 				clearInterval(missionInterval);
+				fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);				
 				return;
 			}
 			mission_update();
