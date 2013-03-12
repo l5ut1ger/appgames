@@ -2190,7 +2190,7 @@ function fnFixForkRoadMissionProcess() {
 			if(result.payload.process.fork_flag) {
 				alert('hi');
 				clearInterval(missionInterval);
-				$.ajax_ex(false, '/en/'+platform+'/forkroad/ajax_area_select?fflag='+(player.deck_total_attack < 50000)?1:2, {}, function(result) {
+				$.ajax_ex(false, '/en/'+platform+'/forkroad/ajax_area_select?fflag='+((parseInt(player.deck_total_attack,10) < 50000)?1:2), {}, function(result) {
 					fnForkRoadAutoGrind();	
 				});
 				return;
