@@ -3191,7 +3191,7 @@ function fnBattleBattle() {
 		fnRedirect('/en/'+platform+'/mission/battleResult');
 	}
 	if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/forkroad/mission')) {
-		fnRedirect('/en/'+platform+'/mission/battleResult');
+		fnRedirect('/en/'+platform+'/forkroad/battleResult');
 	}
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
