@@ -2140,7 +2140,11 @@ function fnFixForkRoadMissionProcess() {
 
 			if(result.payload.process.fever_start)   event.phase.push('fever_start');
 			//if(event.fragment.fragment_plus > 0)     event.phase.push('get_fragment');
-			//if(event.fragment.fragment_count == 10)  event.phase.push('fragment_complete');
+			if(event.fragment.fragment_count == 10) {
+				fnRedirect('/en/'+platform+'/forkroad/mileStone');
+				clearInterval(missionInterval);
+				return;
+			}
 
 			//ã¤ãã³ãã®å¤å®
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
@@ -2148,7 +2152,7 @@ function fnFixForkRoadMissionProcess() {
 					event.phase.push('goal_effect');
 				}
 				if(666 == result.payload.event.event_info.params.type){
-					fnRedirect('/en/ios/forkroad/drawACard');
+					fnRedirect('/en/'+platform+'/forkroad/drawACard');
 					clearInterval(missionInterval);
 					return;
 				}
@@ -2157,11 +2161,15 @@ function fnFixForkRoadMissionProcess() {
 			//åå²é¸æã®å¤å®
 			if(result.payload.process.fork_flag > 0) {
 				event.phase.push('fork_select');
+				clearInterval(missionInterval);
+				return;
 			}
 
 			//åå²çµäºã®å¤å®
 			if(result.payload.event.event_info.fork == 64 && result.payload.event.clear) {
 				event.phase.push('fork_end');
+				clearInterval(missionInterval);
+				return;
 			}
 
 			//ç§»å
@@ -2170,7 +2178,7 @@ function fnFixForkRoadMissionProcess() {
 			//ã«ã«ãã«ã¼ã
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(666 == result.payload.event.event_info.params.type){
-					fnRedirect('/en/ios/forkroad/drawACard');
+					fnRedirect('/en/'+platform+'/forkroad/drawACard');
 					clearInterval(missionInterval);
 					return;
 				}
@@ -2267,7 +2275,7 @@ function fnFixForkRoadMissionProcess() {
 			if(event.exp.lvup > 0)                   event.phase.push('status_up');
 			if(event.fragment.fragment_plus > 0)     event.phase.push('get_fragment');*/
 			if(event.fragment.fragment_count == 10)  {				
-				setTimeout(function(){$.redirect('/en/'+platform+'/forkroad/subpoena', {'__hash': new Date().getTime()});}, 1000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/forkroad/mileStone', {'__hash': new Date().getTime()});}, 1000);
 				setTimeout(function(){$.redirect('/en/'+platform+'/forkroad/subpoena', {'__hash': new Date().getTime()});}, 6000);
 				return;
 			}//event.phase.push('fragment_complete');
