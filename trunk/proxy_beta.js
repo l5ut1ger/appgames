@@ -2389,7 +2389,12 @@ function fnForkRoadBattleResult() {
 		fnRedirect('/en/'+platform+'/forkroad/mileStone');
 	}
 	else {
-		fnRedirect('/en/'+platform+'/forkroad/list');
+		if (document.referrer.endsWith('battle/battle')) {
+			fnRedirect('/en/'+platform+'/forkroad/mission?');
+		}
+		else {
+			fnRedirect('/en/'+platform+'/forkroad/list');
+		}
 	}
 }
 
