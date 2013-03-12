@@ -2446,7 +2446,9 @@ function fnForkRoadRedirection() {
 			return;
 		}
 		else {
+			alert('a');
 			if (window.location.pathname === '/en/'+platform+'/forkroad') {
+				alert('b');
 				setInterval(fnForkRoad, 60000);
 			}
 			else {
