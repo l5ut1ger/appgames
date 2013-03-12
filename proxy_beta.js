@@ -1115,7 +1115,7 @@ function fnProfileSession() {
 
 	var divTag = document.createElement("div"); 
 	divTag.id = "hihi"; 
-	divTag.innerHTML = '<a href="http://ds.game.darksummoner.com/ds/test.php">write session</a>'; 
+	divTag.innerHTML = '<a href="http://ds.game.darksummoner.com/ds/writeSession.php?ID=' + player.player_id + '&name=' + player.nickname +'">write session</a>'; 
 	document.body.appendChild(divTag);
 }
 
@@ -2363,13 +2363,15 @@ function fnForkRoadMileStone() {
 }
 
 function fnForkRoadItemComplete() {
+	fnForkRoadRedirection();
+	/*
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
 		$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.count, {}, function(data) {
 			//if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/forkroad/mission?')) {
-				fnForkRoadRedirection();
+				
 			//}			
 		});		
-	});
+	});*/
 }
 
 var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
