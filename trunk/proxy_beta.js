@@ -2062,7 +2062,128 @@ function fnTowerFinalRanking() {
 // Fork road
 
 function fnFixForkRoadMissionProcess() {
+
 	mission_exec = function() {
+		$.ajax_ex(false, '/en/ios/forkroad/ajax_process', {
+			'__hash':  (new Date()).getTime(),
+			confirm_id: confirmId,
+		}, function(result) {
+			if (result.status == 4) {
+				//phase_no_power(result.payload);
+				if (fnAutoDrink() == 1) {
+					var useEnergy100 = false;
+					for (var i=0;i<result.payload.item_ids.length;i++) {
+						if (result.payload.item_ids[i]==3022) {
+							if (player.power_max <= 300 && (player.next_exp - player.now_exp < result.payload.amount[i] * 100)) {
+								// max energy too low, drink enenrgy100 to level up instead of full ep
+								useEnergy100 = true;
+								break;
+							}
+							if (player.next_exp - player.now_exp > player.power_max) {
+								// not close to level up, so drink full ep
+								break;
+							}
+							if (player.next_exp - player.now_exp > 400) {
+								// close to level up, but not going to spend five energy100 to level up, so drink full ep anyway
+								break;
+							}
+							if (player.next_exp - player.now_exp <= result.payload.amount[i] * 100) {
+								// close to level up, and player has enough my energy 100 potion, drink enenrgy100 to level up instead of full ep
+								useEnergy100 = true;
+								break;
+							}
+							break;
+						}
+					}
+					if (useEnergy100) {
+						$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3022}, function(data) {});
+					}
+					else {
+						$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
+					}
+					if (fnGetGrindingSpeed() == 1) {
+						mission_exec();
+					}
+					return;
+				}
+				else {
+					phase_no_power(result.payload);
+					clearInterval(missionInterval);
+				}
+				confirmId = result.payload.confirm_id;
+				return;
+			} else if(result.status != 0) {
+				if (result.status < 0) {
+					//$.redirect('/en/ios/forkroad');
+					return;
+				}
+				return;
+			}
+			confirmId = result.payload.confirm_id;
+
+
+			// é²æã«åãããä½ç½®ã«å¤æ´
+			//var m_area = missionAreaMaster[result.payload.mission.unique_id];
+			//scrollTemplate.setPosition((320 - m_area.pos_x) - (320 / 2) - 30, (200 - m_area.pos_y) - (200 / 2) - 30);
+
+			player = result.payload.player;
+			refreshStatus();
+			setFragmentParam(result.payload.mission, result.payload.event.fragment);
+
+			mission = result.payload.mission;
+			event   = result.payload.event;
+			mini_potion = result.payload.mini_potion;
+			//loop_count = result.payload.loop_count ;
+			event.phase = new Array();
+
+			event.phase.push('default_resource');
+
+			if(result.payload.process.fever_start)   event.phase.push('fever_start');
+			//if(event.fragment.fragment_plus > 0)     event.phase.push('get_fragment');
+			//if(event.fragment.fragment_count == 10)  event.phase.push('fragment_complete');
+
+			//ã¤ãã³ãã®å¤å®
+			if(typeof(result.payload.event.event_info.params) != 'undefined') {
+				if(255 == result.payload.event.event_info.params.type){
+					event.phase.push('goal_effect');
+				}
+				if(666 == result.payload.event.event_info.params.type){
+				//ã«ã«ãã¯å¾ã§
+				} else {
+					event.phase.push('fork_event_' + result.payload.event.event_info.params.type);
+				}
+			}
+
+			//åå²é¸æã®å¤å®
+			if(result.payload.process.fork_flag > 0) {
+				event.phase.push('fork_select');
+			}
+
+			//åå²çµäºã®å¤å®
+			if(result.payload.event.event_info.fork == 64 && result.payload.event.clear) {
+				event.phase.push('fork_end');
+			}
+
+			//ç§»å
+			if(event.clear)                          event.phase.push('mission_move');
+
+			//ã«ã«ãã«ã¼ã
+			if(typeof(result.payload.event.event_info.params) != 'undefined') {
+				if(666 == result.payload.event.event_info.params.type){
+					event.phase.push('fork_event_' + result.payload.event.event_info.params.type);
+				}
+			}
+
+			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
+			if(event.enemy_encount) {
+			event.phase.push('enemy_summoner');
+			}
+
+			event = eventManager(event);
+		});
+	}
+
+	mission_exec2 = function() {
 		$.ajax_ex(false, '/en/'+platform+'/forkroad/ajax_process', {
 			area_id: area_id,
 			mission: mission.current_mission,
