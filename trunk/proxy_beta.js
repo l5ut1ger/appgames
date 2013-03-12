@@ -2160,9 +2160,10 @@ function fnFixForkRoadMissionProcess() {
 
 			//åå²é¸æã®å¤å®
 			if(result.payload.process.fork_flag > 0) {
-				event.phase.push('fork_select');
-				event = eventManager(event);
 				clearInterval(missionInterval);
+				$.ajax_ex(false, '/en/'+platform+'/forkroad/ajax_area_select?fflag='+(player.deck_total_attack < 50000)?1:2, {}, function(result) {
+					fnForkRoadAutoGrind();	
+				});
 				return;
 			}
 
@@ -2313,9 +2314,7 @@ function fnFixForkRoadMissionProcess() {
 	
 }
 
-function fnForkRoadMission() {
-	fnFixForkRoadMissionProcess();
-
+function fnForkRoadAutoGrind() {
 	if (fnGetGrindingSpeed() == -1) {
 		// user press by himself, dont automate
 		return;
@@ -2326,6 +2325,11 @@ function fnForkRoadMission() {
 	else {
 		missionInterval = setInterval(mission_exec,fnGetGrindingSpeed());
 	}
+}
+
+function fnForkRoadMission() {
+	fnFixForkRoadMissionProcess();
+	fnForkRoadAutoGrind();	
 }
 
 function fnForkRoad() {
