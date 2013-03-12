@@ -2357,6 +2357,7 @@ function fnForkRoad() {
 			else {
 				setInterval(fnForkRoad, 60000);
 			}
+		}
 		else {
 			fnRedirect('/en/'+platform+'/forkroad/list');
 		}
