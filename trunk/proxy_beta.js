@@ -2340,6 +2340,13 @@ function fnForkRoadRedirection() {
 		}
 	}
 	if (fnForkRoadMissionTeam() != '' && fnForkRoadBattleTeam() != '') {
+		// if have enough bp, change to battle team to battle;
+		if (parseInt(player.deck_total_bp,10) > 1 && parseInt(player.bp >= 10)) {
+			fnDeckChangeAdvance(fnForkRoadBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad');});
+			fnRedirect('/en/'+platform+'/forkroad');
+			return;
+		}
+		// change to high bp team to look legit, and do mission if have power
 		fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){});
 		if (parseInt(player.power, 10) >= 20) {
 			fnRedirect('/en/'+platform+'/forkroad/mission');
