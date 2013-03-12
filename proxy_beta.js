@@ -2327,6 +2327,14 @@ function fnForkRoad() {
   $('#button_battle').click(function() { $.redirect('/en/'+platform+'/forkroad/list');});
 }
 
+function fnForkRoadDrawACard() {
+	fnRedirect('/en/'+platform+'/forkroad/ajaxDrawACard');
+}
+
+function fnForkRoadAJaxDrawACard() {
+	fnRedirect('/en/'+platform+'/forkroad/mission?');
+}
+
 function fnForkRoadList() {	
 	var tList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
 	//seeBattle(tList[Math.floor(Math.random()*tList.length)],1);	
@@ -4671,8 +4679,14 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/forkroad') {
 		fnForkRoad();
 	}
-   else if (window.location.pathname === '/en/'+platform+'/forkroad/list') {
-		fnForkRoadList();
+	else if (window.location.pathname === '/en/'+platform+'/forkroad/drawACard') {
+		fnForkRoadDrawACard();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/forkroad/ajaxDrawACard') {
+		fnForkRoadAJaxDrawACard();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/forkroad/mission') {
+		fnForkRoadMission();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/mission') {
 		fnForkRoadMission();
