@@ -2338,12 +2338,12 @@ function fnForkRoadRedirection() {
 		if (fnForkRoadBattleAttempt()) {	
 			return;
 		}
-		else if (fnForkRoadMissionTeam() != '' && fnForkRoadBattleTeam() != '') {
-			fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){});
-			if (parseInt(player.power, 10) >= 20) {
-				fnRedirect('/en/'+platform+'/forkroad/mission');
-				return;
-			}
+	}
+	if (fnForkRoadMissionTeam() != '' && fnForkRoadBattleTeam() != '') {
+		fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){});
+		if (parseInt(player.power, 10) >= 20) {
+			fnRedirect('/en/'+platform+'/forkroad/mission');
+			return;
 		}
 	}
 	if (window.location.pathname === '/en/'+platform+'/forkroad') {
