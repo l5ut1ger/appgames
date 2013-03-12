@@ -879,7 +879,7 @@ function fnProfileGetCompensation(pID) {
 }
 
 function fnProfileFixTabs() {
-	document.getElementById('_1').childNodes[7].childNodes[0].innerHTML = "Strategy";
+	document.getElementById('_1').childNodes[7].childNodes[0].innerHTML = "Strategy";alert('z');
 	var divTag = document.createElement("div"); 
 	divTag.id = "profile-strategy"; 
 	divTag.style.position = "relative"; 
