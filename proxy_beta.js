@@ -2328,11 +2328,9 @@ function fnForkRoad() {
 }
 
 function fnForkRoadDrawACard() {
-	fnRedirect('/en/'+platform+'/forkroad/ajaxDrawACard');
-}
-
-function fnForkRoadAJaxDrawACard() {
-	fnRedirect('/en/'+platform+'/forkroad/mission?');
+	$.ajax_ex(false, '/en/'+platform+'/forkroad/ajaxDrawACard', {}, function(data) {
+		fnRedirect('/en/'+platform+'/forkroad/mission?');
+	});
 }
 
 function fnForkRoadList() {	
@@ -4681,9 +4679,6 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/drawACard') {
 		fnForkRoadDrawACard();
-	}
-	else if (window.location.pathname === '/en/'+platform+'/forkroad/ajaxDrawACard') {
-		fnForkRoadAJaxDrawACard();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/mission') {
 		fnForkRoadMission();
