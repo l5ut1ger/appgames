@@ -2148,9 +2148,9 @@ function fnFixForkRoadMissionProcess() {
 					event.phase.push('goal_effect');
 				}
 				if(666 == result.payload.event.event_info.params.type){
-				//ã«ã«ãã¯å¾ã§
-				} else {
-					event.phase.push('fork_event_' + result.payload.event.event_info.params.type);
+					fnRedirect('/en/ios/forkroad/drawACard');
+					clearInterval(missionInterval);
+					return;
 				}
 			}
 
@@ -2170,13 +2170,17 @@ function fnFixForkRoadMissionProcess() {
 			//ã«ã«ãã«ã¼ã
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(666 == result.payload.event.event_info.params.type){
-					event.phase.push('fork_event_' + result.payload.event.event_info.params.type);
+					fnRedirect('/en/ios/forkroad/drawACard');
+					clearInterval(missionInterval);
+					return;
 				}
 			}
 
 			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
 			if(event.enemy_encount) {
-			event.phase.push('enemy_summoner');
+				fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);
+				clearInterval(missionInterval);
+				return;
 			}
 
 			event = eventManager(event);
