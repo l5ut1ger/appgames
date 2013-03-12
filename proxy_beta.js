@@ -1616,6 +1616,12 @@ function fnResetGiftCookies() {
 	fnSetGiftCookies('');
 }
 
+function fnFriend() {
+	for (var i=0;i<$('.pid').length;i++){
+		alert($('.pid')[i].text());
+	}
+}
+
 function fnFriendProfile() {
 	fnProfileAddFriendWallBookmarkSelector();
 	fnProfileAddFriendWallBookmarkButtons();
@@ -4633,6 +4639,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/home/bonus') {
 		fnHomeBonus();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/friends') {
+		fnFriend();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/friends/profile') {
 		fnFriendProfile();
