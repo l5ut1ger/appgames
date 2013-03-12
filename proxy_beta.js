@@ -2393,10 +2393,8 @@ function fnForkRoadDrawACard() {
 }
 
 function fnForkRoadList() {	
-	var tList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
-	//seeBattle(tList[Math.floor(Math.random()*tList.length)],1);	
-	setTimeout(seeBattle, fnGetGrindingSpeed(), tList[Math.floor(Math.random()*tList.length)],1);
-	setInterval(seeBattle, 15000, tList[Math.floor(Math.random()*tList.length)],1);
+	setTimeout(seeBattle, fnGetGrindingSpeed(), forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)],1);
+	setInterval(seeBattle, 15000, forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)],1);
 }
 
 function fnForkRoadComplete() {
