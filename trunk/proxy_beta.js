@@ -2345,19 +2345,12 @@ function fnForkRoadRedirection() {
 				return;
 			}
 		}
-		if (window.location.pathname === '/en/'+platform+'/forkroad') {
-			setInterval(fnRedirect, 60000, '/en/'+platform+'/forkroad');
-		}
-		else {
-			fnRedirect('/en/'+platform+'/forkroad');
-		}
 	}
-	else {		
-		if (fnForkRoadMissionTeam() == '') {
-			// no mission team, dont auto forward
-			return;
-		}
-		fnRedirect('/en/'+platform+'/forkroad/mission?');
+	if (window.location.pathname === '/en/'+platform+'/forkroad') {
+		setInterval(fnRedirect, 60000, '/en/'+platform+'/forkroad');
+	}
+	else {
+		fnRedirect('/en/'+platform+'/forkroad');
 	}
 }
 
