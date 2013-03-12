@@ -2193,6 +2193,7 @@ function fnFixForkRoadMissionProcess() {
 				clearInterval(missionInterval);
 				return;
 			}
+			mission_update();
 
 			event = eventManager(event);
 		});
@@ -2374,7 +2375,7 @@ function fnForkRoadList() {
 
 function fnForkRoadBattleResult() {
 	if (document.getElementById('result_summon') != null) {
-		fnRedirect('/en/'+platform+'/forkroad/subpoena');
+		fnRedirect('/en/'+platform+'/forkroad/mileStone');
 	}
 	else {
 		fnRedirect('/en/'+platform+'/forkroad/list');
