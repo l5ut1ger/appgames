@@ -2344,10 +2344,21 @@ function fnForkRoad() {
 			fnRedirect('/en/'+platform+'/forkroad/mission?');
 		}
 	}
-	
+	// auto battle with 1bp formation
 	if (parseInt(player.deck_total_bp,10) == 1) {
-		setInterval(function(){$.redirect('/en/'+platform+'/forkroad/list');}, 60000);
+		if ($('#unlock_comment').is(":visible")) {
+			if (parseInt(player.bp,10) >= 1) {
+				var tList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
+				fnRedirect('/en/'+platform+'/battle/battleact?pid='+tList[Math.floor(Math.random()*tList.length)]+'&skip=1&event=5');
+			}
+			else {
+				setInterval(fnForkRoad, 60000);
+			}
+		else {
+			fnRedirect('/en/'+platform+'/forkroad/list');
+		}
 	}
+
    $('#unlock_comment').hide();
    $('#button_battle').removeClass('__disable');
   $('#button_battle').click(function() { $.redirect('/en/'+platform+'/forkroad/list');});
