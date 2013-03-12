@@ -1621,6 +1621,14 @@ function fnFriendRemoveCall(pPID) {
 	fnGrowl("Removing " + pPID);
 }
 
+function fnFriendConfirmRemove() {
+	if (confirm('Are you sure you want to remove all ally?')) {
+		for (var i=0;i < $('.pid').length;i++) {
+			setTimeout(fnFriendRemoveCall, i*1000, $('.pid').eq(i).text());
+		}
+	}
+}
+
 function fnFriend() {
 	var divTag = document.createElement("div"); 
 
@@ -1633,7 +1641,7 @@ function fnFriend() {
 	divTag.style.left = "100px"; 
 	divTag.style.top = "70px"; 
 
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="confirm(\'Are you sure you want to remove all ally?\')?(for (var i=0;i < $(\'.pid\').length;i++) {alert( $(\'.pid\').eq(i).text());}):0">Remove All Ally</button>'; 
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="fnFriendConfirmRemove();">Remove All Ally</button>'; 
 	document.body.appendChild(divTag); 
 	
 }
