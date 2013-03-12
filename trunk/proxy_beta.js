@@ -452,6 +452,34 @@ function fnSetIsBattlingMcFly(value) {
 	fnSetCookie(battlingMcFlyKey, value);
 }
 
+// ForkRoad Mission Team
+
+var forkRoadMissionTeamKey = 'frMT';
+
+function fnForkRoadMissionTeam() {
+	if(fnGetCookie(forkRoadMissionTeamKey) === null) {
+		fnSetForkRoadMissionTeam('');
+	}
+	return fnGetCookie(forkRoadMissionTeamKey);
+}
+
+function fnSetForkRoadMissionTeam(value) {
+	fnSetCookie(forkRoadMissionTeamKey, value);
+}
+
+var forkRoadBattleTeamKey = 'frBT';
+
+function fnForkRoadBattleTeam() {
+	if(fnGetCookie(forkRoadBattleTeamKey) === null) {
+		fnSetForkRoadBattleTeam('');
+	}
+	return fnGetCookie(forkRoadBattleTeamKey);
+}
+
+function fnSetForkRoadBattleTeam(value) {
+	fnSetCookie(forkRoadBattleTeamKey, value);
+}
+
 // Dungeon Boss Record
 
 var dungeonBossRecordKey = 'dungeonBossRecordKey';
@@ -469,17 +497,17 @@ function fnSetDungeonBossRecord(value) {
 
 // Dungeon Boss Record
 
-var dungeonAutoBPKey = 'dungeonAutoBPKey';
+var autoBPKey = 'autoBP';
 
-function fnDungeonAutoBP() {
-	if(fnGetCookie(dungeonAutoBPKey) === null) {
-		fnSetDungeonAutoBP(0);
+function fnAutoBP() {
+	if(fnGetCookie(autoBPKey) === null) {
+		fnSetAutoBP(0);
 	}
-	return fnGetCookie(dungeonAutoBPKey);
+	return fnGetCookie(autoBPKey);
 }
 
-function fnSetDungeonAutoBP(value) {
-	fnSetCookie(dungeonAutoBPKey, value);
+function fnSetAutoBP(value) {
+	fnSetCookie(autoBPKey, value);
 }
 
 // Dungeon Extra Exp
@@ -2345,10 +2373,31 @@ function fnForkRoad() {
 		}
 	}
 	fnForkRoadRedirection();
+  
+  
+	var divTag = document.createElement("div");
+	divTag.id = "frDiv";
 
-   $('#unlock_comment').hide();
-   $('#button_battle').removeClass('__disable');
-  $('#button_battle').click(function() { $.redirect('/en/'+platform+'/forkroad/list');});
+	var aFormationArray = fnGetFormationArray();
+	var missionTeamSelectorHTML =  'Mission Team:<select name="boss" onchange="fnSetForkRoadMissionTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Mission Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnForkRoadMissionTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		missionTeamSelectorHTML+='<option ' + (fnForkRoadMissionTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	missionTeamSelectorHTML+='</select><br/>'; 
+
+	var battleTeamSelectorHTML =  'Battle Team<select name="prog" onchange="fnSetForkRoadBattleTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Battle Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonProgTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		battleTeamSelectorHTML+='<option ' + (fnForkRoadBattleTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	battleTeamSelectorHTML+='</select><br/>'; 
+	
+	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option></select><br/>';	
+
+	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;
+	document.body.appendChild(divTag);
+  
 }
 
 function fnForkRoadMileStone() {
@@ -2368,6 +2417,10 @@ function fnForkRoadItemComplete() {
 var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
 
 function fnForkRoadRedirection() {
+	if (fnGetGrindingSpeed() == -1) {
+		//user grind by himself, dont auto forward
+		return;
+	}
 	if (parseInt(player.deck_total_bp,10) == 1) {
 		if (parseInt(player.bp,10) >= 1) {				
 			fnRedirect('/en/'+platform+'/battle/battleact?pid='+forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)]+'&skip=1&event=5');
@@ -2381,7 +2434,11 @@ function fnForkRoadRedirection() {
 			}
 		}
 	}
-	else {
+	else {		
+		if (fnForkRoadMissionTeam() == '') {
+			// no mission team, dont auto forward
+			return;
+		}
 		fnRedirect('/en/'+platform+'/forkroad/mission?');
 	}
 }
@@ -3038,8 +3095,8 @@ function fnDungeonMission() {
 			ig.game.save(null);
 		}
 		else {
-			if (parseInt(fnDungeonAutoBP(),10) > 0) {
-				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnDungeonAutoBP()}, function(data) {});
+			if (parseInt(fnAutoBP(),10) > 0) {
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnAutoBP()}, function(data) {});
 				fnTimeOutRedirect('/en/'+platform+'/dungeon/mission?area_id='+dm['area_id']+'&dungeon_tribe='+dm['dungeon_tribe']);
 				return;
 			}
@@ -3196,7 +3253,7 @@ function fnDungeon() {
 	}
 	progTeamSelectorHTML+='</select><br/>'; 
 	
-	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetDungeonAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnDungeonAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnDungeonAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option></select><br/>';	
+	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option></select><br/>';	
 
 	divTag.innerHTML = bossTeamSelectorHTML + progTeamSelectorHTML + bpSelectorHTML  + expSelectorHTML + goldSelectorHTML;
 	document.body.appendChild(divTag);
