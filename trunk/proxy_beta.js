@@ -1002,9 +1002,9 @@ function fnProfileFixTabs() {
    
 	divTag.innerHTML = compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML + loginSessionHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
-
+alert('a');
 	onChangeProfile = function (id) 
-	{
+	{ alert('b');
 		var PROFILE_BLOCKS = [
 			'profile-status', 
 			'profile-statusup', 
