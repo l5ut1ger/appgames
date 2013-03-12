@@ -879,7 +879,7 @@ function fnProfileGetCompensation(pID) {
 }
 
 function fnProfileFixTabs() {
-	document.getElementById('_1').childNodes[7].childNodes[0].innerHTML = "Strategy";alert('z');
+	document.getElementById('_1').childNodes[7].childNodes[0].innerHTML = "Strategy";
 	var divTag = document.createElement("div"); 
 	divTag.id = "profile-strategy"; 
 	divTag.style.position = "relative"; 
@@ -1038,8 +1038,7 @@ function fnProfileFixTabs() {
 		}
 	});
 	
-	onChangeProfile = null;
-	onChangeProfileFix = function (id) 
+	onChangeProfile = onChangeProfileFix = function (id) 
 	{	onChangeProfile = null;
 		var PROFILE_BLOCKS = [
 			'profile-status', 
