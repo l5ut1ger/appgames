@@ -4724,6 +4724,9 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/mission') {
 		fnForkRoadMission();
 	}
+	else if (window.location.pathname === '/en/'+platform+'/forkroad/list') {
+		fnForkRoadList();
+	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/mileStone') {
 		fnForkRoadMileStone();
 	}
