@@ -1619,7 +1619,7 @@ function fnResetGiftCookies() {
 function fnFriend() {
 	alert("pid length " + $('.pid').length);
 	$('.pid').each(function() {
-		var Content = $(".pid", this) .text();
+		var Content = $(this) .text();
 		alert("text " + Content);
 	});
 }
