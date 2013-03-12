@@ -2380,6 +2380,10 @@ function fnForkRoadList() {
 	setInterval(seeBattle, 15000, tList[Math.floor(Math.random()*tList.length)],1);
 }
 
+function fnForkRoadComplete() {
+	fnRedirect('/en/'+platform+'/forkroad/subpoena?__hash' + (new Date().getTime()));
+}
+
 function fnForkRoadBattleResult() {
 	if (document.getElementById('result_summon') != null) {
 		fnRedirect('/en/'+platform+'/forkroad/mileStone');
@@ -4726,6 +4730,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/list') {
 		fnForkRoadList();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/forkroad/complete') {
+		fnForkRoadComplete();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/mileStone') {
 		fnForkRoadMileStone();
