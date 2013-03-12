@@ -2338,6 +2338,13 @@ function fnForkRoad() {
 		fnRedirect('/en/'+platform+'/forkroad/mileStone');
 		return;
 	}
+	
+	if (document.referrer.endsWith('battleResult?')) {
+		if ($('#unlock_comment').is(":visible")) {
+			fnRedirect('/en/'+platform+'/forkroad/mission?');
+		}
+	}
+	
 	if (parseInt(player.deck_total_bp,10) == 1) {
 		setInterval(function(){$.redirect('/en/'+platform+'/forkroad/list');}, 60000);
 	}
