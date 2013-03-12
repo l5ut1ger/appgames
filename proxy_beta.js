@@ -1616,12 +1616,26 @@ function fnResetGiftCookies() {
 	fnSetGiftCookies('');
 }
 
+function fnFriendRemoveCall(pPID) {
+	$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+pPID+'&cmd=break', {}, function(result) {});
+	fnGrowl("Removing " + pPID);
+}
+
 function fnFriend() {
-	alert("pid length " + $('.pid').length);
-	$('.pid').each(function() {
-		var Content = $(this) .text();
-		alert("text " + Content);
-	});
+	var divTag = document.createElement("div"); 
+
+	divTag.id = "removeAllDiv"; 
+
+	divTag.style["z-index"] = 1000; 
+
+	divTag.style.position = "absolute"; 
+
+	divTag.style.left = "100px"; 
+	divTag.style.top = "70px"; 
+
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="confirm(\'Are you sure you want to remove all ally?\')?(for (var i=0;i < $(\'.pid\').length;i++) {setTimeOut(fnFriendRemoveCall, i*1000, $(\'.pid\').eq(i).text);}):0">Remove All Ally</button>'; 
+	document.body.appendChild(divTag); 
+	
 }
 
 function fnFriendProfile() {
