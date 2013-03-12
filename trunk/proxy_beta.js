@@ -1002,8 +1002,44 @@ function fnProfileFixTabs() {
    
 	divTag.innerHTML = compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML + loginSessionHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
-alert('a');
-	onChangeProfile = function (id) 
+	
+	
+	$('#profile-tab > div').click(function(){
+		var self = $(this);
+		var id   = self.attr('id');
+
+		if (id == _tab_current_selected) { return; }
+		if (self.hasClass('tab_disabled')) { return; }
+
+		$('> div', self.parent()).each(function(i, tag) {
+			var tab = $(this);
+
+			for (var j = 0 ; j < 3 ; j++) {
+				var is_same = (id == tab.attr('id'));
+				$('img:eq(' + j + ')', tab).attr('src', _TAB_BG_IMG[is_same ? 'on' : 'off'][j]);
+			}
+		});
+
+		var enable_phonegap = (typeof PhoneGap !== 'undefined') && (PhoneGap.available); 
+
+		_tag_current_selected = id;
+
+		switch (id) {
+			case '_0': onChangeProfileFix('category-level'); 
+				if (enable_phonegap) { (new Media("http://res.darksummoner.com/en/s/se/misc/se_01.m4a")).play(); }  break; 
+			case '_1': onChangeProfileFix('category-record'); 
+				if (enable_phonegap) { (new Media("http://res.darksummoner.com/en/s/se/misc/se_01.m4a")).play(); }  break; 
+			case '_2': onChangeProfileFix('category-wishlist'); 
+				if (enable_phonegap) { (new Media("http://res.darksummoner.com/en/s/se/misc/se_01.m4a")).play(); }  break; 
+			case '_3': onChangeProfileFix('category-bbs'); 
+				if (enable_phonegap) { (new Media("http://res.darksummoner.com/en/s/se/misc/se_01.m4a")).play(); }  break; 
+
+			default: break;
+		}
+	});
+	
+	
+	onChangeProfileFix = function (id) 
 	{ alert('b');
 		var PROFILE_BLOCKS = [
 			'profile-status', 
@@ -1065,7 +1101,7 @@ alert('a');
 			}
 		});
 	}
-	onChangeProfile('category-level');
+	onChangeProfileFix('category-level');
 }
 
 function fnProfile() {
