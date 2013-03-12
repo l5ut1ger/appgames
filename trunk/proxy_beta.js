@@ -2339,17 +2339,17 @@ function fnForkRoadRedirection() {
 			return;
 		}
 		else if (fnForkRoadMissionTeam() != '' && fnForkRoadBattleTeam() != '') {
-				fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad/mission');});
+			fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){});
+			if (parseInt(player.power, 10) >= 20) {
 				fnRedirect('/en/'+platform+'/forkroad/mission');
 				return;
+			}
+		}
+		if (window.location.pathname === '/en/'+platform+'/forkroad') {
+			setInterval(fnRedirect, 60000, '/en/'+platform+'/forkroad');
 		}
 		else {
-			if (window.location.pathname === '/en/'+platform+'/forkroad') {
-				setInterval(fnRedirect, 60000, '/en/'+platform+'/forkroad');
-			}
-			else {
-				fnRedirect('/en/'+platform+'/forkroad');
-			}
+			fnRedirect('/en/'+platform+'/forkroad');
 		}
 	}
 	else {		
