@@ -2136,7 +2136,7 @@ function fnFixForkRoadMissionProcess() {
 			//loop_count = result.payload.loop_count ;
 			event.phase = new Array();
 
-			event.phase.push('default_resource');
+			//event.phase.push('default_resource');
 
 			if(result.payload.process.fever_start)   event.phase.push('fever_start');
 			//if(event.fragment.fragment_plus > 0)     event.phase.push('get_fragment');
@@ -2346,11 +2346,15 @@ function fnForkRoad() {
 }
 
 function fnForkRoadMileStone() {
+
+}
+
+function fnForkRoadItemComplete() {
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
 		$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.count, {}, function(data) {
-			if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/forkroad/mission?')) {
+			//if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/forkroad/mission?')) {
 				fnRedirect('/en/'+platform+'/forkroad/mission?');
-			}			
+			//}			
 		});		
 	});
 }
@@ -4714,6 +4718,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/mileStone') {
 		fnForkRoadMileStone();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/forkroad/itemComplete') {
+		fnForkRoadItemComplete();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/battleResult') {
 		fnForkRoadBattleResult();
