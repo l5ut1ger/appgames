@@ -2161,6 +2161,7 @@ function fnFixForkRoadMissionProcess() {
 			//åå²é¸æã®å¤å®
 			if(result.payload.process.fork_flag > 0) {
 				event.phase.push('fork_select');
+				event = eventManager(event);
 				clearInterval(missionInterval);
 				return;
 			}
@@ -2168,6 +2169,7 @@ function fnFixForkRoadMissionProcess() {
 			//åå²çµäºã®å¤å®
 			if(result.payload.event.event_info.fork == 64 && result.payload.event.clear) {
 				event.phase.push('fork_end');
+				event = eventManager(event);
 				clearInterval(missionInterval);
 				return;
 			}
