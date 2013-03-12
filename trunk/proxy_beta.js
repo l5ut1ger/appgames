@@ -2070,6 +2070,7 @@ function fnFixForkRoadMissionProcess() {
 		}, function(result) {
 			if (result.status == 4) {
 				//phase_no_power(result.payload);
+				confirmId = result.payload.confirm_id;
 				if (fnAutoDrink() == 1) {
 					var useEnergy100 = false;
 					for (var i=0;i<result.payload.item_ids.length;i++) {
@@ -2109,8 +2110,7 @@ function fnFixForkRoadMissionProcess() {
 				else {
 					phase_no_power(result.payload);
 					clearInterval(missionInterval);
-				}
-				confirmId = result.payload.confirm_id;
+				}				
 				return;
 			} else if(result.status != 0) {
 				if (result.status < 0) {
