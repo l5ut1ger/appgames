@@ -1038,9 +1038,9 @@ function fnProfileFixTabs() {
 		}
 	});
 	
-	
+	onChangeProfile = null;
 	onChangeProfileFix = function (id) 
-	{ alert('b');
+	{	onChangeProfile = null;
 		var PROFILE_BLOCKS = [
 			'profile-status', 
 			'profile-statusup', 
