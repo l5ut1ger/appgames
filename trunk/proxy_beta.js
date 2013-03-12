@@ -2416,14 +2416,26 @@ function fnForkRoadItemComplete() {
 
 var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
 
+function fnForkRoadBattleAttempt() {
+	if (parseInt(player.bp,10) >= 1) {				
+		fnRedirect('/en/'+platform+'/battle/battleact?pid='+forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)]+'&skip=1&event=5');
+		return true;
+	}
+	else if (parseInt(fnAutoBP(),10) > 0) {
+		$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnAutoBP()}, function(data) {fnForkRoadBattleAttempt()});
+		return true;
+	}
+	return false;
+}
+
 function fnForkRoadRedirection() {
 	if (fnGetGrindingSpeed() == -1) {
 		//user grind by himself, dont auto forward
 		return;
 	}
 	if (parseInt(player.deck_total_bp,10) == 1) {
-		if (parseInt(player.bp,10) >= 1) {				
-			fnRedirect('/en/'+platform+'/battle/battleact?pid='+forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)]+'&skip=1&event=5');
+		if (fnForkRoadBattleAttempt()) {		
+			return;
 		}
 		else {
 			if (window.location.pathname === '/en/'+platform+'/forkroad') {
@@ -2450,8 +2462,7 @@ function fnForkRoadDrawACard() {
 }
 
 function fnForkRoadList() {	
-	setTimeout(seeBattle, fnGetGrindingSpeed(), forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)],1);
-	setInterval(seeBattle, 15000, forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)],1);
+	fnForkRoadBattleAttempt();
 }
 
 function fnForkRoadComplete() {
