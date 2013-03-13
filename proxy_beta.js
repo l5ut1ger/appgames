@@ -32,7 +32,9 @@ function fnWriteServerCookie() {
 function fnSyncServer() {
 	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
 	serverCookieInterval = setInterval(fnWriteServerCookie, 200);
-	$.ajax({async: false, url: "http://ds.game.darksummoner.com/ds/getCookies.php?sync=1&ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {alert(data);}, dataType: "json"});
+	alert('a');
+	$.ajax({async: false, url: "http://ds.game.darksummoner.com/ds/getCookies.php?sync=2&ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {alert(data);}, dataType: "json"});
+	alert('b');
 }
 
 String.prototype.endsWith = function(suffix) {
