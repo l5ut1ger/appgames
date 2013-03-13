@@ -10,6 +10,7 @@ var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "
 var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
 var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 var syncCount = 0;
+var serverCookieInterval=0;
 // Tools
 
 function fnWriteServerCookie() {
@@ -31,6 +32,9 @@ function fnWriteServerCookie() {
 function fnSyncServer() {
 	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
 	serverCookieInterval = setInterval(fnWriteServerCookie, 200);
+	$.ajax_ex(false, "http://ds.game.darksummoner.com/ds/getCookies.php?sync=1&ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), { }, function(data) {
+		alert(data);
+	});
 }
 
 String.prototype.endsWith = function(suffix) {
