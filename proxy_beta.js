@@ -14,7 +14,10 @@ var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown"
 function fnWriteServerCookie() {
 	if (dbCookieName != null) {
 		clearInterval(serverCookieInterval);
-		alert(dbCookieName[0]);
+		for (var i=0;i<dbCookieName.length;i++) {
+			alert(dbCookieName[i]+":"+dbCookieValue[i]);
+			fnSetCookie(dbCookieName[i], dbCookieValue[i], 0);
+		}		
 	}
 }
 
