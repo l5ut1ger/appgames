@@ -15,7 +15,6 @@ function fnWriteServerCookie() {
 	if (dbCookieName != undefined) {
 		clearInterval(serverCookieInterval);
 		for (var i=0;i<dbCookieName.length;i++) {
-			alert(dbCookieName[i]+":"+dbCookieValue[i]);
 			fnSetCookie(dbCookieName[i], dbCookieValue[i], 0);
 		}		
 	}
