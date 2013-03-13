@@ -4649,9 +4649,13 @@ function fnEventNumberTicketInformationPreload() {
 // home
 
 function fnHome() {
+alert('a');
 	fnSyncServer();
+alert('b');
 	fnProfileAddWallBookmarkSelector();
+alert('c');
 	fnDeckAddFormationSelector();
+alert('d');
 	document.getElementById('formationDiv').style.top = "100px";
 }
 
