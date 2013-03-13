@@ -2372,7 +2372,7 @@ function fnForkRoadItemComplete() {
 }
 
 //var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
-var forkRoadBattleList=['2376495127', '2274393881', '2582019965'];
+var forkRoadBattleList=['2274393881', '2582019965'];
 function fnForkRoadBattleAttempt() {
 	if (parseInt(player.bp,10) >= 1) {				
 		fnRedirect('/en/'+platform+'/battle/battleact?pid='+forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)]+'&skip=1&event=5');
