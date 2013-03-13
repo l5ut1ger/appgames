@@ -4654,7 +4654,7 @@ function fnEventNumberTicketInformationPreload() {
 // home
 
 function fnHome() {
-	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php", "js");
+	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id, "js");
 	fnProfileAddWallBookmarkSelector();
 	fnDeckAddFormationSelector();
 	document.getElementById('formationDiv').style.top = "100px";
