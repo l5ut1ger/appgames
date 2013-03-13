@@ -4683,7 +4683,7 @@ function fnSetupPurrCSS() {
 }
 
 function fnAutoUsePoint() {
-alert('a1');
+alert('a1');alert('player'+player); alert('player remain'+player.remain_point);
 	if (player.remain_point != null && player.remain_point > 0) {
 	alert('a2');
 		if (fnAutoStatsUp() == 1) {
