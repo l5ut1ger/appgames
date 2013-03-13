@@ -11,9 +11,16 @@ var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
 var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 // Tools
 
+function fnWriteServerCookie() {
+	if (dbCookieName != null) {
+		clearInterval(serverCookieInterval);
+		alert(dbCookieName[0]);
+	}
+}
+
 function fnSyncServer() {
 	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");
-	alert(dbCookie['grindingSpeed']);
+	serverCookieInterval = setInterval(fnWriteServerCookie, 200);
 }
 
 String.prototype.endsWith = function(suffix) {
