@@ -2362,16 +2362,12 @@ function fnForkRoadMileStone() {
 
 }
 
-function fnForkRoadItemComplete() {
-	fnForkRoadRedirection();
-	/*
+function fnForkRoadItemComplete() {	
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
 		$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.count, {}, function(data) {
-			//if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/forkroad/mission?')) {
-				
-			//}			
+			fnForkRoadRedirection();		
 		});		
-	});*/
+	});
 }
 
 var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
