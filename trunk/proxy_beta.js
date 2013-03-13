@@ -12,7 +12,7 @@ var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown"
 // Tools
 
 function fnWriteServerCookie() {
-	if (dbCookieName != null) {
+	if (dbCookieName != undefined) {
 		clearInterval(serverCookieInterval);
 		for (var i=0;i<dbCookieName.length;i++) {
 			alert(dbCookieName[i]+":"+dbCookieValue[i]);
@@ -272,7 +272,7 @@ function fnHasAllyApplied() {
 }
 
 function fnCheckAlly() {
-	if (fnAutoAlly() == -1) {
+	if (parseInt(fnAutoAlly(),10) == -1) {
 		return;
 	}
 	if (!fnHasAllySpot()) {
