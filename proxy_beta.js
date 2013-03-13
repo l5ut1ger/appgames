@@ -2448,7 +2448,6 @@ function fnForkRoadBattleResult() {
 		fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 	}
 	else {
-		alert(
 		if (document.referrer.indexOf('battle/battle') >= 0) {
 			fnRedirect('/en/'+platform+'/forkroad/mission?');
 		}
