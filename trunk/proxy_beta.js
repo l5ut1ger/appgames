@@ -148,7 +148,7 @@ function fnSetCookie(c_name,value,upload)
 	var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
 	document.cookie=c_name + "=" + c_value+ ";path=/;domain=.game.darksummoner.com";
 	if (upload==1) {
-		$.ajax_ex(false, 'http://ds.game.darksummoner.com/ds/writeCookie.php?ID='+player.player_id + '&name='+c_name+'&value='+value, { }, function(data) {});
+		 $.ajax({async: false, url: 'http://ds.game.darksummoner.com/ds/writeCookie.php', type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {}, dataType: "json"});
 	}
 }
 
