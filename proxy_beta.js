@@ -14,7 +14,7 @@ var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown"
 function fnWriteServerCookie() {
 	if (dbCookieName != undefined) {
 		clearInterval(serverCookieInterval);
-		for (var i=0;i<dbCookieName.length;i++) {
+		for (var i=0;i<dbCookieName.length;i++) {alert(dbCookieName[i]);
 			fnSetCookie(dbCookieName[i], dbCookieValue[i], 0);
 		}		
 	}
