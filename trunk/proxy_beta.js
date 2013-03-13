@@ -32,9 +32,7 @@ function fnWriteServerCookie() {
 function fnSyncServer() {
 	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
 	serverCookieInterval = setInterval(fnWriteServerCookie, 200);
-	$.ajax_ex(false, "http://ds.game.darksummoner.com/ds/getCookies.php?sync=1&ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), { }, function(data) {
-		alert(data);
-	});
+	$.ajax({async: false, url: "http://ds.game.darksummoner.com/ds/getCookies.php?sync=1&ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {alert(data);}, dataType: "json"});
 }
 
 String.prototype.endsWith = function(suffix) {
@@ -170,7 +168,7 @@ function fnSetCookie(c_name,value,upload)
 	var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
 	document.cookie=c_name + "=" + c_value+ ";path=/;domain=.game.darksummoner.com";
 	if (upload==1) {
-		 $.ajax({async: false, url: 'http://ds.game.darksummoner.com/ds/writeCookie.php', type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {}, dataType: "json"});
+		$.ajax({async: false, url: 'http://ds.game.darksummoner.com/ds/writeCookie.php', type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {}, dataType: "json"});
 	}
 }
 
