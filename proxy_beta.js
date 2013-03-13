@@ -3294,15 +3294,16 @@ function fnDungeon() {
 
 function fnBattleBattle() {
 	// skip to result
-	if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/tower/mission')) {
+	if (document.referrer.endsWith('/tower/mission?')) {
 		fnRedirect('/en/'+platform+'/tower/bossResult');
 	}
-	else if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/mission')) {
-		fnRedirect('/en/'+platform+'/mission/battleResult');
-	}
-	else if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/forkroad/mission')) {
+	else if (document.referrer.endsWith('/forkroad/mission?')) {
 		fnRedirect('/en/'+platform+'/forkroad/battleResult');
 	}
+	else if (document.referrer.endsWith('/mission?')) {
+		fnRedirect('/en/'+platform+'/mission/battleResult');
+	}
+	
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
 
