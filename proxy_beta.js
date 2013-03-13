@@ -2242,7 +2242,7 @@ function fnFixForkRoadMissionProcess() {
 			if(result.payload.process.fever_start)   event.phase.push('fever_start');
 			//if(event.fragment.fragment_plus > 0)     event.phase.push('get_fragment');
 			if(event.fragment.fragment_count == 10) {
-				fnRedirect('/en/'+platform+'/forkroad/mileStone');
+				fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 				clearInterval(missionInterval);
 				return;
 			}
@@ -2320,8 +2320,23 @@ function fnForkRoadMission() {
 }
 
 function fnForkRoad() {
+
+	var divTag = document.createElement("div"); 
+
+	divTag.id = "rewardDiv"; 
+
+	divTag.style["z-index"] = 1000; 
+
+	divTag.style.position = "absolute"; 
+
+	divTag.style.left = "280px"; 
+	divTag.style.top = "90px"; 
+
+	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="fnRedirect(\'/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()) + '\');">reward</button>'; 
+	document.body.appendChild(divTag); 
+
 	if ($('#fragments_complete').is(":visible")) {
-		fnRedirect('/en/'+platform+'/forkroad/mileStone');
+		fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 		return;
 	}
 	
@@ -2440,7 +2455,7 @@ function fnForkRoadComplete() {
 
 function fnForkRoadBattleResult() {
 	if (document.getElementById('result_summon') != null || document.getElementById('result_collect') != null) {
-		fnRedirect('/en/'+platform+'/forkroad/mileStone');
+		fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 	}
 	else {
 		if (document.referrer.endsWith('battle/battle')) {
