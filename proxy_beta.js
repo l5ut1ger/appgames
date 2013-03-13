@@ -4684,7 +4684,7 @@ function fnSetupPurrCSS() {
 
 function fnAutoUsePoint() {
 alert('a1');
-	if (player.remain_point > 0) {
+	if (player.remain_point != null && player.remain_point > 0) {
 	alert('a2');
 		if (fnAutoStatsUp() == 1) {
 			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
