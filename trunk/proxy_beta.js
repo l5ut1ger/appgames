@@ -3298,13 +3298,13 @@ function fnDungeon() {
 
 function fnBattleBattle() {
 	// skip to result
-	if (document.referrer.endsWith('/tower/mission?')) {
+	if (document.referrer.endsWith('/tower/mission?') || document.referrer.endsWith('/tower/mission')) {
 		fnRedirect('/en/'+platform+'/tower/bossResult');
 	}
-	else if (document.referrer.endsWith('/forkroad/mission?')) {
+	else if (document.referrer.endsWith('/forkroad/mission') || document.referrer.endsWith('/forkroad/mission?')) {
 		fnRedirect('/en/'+platform+'/forkroad/battleResult');
 	}
-	else if (document.referrer.endsWith('/mission?')) {
+	else if (document.referrer.endsWith('/mission?') || document.referrer.endsWith('/mission')) {
 		fnRedirect('/en/'+platform+'/mission/battleResult');
 	}
 	
