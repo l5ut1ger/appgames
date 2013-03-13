@@ -135,7 +135,7 @@ function fnArrayRemoveItem(originalArray, itemToRemove) {
 
 function fnSetCookie(c_name,value,upload)
 {
-	if(!upload) { //If the optional argument is not there, create a new variable with that name.
+	if(upload != 0) { //If the optional argument is not there, create a new variable with that name.
 		upload = 1;
 	}
 	var exdays = 99999;
@@ -144,7 +144,7 @@ function fnSetCookie(c_name,value,upload)
 	var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
 	document.cookie=c_name + "=" + c_value+ ";path=/;domain=.game.darksummoner.com";
 	if (upload==1) {
-		$.ajax_ex(false, 'http://n.infunity.com/ds/writeCookie.php?ID='+player.player_id + '&name='+c_name+'&value='+value, { }, function(data) {});
+		$.ajax_ex(false, 'http://ds.game.darksummoner.com/ds/writeCookie.php?ID='+player.player_id + '&name='+c_name+'&value='+value, { }, function(data) {});
 	}
 }
 
