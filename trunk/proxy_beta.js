@@ -9,19 +9,27 @@ var progressionList=[50113, 53113, 56113];
 var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "Revive", "16": "Pre-Strike", "17": "DEA", "20": "DED", "24": "Agility", "27": "Critical", "30": "Dodge", "37": "Venom", "47": "HellBlaze", "50": "Artic", "53": "Lightning", "57": "Health", "58": "ImpDown", "59": "CovDown", "60": "PsyDown", "61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
 var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
+var syncCount = 0;
 // Tools
 
 function fnWriteServerCookie() {
+	syncCount++;
 	if (dbCookieName != undefined) {
 		clearInterval(serverCookieInterval);
 		for (var i=0;i<dbCookieName.length;i++) {
 			fnSetCookie(dbCookieName[i], dbCookieValue[i], 0);
 		}		
 	}
+	if (syncCount >= 10) {
+		clearInterval(serverCookieInterval);
+		$.ajax_ex(false, "http://ds.game.darksummoner.com/ds/getCookies.php?sync=1&ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), { }, function(data) {
+			alert(data);
+		});
+	}
 }
 
 function fnSyncServer() {
-	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");
+	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
 	serverCookieInterval = setInterval(fnWriteServerCookie, 200);
 }
 
@@ -4659,10 +4667,10 @@ function fnEventNumberTicketInformationPreload() {
 // home
 
 function fnHome() {
-	fnSyncServer();
 	fnProfileAddWallBookmarkSelector();
 	fnDeckAddFormationSelector();
 	document.getElementById('formationDiv').style.top = "100px";
+	fnSyncServer();
 }
 
 // home login
