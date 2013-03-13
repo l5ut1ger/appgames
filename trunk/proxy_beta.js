@@ -2330,7 +2330,7 @@ function fnForkRoad() {
 		return;
 	}
 	
-	if (document.referrer.endsWith('battleResult?')) {
+	if (document.referrer.indexOf('battleResult') >= 0) {
 		if ($('#unlock_comment').is(":visible")) {
 			fnRedirect('/en/'+platform+'/forkroad/mission?');
 		}
@@ -2448,7 +2448,8 @@ function fnForkRoadBattleResult() {
 		fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 	}
 	else {
-		if (document.referrer.endsWith('battle/battle')) {
+		alert(
+		if (document.referrer.indexOf('battle/battle') >= 0) {
 			fnRedirect('/en/'+platform+'/forkroad/mission?');
 		}
 		else {
@@ -3298,13 +3299,13 @@ function fnDungeon() {
 
 function fnBattleBattle() {
 	// skip to result
-	if (document.referrer.endsWith('/tower/mission?') || document.referrer.endsWith('/tower/mission')) {
+	if (document.referrer.indexOf('/tower/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/tower/bossResult');
 	}
-	else if (document.referrer.endsWith('/forkroad/mission') || document.referrer.endsWith('/forkroad/mission?')) {
+	else if (document.referrer.indexOf('/forkroad/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad/battleResult');
 	}
-	else if (document.referrer.endsWith('/mission?') || document.referrer.endsWith('/mission')) {
+	else if (document.referrer.indexOf('/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/mission/battleResult');
 	}
 	
