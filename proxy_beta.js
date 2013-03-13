@@ -4856,11 +4856,11 @@ function fnOnLoad() {
 	fnSetupPurrCSS();
 
 	fnCreateBackButton();
-	
+	alert('1');
 	fnAutoUsePoint();
-	
+	alert('2');
 	fnCheckAlly();
-	
+	alert('3');
 	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	
 }
 
