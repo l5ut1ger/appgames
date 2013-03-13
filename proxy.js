@@ -2242,7 +2242,7 @@ function fnFixForkRoadMissionProcess() {
 			if(result.payload.process.fever_start)   event.phase.push('fever_start');
 			//if(event.fragment.fragment_plus > 0)     event.phase.push('get_fragment');
 			if(event.fragment.fragment_count == 10) {
-				fnRedirect('/en/'+platform+'/forkroad/mileStone');
+				fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 				clearInterval(missionInterval);
 				return;
 			}
@@ -2320,8 +2320,9 @@ function fnForkRoadMission() {
 }
 
 function fnForkRoad() {
+
 	if ($('#fragments_complete').is(":visible")) {
-		fnRedirect('/en/'+platform+'/forkroad/mileStone');
+		fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 		return;
 	}
 	
@@ -2362,16 +2363,12 @@ function fnForkRoadMileStone() {
 
 }
 
-function fnForkRoadItemComplete() {
-	fnForkRoadRedirection();
-	/*
+function fnForkRoadItemComplete() {	
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
 		$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.count, {}, function(data) {
-			//if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/forkroad/mission?')) {
-				
-			//}			
+			fnForkRoadRedirection();		
 		});		
-	});*/
+	});
 }
 
 var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
@@ -2443,8 +2440,8 @@ function fnForkRoadComplete() {
 }
 
 function fnForkRoadBattleResult() {
-	if (document.getElementById('result_summon') != null) {
-		fnRedirect('/en/'+platform+'/forkroad/mileStone');
+	if (document.getElementById('result_summon') != null || document.getElementById('result_collect') != null) {
+		fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 	}
 	else {
 		if (document.referrer.endsWith('battle/battle')) {

@@ -2321,20 +2321,6 @@ function fnForkRoadMission() {
 
 function fnForkRoad() {
 
-	var divTag = document.createElement("div"); 
-
-	divTag.id = "rewardDiv"; 
-
-	divTag.style["z-index"] = 1000; 
-
-	divTag.style.position = "absolute"; 
-
-	divTag.style.left = "280px"; 
-	divTag.style.top = "90px"; 
-
-	divTag.innerHTML = '<button class="sexybutton sexysmall sexysimple sexyblue" onmousedown="fnRedirect(\'/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()) + '\');">reward</button>'; 
-	document.body.appendChild(divTag); 
-
 	if ($('#fragments_complete').is(":visible")) {
 		fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 		return;
