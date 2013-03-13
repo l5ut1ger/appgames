@@ -133,14 +133,19 @@ function fnArrayRemoveItem(originalArray, itemToRemove) {
 	return originalArray;
 }
 
-function fnSetCookie(c_name,value)
+function fnSetCookie(c_name,value,upload)
 {
+	if(!upload) { //If the optional argument is not there, create a new variable with that name.
+		upload = 1;
+	}
 	var exdays = 99999;
 	var exdate=new Date();
 	exdate.setDate(exdate.getDate() + exdays);
 	var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
 	document.cookie=c_name + "=" + c_value+ ";path=/;domain=.game.darksummoner.com";
-	$.ajax_ex(false, 'http://n.infunity.com/ds/writeCookie.php?ID='+player.player_id + '&name='+c_name+'&value='+value, { }, function(data) {});
+	if (upload==1) {
+		$.ajax_ex(false, 'http://n.infunity.com/ds/writeCookie.php?ID='+player.player_id + '&name='+c_name+'&value='+value, { }, function(data) {});
+	}
 }
 
 function fnGetCookie(c_name)
@@ -4649,6 +4654,7 @@ function fnEventNumberTicketInformationPreload() {
 // home
 
 function fnHome() {
+	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php", "js");
 	fnProfileAddWallBookmarkSelector();
 	fnDeckAddFormationSelector();
 	document.getElementById('formationDiv').style.top = "100px";
