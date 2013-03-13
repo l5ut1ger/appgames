@@ -2443,7 +2443,7 @@ function fnForkRoadComplete() {
 }
 
 function fnForkRoadBattleResult() {
-	if (document.getElementById('result_summon') != null) {
+	if (document.getElementById('result_summon') != null || document.getElementById('result_collect') != null) {
 		fnRedirect('/en/'+platform+'/forkroad/mileStone');
 	}
 	else {
