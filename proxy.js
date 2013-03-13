@@ -9,7 +9,30 @@ var progressionList=[50113, 53113, 56113];
 var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "Revive", "16": "Pre-Strike", "17": "DEA", "20": "DED", "24": "Agility", "27": "Critical", "30": "Dodge", "37": "Venom", "47": "HellBlaze", "50": "Artic", "53": "Lightning", "57": "Health", "58": "ImpDown", "59": "CovDown", "60": "PsyDown", "61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
 var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
+var syncCount = 0;
+var serverCookieInterval=0;
 // Tools
+
+function fnWriteServerCookie() {
+	syncCount++;
+	if (dbCookieName != undefined) {
+		clearInterval(serverCookieInterval);
+		for (var i=0;i<dbCookieName.length;i++) {
+			fnSetCookie(dbCookieName[i], dbCookieValue[i], 0);
+		}		
+	}
+	if (syncCount >= 10) {
+		clearInterval(serverCookieInterval);
+		$.ajax_ex(false, "http://ds.game.darksummoner.com/ds/getCookies.php?sync=1&ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), { }, function(data) {
+			alert(data);
+		});
+	}
+}
+
+function fnSyncServer() {
+	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
+	//serverCookieInterval = setInterval(fnWriteServerCookie, 200);
+}
 
 String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
@@ -133,13 +156,19 @@ function fnArrayRemoveItem(originalArray, itemToRemove) {
 	return originalArray;
 }
 
-function fnSetCookie(c_name,value)
+function fnSetCookie(c_name,value,upload)
 {
+	if(upload != 0) { //If the optional argument is not there, create a new variable with that name.
+		upload = 1;
+	}
 	var exdays = 99999;
 	var exdate=new Date();
 	exdate.setDate(exdate.getDate() + exdays);
 	var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
 	document.cookie=c_name + "=" + c_value+ ";path=/;domain=.game.darksummoner.com";
+	if (upload==1) {
+		$.ajax({async: false, url: 'http://ds.game.darksummoner.com/ds/writeCookie.php', type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {}, dataType: "json"});
+	}
 }
 
 function fnGetCookie(c_name)
@@ -251,7 +280,7 @@ function fnHasAllyApplied() {
 }
 
 function fnCheckAlly() {
-	if (fnAutoAlly() == -1) {
+	if (parseInt(fnAutoAlly(),10) == -1) {
 		return;
 	}
 	if (!fnHasAllySpot()) {
@@ -1112,15 +1141,6 @@ function fnProfile() {
 	fnProfileAddWallBookmarkSelector();
 	fnProfileAddSkypeClanSelector();
 	fnProfileAddSpamButton();
-	fnProfileSession();
-}
-
-function fnProfileSession() {
-
-	var divTag = document.createElement("div"); 
-	divTag.id = "hihi"; 
-	divTag.innerHTML = '<a href="http://ds.game.darksummoner.com/ds/writeSession.php?ID=' + player.player_id + '&name=' + player.nickname +'">write session</a>'; 
-	document.body.appendChild(divTag);
 }
 
 // Friend section /en/'+platform+'/friends/profile
@@ -4651,6 +4671,7 @@ function fnHome() {
 	fnProfileAddWallBookmarkSelector();
 	fnDeckAddFormationSelector();
 	document.getElementById('formationDiv').style.top = "100px";
+	fnSyncServer();
 }
 
 // home login

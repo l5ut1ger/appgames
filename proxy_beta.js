@@ -31,12 +31,7 @@ function fnWriteServerCookie() {
 
 function fnSyncServer() {
 	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
-	serverCookieInterval = setInterval(fnWriteServerCookie, 200);
-	alert('a7');
-	 $.ajax_ex(false, "http://ds.1.game.darksummoner.com/ds/getCookies.php?sync=1&ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), { }, function(data) {
-			alert(data);
-		});
-	alert('b1');
+	//serverCookieInterval = setInterval(fnWriteServerCookie, 200);
 }
 
 String.prototype.endsWith = function(suffix) {
