@@ -32,16 +32,13 @@ function fnWriteServerCookie() {
 function fnSyncServer() {
 	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
 	serverCookieInterval = setInterval(fnWriteServerCookie, 200);
-	alert('a');
+	alert('a1');
 	var xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange=function()
 	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{
-			alert(xmlhttp.responseText);
-		}
+		alert(xmlhttp.responseText);
 	}
-	xmlhttp.open("GET","http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(),true);
+	xmlhttp.open("GET","http://ds.game.darksummoner.com/ds/getCookies.php?sync=1&ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(),true);
 	xmlhttp.send();
 	alert('b');
 }
