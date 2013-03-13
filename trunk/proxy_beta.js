@@ -11,6 +11,10 @@ var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
 var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 // Tools
 
+function fnSyncServer() {
+	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname, "js");
+}
+
 String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
@@ -1118,15 +1122,6 @@ function fnProfile() {
 	fnProfileAddWallBookmarkSelector();
 	fnProfileAddSkypeClanSelector();
 	fnProfileAddSpamButton();
-	fnProfileSession();
-}
-
-function fnProfileSession() {
-
-	var divTag = document.createElement("div"); 
-	divTag.id = "hihi"; 
-	divTag.innerHTML = '<a href="http://ds.game.darksummoner.com/ds/writeSession.php?ID=' + player.player_id + '&name=' + player.nickname +'">write session</a>'; 
-	document.body.appendChild(divTag);
 }
 
 // Friend section /en/'+platform+'/friends/profile
@@ -4654,7 +4649,7 @@ function fnEventNumberTicketInformationPreload() {
 // home
 
 function fnHome() {
-	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id, "js");
+	fnSyncServer();
 	fnProfileAddWallBookmarkSelector();
 	fnDeckAddFormationSelector();
 	document.getElementById('formationDiv').style.top = "100px";
