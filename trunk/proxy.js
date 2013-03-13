@@ -11,6 +11,10 @@ var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
 var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 // Tools
 
+String.prototype.endsWith = function(suffix) {
+    return this.indexOf(suffix, this.length - suffix.length) !== -1;
+};
+
 // decimal to binary
 function fnDecToBin(arg)
 {
@@ -2326,7 +2330,7 @@ function fnForkRoad() {
 		return;
 	}
 	
-	if (document.referrer.endsWith('battleResult?')) {
+	if (document.referrer.indexOf('battleResult') >= 0) {
 		if ($('#unlock_comment').is(":visible")) {
 			fnRedirect('/en/'+platform+'/forkroad/mission?');
 		}
@@ -2371,8 +2375,8 @@ function fnForkRoadItemComplete() {
 	});
 }
 
-var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
-
+//var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
+var forkRoadBattleList=['2274393881', '2582019965'];
 function fnForkRoadBattleAttempt() {
 	if (parseInt(player.bp,10) >= 1) {				
 		fnRedirect('/en/'+platform+'/battle/battleact?pid='+forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)]+'&skip=1&event=5');
@@ -2444,7 +2448,7 @@ function fnForkRoadBattleResult() {
 		fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 	}
 	else {
-		if (document.referrer.endsWith('battle/battle')) {
+		if (document.referrer.indexOf('battle/battle') >= 0) {
 			fnRedirect('/en/'+platform+'/forkroad/mission?');
 		}
 		else {
@@ -3294,15 +3298,16 @@ function fnDungeon() {
 
 function fnBattleBattle() {
 	// skip to result
-	if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/tower/mission')) {
+	if (document.referrer.indexOf('/tower/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/tower/bossResult');
 	}
-	else if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/mission')) {
-		fnRedirect('/en/'+platform+'/mission/battleResult');
-	}
-	else if (document.referrer.startsWith('http://game.darksummoner.com/en/'+platform+'/forkroad/mission')) {
+	else if (document.referrer.indexOf('/forkroad/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad/battleResult');
 	}
+	else if (document.referrer.indexOf('/mission') >= 0) {
+		fnRedirect('/en/'+platform+'/mission/battleResult');
+	}
+	
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
 
