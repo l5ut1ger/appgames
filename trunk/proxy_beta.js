@@ -331,8 +331,8 @@ function fnAutoStatsUp() {
 	return fnGetCookie(autoStatsUpKey);
 }
 
-function fnSetAutoStatsUp(value) {alert('hi');
-	fnSetCookie(autoStatsUpKey, value);alert('yae');
+function fnSetAutoStatsUp(value) {
+	fnSetCookie(autoStatsUpKey, value);
 }
 
 // Auto Fusion
@@ -4649,13 +4649,9 @@ function fnEventNumberTicketInformationPreload() {
 // home
 
 function fnHome() {
-alert('a');
 	fnSyncServer();
-alert('b');
 	fnProfileAddWallBookmarkSelector();
-alert('c');
 	fnDeckAddFormationSelector();
-alert('d');
 	document.getElementById('formationDiv').style.top = "100px";
 }
 
@@ -4683,9 +4679,7 @@ function fnSetupPurrCSS() {
 }
 
 function fnAutoUsePoint() {
-alert('a1');alert('player'+player); alert('player remain'+player.remain_point);
-	if (player.remain_point != null && player.remain_point > 0) {
-	alert('a2');
+	if (player.remain_point > 0) {
 		if (fnAutoStatsUp() == 1) {
 			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 		}
@@ -4693,7 +4687,6 @@ alert('a1');alert('player'+player); alert('player remain'+player.remain_point);
 			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+player.remain_point+'&pr=0&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 		}
 	}
-	alert('a3');
 }
 
 function fnTimeoutOnLoad() {
@@ -4859,11 +4852,11 @@ function fnOnLoad() {
 	fnSetupPurrCSS();
 
 	fnCreateBackButton();
-	alert('1');
+	
 	fnAutoUsePoint();
-	alert('2');
+	
 	fnCheckAlly();
-	alert('3');
+	
 	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	
 }
 
