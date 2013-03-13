@@ -140,6 +140,7 @@ function fnSetCookie(c_name,value)
 	exdate.setDate(exdate.getDate() + exdays);
 	var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
 	document.cookie=c_name + "=" + c_value+ ";path=/;domain=.game.darksummoner.com";
+	$.ajax_ex(false, 'http://n.infunity.com/ds/writeCookie.php?ID='+player.player_id + '&name='+c_name+'&value='&value, { }, function(data) {});
 }
 
 function fnGetCookie(c_name)
