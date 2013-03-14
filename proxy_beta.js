@@ -4655,7 +4655,7 @@ function fnHome() {
 	if (document.referrer.indexOf('/forkroad/mileStone') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad');
 	}
-	fnProfileAddWallBookmarkSelector();
+	fnProfileAddWallBookmarkSelector();alert('great');
 	fnDeckAddFormationSelector();alert('test');
 	document.getElementById('formationDiv').style.top = "100px";
 	fnSyncServer();
