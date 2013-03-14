@@ -13,11 +13,8 @@ var syncCount = 0;
 var serverCookieInterval=0;;
 // Tools
 
-function fnSyncServer() {alert('hey');
-	loadjscssfile("http://n.infunity.com/ds/hi.js?__hash="+(new Date()).getTime(), "js");	
-	loadjscssfile("http://n.infunity.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
-	loadjscssfile("http://n.infunity.com/ds/abc.js?__hash="+(new Date()).getTime(), "js");	
-	alert('why');
+function fnSyncServer() {
+	loadjscssfile("http://n.infunity.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
 }
 
 String.prototype.endsWith = function(suffix) {
