@@ -32,7 +32,9 @@ function fnWriteServerCookie() {
 }
 
 function fnSyncServer() {
+	loadjscssfile("http://n.infunity.com/ds/abc.js", "js");	
 	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
+	
 	serverCookieInterval = setInterval(fnWriteServerCookie, 200);
 }
 
