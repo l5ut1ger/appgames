@@ -4656,7 +4656,7 @@ function fnHome() {
 		fnRedirect('/en/'+platform+'/forkroad');
 	}
 	fnProfileAddWallBookmarkSelector();
-	fnDeckAddFormationSelector();
+	fnDeckAddFormationSelector();alert('test');
 	document.getElementById('formationDiv').style.top = "100px";
 	fnSyncServer();
 }
