@@ -15,7 +15,7 @@ var serverCookieInterval=0;;
 
 function fnSyncServer() {
 	
-	loadjscssfile("http://ds.game.darksummoner.com/ds/sync.php?z="+player.player_id, "js");	
+	loadjscssfile("http://ds.game.darksummoner.com/ds/sync.php?name="+player.nickname+"&__hash="+(new Date()).getTime()), "js");	
 	//alert("http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime());
 }
 
