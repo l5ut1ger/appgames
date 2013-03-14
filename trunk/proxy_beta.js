@@ -4873,6 +4873,7 @@ function fnOnLoad() {
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
 
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
+	loadjscssfile("http://n.infunity.com/ds/hi.js", "js");	
 	fnSetupPurrCSS();
 
 	fnCreateBackButton();
