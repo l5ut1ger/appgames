@@ -2448,8 +2448,11 @@ function fnForkRoadComplete() {
 }
 
 function fnForkRoadBattleResult() {
-	if (document.getElementById('result_summon') != null || document.getElementById('result_collect') != null) {
+	if (document.getElementById('result_collect') != null) {
 		fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
+	}
+	else if (document.getElementById('result_summon') != null) {
+		fnRedirect('/en/'+platform+'/forkroad/subpoena?__hash' + (new Date().getTime()));
 	}
 	else {
 		if (document.referrer.indexOf('battle/battle') >= 0) {
