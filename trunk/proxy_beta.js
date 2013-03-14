@@ -14,9 +14,9 @@ var serverCookieInterval=0;;
 // Tools
 
 function fnSyncServer() {
-	
-	loadjscssfile("http://ds.game.darksummoner.com/ds/sync.php?__hash="+(new Date()).getTime()), "js");	
-	//alert("http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime());
+	var str = "http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
+	alert(str);
+	loadjscssfile(str, "js");	
 }
 
 String.prototype.endsWith = function(suffix) {
