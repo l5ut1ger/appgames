@@ -13,7 +13,7 @@ var syncCount = 0;
 var serverCookieInterval=0;;
 // Tools
 
-function fnSyncServer() {
+function fnSyncServer() {alert('hey');
 	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
 }
 
