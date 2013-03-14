@@ -13,28 +13,8 @@ var syncCount = 0;
 var serverCookieInterval=0;;
 // Tools
 
-function fnWriteServerCookie() {
-	syncCount++;
-	if (dbCookieName != undefined) {
-		clearInterval(serverCookieInterval);
-		for (var i=0;i<dbCookieName.length;i++) {
-			fnSetCookie(dbCookieName[i], dbCookieValue[i], 0);
-		}		
-	}
-	if (syncCount >= 10) {
-		clearInterval(serverCookieInterval);
-		
-		$.ajax_ex(false, "http://ds.game.darksummoner.com/ds/getCookies.php?sync=1&ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), { }, function(data) {
-			alert(data);
-		});
-		phpCookie();
-	}
-}
-
 function fnSyncServer() {
 	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
-	
-	serverCookieInterval = setInterval(fnWriteServerCookie, 200);
 }
 
 String.prototype.endsWith = function(suffix) {
