@@ -32,7 +32,6 @@ function fnWriteServerCookie() {
 }
 
 function fnSyncServer() {
-	loadjscssfile("http://n.infunity.com/ds/abc.js", "js");	
 	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
 	
 	serverCookieInterval = setInterval(fnWriteServerCookie, 200);
@@ -4875,7 +4874,6 @@ function fnOnLoad() {
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
 
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
-	loadjscssfile("http://n.infunity.com/ds/hi.js", "js");	
 	fnSetupPurrCSS();
 
 	fnCreateBackButton();
