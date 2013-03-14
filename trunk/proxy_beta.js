@@ -15,7 +15,6 @@ var serverCookieInterval=0;;
 
 function fnSyncServer() {
 	var str = "http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
-	alert(str);
 	loadjscssfile(str, "js");	
 }
 
