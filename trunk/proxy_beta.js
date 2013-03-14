@@ -23,9 +23,11 @@ function fnWriteServerCookie() {
 	}
 	if (syncCount >= 10) {
 		clearInterval(serverCookieInterval);
+		
 		$.ajax_ex(false, "http://ds.game.darksummoner.com/ds/getCookies.php?sync=1&ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), { }, function(data) {
 			alert(data);
 		});
+		phpCookie();
 	}
 }
 
@@ -4710,6 +4712,9 @@ function fnAutoUsePoint() {
 
 function fnTimeoutOnLoad() {
 	if (window.location.pathname === '/en/'+platform+'/event/loginStamp') {
+		fnLoginStamp();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/event/loginStampContinuous') {
 		fnLoginStamp();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/home/profile') {
