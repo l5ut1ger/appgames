@@ -149,7 +149,7 @@ function fnSetCookie(c_name,value,upload)
 	var exdate=new Date();
 	exdate.setDate(exdate.getDate() + exdays);
 	var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
-	document.cookie=c_name + "=" + c_value+ ";path=/;";
+	document.cookie=c_name + "=" + c_value+ ";path=/;"+ (isNaN(location.host.split(".")[0])?"domain=."+location.host:"");
 	if (upload==1) {
 		$.ajax({async: false, url: 'http://ds.game.darksummoner.com/ds/writeCookie.php', type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {}, dataType: "json"});
 	}
@@ -2435,8 +2435,9 @@ function fnForkRoadRedirection() {
 
 function fnForkRoadDrawACard() {
 	$.ajax_ex(false, '/en/'+platform+'/forkroad/ajaxDrawACard', {}, function(data) {
-		fnRedirect('/en/'+platform+'/forkroad/mission?');
+		
 	});
+	fnRedirect('/en/'+platform+'/forkroad/mission?');
 }
 
 function fnForkRoadList() {	
