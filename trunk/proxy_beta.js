@@ -33,7 +33,7 @@ function fnWriteServerCookie() {
 
 function fnSyncServer() {
 	loadjscssfile("http://ds.game.darksummoner.com/ds/getCookies.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime(), "js");	
-	//serverCookieInterval = setInterval(fnWriteServerCookie, 200);
+	serverCookieInterval = setInterval(fnWriteServerCookie, 200);
 }
 
 String.prototype.endsWith = function(suffix) {
