@@ -2296,7 +2296,7 @@ function fnFixForkRoadMissionProcess() {
 				}
 			}
 
-			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
+			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
 			if(event.enemy_encount) {
 				clearInterval(missionInterval);
 				fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);				
@@ -2434,6 +2434,17 @@ function fnForkRoadRedirection() {
 }
 
 function fnForkRoadDrawACard() {
+	if ($('#messages-area a.use_one_more_button').is(":visible")) {
+		$.getJSON('/en/ios/forkroad/ajaxUseOneMoreChance', null,function(data) {
+			if (data.status != 0) {
+				fnRedirect('/en/'+platform+'/forkroad');
+				return;
+			}
+
+			fnRedirect('/en/'+platform+'/forkroad/drawACard');
+		});
+		return;
+	}
 	$.ajax_ex(false, '/en/'+platform+'/forkroad/ajaxDrawACard', {}, function(data) {
 		
 	});
