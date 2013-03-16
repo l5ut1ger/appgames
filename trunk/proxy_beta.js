@@ -2377,6 +2377,7 @@ function fnForkRoadItemComplete() {
 			fnForkRoadRedirection();		
 		});		
 	});
+	setInterval(fnRedirect, 60000, '/en/'+platform+'/forkroad');
 }
 
 //var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
@@ -2418,6 +2419,14 @@ function fnForkRoadRedirection() {
 			fnRedirect('/en/'+platform+'/forkroad');
 			return;
 		}
+		// change to high bp team to look legit, and do mission if have power
+		fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){});
+		if (parseInt(player.power, 10) >= 20) {
+			fnRedirect('/en/'+platform+'/forkroad/mission');
+			return;
+		}
+	}
+	if (fnForkRoadMissionTeam() != '') {
 		// change to high bp team to look legit, and do mission if have power
 		fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){});
 		if (parseInt(player.power, 10) >= 20) {
