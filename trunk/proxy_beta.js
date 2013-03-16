@@ -2364,6 +2364,10 @@ function fnForkRoad() {
 
 	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;
 	document.body.appendChild(divTag);
+	
+	if (parseInt(player.bp, 10) <= 1) {
+		fnPresentBoxReceiveAllItems();
+	}
   
 }
 
