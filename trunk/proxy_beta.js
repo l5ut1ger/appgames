@@ -2258,7 +2258,9 @@ function fnFixForkRoadMissionProcess() {
 			//ã¤ãã³ãã®å¤å®
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
-					event.phase.push('goal_effect');
+					fnRedirect('/en/'+platform+'/forkroad/goalReward');
+					clearInterval(missionInterval);
+					return;
 				}
 				if(666 == result.payload.event.event_info.params.type){
 					fnRedirect('/en/'+platform+'/forkroad/drawACard');
