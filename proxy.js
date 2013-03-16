@@ -2364,6 +2364,10 @@ function fnForkRoad() {
 
 	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;
 	document.body.appendChild(divTag);
+	
+	if (parseInt(player.bp, 10) <= 1) {
+		fnPresentBoxReceiveAllItems();
+	}
   
 }
 
@@ -2377,6 +2381,7 @@ function fnForkRoadItemComplete() {
 			fnForkRoadRedirection();		
 		});		
 	});
+	setInterval(fnRedirect, 60000, '/en/'+platform+'/forkroad');
 }
 
 //var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
@@ -2411,19 +2416,21 @@ function fnForkRoadRedirection() {
 			return;
 		}
 	}
-	if (fnForkRoadMissionTeam() != '' && fnForkRoadBattleTeam() != '') {
+	if (fnForkRoadBattleTeam() != '') {
 		// if have enough bp, change to battle team to battle;
 		if (parseInt(player.deck_total_bp,10) > 1 && parseInt(player.bp,10) >= 10) {
 			fnDeckChangeAdvance(fnForkRoadBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad');});
 			fnRedirect('/en/'+platform+'/forkroad');
 			return;
 		}
+	}
+	if (fnForkRoadMissionTeam() != '' && parseInt(player.deck_total_bp,10) == 1) {
 		// change to high bp team to look legit, and do mission if have power
 		fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){});
-		if (parseInt(player.power, 10) >= 20) {
-			fnRedirect('/en/'+platform+'/forkroad/mission');
-			return;
-		}
+	}
+	if (parseInt(player.power, 10) >= 20) {
+		fnRedirect('/en/'+platform+'/forkroad/mission');
+		return;
 	}
 	if (window.location.pathname === '/en/'+platform+'/forkroad') {
 		setInterval(fnRedirect, 60000, '/en/'+platform+'/forkroad');
