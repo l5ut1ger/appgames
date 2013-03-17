@@ -2455,7 +2455,10 @@ function fnForkRoadDrawACard() {
 		return;
 	}
 	$.ajax_ex(false, '/en/'+platform+'/forkroad/ajaxDrawACard', {}, function(data) {
-		
+		$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data2) {
+			$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data2.payload.boxes[0].boxed_id, {}, function(data3) {
+			});		
+		});
 	});
 	fnRedirect('/en/'+platform+'/forkroad/mission?');
 }
