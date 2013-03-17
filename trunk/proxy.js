@@ -974,6 +974,8 @@ function fnProfileFixTabs() {
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == -1 ?'selected':'') + ' value="-1">Off</option>'
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 1 ?'selected':'') + ' value="1">On, EP</option>';
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 2 ?'selected':'') + ' value="2">On, BP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 3 ?'selected':'') + ' value="3">On, 100EP, Rest BP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 4 ?'selected':'') + ' value="4">On, 200BP, Rest EP</option>';
 	autoStatsUpselectorHTML += '</select><br/><br/>'; 
 	
 	// Auto Stack BP Settings
@@ -2455,7 +2457,10 @@ function fnForkRoadDrawACard() {
 		return;
 	}
 	$.ajax_ex(false, '/en/'+platform+'/forkroad/ajaxDrawACard', {}, function(data) {
-		
+		$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data2) {
+			$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data2.payload.boxes[0].boxed_id, {}, function(data3) {
+			});		
+		});
 	});
 	fnRedirect('/en/'+platform+'/forkroad/mission?');
 }
@@ -4715,6 +4720,14 @@ function fnAutoUsePoint() {
 		}
 		else if (fnAutoStatsUp() == 2) {
 			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+player.remain_point+'&pr=0&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
+		else if (fnAutoStatsUp() == 3) {
+			var powerToAdd = Math.min(Math.max(0, 100-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10));
+			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+(parseInt(player.remain_point,10)-powerToAdd)+'&pr=' + powerToAdd + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
+		else if (fnAutoStatsUp() == 4) {
+			var battleToAdd = Math.min(Math.max(0, 200-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + (parseInt(player.remain_point,10)-battleToAdd) + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 		}
 	}
 }
