@@ -2439,9 +2439,66 @@ function fnForkRoadRedirection() {
 	if (window.location.pathname === '/en/'+platform+'/forkroad') {
 		setInterval(fnRedirect, 60000, '/en/'+platform+'/forkroad');
 	}
+	else if (fnAutoDrink() == 1) {
+		fnForkRoadAutoDrink('/en/'+platform+'/forkroad');
+	}
 	else {
 		fnRedirect('/en/'+platform+'/forkroad');
 	}
+}
+
+function fnForkRoadAutoDrink(pRedirect) {
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		var items = data.payload.items;
+		if (fnForkRoadBattleTeam() != '') {
+			for (var j=0;j<items.length;j++) {
+				if (items[j].item_id == 3024) { // consume my 100 elixir
+					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+					fnRedirect(pRedirect);
+					return;
+				}
+			}
+			for (var j=0;j<items.length;j++) {
+				if (items[j].item_id == 3020) { // consume my elixir
+					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+					fnRedirect(pRedirect);
+					return;
+				}
+			}
+		}
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3022) { // consume my 100 energy
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect(pRedirect);
+				return;
+			}
+		}
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3018) { // consume my energy
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect(pRedirect);
+				return;
+			}
+		}
+		if (fnForkRoadBattleTeam() != '') {
+			for (var j=0;j<items.length;j++) {
+				if (items[j].item_id == 3011) { // consum elixir
+					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+					fnRedirect(pRedirect);
+					return;
+				}
+			}
+		}
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3001) { // consum energy
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect(pRedirect);
+				return;
+			}
+		}
+		fnRedirect(pRedirect);
+	});	
 }
 
 function fnForkRoadDrawACard() {
@@ -2571,7 +2628,7 @@ function fnSubjugationDrinkBP(pRedirect) {
 				}
 			}
 			for (var j=0;j<items.length;j++) {
-				if (items[j].item_id == 3020) { // consume my battle points
+				if (items[j].item_id == 3020) { // consume my elixir
 					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
 					fnRedirect(pRedirect);
 					return;
