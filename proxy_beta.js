@@ -2449,7 +2449,9 @@ function fnForkRoadRedirection() {
 			return;
 		}
 	}
+	alert('test1 ' + (fnForkRoadBattleTeam() != null));
 	if (fnForkRoadBattleTeam() != null) {
+		alert('test2 ' + (fnForkRoadBattleTeam() != null));
 		// if have enough bp, change to battle team to battle;
 		if (parseInt(player.deck_total_bp,10) > 1 && parseInt(player.bp,10) >= 10) {
 			fnDeckChangeAdvance(fnForkRoadBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad');});
@@ -2457,7 +2459,9 @@ function fnForkRoadRedirection() {
 			return;
 		}
 	}
+	alert('test3 ' + (fnForkRoadMissionTeam() != null));
 	if (fnForkRoadMissionTeam() != null && parseInt(player.deck_total_bp,10) == 1) {
+		alert('test4 ' + (fnForkRoadMissionTeam() != null));
 		// change to high bp team to look legit, and do mission if have power
 		fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){});
 	}
