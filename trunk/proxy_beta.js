@@ -179,7 +179,7 @@ function fnGetCookie(c_name)
 		if (x===c_name)
 		{
 			if (y==undefined || y=="undefined") {
-				y = "";
+				return null;
 			}
 			return unescape(y);
 		}
