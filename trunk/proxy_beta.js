@@ -145,6 +145,9 @@ function fnSetCookie(c_name,value,upload)
 	if(upload != 0) { //If the optional argument is not there, create a new variable with that name.
 		upload = 1;
 	}
+	if (value === null) {
+		value='';
+	}
 	var exdays = 99999;
 	var exdate=new Date();
 	exdate.setDate(exdate.getDate() + exdays);
@@ -495,6 +498,19 @@ function fnForkRoadBattleTeam() {
 
 function fnSetForkRoadBattleTeam(value) {
 	fnSetCookie(forkRoadBattleTeamKey, value);
+}
+
+var forkRoadStayKey = 'frStay';
+
+function fnForkRoadStay() {
+	if(fnGetCookie(forkRoadStayKey) === null) {
+		fnSetForkRoadStay(0);
+	}
+	return fnGetCookie(forkRoadStayKey);
+}
+
+function fnSetForkRoadStay(value) {
+	fnSetCookie(forkRoadStayKey, value);
 }
 
 // Dungeon Boss Record
@@ -2260,9 +2276,13 @@ function fnFixForkRoadMissionProcess() {
 			//ã¤ãã³ãã®å¤å®
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
-					fnRedirect('/en/'+platform+'/forkroad/goalReward');
-					clearInterval(missionInterval);
-					return;
+					if (parseInt(fnForkRoadStay(),10) == 1) {
+					}
+					else {
+						fnRedirect('/en/'+platform+'/forkroad/goalReward');
+						clearInterval(missionInterval);
+						return;
+					}
 				}
 				if(666 == result.payload.event.event_info.params.type){
 					fnRedirect('/en/'+platform+'/forkroad/drawACard');
@@ -2365,8 +2385,10 @@ function fnForkRoad() {
 	battleTeamSelectorHTML+='</select><br/>'; 
 	
 	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnAutoBP(),10)==3043?'selected':'') + ' value="3043">My 100 BP</option><option ' + (parseInt(fnAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3024?'selected':'') + ' value="3024">My 100 Elixir</option></select><br/>';	
-
-	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;
+	
+	var staySelectorHTML = 'Stay at lap\'s end<select name="stay" onchange="fnSetForkRoadStay(this.options[this.options.selectedIndex].value);fnGrowl(\'Stay:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnForkRoadStay(),10)==0?'selected':'') + ' value="0">Goto next lap</option><option ' + (parseInt(fnForkRoadStay(),10)==1?'selected':'') + ' value="1">Stay</option></select><br/>';	
+	
+	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML + staySelectorHTML;
 	document.body.appendChild(divTag);
 	
 	if (parseInt(player.bp, 10) <= 1) {
