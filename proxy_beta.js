@@ -2281,9 +2281,13 @@ function fnFixForkRoadMissionProcess() {
 			if(result.payload.process.fever_start)   event.phase.push('fever_start');
 			//if(event.fragment.fragment_plus > 0)     event.phase.push('get_fragment');
 			if(event.fragment.fragment_count == 10) {
-				clearInterval(missionInterval);
-				fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));				
-				return;
+				if (parseInt(fnForkRoadStay(),10) == 1 && 255 == result.payload.event.event_info.params.type) {
+				}
+				else {
+					clearInterval(missionInterval);
+					fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));				
+					return;
+				}
 			}
 
 			//ã¤ãã³ãã®å¤å®
