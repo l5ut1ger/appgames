@@ -148,10 +148,17 @@ function fnSetCookie(c_name,value,upload)
 	if (value === null) {
 		value='';
 	}
-	var exdays = 99999;
-	var exdate=new Date();
-	exdate.setDate(exdate.getDate() + exdays);
-	var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
+	var c_value;
+	if (value =='') {
+		c_value="; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+	}
+	else {
+		var exdays = 99999;
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
+	}
+	
 	document.cookie=c_name + "=" + c_value+ ";path=/;"+ ((location.host.split(".")[0]=="game")?"domain=."+location.host:"");
 	if (upload==1) {
 		$.ajax({async: false, url: 'http://ds.game.darksummoner.com/ds/writeCookie.php', type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {}, dataType: "json"});
