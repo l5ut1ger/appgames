@@ -2281,8 +2281,8 @@ function fnFixForkRoadMissionProcess() {
 			if(result.payload.process.fever_start)   event.phase.push('fever_start');
 			//if(event.fragment.fragment_plus > 0)     event.phase.push('get_fragment');
 			if(event.fragment.fragment_count == 10) {
-				fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 				clearInterval(missionInterval);
+				fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));				
 				return;
 			}
 
@@ -2292,14 +2292,14 @@ function fnFixForkRoadMissionProcess() {
 					if (parseInt(fnForkRoadStay(),10) == 1) {
 					}
 					else {
-						fnRedirect('/en/'+platform+'/forkroad/goalReward');
 						clearInterval(missionInterval);
+						fnRedirect('/en/'+platform+'/forkroad/goalReward');						
 						return;
 					}
 				}
 				if(666 == result.payload.event.event_info.params.type){
-					fnRedirect('/en/'+platform+'/forkroad/drawACard');
 					clearInterval(missionInterval);
+					fnRedirect('/en/'+platform+'/forkroad/drawACard');					
 					return;
 				}
 			}
