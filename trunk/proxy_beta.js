@@ -2395,7 +2395,7 @@ function fnForkRoad() {
 	
 	var staySelectorHTML = 'Stay at lap\'s end<select name="stay" onchange="fnSetForkRoadStay(this.options[this.options.selectedIndex].value);fnGrowl(\'Stay:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnForkRoadStay(),10)==0?'selected':'') + ' value="0">Goto next lap</option><option ' + (parseInt(fnForkRoadStay(),10)==1?'selected':'') + ' value="1">Stay</option></select><br/>';	
 	
-	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML + staySelectorHTML;
+	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;// + staySelectorHTML;
 	document.body.appendChild(divTag);
 	
 	if (parseInt(player.bp, 10) <= 1) {

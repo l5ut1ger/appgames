@@ -145,10 +145,20 @@ function fnSetCookie(c_name,value,upload)
 	if(upload != 0) { //If the optional argument is not there, create a new variable with that name.
 		upload = 1;
 	}
-	var exdays = 99999;
-	var exdate=new Date();
-	exdate.setDate(exdate.getDate() + exdays);
-	var c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
+	if (value === null) {
+		value='';
+	}
+	var c_value;
+	if (value =='') {
+		c_value="; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+	}
+	else {
+		var exdays = 99999;
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
+	}
+	
 	document.cookie=c_name + "=" + c_value+ ";path=/;"+ ((location.host.split(".")[0]=="game")?"domain=."+location.host:"");
 	if (upload==1) {
 		$.ajax({async: false, url: 'http://ds.game.darksummoner.com/ds/writeCookie.php', type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {}, dataType: "json"});
@@ -495,6 +505,19 @@ function fnForkRoadBattleTeam() {
 
 function fnSetForkRoadBattleTeam(value) {
 	fnSetCookie(forkRoadBattleTeamKey, value);
+}
+
+var forkRoadStayKey = 'frStay';
+
+function fnForkRoadStay() {
+	if(fnGetCookie(forkRoadStayKey) === null) {
+		fnSetForkRoadStay(0);
+	}
+	return fnGetCookie(forkRoadStayKey);
+}
+
+function fnSetForkRoadStay(value) {
+	fnSetCookie(forkRoadStayKey, value);
 }
 
 // Dungeon Boss Record
@@ -1010,7 +1033,7 @@ function fnProfileFixTabs() {
 
 	var mcFlyTeamSelectorHTML = 'VS McFly Team<br/>';
 	mcFlyTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerMcFlyTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Tower Event VS McFly Team \'+this.options[this.options.selectedIndex].text);">';	
-	mcFlyTeamSelectorHTML += '<option ' + (fnTowerMcFlyTeam()==''?'selected':'') + ' value="">Nil</option>';	
+	mcFlyTeamSelectorHTML += '<option ' + (fnTowerMcFlyTeam()==null?'selected':'') + ' value="">Nil</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
 		mcFlyTeamSelectorHTML+='<option ' + (fnTowerMcFlyTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
@@ -2093,7 +2116,7 @@ function fnTowerMission() {
 	}
 	if (!mission.is_boss) {
 		if (typeof mission.boss_battle_rnd && mission.boss_battle_rnd > 0) {
-			if (fnTowerMcFlyTeam() != '' && fnTowerProgTeam() != '') {
+			if (fnTowerMcFlyTeam() != null && fnTowerProgTeam() != null) {
 				fnSetIsBattlingMcFly(1);
 				fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
 				//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
@@ -2111,7 +2134,7 @@ function fnTowerMission() {
 		}
 	}
 	else {	
-		if (fnTowerMcFlyTeam() != '' && fnTowerProgTeam() != '') {
+		if (fnTowerMcFlyTeam() != null && fnTowerProgTeam() != null) {
 			fnSetIsBattlingMcFly(1);
 			fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
 			//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
@@ -2139,7 +2162,7 @@ function fnTowerSummon() {
 // tower boss result
 
 function fnTowerBossResult() {
-	if (fnIsBattlingMcFly() == 1 && fnTowerMcFlyTeam() != '' && fnTowerProgTeam() != '') {
+	if (fnIsBattlingMcFly() == 1 && fnTowerMcFlyTeam() != null && fnTowerProgTeam() != null) {
 		fnSetIsBattlingMcFly(0);
 		fnDeckChangeAdvance(fnTowerProgTeam(), false, function(){});
 		//$.ajax_ex(false, fnTowerProgTeam().split(fnGetConnector())[0], {}, function(data) {	});
@@ -2173,7 +2196,7 @@ function fnFixForkRoadMissionProcess() {
 		}, function(result) {
 			if (result.status == 4) {
 				// switch to battle
-				if (fnForkRoadMissionTeam() != '' && fnForkRoadBattleTeam() != '' && parseInt(player.bp, 10) >= 1) {
+				if (fnForkRoadMissionTeam() != null && fnForkRoadBattleTeam() != null && parseInt(player.bp, 10) >= 1) {
 					clearInterval(missionInterval);
 					fnDeckChangeAdvance(fnForkRoadBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad/list');});
 					fnRedirect('/en/'+platform+'/forkroad/list');
@@ -2260,9 +2283,13 @@ function fnFixForkRoadMissionProcess() {
 			//ã¤ãã³ãã®å¤å®
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
-					fnRedirect('/en/'+platform+'/forkroad/goalReward');
-					clearInterval(missionInterval);
-					return;
+					if (parseInt(fnForkRoadStay(),10) == 1) {
+					}
+					else {
+						fnRedirect('/en/'+platform+'/forkroad/goalReward');
+						clearInterval(missionInterval);
+						return;
+					}
 				}
 				if(666 == result.payload.event.event_info.params.type){
 					fnRedirect('/en/'+platform+'/forkroad/drawACard');
@@ -2365,8 +2392,10 @@ function fnForkRoad() {
 	battleTeamSelectorHTML+='</select><br/>'; 
 	
 	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnAutoBP(),10)==3043?'selected':'') + ' value="3043">My 100 BP</option><option ' + (parseInt(fnAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3024?'selected':'') + ' value="3024">My 100 Elixir</option></select><br/>';	
-
-	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;
+	
+	var staySelectorHTML = 'Stay at lap\'s end<select name="stay" onchange="fnSetForkRoadStay(this.options[this.options.selectedIndex].value);fnGrowl(\'Stay:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnForkRoadStay(),10)==0?'selected':'') + ' value="0">Goto next lap</option><option ' + (parseInt(fnForkRoadStay(),10)==1?'selected':'') + ' value="1">Stay</option></select><br/>';	
+	
+	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;// + staySelectorHTML;
 	document.body.appendChild(divTag);
 	
 	if (parseInt(player.bp, 10) <= 1) {
@@ -2420,7 +2449,7 @@ function fnForkRoadRedirection() {
 			return;
 		}
 	}
-	if (fnForkRoadBattleTeam() != '') {
+	if (fnForkRoadBattleTeam() != null) {
 		// if have enough bp, change to battle team to battle;
 		if (parseInt(player.deck_total_bp,10) > 1 && parseInt(player.bp,10) >= 10) {
 			fnDeckChangeAdvance(fnForkRoadBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad');});
@@ -2428,7 +2457,7 @@ function fnForkRoadRedirection() {
 			return;
 		}
 	}
-	if (fnForkRoadMissionTeam() != '' && parseInt(player.deck_total_bp,10) == 1) {
+	if (fnForkRoadMissionTeam() != null && parseInt(player.deck_total_bp,10) == 1) {
 		// change to high bp team to look legit, and do mission if have power
 		fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){});
 	}
@@ -2451,7 +2480,7 @@ function fnForkRoadAutoDrink(pRedirect) {
 	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
-		if (fnForkRoadBattleTeam() != '') {
+		if (fnForkRoadBattleTeam() != null) {
 			for (var j=0;j<items.length;j++) {
 				if (items[j].item_id == 3024) { // consume my 100 elixir
 					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
@@ -2481,7 +2510,7 @@ function fnForkRoadAutoDrink(pRedirect) {
 				return;
 			}
 		}
-		if (fnForkRoadBattleTeam() != '') {
+		if (fnForkRoadBattleTeam() != null) {
 			for (var j=0;j<items.length;j++) {
 				if (items[j].item_id == 3011) { // consum elixir
 					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
@@ -3109,7 +3138,7 @@ function fnDungeonMission() {
 	}
 	if (parseInt(fnQueryString('dungeon_tribe'), 10) == 0) {
 		if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.indexOf('/dungeon/battle') >= 0) || (document.referrer.indexOf('/dungeon/win') >= 0)) {
-			if (fnDungeonProgTeam() != '' && fnDungeonBossTeam() != '') {
+			if (fnDungeonProgTeam() != null && fnDungeonBossTeam() != null) {
 				fnDeckChangeAdvance(fnDungeonProgTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 				return;
@@ -3183,7 +3212,7 @@ function fnDungeonMission() {
 			fnTimeOutRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 		}
 		if (dm['dungeon_tribe'] == 0) {
-			if (fnDungeonProgTeam() != '' && fnDungeonBossTeam() != '') {
+			if (fnDungeonProgTeam() != null && fnDungeonBossTeam() != null) {
 				fnDeckChangeAdvance(fnDungeonBossTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				//fnSetDungeonBossRecord(fnDungeonBossRecord()+'<br/>'+Math.round(parseInt(dm.mission_count,10)/44)+' ' + bM.name);
 				fnTimeOutRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
@@ -3195,7 +3224,7 @@ function fnDungeonMission() {
 function fnDungeonMissionPreload() {
 	if (parseInt(fnQueryString('dungeon_tribe'), 10) == 0) {
 		if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.indexOf('/dungeon/battle') >= 0) || (document.referrer.indexOf('/dungeon/win') >= 0)) {
-			if (fnDungeonProgTeam() != '' && fnDungeonBossTeam() != '') {
+			if (fnDungeonProgTeam() != null && fnDungeonBossTeam() != null) {
 				fnDeckChangeAdvance(fnDungeonProgTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 				return;
