@@ -148,6 +148,9 @@ function fnSetCookie(c_name,value,upload)
 	if (value === null) {
 		value='';
 	}
+	if (value == undefined || value == 'undefined') {
+		value = '';
+	}
 	var c_value;
 	if (value =='') {
 		c_value="; expires=Thu, 01 Jan 1970 00:00:01 GMT";
@@ -175,6 +178,9 @@ function fnGetCookie(c_name)
 		x=x.replace(/^\s+|\s+$/g,"");
 		if (x===c_name)
 		{
+			if (y==undefined || y=="undefined") {
+				y = "";
+			}
 			return unescape(y);
 		}
 	}
