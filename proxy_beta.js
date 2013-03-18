@@ -2283,10 +2283,6 @@ function fnFixForkRoadMissionProcess() {
 			//ã¤ãã³ãã®å¤å®
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
-					$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
-						$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.boxes[0].boxed_id, {}, function(data) {
-						});	
-					});
 					if (parseInt(fnForkRoadStay(),10) == 1) {
 					}
 					else {
