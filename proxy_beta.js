@@ -1033,7 +1033,7 @@ function fnProfileFixTabs() {
 
 	var mcFlyTeamSelectorHTML = 'VS McFly Team<br/>';
 	mcFlyTeamSelectorHTML += '<select name="sel" onchange="fnSetTowerMcFlyTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Tower Event VS McFly Team \'+this.options[this.options.selectedIndex].text);">';	
-	mcFlyTeamSelectorHTML += '<option ' + (fnTowerMcFlyTeam()==''?'selected':'') + ' value="">Nil</option>';	
+	mcFlyTeamSelectorHTML += '<option ' + (fnTowerMcFlyTeam()==null?'selected':'') + ' value="">Nil</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
 		mcFlyTeamSelectorHTML+='<option ' + (fnTowerMcFlyTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
@@ -2116,7 +2116,7 @@ function fnTowerMission() {
 	}
 	if (!mission.is_boss) {
 		if (typeof mission.boss_battle_rnd && mission.boss_battle_rnd > 0) {
-			if (fnTowerMcFlyTeam() != '' && fnTowerProgTeam() != '') {
+			if (fnTowerMcFlyTeam() != null && fnTowerProgTeam() != null) {
 				fnSetIsBattlingMcFly(1);
 				fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
 				//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
@@ -2134,7 +2134,7 @@ function fnTowerMission() {
 		}
 	}
 	else {	
-		if (fnTowerMcFlyTeam() != '' && fnTowerProgTeam() != '') {
+		if (fnTowerMcFlyTeam() != null && fnTowerProgTeam() != null) {
 			fnSetIsBattlingMcFly(1);
 			fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
 			//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
@@ -2162,7 +2162,7 @@ function fnTowerSummon() {
 // tower boss result
 
 function fnTowerBossResult() {
-	if (fnIsBattlingMcFly() == 1 && fnTowerMcFlyTeam() != '' && fnTowerProgTeam() != '') {
+	if (fnIsBattlingMcFly() == 1 && fnTowerMcFlyTeam() != null && fnTowerProgTeam() != null) {
 		fnSetIsBattlingMcFly(0);
 		fnDeckChangeAdvance(fnTowerProgTeam(), false, function(){});
 		//$.ajax_ex(false, fnTowerProgTeam().split(fnGetConnector())[0], {}, function(data) {	});
@@ -2196,7 +2196,7 @@ function fnFixForkRoadMissionProcess() {
 		}, function(result) {
 			if (result.status == 4) {
 				// switch to battle
-				if (fnForkRoadMissionTeam() != '' && fnForkRoadBattleTeam() != '' && parseInt(player.bp, 10) >= 1) {
+				if (fnForkRoadMissionTeam() != null && fnForkRoadBattleTeam() != null && parseInt(player.bp, 10) >= 1) {
 					clearInterval(missionInterval);
 					fnDeckChangeAdvance(fnForkRoadBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad/list');});
 					fnRedirect('/en/'+platform+'/forkroad/list');
@@ -2449,7 +2449,7 @@ function fnForkRoadRedirection() {
 			return;
 		}
 	}
-	if (fnForkRoadBattleTeam() != '') {
+	if (fnForkRoadBattleTeam() != null) {
 		// if have enough bp, change to battle team to battle;
 		if (parseInt(player.deck_total_bp,10) > 1 && parseInt(player.bp,10) >= 10) {
 			fnDeckChangeAdvance(fnForkRoadBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad');});
@@ -2457,7 +2457,7 @@ function fnForkRoadRedirection() {
 			return;
 		}
 	}
-	if (fnForkRoadMissionTeam() != '' && parseInt(player.deck_total_bp,10) == 1) {
+	if (fnForkRoadMissionTeam() != null && parseInt(player.deck_total_bp,10) == 1) {
 		// change to high bp team to look legit, and do mission if have power
 		fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){});
 	}
@@ -2480,7 +2480,7 @@ function fnForkRoadAutoDrink(pRedirect) {
 	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
-		if (fnForkRoadBattleTeam() != '') {
+		if (fnForkRoadBattleTeam() != null) {
 			for (var j=0;j<items.length;j++) {
 				if (items[j].item_id == 3024) { // consume my 100 elixir
 					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
@@ -2510,7 +2510,7 @@ function fnForkRoadAutoDrink(pRedirect) {
 				return;
 			}
 		}
-		if (fnForkRoadBattleTeam() != '') {
+		if (fnForkRoadBattleTeam() != null) {
 			for (var j=0;j<items.length;j++) {
 				if (items[j].item_id == 3011) { // consum elixir
 					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
@@ -3138,7 +3138,7 @@ function fnDungeonMission() {
 	}
 	if (parseInt(fnQueryString('dungeon_tribe'), 10) == 0) {
 		if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.indexOf('/dungeon/battle') >= 0) || (document.referrer.indexOf('/dungeon/win') >= 0)) {
-			if (fnDungeonProgTeam() != '' && fnDungeonBossTeam() != '') {
+			if (fnDungeonProgTeam() != null && fnDungeonBossTeam() != null) {
 				fnDeckChangeAdvance(fnDungeonProgTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 				return;
@@ -3212,7 +3212,7 @@ function fnDungeonMission() {
 			fnTimeOutRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 		}
 		if (dm['dungeon_tribe'] == 0) {
-			if (fnDungeonProgTeam() != '' && fnDungeonBossTeam() != '') {
+			if (fnDungeonProgTeam() != null && fnDungeonBossTeam() != null) {
 				fnDeckChangeAdvance(fnDungeonBossTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				//fnSetDungeonBossRecord(fnDungeonBossRecord()+'<br/>'+Math.round(parseInt(dm.mission_count,10)/44)+' ' + bM.name);
 				fnTimeOutRedirect('/en/'+platform+'/dungeon/battle?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
@@ -3224,7 +3224,7 @@ function fnDungeonMission() {
 function fnDungeonMissionPreload() {
 	if (parseInt(fnQueryString('dungeon_tribe'), 10) == 0) {
 		if ((fnQueryString('go_next') == 'true' && dm.mission_count >= mMs.length)  || (document.referrer.indexOf('/dungeon/battle') >= 0) || (document.referrer.indexOf('/dungeon/win') >= 0)) {
-			if (fnDungeonProgTeam() != '' && fnDungeonBossTeam() != '') {
+			if (fnDungeonProgTeam() != null && fnDungeonBossTeam() != null) {
 				fnDeckChangeAdvance(fnDungeonProgTeam(), false, function(){fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);});
 				fnRedirect('/en/'+platform+'/dungeon/mission?dungeon_tribe='+dm['dungeon_tribe']+'&area_id='+dm['area_id']);
 				return;
