@@ -951,18 +951,15 @@ function fnProfileGetCompensation(pID) {
 }
 
 function fnProfileFillAltOption() {
-	$.ajax_ex(false, 'http://ds.game.dark'+'summoner.com/ds/getAlt.php?ownerID='+fnOwner(),{}, function(data){alert($("#altWall"));
+	$.getJSON('http://ds.game.dark'+'summoner.com/ds/getAlt.php?ownerID='+fnOwner(),{}, function(j){
 		var options = '';
-		alert(data);
-		j = jQuery.parseJSON(data);
-		alert(j);
 		for (var i = 0; i < j.length; i++) {
 			options += '<option value="' + j[i].optionValue + '">' + j[i].optionDisplay + '</option>';
 		}
 		$("#altWall").html(options);
 	});
 }
-fnProfileFillAltOption();
+
 function fnProfileFixTabs() {
 	document.getElementById('_1').childNodes[7].childNodes[0].innerHTML = "Strategy";
 	var divTag = document.createElement("div"); 
