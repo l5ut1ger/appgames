@@ -2283,6 +2283,11 @@ function fnFixForkRoadMissionProcess() {
 			if(event.fragment.fragment_count == 10) {
 				if (parseInt(fnForkRoadStay(),10) == 1 && 255 == result.payload.event.event_info.params.type) {
 				}
+				else if(255 == result.payload.event.event_info.params.type){
+					clearInterval(missionInterval);
+					fnRedirect('/en/'+platform+'/forkroad/goalReward');						
+					return;
+				}
 				else {
 					clearInterval(missionInterval);
 					fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));				
