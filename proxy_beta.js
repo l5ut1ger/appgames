@@ -2348,7 +2348,7 @@ function fnFixForkRoadMissionProcess() {
 			//ã¤ãã³ãã®å¤å®
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
-					if (parseInt(fnForkRoadStay(),10) == 1) {
+					if ((parseInt(fnForkRoadStay(),10) == 1) || (parseInt(fnForkRoadStay(),10) == 2)) {
 					}
 					else {
 						clearInterval(missionInterval);
