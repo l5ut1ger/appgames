@@ -956,10 +956,10 @@ function fnProfileFixTabs() {
 	divTag.id = "profile-strategy"; 
 	divTag.style.position = "relative"; 
 	
-	
-	var selectorHTML = '<select name="sel" onchange="fnSetOwner(this.options[this.options.selectedIndex].value);"><option value="0">Skype Clan</option>';
-	selectorHTML += fnSkypeClanSelectorOption(fnOwner());
-	selectorHTML+='</select>'; 
+	var ownerHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Set Account Owner</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	ownerHTML += '<select name="sel" onchange="fnSetOwner(this.options[this.options.selectedIndex].value);"><option value="0">Skype Clan</option>';
+	ownerHTML += fnSkypeClanSelectorOption(fnOwner());
+	ownerHTML+='</select><br/><br/>'; 
 	
 	// Compensation gift setting
 	var compensationHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Compensation Gifts</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
@@ -1078,7 +1078,7 @@ function fnProfileFixTabs() {
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
 	
  
-	divTag.innerHTML = compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
+	divTag.innerHTML = ownerHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 	
 	
