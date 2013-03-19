@@ -2330,6 +2330,10 @@ function fnFixForkRoadMissionProcess() {
 				}
 				else if (parseInt(fnForkRoadStay(),10) == 2 && 255 == result.payload.event.event_info.params.type) {
 					clearInterval(missionInterval);
+					$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
+						$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.boxes[0].boxed_id, {}, function(data) {
+						});		
+					});
 					fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));				
 					return;
 				}
