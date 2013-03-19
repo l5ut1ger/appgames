@@ -2283,6 +2283,11 @@ function fnFixForkRoadMissionProcess() {
 			if(event.fragment.fragment_count == 10) {
 				if (parseInt(fnForkRoadStay(),10) == 1 && 255 == result.payload.event.event_info.params.type) {
 				}
+				else if (parseInt(fnForkRoadStay(),10) == 2 && 255 == result.payload.event.event_info.params.type) {
+					clearInterval(missionInterval);
+					fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));				
+					return;
+				}
 				else if(255 == result.payload.event.event_info.params.type){
 					clearInterval(missionInterval);
 					fnRedirect('/en/'+platform+'/forkroad/goalReward');						
@@ -2408,9 +2413,7 @@ function fnForkRoad() {
 	
 	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnAutoBP(),10)==3043?'selected':'') + ' value="3043">My 100 BP</option><option ' + (parseInt(fnAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3024?'selected':'') + ' value="3024">My 100 Elixir</option></select><br/>';	
 	
-	var staySelectorHTML = 'Stay at lap\'s end<select name="stay" onchange="fnSetForkRoadStay(this.options[this.options.selectedIndex].value);fnGrowl(\'Stay:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnForkRoadStay(),10)==0?'selected':'') + ' value="0">Goto next lap</option><option ' + (parseInt(fnForkRoadStay(),10)==1?'selected':'') + ' value="1">Stay</option></select><br/>';	
-	
-	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;// + staySelectorHTML;
+	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;
 	document.body.appendChild(divTag);
 	
 	if (parseInt(player.bp, 10) <= 1) {
