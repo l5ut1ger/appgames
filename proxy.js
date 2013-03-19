@@ -971,8 +971,8 @@ function fnProfileFixTabs() {
 	ownerHTML += fnSkypeClanSelectorOption(fnOwner());
 	ownerHTML+='</select><br/><br/>'; 
 	
-	var altHTML = '';//'Alt Walls:<br/><select id="altWall" name="altWall" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option value="0">Alt Walls</option>';
-	//altHTML+='</select><br/><br/>';
+	var altHTML = 'Alt Walls:<br/>';//<select id="altWall" name="altWall" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option value="0">Alt Walls</option>';
+	altHTML += '</select><br/><br/>';
 	
 	// Compensation gift setting
 	var compensationHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Compensation Gifts</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
