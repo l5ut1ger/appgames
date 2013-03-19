@@ -971,7 +971,7 @@ function fnProfileFixTabs() {
 	ownerHTML += fnSkypeClanSelectorOption(fnOwner());
 	ownerHTML+='</select><br/><br/>'; 
 	
-	var altHTML = 'Alt Walls:<br/>';//<select id="altWall" name="altWall" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option value="0">Alt Walls</option>';
+	var altHTML = 'Alt Walls:<br/><select id="altWall" name="altWall" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option value="0">Alt Walls</option>';
 	altHTML += '</select><br/><br/>';
 	
 	// Compensation gift setting
