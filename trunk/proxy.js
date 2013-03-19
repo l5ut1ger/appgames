@@ -952,7 +952,7 @@ function fnProfileGetCompensation(pID) {
 
 function fnProfileFillAltOption() {
 	$.getJSON('http://ds.game.dark'+'summoner.com/ds/getAlt.php?ownerID='+fnOwner(),{}, function(j){
-		var options = '';
+		var options = '<option value="0">Alt Walls</option>';
 		for (var i = 0; i < j.length; i++) {
 			options += '<option value="' + j[i].optionValue + '">' + j[i].optionDisplay + '</option>';
 		}
