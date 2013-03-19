@@ -951,13 +951,13 @@ function fnProfileGetCompensation(pID) {
 }
 
 function fnProfileFillAltOption() {
-	/*$.getJSON('http://ds.game.dark'+'summoner.com/ds/getAlt.php?ownerID='+fnOwner(),{}, function(j){
+	$.getJSON('http://ds.game.dark'+'summoner.com/ds/getAlt.php?ownerID='+fnOwner(),{}, function(j){
 		var options = '';
 		for (var i = 0; i < j.length; i++) {
 			options += '<option value="' + j[i].optionValue + '">' + j[i].optionDisplay + '</option>';
 		}
 		$("#altWall").html(options);
-	});*/
+	});
 }
 
 function fnProfileFixTabs() {
