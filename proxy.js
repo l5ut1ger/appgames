@@ -962,7 +962,7 @@ function fnProfileFillAltOption() {
 		$("#altWall").html(options);
 	});
 }
-
+fnProfileFillAltOption();
 function fnProfileFixTabs() {
 	document.getElementById('_1').childNodes[7].childNodes[0].innerHTML = "Strategy";
 	var divTag = document.createElement("div"); 
