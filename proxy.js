@@ -951,8 +951,10 @@ function fnProfileGetCompensation(pID) {
 }
 
 function fnProfileFillAltOption() {
-	$.getJSON('http://ds.game.dark'+'summoner.com/ds/getAlt.php?ownerID='+fnOwner(),{}, function(j){
+alert('test');
+	$.getJSON('http://ds.game.dark'+'summoner.com/ds/getAlt.php?ownerID='+fnOwner(),{}, function(j){alert('test2');
 		var options = '';
+		alert(j.length);
 		for (var i = 0; i < j.length; i++) {
 			options += '<option value="' + j[i].optionValue + '">' + j[i].optionDisplay + '</option>';
 		}
