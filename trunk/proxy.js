@@ -145,10 +145,13 @@ function fnSetCookie(c_name,value,upload)
 	if(upload != 0) { //If the optional argument is not there, create a new variable with that name.
 		upload = 1;
 	}
-	if (value === null) {
+	if (value == 0) {
+		value = 0;
+	}
+	else if (value === null) {
 		value='';
 	}
-	if (value == undefined || value == 'undefined') {
+	else if (value == undefined || value == 'undefined') {
 		value = '';
 	}
 	var c_value;
@@ -292,6 +295,21 @@ function fnCheckAlly() {
 			fnSpamAllyMsg();
 		}
 	}
+}
+
+// owner
+
+var ownerKey = 'own';
+
+function fnOwner() {
+	if (fnGetCookie(ownerKey) === null) {
+		fnSetOwner(0);
+	}
+	return fnGetCookie(ownerKey);
+}
+
+function fnSetOwner(value) {
+	fnSetCookie(ownerKey, value);
 }
 
 // grinding speed
@@ -765,6 +783,25 @@ function fnProfileAddWallBookmarkSelector() {
 	document.body.appendChild(divTag);
 }
 
+function fnSkypeClanSelectorOption(pDefault) {
+	if (pDefault == null) {
+		pDefault = "0";
+	}
+	var option = '<option value="1860292579" ' + (pDefault=="1860292579"?"selected":"") + '>about2punt</option>';
+	option += '<option value="2171680461" ' + (pDefault=="2171680461"?"selected":"") + '>Byce</option>';
+	option += '<option value="2271156591" ' + (pDefault=="2271156591"?"selected":"") + '>caos5522</option>';
+	option += '<option value="2747200019" ' + (pDefault=="2747200019"?"selected":"") + '>Getr3kt</option>';
+	option += '<option value="2578795263" ' + (pDefault=="2578795263"?"selected":"") + '>Joe</option>';
+	//option += '<option value="2121751804" ' + (pDefault=="2121751804"?"selected":"") + '>Josh</option>';
+	option += '<option value="2337077116" ' + (pDefault=="2337077116"?"selected":"") + '>devistator(Josh)</option>';
+	option += '<option value="2993558878" ' + (pDefault=="2993558878"?"selected":"") + '>mr_saving</option>';
+	//option += '<option value="1806070535" ' + (pDefault=="1806070535"?"selected":"") + '>Kissy</option>';
+	option += '<option value="2656724949" ' + (pDefault=="2656724949"?"selected":"") + '>Kissy</option>';
+	option += '<option value="1330745254" ' + (pDefault=="1330745254"?"selected":"") + '>Unreality</option>';
+	option += '<option value="2320103292" ' + (pDefault=="2320103292"?"selected":"") + '>Drakkar</option>';
+	return option;
+}
+
 function fnProfileAddSkypeClanSelector() {
 	var divTag = document.createElement("div"); 
 
@@ -778,18 +815,7 @@ function fnProfileAddSkypeClanSelector() {
 	divTag.style.top = "100px"; 
 
 	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Skype Clan</option>';
-	selectorHTML += '<option value="1860292579">about2punt</option>'
-	selectorHTML += '<option value="2171680461">Byce</option>';
-	selectorHTML += '<option value="2271156591">caos5522</option>';
-	selectorHTML += '<option value="2747200019">Getr3kt</option>';
-	selectorHTML += '<option value="2578795263">Joe</option>';
-	//selectorHTML += '<option value="2121751804">Josh</option>';
-	selectorHTML += '<option value="2337077116">devistator(Josh)</option>';
-  selectorHTML += '<option value="2993558878">mr_saving</option>';
-	//selectorHTML += '<option value="1806070535">Kissy</option>';
-	selectorHTML += '<option value="2656724949">Kissy</option>';
-	selectorHTML += '<option value="1330745254">Unreality</option>';
-	selectorHTML += '<option value="2320103292">Drakkar</option>';
+	selectorHTML += fnSkypeClanSelectorOption(null);
 	selectorHTML+='</select>'; 
 
 	divTag.innerHTML = selectorHTML;
@@ -930,8 +956,13 @@ function fnProfileFixTabs() {
 	divTag.id = "profile-strategy"; 
 	divTag.style.position = "relative"; 
 	
+	
+	var selectorHTML = '<select name="sel" onchange="fnSetOwner(this.options[this.options.selectedIndex].value);"><option value="0">Skype Clan</option>';
+	selectorHTML += fnSkypeClanSelectorOption(fnOwner());
+	selectorHTML+='</select>'; 
+	
 	// Compensation gift setting
-	var compensationHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Compensation Gifts</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	var compensationHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Compensation Gifts</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	compensationHTML += 'Collect Individual Missed Compensation Gift:<br/><select name="sel" onchange="fnProfileGetCompensation(this.options[this.options.selectedIndex].value);">';
 	compensationHTML += '<option selected value="">Select a gift ID</option>';
 	for (var i=40;i<=41;i++) {
@@ -946,7 +977,7 @@ function fnProfileFixTabs() {
 	compensationHTML += '</select><br/><br/>'; 	
 	
 	// auto grind setting
-	var grindSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Grinding Speed</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	var grindSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Grinding Speed</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	grindSelectorHTML += '<select name="sel" onchange="fnSetGrindingSpeed(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == -1 ?'selected':'') + ' value="-1">Thumb</option>'
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
@@ -961,7 +992,7 @@ function fnProfileFixTabs() {
 	grindSelectorHTML += '</select><br/><br/>'; 
 	
 	// auto grind setting
-	var grindSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Grinding Speed</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	var grindSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Grinding Speed</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	grindSelectorHTML += '<select name="sel" onchange="fnSetGrindingSpeed(this.options[this.options.selectedIndex].value);fnGrowl(this.options[this.options.selectedIndex].text);">';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == -1 ?'selected':'') + ' value="-1">Thumb</option>'
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
@@ -976,21 +1007,21 @@ function fnProfileFixTabs() {
 	grindSelectorHTML += '</select><br/><br/>'; 
 	
 	// auto new mission setting
-	var autoNewMissionSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto New Mission (turn off if you are repeating old missions)</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	var autoNewMissionSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto New Mission (turn off if you are repeating old missions)</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	autoNewMissionSelectorHTML += '<select name="sel" onchange="fnSetAutoNewMission(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto New Mission \'+this.options[this.options.selectedIndex].text);">';
 	autoNewMissionSelectorHTML += '<option ' + (fnAutoNewMission() == 0 ?'selected':'') + ' value="0">Off</option>'
 	autoNewMissionSelectorHTML += '<option ' + (fnAutoNewMission() == 1 ?'selected':'') + ' value="1">On</option>';
 	autoNewMissionSelectorHTML += '</select><br/><br/>'; 
 	
 	// auto drink setting
-	var autoDrinkSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Drink</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	var autoDrinkSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto Drink</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	autoDrinkSelectorHTML += '<select name="sel" onchange="fnSetAutoDrink(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Drink \'+this.options[this.options.selectedIndex].text);">';
 	autoDrinkSelectorHTML += '<option ' + (fnAutoDrink() == -1 ?'selected':'') + ' value="-1">Off</option>'
 	autoDrinkSelectorHTML += '<option ' + (fnAutoDrink() == 1 ?'selected':'') + ' value="1">On</option>';
 	autoDrinkSelectorHTML += '</select><br/><br/>'; 
 	
 	// auto ally setting
-	var autoAllySelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Ally (per 3 mins.)</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	var autoAllySelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto Ally (per 3 mins.)</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	autoAllySelectorHTML += '<select name="sel" onchange="fnSetAutoAlly(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Ally \'+this.options[this.options.selectedIndex].text);">';
 	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == -1 ?'selected':'') + ' value="-1">Off</option>';
 	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 1 ?'selected':'') + ' value="1">On</option>';
@@ -998,7 +1029,7 @@ function fnProfileFixTabs() {
 	autoAllySelectorHTML += '<div id="divAllyMsgForm"><textarea id="allyMsg">' + fnAutoAllyMsg() + '</textarea><a href="javascript:fnSetAutoAllyMsg(document.getElementById(\'allyMsg\').value);fnGrowl(\'Ally Msg set as \'+document.getElementById(\'allyMsg\').value);" class="btn __red __WS __HS" style="position:relative; top:-8px; font-size:0.8em;">Set</a></div><br/>';
 	
 	// auto stats up setting
-	var autoStatsUpselectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Stats Up</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	var autoStatsUpselectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto Stats Up</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	autoStatsUpselectorHTML += '<select name="sel" onchange="fnSetAutoStatsUp(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Stats Up \'+this.options[this.options.selectedIndex].text);">';
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == -1 ?'selected':'') + ' value="-1">Off</option>'
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 1 ?'selected':'') + ' value="1">On, EP</option>';
@@ -1008,7 +1039,7 @@ function fnProfileFixTabs() {
 	autoStatsUpselectorHTML += '</select><br/><br/>'; 
 	
 	// Auto Stack BP Settings
-	var stackSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Auto Stack Rank A max BP</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	var stackSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto Stack Rank A max BP</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	stackSelectorHTML += '<select name="sel" onchange="fnSetAutoStackBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Stack Rank A max BP \'+this.options[this.options.selectedIndex].text);">';
 	for (var i=1;i<=30;i++) {
 		stackSelectorHTML += '<option ' + (fnAutoStackBP() == (i) ?'selected':'') + ' value="' + (i) + '">' + (i) + '</option>';
@@ -1016,7 +1047,7 @@ function fnProfileFixTabs() {
 	stackSelectorHTML += '</select><br/><br/>';
 	
 	// Tower Event Target Settings
-	var towerSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Tower Event</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>Target Floor<br/>';
+	var towerSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Tower Event</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>Target Floor<br/>';
 	towerSelectorHTML += '<select name="sel" onchange="fnSetTowerEventTarget(this.options[this.options.selectedIndex].value);fnGrowl(\'Tower Event Target \'+this.options[this.options.selectedIndex].text);">';
 	for (var i=1;i<=100;i++) {
 		towerSelectorHTML += '<option ' + (fnTowerEventTarget() == (i*100+1) ?'selected':'') + ' value="' + (i*100+1) + '">' + (i*100+1) + '</option>';
@@ -1046,9 +1077,8 @@ function fnProfileFixTabs() {
 	}
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
 	
-	var loginSessionHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.darksummoner.com/en/s/misc/icons/summon.png" /> Login Session</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>Login Key<br/><textarea rows="10" cols="50">' + document.cookie + ' ' + fnGetCookie('darksummoner_en') + '</textarea><br/><br/>';
-   
-	divTag.innerHTML = compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML + loginSessionHTML; 
+ 
+	divTag.innerHTML = compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 	
 	
@@ -1074,13 +1104,13 @@ function fnProfileFixTabs() {
 
 		switch (id) {
 			case '_0': onChangeProfileFix('category-level'); 
-				if (enable_phonegap) { (new Media("http://res.darksummoner.com/en/s/se/misc/se_01.m4a")).play(); }  break; 
+				if (enable_phonegap) { }  break; 
 			case '_1': onChangeProfileFix('category-record'); 
-				if (enable_phonegap) { (new Media("http://res.darksummoner.com/en/s/se/misc/se_01.m4a")).play(); }  break; 
+				if (enable_phonegap) { }  break; 
 			case '_2': onChangeProfileFix('category-wishlist'); 
-				if (enable_phonegap) { (new Media("http://res.darksummoner.com/en/s/se/misc/se_01.m4a")).play(); }  break; 
+				if (enable_phonegap) { }  break; 
 			case '_3': onChangeProfileFix('category-bbs'); 
-				if (enable_phonegap) { (new Media("http://res.darksummoner.com/en/s/se/misc/se_01.m4a")).play(); }  break; 
+				if (enable_phonegap) { }  break; 
 
 			default: break;
 		}
@@ -2845,13 +2875,7 @@ function fnSubjugationFixAttack() {
 				fnRedirect('/en/'+platform+'/subjugation/mission?');
 				if (data.payload.result == 1) {
 					
-					//anim_blood(data.payload.id, tmp_wait);
 
-					//raid_defeated(true);
-
-					//document.images["raid_normal_boss_img"].src = "http://res.darksummoner.com/en/s/raid/raidbattle_bossimage_01_Defeated.png";
-
-					//result = document.getElementById('result_defeated');
 				} else {
 					timeout();
 				}
@@ -3590,7 +3614,7 @@ function fnMonsterCollection() {
 		var box = monsterImgList.eq(i);
 		var frame = box.parent();
 		var monsterID = $('div', frame).html();
-		frame.html('<a href="/en/'+platform+'/achievement/monsterInformation?mid='+monsterID+'&amp;attr=0&amp;offset=4"><img src="http://res.darksummoner.com/en/s/cards/'+monsterID+'_small.png" width="55" height="55" alt="'+monsterID+'" />'+monsterID+'</a>');
+		frame.html('<a href="/en/'+platform+'/achievement/monsterInformation?mid='+monsterID+'&amp;attr=0&amp;offset=4"><img src="http://res.dark'+'summoner.com/en/s/cards/'+monsterID+'_small.png" width="55" height="55" alt="'+monsterID+'" />'+monsterID+'</a>');
 	}
 }
 
@@ -3628,9 +3652,9 @@ function fnMonsterInfo() {
 	$('#status-defense').html(addFigure(paramMaster['defense'])+' ('+ addFigure(paramMaster['i_defense']) +'-'+ addFigure(paramMaster['m_defense']) +')');
 	$('#status-hp').html(addFigure(paramMaster['hp'])+' ('+ addFigure(paramMaster['i_hp']) +'-'+ addFigure(paramMaster['m_hp']) +')');
 	$('.status-text').css('width', '1000px');
-	$('#prev').html('<a href="monsterInformation?mid='+ (parseInt(monsterMaster['monster_id'],10)-1)+'"><img src="http://res.darksummoner.com/en/s/misc/pager/button_pager_prev_s.png" /></a><a href="monsterInformation?mid='+ (parseInt(monsterMaster['monster_id'],10)+1) +'"><img src="http://res.darksummoner.com/en/s/misc/pager/button_pager_next_s.png" /></a>');
+	$('#prev').html('<a href="monsterInformation?mid='+ (parseInt(monsterMaster['monster_id'],10)-1)+'"><img src="http://res.dark'+'summoner.com/en/s/misc/pager/button_pager_prev_s.png" /></a><a href="monsterInformation?mid='+ (parseInt(monsterMaster['monster_id'],10)+1) +'"><img src="http://res.dark'+'summoner.com/en/s/misc/pager/button_pager_next_s.png" /></a>');
 	if (parseInt(monsterMaster['grade'], 10) >= 6) {
-		$('#button-back-img').html($('#button-back-img').html() + '<br/><img src="http://res.darksummoner.com/en/s/misc/table/decoration_left.png" /> <a style="position:relative; " class="__WM __HM btn __red" href="javascript:fnMonsterInfoSearchAuctionAA(paramMaster[\'monster_id\']);">Auction</a> <img src="http://res.darksummoner.com/en/s/misc/table/decoration_right.png" /> ');
+		$('#button-back-img').html($('#button-back-img').html() + '<br/><img src="http://res.dark'+'summoner.com/en/s/misc/table/decoration_left.png" /> <a style="position:relative; " class="__WM __HM btn __red" href="javascript:fnMonsterInfoSearchAuctionAA(paramMaster[\'monster_id\']);">Auction</a> <img src="http://res.dark'+'summoner.com/en/s/misc/table/decoration_right.png" /> ');
 	}
 }
 
@@ -4486,7 +4510,7 @@ function fnFusionFixDestPage() {
 
 		// 
 		$('#monsters').empty();
-		$('#original > img').attr('src', 'http://res.darksummoner.com/en/s/cards/none.png');
+		$('#original > img').attr('src', 'http://res.dark'+'summoner.com/en/s/cards/none.png');
 		$('#jewel').css('color', 'white').html('0');
 
 		// 
@@ -4498,8 +4522,8 @@ function fnFusionFixDestPage() {
 			var base_tag = $('<div id="' + id + '" class="monster"></div>');
 
 			base_tag
-				.append('<div class="thumb"><img src="http://res.darksummoner.com/en/s/' + monster.small_thumb_image + '" /></div>')
-				.append('<div class="information"><img src="http://res.darksummoner.com/en/s/misc/monster/information_' + monster.tribe + '.png" /></div>')
+				.append('<div class="thumb"><img src="http://res.dark'+'summoner.com/en/s/' + monster.small_thumb_image + '" /></div>')
+				.append('<div class="information"><img src="http://res.dark'+'summoner.com/en/s/misc/monster/information_' + monster.tribe + '.png" /></div>')
 				.append('<div class="party"></div>')
 				.append('<div class="name">' + monster.m.name + '</div>')
 				.append('<div class="' + ((~~monster.lv >= ~~monster.m.lv_max) ? 'lv_max' : 'lv') + '">' + monster.lv + '</div>')
@@ -4531,13 +4555,13 @@ function fnFusionFixDestPage() {
 			if (reason_for_disable !== false) {
 			var disable_tag = $('<div class="disable"></div>');
 			disable_tag
-			.append('<img class="disable-icon" src="http://res.darksummoner.com/en/s/misc/icons/exclamation.png" />')
+			.append('<img class="disable-icon" src="http://res.dark'+'summoner.com/en/s/misc/icons/exclamation.png" />')
 			.append('<div class="disable-label">' + DISABLE_REASONS[reason_for_disable] + '</div>');
 
 			base_tag
 			.append(disable_tag)
 			.addClass('monster-tribe-' + monster.tribe)
-			.append('<div class="check-icon"><img src="http://res.darksummoner.com/en/s/misc/icons/check_box_lock.png" /></div>');
+			.append('<div class="check-icon"><img src="http://res.dark'+'summoner.com/en/s/misc/icons/check_box_lock.png" /></div>');
 			}
 			else {
 			var index = findIndex(monster);
@@ -4586,8 +4610,8 @@ function fnFusionFixPage() {
 		var base_tag = $('<div id="' + id + '" class="monster monster-tribe-' + monster.tribe + '"></div>');
 
 		base_tag
-		  .append('<div class="thumb"><img src="http://res.darksummoner.com/en/s/' + monster.small_thumb_image + '" /></div>')
-		  .append('<div class="information"><img src="http://res.darksummoner.com/en/s/misc/monster/information_' + monster.tribe + '.png" /></div>')
+		  .append('<div class="thumb"><img src="http://res.dark'+'summoner.com/en/s/' + monster.small_thumb_image + '" /></div>')
+		  .append('<div class="information"><img src="http://res.dark'+'summoner.com/en/s/misc/monster/information_' + monster.tribe + '.png" /></div>')
 		  .append('<div class="party"></div>')
 		  .append('<div class="name">' + monster.m.name + '</div>')
 		  .append('<div class="lv">' + monster.lv + '</div>')
@@ -4606,7 +4630,7 @@ function fnFusionFixPage() {
 		  var name_tag = $('.name', base_tag);
 		  name_tag.css({ left:'35px' });
 
-		  var icon_img = 'http://res.darksummoner.com/en/s/misc/icons/icon_' + ((monster.location == 1) ? 'leader' : 'party') + '.png'; 
+		  var icon_img = 'http://res.dark'+'summoner.com/en/s/misc/icons/icon_' + ((monster.location == 1) ? 'leader' : 'party') + '.png'; 
 		  base_tag.append('<div class="party-icon"><img src="' + icon_img + '" /></div>');
 		}
 
@@ -4631,7 +4655,7 @@ function fnFusionFixPage() {
 		if (reason_for_disable !== false) {
 		  var disable_tag = $('<div class="disable"></div>');
 		  disable_tag
-			.append('<img class="disable-icon" src="http://res.darksummoner.com/en/s/misc/icons/exclamation.png" />')
+			.append('<img class="disable-icon" src="http://res.dark'+'summoner.com/en/s/misc/icons/exclamation.png" />')
 			.append('<div class="disable-label">' + DISABLE_REASONS[reason_for_disable] + '</div>');
 
 		  base_tag.append(disable_tag);
