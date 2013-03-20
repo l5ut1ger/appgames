@@ -2373,7 +2373,7 @@ function fnFixForkRoadMissionProcess() {
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
 					if ((parseInt(fnForkRoadStay(),10) == 1) || (parseInt(fnForkRoadStay(),10) == 2) || (parseInt(fnForkRoadStay(),10) == 3)) {
-					return;
+						return;
 					}
 					else {
 						clearInterval(missionInterval);
@@ -2383,7 +2383,7 @@ function fnFixForkRoadMissionProcess() {
 				}
 				if(666 == result.payload.event.event_info.params.type){
 					clearInterval(missionInterval);
-					fnRedirect('/en/'+platform+'/forkroad/drawACard');					
+					fnRedirect('/en/'+platform+'/forkroad/drawACard');	
 					return;
 				}
 			}
@@ -2419,8 +2419,11 @@ function fnFixForkRoadMissionProcess() {
 
 			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
 			if(event.enemy_encount) {
-				clearInterval(missionInterval);
-				fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);				
+				//clearInterval(missionInterval);
+				//fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id+'&skip=1');	
+				
+				//call ajax instead of redirect
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?event=4&aid='+area_id+'&skip=1', {}, function(data) {});
 				return;
 			}
 			mission_update();
@@ -2632,10 +2635,10 @@ function fnForkRoadDrawACard() {
 		return;
 	}
 	$.ajax_ex(false, '/en/'+platform+'/forkroad/ajaxDrawACard', {}, function(data) {
-		$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data2) {
+		/*$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data2) {
 			$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data2.payload.boxes[0].boxed_id, {}, function(data3) {
 			});		
-		});
+		});*/
 	});
 	fnRedirect('/en/'+platform+'/forkroad/mission?');
 }
