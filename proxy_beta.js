@@ -2245,7 +2245,13 @@ function fnFixForkRoadMissionProcess() {
 			'__hash':  (new Date()).getTime(),
 			confirm_id: confirmId,
 		}, function(result) {
-			if (result.status == 4) {
+			// pathetic status 6, have to refresh.
+			if (result.status == 6) {
+				clearInterval(missionInterval);
+				fnRedirect('/en/'+platform+'/forkroad/mission');
+				return;
+			}
+			else if (result.status == 4) {
 				// switch to battle
 				if (fnForkRoadMissionTeam() != null && fnForkRoadBattleTeam() != null && parseInt(player.bp, 10) >= 1) {
 					clearInterval(missionInterval);
