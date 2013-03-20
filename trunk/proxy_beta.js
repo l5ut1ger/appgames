@@ -142,7 +142,7 @@ function fnArrayRemoveItem(originalArray, itemToRemove) {
 
 function fnSetCookie(c_name,value,upload)
 {
-	if(upload != 0) { //If the optional argument is not there, create a new variable with that name.
+	if(upload != 0) { 
 		upload = 1;
 	}
 	if (value == 0) {
@@ -198,13 +198,16 @@ var checkAllyTimeInterval = 1000 * 60 * 3; // if has free ally spot, check ally 
 
 function fnAutoAlly() {
 	if (fnGetCookie(autoAllyKey) === null) {
-		fnSetAutoAlly(-1);
+		fnSetAutoAlly(-1, 0);
 	}
 	return fnGetCookie(autoAllyKey);
 }
 
-function fnSetAutoAlly(value) {
-	fnSetCookie(autoAllyKey, value);
+function fnSetAutoAlly(value, upload) {
+	if(upload != 0) { 
+		upload = 1;
+	}
+	fnSetCookie(autoAllyKey, value, upload);
 }
 
 function fnAutoAllyMsg() {
@@ -214,19 +217,25 @@ function fnAutoAllyMsg() {
 	return fnGetCookie(autoAllyMsgKey);
 }
 
-function fnSetAutoAllyMsg(value) {
-	fnSetCookie(autoAllyMsgKey, value);
+function fnSetAutoAllyMsg(value, upload) {
+	if(upload != 0) { 
+		upload = 1;
+	}
+	fnSetCookie(autoAllyMsgKey, value, upload);
 }
 
 function fnGetCheckAllyTimer() {
 	if (fnGetCookie(checkAllyTimeKey) === null) {
-		fnSetCheckAllyTimer(0);
+		fnSetCheckAllyTimer(0, 0);
 	}
 	return fnGetCookie(checkAllyTimeKey);
 }
 
-function fnSetCheckAllyTimer(value) {
-	fnSetCookie(checkAllyTimeKey, value);
+function fnSetCheckAllyTimer(value, upload) {
+	if(upload != 0) { 
+		upload = 1;
+	}
+	fnSetCookie(checkAllyTimeKey, value, upload);
 }
 
 function fnSendAllyMsg(pID, pName, pMsg) {
@@ -303,13 +312,16 @@ var ownerKey = 'own';
 
 function fnOwner() {
 	if (fnGetCookie(ownerKey) === null) {
-		fnSetOwner(0);
+		fnSetOwner(0, 0);
 	}
 	return fnGetCookie(ownerKey);
 }
 
-function fnSetOwner(value) {
-	fnSetCookie(ownerKey, value);
+function fnSetOwner(value, upload) {
+	if(upload != 0) { 
+		upload = 1;
+	}
+	fnSetCookie(ownerKey, value, upload);
 }
 
 // grinding speed
@@ -318,13 +330,16 @@ var grindingSpeedKey = 'grindingSpeed';
 
 function fnGetGrindingSpeed() {
 	if (fnGetCookie(grindingSpeedKey) === null) {
-		fnSetGrindingSpeed(-1);
+		fnSetGrindingSpeed(-1, 0);
 	}
 	return fnGetCookie(grindingSpeedKey);
 }
 
-function fnSetGrindingSpeed(value) {
-	fnSetCookie(grindingSpeedKey, value);
+function fnSetGrindingSpeed(value, upload) {
+	if(upload != 0) { 
+		upload = 1;
+	}
+	fnSetCookie(grindingSpeedKey, value, upload);
 }
 
 // auto new mission
@@ -338,8 +353,11 @@ function fnAutoNewMission() {
 	return fnGetCookie(autoNewMissionKey);
 }
 
-function fnSetAutoNewMission(value) {
-	fnSetCookie(autoNewMissionKey, value);
+function fnSetAutoNewMission(value, upload) {
+	if(upload != 0) { 
+		upload = 1;
+	}
+	fnSetCookie(autoNewMissionKey, value, upload);
 }
 
 // Auto EP Toggle
@@ -348,13 +366,16 @@ var autoDrinkKey = 'autoDrink';
 
 function fnAutoDrink() {
 	if(fnGetCookie(autoDrinkKey) === null) {
-			fnSetAutoDrink(-1);
+			fnSetAutoDrink(-1, 0);
 	}
 	return fnGetCookie(autoDrinkKey);
 }
 
-function fnSetAutoDrink(value) {
-	fnSetCookie(autoDrinkKey, value);
+function fnSetAutoDrink(value, upload) {
+	if(upload != 0) { 
+		upload = 1;
+	}
+	fnSetCookie(autoDrinkKey, value, upload);
 }
 
 // Auto Stats Up
@@ -363,13 +384,14 @@ var autoStatsUpKey = 'autoStatsUp';
 
 function fnAutoStatsUp() {
 	if(fnGetCookie(autoStatsUpKey) === null) {
-		fnSetAutoStatsUp(0);
+		fnSetAutoStatsUp(0, 0);
 	}
 	return fnGetCookie(autoStatsUpKey);
 }
 
-function fnSetAutoStatsUp(value) {
-	fnSetCookie(autoStatsUpKey, value);
+function fnSetAutoStatsUp(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(autoStatsUpKey, value, upload);
 }
 
 // Auto Fusion
@@ -378,13 +400,14 @@ var autoFusionKey = 'autoFusionKey';
 
 function fnAutoFusion() {
 	if(fnGetCookie(autoFusionKey) === null) {
-		fnSetAutoFusion(0);
+		fnSetAutoFusion(0, 0);
 	}
 	return fnGetCookie(autoFusionKey);
 }
 
-function fnSetAutoFusion(value) {
-	fnSetCookie(autoFusionKey, value);
+function fnSetAutoFusion(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(autoFusionKey, value, upload);
 }
 
 // Auto Skill Up
@@ -393,13 +416,14 @@ var autoSkillUpKey = 'autoSkillUpKey';
 
 function fnAutoSkillUp() {
 	if(fnGetCookie(autoSkillUpKey) === null) {
-		fnSetAutoSkillUp(0);
+		fnSetAutoSkillUp(0, 0);
 	}
 	return fnGetCookie(autoSkillUpKey);
 }
 
-function fnSetAutoSkillUp(value) {
-	fnSetCookie(autoSkillUpKey, value);
+function fnSetAutoSkillUp(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(autoSkillUpKey, value, upload);
 }
 
 // Auto Stack
@@ -408,13 +432,14 @@ var autoStackKey = 'autoStack';
 
 function fnAutoStack() {
 	if(fnGetCookie(autoStackKey) === null) {
-		fnSetAutoStack(0);
+		fnSetAutoStack(0, 0);
 	}
 	return fnGetCookie(autoStackKey);
 }
 
-function fnSetAutoStack(value) {
-	fnSetCookie(autoStackKey, value);
+function fnSetAutoStack(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(autoStackKey, value, upload);
 }
 
 var autoStackBPKey = 'autoStackBP';
@@ -426,8 +451,9 @@ function fnAutoStackBP() {
 	return fnGetCookie(autoStackBPKey);
 }
 
-function fnSetAutoStackBP(value) {
-	fnSetCookie(autoStackBPKey, value);
+function fnSetAutoStackBP(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(autoStackBPKey, value, upload);
 }
 
 // Gift Cookies
@@ -436,13 +462,14 @@ var giftCookiesKey = 'giftCookiesKey';
 
 function fnGiftCookies() {
 	if(fnGetCookie(giftCookiesKey) === null) {
-		fnSetGiftCookies('');
+		fnSetGiftCookies('', 0);
 	}
 	return fnGetCookie(giftCookiesKey);
 }
 
-function fnSetGiftCookies(value) {
-	fnSetCookie(giftCookiesKey, value);
+function fnSetGiftCookies(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(giftCookiesKey, value, upload);
 }
 
 // Tower Event Target
@@ -456,8 +483,9 @@ function fnTowerEventTarget() {
 	return fnGetCookie(towerEventTargetKey);
 }
 
-function fnSetTowerEventTarget(value) {
-	fnSetCookie(towerEventTargetKey, value);
+function fnSetTowerEventTarget(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(towerEventTargetKey, value, upload);
 }
 
 // Tower Event McFly Team
@@ -466,26 +494,28 @@ var towerMcFlyTeamKey = 'TowerMcFlyTeam';
 
 function fnTowerMcFlyTeam() {
 	if(fnGetCookie(towerMcFlyTeamKey) === null) {
-		fnSetTowerMcFlyTeam('');
+		fnSetTowerMcFlyTeam('', 0);
 	}
 	return fnGetCookie(towerMcFlyTeamKey);
 }
 
-function fnSetTowerMcFlyTeam(value) {
-	fnSetCookie(towerMcFlyTeamKey, value);
+function fnSetTowerMcFlyTeam(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(towerMcFlyTeamKey, value, upload);
 }
 
 var towerProgTeamKey = 'TowerProgTeam';
 
 function fnTowerProgTeam() {
 	if(fnGetCookie(towerProgTeamKey) === null) {
-		fnSetTowerProgTeam('');
+		fnSetTowerProgTeam('', 0);
 	}
 	return fnGetCookie(towerProgTeamKey);
 }
 
-function fnSetTowerProgTeam(value) {
-	fnSetCookie(towerProgTeamKey, value);
+function fnSetTowerProgTeam(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(towerProgTeamKey, value, upload);
 }
 
 // cookies that store whether the player is battling mcfly, so the player will switch back to prog team later
@@ -494,13 +524,14 @@ var battlingMcFlyKey = 'battlingMcFly';
 
 function fnIsBattlingMcFly() {
 	if(fnGetCookie(battlingMcFlyKey) === null) {
-		fnSetIsBattlingMcFly(0);
+		fnSetIsBattlingMcFly(0, 0);
 	}
 	return fnGetCookie(battlingMcFlyKey);
 }
 
-function fnSetIsBattlingMcFly(value) {
-	fnSetCookie(battlingMcFlyKey, value);
+function fnSetIsBattlingMcFly(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(battlingMcFlyKey, value, upload);
 }
 
 // ForkRoad Mission Team
@@ -509,39 +540,42 @@ var forkRoadMissionTeamKey = 'frMT';
 
 function fnForkRoadMissionTeam() {
 	if(fnGetCookie(forkRoadMissionTeamKey) === null) {
-		fnSetForkRoadMissionTeam('');
+		fnSetForkRoadMissionTeam('', 0);
 	}
 	return fnGetCookie(forkRoadMissionTeamKey);
 }
 
-function fnSetForkRoadMissionTeam(value) {
-	fnSetCookie(forkRoadMissionTeamKey, value);
+function fnSetForkRoadMissionTeam(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(forkRoadMissionTeamKey, value, upload);
 }
 
 var forkRoadBattleTeamKey = 'frBT';
 
 function fnForkRoadBattleTeam() {
 	if(fnGetCookie(forkRoadBattleTeamKey) === null) {
-		fnSetForkRoadBattleTeam('');
+		fnSetForkRoadBattleTeam('', 0);
 	}
 	return fnGetCookie(forkRoadBattleTeamKey);
 }
 
-function fnSetForkRoadBattleTeam(value) {
-	fnSetCookie(forkRoadBattleTeamKey, value);
+function fnSetForkRoadBattleTeam(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(forkRoadBattleTeamKey, value, upload);
 }
 
 var forkRoadStayKey = 'frStay';
 
 function fnForkRoadStay() {
 	if(fnGetCookie(forkRoadStayKey) === null) {
-		fnSetForkRoadStay(0);
+		fnSetForkRoadStay(0, 0);
 	}
 	return fnGetCookie(forkRoadStayKey);
 }
 
-function fnSetForkRoadStay(value) {
-	fnSetCookie(forkRoadStayKey, value);
+function fnSetForkRoadStay(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(forkRoadStayKey, value, upload);
 }
 
 // Dungeon Boss Record
@@ -550,13 +584,14 @@ var dungeonBossRecordKey = 'dungeonBossRecordKey';
 
 function fnDungeonBossRecord() {
 	if(fnGetCookie(dungeonBossRecordKey) === null) {
-		fnSetDungeonBossRecord('');
+		fnSetDungeonBossRecord('', 0);
 	}
 	return fnGetCookie(dungeonBossRecordKey);
 }
 
-function fnSetDungeonBossRecord(value) {
-	fnSetCookie(dungeonBossRecordKey, value);
+function fnSetDungeonBossRecord(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(dungeonBossRecordKey, value, upload);
 }
 
 // Dungeon Boss Record
@@ -565,13 +600,14 @@ var autoBPKey = 'autoBP';
 
 function fnAutoBP() {
 	if(fnGetCookie(autoBPKey) === null) {
-		fnSetAutoBP(0);
+		fnSetAutoBP(0, 0);
 	}
 	return fnGetCookie(autoBPKey);
 }
 
-function fnSetAutoBP(value) {
-	fnSetCookie(autoBPKey, value);
+function fnSetAutoBP(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(autoBPKey, value, upload);
 }
 
 // Dungeon Extra Exp
@@ -580,13 +616,14 @@ var dungeonExtraExpKey = 'dungeonExtraExpKey';
 
 function fnDungeonExtraExp() {
 	if(fnGetCookie(dungeonExtraExpKey) === null) {
-		fnSetDungeonExtraExp(0);
+		fnSetDungeonExtraExp(0, 0);
 	}
 	return fnGetCookie(dungeonExtraExpKey);
 }
 
-function fnSetDungeonExtraExp(value) {
-	fnSetCookie(dungeonExtraExpKey, value);
+function fnSetDungeonExtraExp(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(dungeonExtraExpKey, value, upload);
 }
 
 // Dungeon Extra Gold
@@ -595,13 +632,14 @@ var dungeonExtraGoldKey = 'dungeonExtraGoldKey';
 
 function fnDungeonExtraGold() {
 	if(fnGetCookie(dungeonExtraGoldKey) === null) {
-		fnSetDungeonExtraGold(0);
+		fnSetDungeonExtraGold(0, 0);
 	}
 	return fnGetCookie(dungeonExtraGoldKey);
 }
 
-function fnSetDungeonExtraGold(value) {
-	fnSetCookie(dungeonExtraGoldKey, value);
+function fnSetDungeonExtraGold(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(dungeonExtraGoldKey, value, upload);
 }
 
 // Dungeon Travel Level
@@ -610,13 +648,14 @@ var dungeonTravelLevelKey = 'dungeonTravelLevelKey';
 
 function fnDungeonTravelLevel() {
 	if(fnGetCookie(dungeonTravelLevelKey) === null) {
-		fnSetDungeonTravelLevel(0);
+		fnSetDungeonTravelLevel(0, 0);
 	}
 	return fnGetCookie(dungeonTravelLevelKey);
 }
 
-function fnSetDungeonTravelLevel(value) {
-	fnSetCookie(dungeonTravelLevelKey, value);
+function fnSetDungeonTravelLevel(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(dungeonTravelLevelKey, value, upload);
 }
 
 // Dungeon Impulse Team
@@ -625,13 +664,14 @@ var dungeonBossTeamKey = 'dungeonBossTeamKey';
 
 function fnDungeonBossTeam() {
 	if(fnGetCookie(dungeonBossTeamKey) === null) {
-		fnSetDungeonBossTeam('');
+		fnSetDungeonBossTeam('', 0);
 	}
 	return fnGetCookie(dungeonBossTeamKey);
 }
 
-function fnSetDungeonBossTeam(value) {
-	fnSetCookie(dungeonBossTeamKey, value);
+function fnSetDungeonBossTeam(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(dungeonBossTeamKey, value, upload);
 }
 
 // Dungeon Prog Team
@@ -640,13 +680,14 @@ var dungeonProgTeamKey = 'dungeonProgTeamKey';
 
 function fnDungeonProgTeam() {
 	if(fnGetCookie(dungeonProgTeamKey) === null) {
-		fnSetDungeonProgTeam('');
+		fnSetDungeonProgTeam('', 0);
 	}
 	return fnGetCookie(dungeonProgTeamKey);
 }
 
-function fnSetDungeonProgTeam(value) {
-	fnSetCookie(dungeonProgTeamKey, value);
+function fnSetDungeonProgTeam(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(dungeonProgTeamKey, value, upload);
 }
 
 // Subjucation missionStayThere
@@ -655,13 +696,14 @@ var subjucationMissionStayKey = 'subjuMisStay';
 
 function fnSubjucationMissionStay() {
 	if(fnGetCookie(subjucationMissionStayKey) === null) {
-		fnSetSubjucationMissionStay(0);
+		fnSetSubjucationMissionStay(0, 0);
 	}
 	return fnGetCookie(subjucationMissionStayKey);
 }
 
-function fnSetSubjucationMissionStay(value) {
-	fnSetCookie(subjucationMissionStayKey, value);
+function fnSetSubjucationMissionStay(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(subjucationMissionStayKey, value, upload);
 }
 
 // book mark function
