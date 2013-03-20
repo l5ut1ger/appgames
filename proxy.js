@@ -2373,7 +2373,7 @@ function fnFixForkRoadMissionProcess() {
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
 					if ((parseInt(fnForkRoadStay(),10) == 1) || (parseInt(fnForkRoadStay(),10) == 2) || (parseInt(fnForkRoadStay(),10) == 3)) {
-					return;
+						return;
 					}
 					else {
 						clearInterval(missionInterval);
@@ -2382,8 +2382,14 @@ function fnFixForkRoadMissionProcess() {
 					}
 				}
 				if(666 == result.payload.event.event_info.params.type){
-					clearInterval(missionInterval);
-					fnRedirect('/en/'+platform+'/forkroad/drawACard');					
+					//clearInterval(missionInterval);
+					//fnRedirect('/en/'+platform+'/forkroad/drawACard');					
+					
+					// call ajax instead of redirect
+					$.ajax_ex(false, '/en/'+platform+'/forkroad/drawACard', {}, function(data) {
+						$.ajax_ex(false, '/en/'+platform+'/forkroad/ajaxDrawACard', {}, function(data) {
+						});
+					});
 					return;
 				}
 			}
