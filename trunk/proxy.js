@@ -2421,9 +2421,12 @@ function fnFixForkRoadMissionProcess() {
 			if(event.enemy_encount) {
 				//clearInterval(missionInterval);
 				//fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id+'&skip=1');	
-				
-				//call ajax instead of redirect
-				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?event=4&aid='+area_id+'&skip=1', {}, function(data) {});
+				if(typeof(result.payload.event.event_info.params) != 'undefined' && 255 == result.payload.event.event_info.params.type) {
+				}
+				else {
+					//call ajax instead of redirect
+					$.ajax_ex(false, '/en/'+platform+'/battle/battleact?event=4&aid='+area_id+'&skip=1', {}, function(data) {});
+				}
 				return;
 			}
 			mission_update();
