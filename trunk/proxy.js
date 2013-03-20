@@ -2331,8 +2331,9 @@ function fnFixForkRoadMissionProcess() {
 						return;
 					}
 					else if (parseInt(fnForkRoadStay(),10) == 2) {// grind lap and earn set
-						clearInterval(missionInterval);
-						fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));	
+						//clearInterval(missionInterval);
+						$.ajax_ex(false, '/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()), {}, function(data) {});
+						//fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));	
 					}
 					else if (parseInt(fnForkRoadStay(),10) == 3) {// grind lap and pick up lap reward and earn set
 						clearInterval(missionInterval);
