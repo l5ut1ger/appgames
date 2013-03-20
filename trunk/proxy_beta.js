@@ -2334,9 +2334,7 @@ function fnFixForkRoadMissionProcess() {
 			if(event.fragment.fragment_count == 10) {
 				if(typeof(result.payload.event.event_info.params) != 'undefined' && 255 == result.payload.event.event_info.params.type) {
 					if ((parseInt(fnForkRoadStay(),10) == 1) || (parseInt(fnForkRoadStay(),10) == 2) || (parseInt(fnForkRoadStay(),10) == 3)) {
-						$('#fade').hide();
-						$('#textbox').hide();
-						$('#click_area').hide();
+						all_hide();
 						if (parseInt(fnForkRoadStay(),10) == 1) {//just grind lap
 							return;
 						}
