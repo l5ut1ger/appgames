@@ -5111,16 +5111,16 @@ function fnTimeoutOnLoad() {
 	// /en/'+platform+'/dungeon/recoveryproc
 }
 
-function fnOnLoad() {
-	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");
-	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
+function fnOnLoad() {alert("a");
+	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");alert("b");
+	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");alert("c");
 
-	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
+	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	alert("d");
 	fnSetupPurrCSS();
-
+alert("e");
 	fnCreateBackButton();
-	
-	fnAutoUsePoint();
+	alert("f");
+	fnAutoUsePoint();alert("g");
 	
 	fnCheckAlly();
 	
