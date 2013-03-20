@@ -4833,6 +4833,9 @@ function fnHome() {
 	if (document.referrer.indexOf('/forkroad/mileStone') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad');
 	}
+	if (document.referrer.indexOf('/forkroad/mission') >= 0) {
+		fnRedirect('/en/'+platform+'/forkroad');
+	}
 	fnProfileAddWallBookmarkSelector();
 	fnDeckAddFormationSelector();
 	document.getElementById('formationDiv').style.top = "100px";
