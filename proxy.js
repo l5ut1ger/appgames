@@ -2420,7 +2420,7 @@ function fnFixForkRoadMissionProcess() {
 			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
 			if(event.enemy_encount) {
 				clearInterval(missionInterval);
-				fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id);				
+				fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id+'&skip=1');				
 				return;
 			}
 			mission_update();
