@@ -2327,7 +2327,7 @@ function fnFixForkRoadMissionProcess() {
 			//if(event.fragment.fragment_plus > 0)     event.phase.push('get_fragment');
 			if(event.fragment.fragment_count == 10) {
 				if(typeof(result.payload.event.event_info.params) != 'undefined' && 255 == result.payload.event.event_info.params.type) {
-					if (parseInt(fnForkRoadStay(),10) > 0) {
+					if ((parseInt(fnForkRoadStay(),10) == 1) || (parseInt(fnForkRoadStay(),10) == 2) || (parseInt(fnForkRoadStay(),10) == 3)) {
 						$('#fade').hide();
 						$('#textbox').hide();
 						$('#click_area').hide();
@@ -2335,7 +2335,7 @@ function fnFixForkRoadMissionProcess() {
 							return;
 						}
 						else if (parseInt(fnForkRoadStay(),10) == 2) {// grind lap and earn set
-							//clearInterval(missionInterval);
+							//call ajax instead of redirect
 							$.ajax_ex(false, '/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()), {}, function(data) {});
 							return;
 						}
@@ -2356,8 +2356,9 @@ function fnFixForkRoadMissionProcess() {
 					}
 				}
 				else {
-					clearInterval(missionInterval);
-					fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));				
+					//clearInterval(missionInterval);
+					//call ajax instead of redirect
+					$.ajax_ex(false, '/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()), {}, function(data) {});
 					return;
 				}
 			}
