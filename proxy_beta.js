@@ -2327,9 +2327,13 @@ function fnFixForkRoadMissionProcess() {
 			//if(event.fragment.fragment_plus > 0)     event.phase.push('get_fragment');
 			if(event.fragment.fragment_count == 10) {
 				if(typeof(result.payload.event.event_info.params) != 'undefined' && 255 == result.payload.event.event_info.params.type) {
-					if (parseInt(fnForkRoadStay(),10) == 1) {
+					if (parseInt(fnForkRoadStay(),10) == 1) {//just grind lap
 					}
-					else if (parseInt(fnForkRoadStay(),10) == 2) {
+					else if (parseInt(fnForkRoadStay(),10) == 2) {// grind lap and earn set
+						clearInterval(missionInterval);
+						fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));	
+					}
+					else if (parseInt(fnForkRoadStay(),10) == 3) {// grind lap and pick up lap reward and earn set
 						clearInterval(missionInterval);
 						$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
 							$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.boxes[0].boxed_id, {}, function(data) {
@@ -2354,7 +2358,7 @@ function fnFixForkRoadMissionProcess() {
 			//ã¤ãã³ãã®å¤å®
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
-					if ((parseInt(fnForkRoadStay(),10) == 1) || (parseInt(fnForkRoadStay(),10) == 2)) {
+					if ((parseInt(fnForkRoadStay(),10) == 1) || (parseInt(fnForkRoadStay(),10) == 2) || (parseInt(fnForkRoadStay(),10) == 3)) {
 					}
 					else {
 						clearInterval(missionInterval);
@@ -2478,11 +2482,12 @@ function fnForkRoadMileStone() {
 }
 
 function fnForkRoadItemComplete() {	
-	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
-		$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.boxes[0].boxed_id, {}, function(data) {
+// commented because we need to grind faster
+	//$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
+		//$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.boxes[0].boxed_id, {}, function(data) {
 			fnForkRoadRedirection();		
-		});		
-	});
+		//});		
+	//});
 	setInterval(fnRedirect, 60000, '/en/'+platform+'/forkroad');
 }
 
