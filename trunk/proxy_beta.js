@@ -4898,17 +4898,17 @@ function fnEventNumberTicketInformationPreload() {
 
 // home
 
-function fnHome() {
+function fnHome() {alert('test1');
 	if (document.referrer.indexOf('/forkroad/mileStone') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad');
 	}
 	if (document.referrer.indexOf('/forkroad/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad');
-	}
-	fnProfileAddWallBookmarkSelector();
-	fnDeckAddFormationSelector();
+	}alert('test2');
+	fnProfileAddWallBookmarkSelector();alert('test3');
+	fnDeckAddFormationSelector();alert('test4');
 	document.getElementById('formationDiv').style.top = "100px";
-	fnSyncServer();
+	fnSyncServer();alert('test5');
 }
 
 // home login
@@ -5111,16 +5111,16 @@ function fnTimeoutOnLoad() {
 	// /en/'+platform+'/dungeon/recoveryproc
 }
 
-function fnOnLoad() {
-	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");
-	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
+function fnOnLoad() {alert("a");
+	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");alert("b");
+	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");alert("c");
 
-	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
+	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	alert("d");
 	fnSetupPurrCSS();
-
+alert("e");
 	fnCreateBackButton();
-	
-	fnAutoUsePoint();
+	alert("f");
+	fnAutoUsePoint();alert("g");
 	
 	fnCheckAlly();
 	
