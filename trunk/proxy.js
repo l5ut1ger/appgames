@@ -2382,14 +2382,8 @@ function fnFixForkRoadMissionProcess() {
 					}
 				}
 				if(666 == result.payload.event.event_info.params.type){
-					//clearInterval(missionInterval);
-					//fnRedirect('/en/'+platform+'/forkroad/drawACard');					
-					
-					// call ajax instead of redirect
-					$.ajax_ex(false, '/en/'+platform+'/forkroad/drawACard', {}, function(data) {
-						$.ajax_ex(false, '/en/'+platform+'/forkroad/ajaxDrawACard', {}, function(data) {
-						});
-					});
+					clearInterval(missionInterval);
+					fnRedirect('/en/'+platform+'/forkroad/drawACard');	
 					return;
 				}
 			}
