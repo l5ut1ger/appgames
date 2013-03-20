@@ -2495,7 +2495,7 @@ function fnForkRoadMission() {
 }
 
 function fnForkRoad() {
-
+alert('test');
 	if ($('#fragments_complete').is(":visible")) {
 		fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 		return;
