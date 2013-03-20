@@ -4898,17 +4898,17 @@ function fnEventNumberTicketInformationPreload() {
 
 // home
 
-function fnHome() {
+function fnHome() {alert('test1');
 	if (document.referrer.indexOf('/forkroad/mileStone') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad');
 	}
 	if (document.referrer.indexOf('/forkroad/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad');
-	}
-	fnProfileAddWallBookmarkSelector();
-	fnDeckAddFormationSelector();
+	}alert('test2');
+	fnProfileAddWallBookmarkSelector();alert('test3');
+	fnDeckAddFormationSelector();alert('test4');
 	document.getElementById('formationDiv').style.top = "100px";
-	fnSyncServer();
+	fnSyncServer();alert('test5');
 }
 
 // home login
