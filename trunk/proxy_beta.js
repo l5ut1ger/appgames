@@ -2328,6 +2328,7 @@ function fnFixForkRoadMissionProcess() {
 			if(event.fragment.fragment_count == 10) {
 				if(typeof(result.payload.event.event_info.params) != 'undefined' && 255 == result.payload.event.event_info.params.type) {
 					if (parseInt(fnForkRoadStay(),10) == 1) {//just grind lap
+						return;
 					}
 					else if (parseInt(fnForkRoadStay(),10) == 2) {// grind lap and earn set
 						clearInterval(missionInterval);
@@ -2359,6 +2360,7 @@ function fnFixForkRoadMissionProcess() {
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
 					if ((parseInt(fnForkRoadStay(),10) == 1) || (parseInt(fnForkRoadStay(),10) == 2) || (parseInt(fnForkRoadStay(),10) == 3)) {
+					return;
 					}
 					else {
 						clearInterval(missionInterval);
