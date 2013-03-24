@@ -462,7 +462,7 @@ var giftCookiesKey = 'giftCookiesKey';
 
 function fnGiftCookies() {
 	if(fnGetCookie(giftCookiesKey) === null) {
-		fnSetGiftCookies('', 0);
+		fnSetGiftCookies(0, 0);
 	}
 	return fnGetCookie(giftCookiesKey);
 }
@@ -4313,7 +4313,7 @@ function fnPresentSuggest() {
 		setTimeout(function(){$.redirect('/en/'+platform+'/present/confirm?ctg=2&amt=1&pid='+fnQueryString('mid'));}, 5000);
 		return;
 	}
-	if (fnGiftCookies() != '') {
+	if (fnGiftCookies() != 0) {
 		var itemArray = fnGiftCookies().split(fnGetSeparator());
 		var itemResultArray = itemArray.splice(0,1);
 		fnSetGiftCookies(itemArray.join(fnGetSeparator()));
