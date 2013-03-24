@@ -4816,9 +4816,9 @@ function fnFusionDest() {
 }
 
 function fnFusion() {
-	fnSetAutoFusion(0);
-	fnSetAutoStack(0);
-	fnSetAutoSkillUp(0);
+	fnSetAutoFusion(0,0);
+	fnSetAutoStack(0,0);
+	fnSetAutoSkillUp(0,0);
 	fnFusionFixPage();
 }
 
