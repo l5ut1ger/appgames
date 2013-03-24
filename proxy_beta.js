@@ -146,21 +146,16 @@ function fnSetCookie(c_name,value,upload)
 		upload = 1;
 	}
 	if (value == 0) {
-		alert('value is 0');
 		value = 0;
 	}
 	else if (value === null) {
-		alert('value is null');
 		value='';
 	}
 	else if (value == undefined || value == 'undefined') {
-		alert('value is undefined');
 		value = '';
 	}
 	var c_value;
 	if (isNaN(value) && value =='') {
-		alert('value is empty string');
-		alert('test value number ' + isNaN(value));
 		c_value="; expires=Thu, 01 Jan 1970 00:00:01 GMT";
 	}
 	else {
@@ -363,7 +358,6 @@ function fnSetAutoNewMission(value, upload) {
 		upload = 1;
 	}
 	fnSetCookie(autoNewMissionKey, value, upload);
-	alert('set mission cookie value = ' + fnGetCookie(autoNewMissionKey));
 }
 
 // Auto EP Toggle
@@ -3960,7 +3954,7 @@ function fnPresentBoxReceiveAllAAsPerPage(pPage) {
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 5) {
 				onReceive(null, boxes[i]);
-				alert("Receiving " + boxes[i].monster_name);
+				fnGrowl("Receiving " + boxes[i].monster_name);
 			}
 		}
 		if (pPage > 0) {
@@ -3970,7 +3964,6 @@ function fnPresentBoxReceiveAllAAsPerPage(pPage) {
 }
 
 function fnPresentBoxReceiveAllAAs() {
-	alert('It will hang a bit if you have many pages');
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAllAAsPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
@@ -3983,7 +3976,7 @@ function fnPresentBoxReceiveAll_1bp_APerPage(pPage) {
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 3 && boxes[i].monster_bp ==1) {
 				onReceive(null, boxes[i]);
-				alert("Receiving " + boxes[i].monster_name);
+				fnGrowl("Receiving " + boxes[i].monster_name);
 			}
 		}
 		if (pPage > 0) {
@@ -3993,7 +3986,6 @@ function fnPresentBoxReceiveAll_1bp_APerPage(pPage) {
 }
 
 function fnPresentBoxReceiveAll_1bp_A() {
-	alert('It will hang a bit if you have many pages');
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAll_1bp_APerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
@@ -4006,7 +3998,7 @@ function fnPresentBoxReceiveAll20sPerPage(pPage) {
 			if (boxes[i].permanent_type == 2 && boxes[i].monster_bp >= 20) {
 				onReceive(null, boxes[i]);
 				if (boxes[i].monster_grade > 5) {
-					alert("Receiving " + boxes[i].monster_name);
+					fnGrowl("Receiving " + boxes[i].monster_name);
 				}
 				else {
 					fnGrowl("Receiving " + boxes[i].monster_name);
@@ -4020,7 +4012,6 @@ function fnPresentBoxReceiveAll20sPerPage(pPage) {
 }
 
 function fnPresentBoxReceiveAll20s() {
-	alert('It will hang a bit if you have many pages');
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAll20sPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
@@ -4034,7 +4025,7 @@ function fnPresentBoxReceiveAll25sPerPage(pPage) {
 			if (boxes[i].permanent_type == 2 && boxes[i].monster_bp >= 25) {
 				onReceive(null, boxes[i]);
 				if (boxes[i].monster_grade > 5) {
-					alert("Receiving " + boxes[i].monster_name);
+					fnGrowl("Receiving " + boxes[i].monster_name);
 				}
 				else {
 					fnGrowl("Receiving " + boxes[i].monster_name);
@@ -4048,7 +4039,6 @@ function fnPresentBoxReceiveAll25sPerPage(pPage) {
 }
 
 function fnPresentBoxReceiveAll25s() {
-	alert('It will hang a bit if you have many pages');
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAll25sPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
@@ -4064,7 +4054,7 @@ function fnPresentBoxReceiveAllGuildDownPerPage(pPage) {
 					if (parseInt(boxes[i].skill_id,10) == key) {
 						onReceive(null, boxes[i]);
 						if (boxes[i].monster_grade > 5) {
-							alert("Receiving " + boxes[i].monster_name);
+							fnGrowl("Receiving " + boxes[i].monster_name);
 						}
 						else {
 							fnGrowl("Receiving " + boxes[i].monster_name);
@@ -4080,7 +4070,6 @@ function fnPresentBoxReceiveAllGuildDownPerPage(pPage) {
 }
 
 function fnPresentBoxReceiveAllGuildDown() {
-	alert('It will hang a bit if you have many pages');
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAllGuildDownPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
@@ -4096,7 +4085,7 @@ function fnPresentBoxReceiveAllSpeciesDownPerPage(pPage) {
 					if (parseInt(boxes[i].skill_id,10) == key) {
 						onReceive(null, boxes[i]);
 						if (boxes[i].monster_grade > 5) {
-							alert("Receiving " + boxes[i].monster_name);
+							fnGrowl("Receiving " + boxes[i].monster_name);
 						}
 						else {
 							fnGrowl("Receiving " + boxes[i].monster_name);
@@ -4112,7 +4101,6 @@ function fnPresentBoxReceiveAllSpeciesDownPerPage(pPage) {
 }
 
 function fnPresentBoxReceiveAllSpeciesDown() {
-	alert('It will hang a bit if you have many pages');
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAllSpeciesDownPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
@@ -4127,7 +4115,7 @@ function fnPresentBoxReceiveAllSkillPerPage(pPage) {
 				if (parseInt(boxes[i].skill_id,10) > 0) {
 					onReceive(null, boxes[i]);
 					if (boxes[i].monster_grade > 5) {
-						alert("Receiving " + boxes[i].monster_name);
+						fnGrowl("Receiving " + boxes[i].monster_name);
 					}
 					else {
 						fnGrowl("Receiving " + boxes[i].monster_name);
@@ -4142,7 +4130,6 @@ function fnPresentBoxReceiveAllSkillPerPage(pPage) {
 }
 
 function fnPresentBoxReceiveAllSkill() {
-	alert('It will hang a bit if you have many pages');
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAllSkillPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
@@ -4157,7 +4144,7 @@ function fnPresentBoxReceiveSkillPerPage(pPage, pSkill) {
 				if (parseInt(boxes[i].skill_id,10) == parseInt(pSkill,10)) {
 					onReceive(null, boxes[i]);
 					if (boxes[i].monster_grade > 5) {
-						alert("Receiving " + boxes[i].monster_name);
+						fnGrowl("Receiving " + boxes[i].monster_name);
 					}
 					else {
 						fnGrowl("Receiving " + boxes[i].monster_name);
@@ -4172,7 +4159,6 @@ function fnPresentBoxReceiveSkillPerPage(pPage, pSkill) {
 }
 
 function fnPresentBoxReceiveSkill(pSkill) {
-	alert('It will hang a bit if you have many pages');
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveSkillPerPage,0,parseInt(metaData.payload.pages,10)-1, pSkill);
 	});
@@ -4185,7 +4171,7 @@ function fnPresentBoxReceiveAll100kGoldPerPage(pPage) {
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 1 && boxes[i].jewel <= 100000) {
 				onReceive(null, boxes[i]);
-				alert("Receiving $" + boxes[i].jewel);
+				fnGrowl("Receiving $" + boxes[i].jewel);
 			}
 		}
 		if (pPage > 0) {
@@ -4195,7 +4181,6 @@ function fnPresentBoxReceiveAll100kGoldPerPage(pPage) {
 }
 
 function fnPresentBoxReceiveAll100kGold() {
-	alert('It will hang a bit if you have many pages');
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxReceiveAll100kGoldPerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
