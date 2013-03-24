@@ -146,16 +146,20 @@ function fnSetCookie(c_name,value,upload)
 		upload = 1;
 	}
 	if (value == 0) {
+		alert('value is 0');
 		value = 0;
 	}
 	else if (value === null) {
+		alert('value is null');
 		value='';
 	}
 	else if (value == undefined || value == 'undefined') {
+		alert('value is undefined');
 		value = '';
 	}
 	var c_value;
 	if (value =='') {
+		alert('value is empty string');
 		c_value="; expires=Thu, 01 Jan 1970 00:00:01 GMT";
 	}
 	else {
