@@ -358,6 +358,7 @@ function fnSetAutoNewMission(value, upload) {
 		upload = 1;
 	}
 	fnSetCookie(autoNewMissionKey, value, upload);
+	alert('set mission cookie value = ' + fnGetCookie(autoNewMissionKey));
 }
 
 // Auto EP Toggle
