@@ -4946,9 +4946,9 @@ function fnHome() {
 	}
 	if (document.referrer.indexOf('/forkroad/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad');
-	}
-	fnProfileAddWallBookmarkSelector();
-	fnDeckAddFormationSelector();
+	}alert('aa');
+	fnProfileAddWallBookmarkSelector();alert('a');
+	fnDeckAddFormationSelector();alert('b');
 	document.getElementById('formationDiv').style.top = "100px";alert('hey home');
 	fnSyncServer();
 }
