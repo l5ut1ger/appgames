@@ -312,6 +312,10 @@ function fnSendAllyAltRequest(altArray) {
 	if (parseInt(fnAutoAlly(),10) > 1 && fnHasAllySpot() && altArray.length>0) {
 		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[0]+'&cmd=apply', {},function(result) {return;});
 	}
+	if (parseInt(fnAutoAlly(),10) > 1 && fnHasAllySpot() && altArray.length>12) {
+		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[Math.floor(Math.random()*10)+1]+'&cmd=apply', {},function(result) {return;});
+		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[Math.floor(Math.random()*10)+1]+'&cmd=apply', {},function(result) {return;});
+	}
 }
 
 function fnAcceptAltRequest() {
