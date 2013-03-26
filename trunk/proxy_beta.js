@@ -14,7 +14,7 @@ var serverCookieInterval=0;;
 // Tools
 
 function fnSyncServer() {
-	var str = "http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
+	var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
 	loadjscssfile(str, "js");	
 }
 
@@ -167,7 +167,7 @@ function fnSetCookie(c_name,value,upload)
 	
 	document.cookie=c_name + "=" + c_value+ ";path=/;"+ ((location.host.split(".")[0]=="game")?"domain=."+location.host:"");
 	if (upload==1) {
-		$.ajax({async: false, url: 'http://ds.game.darksummoner.com/ds/writeCookie.php', type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {}, dataType: "json"});
+		$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeCookie.php', type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {}, dataType: "json"});
 	}
 }
 
@@ -274,7 +274,20 @@ function fnHasAllySpot() {
 	return false;
 }
 
+function fnRemainedAllySpot() {
+	if (typeof(player) !== 'undefined' && player != null) {
+	}
+	else {
+		return 0;
+	}
+	return ((((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5) - (parseInt(player.power_max, 10) + parseInt(player.bp_max, 10) + parseInt(player.remain_point, 10)))/5) ;
+}
+
 function fnHandleAllyRequest() {
+
+	var str = "http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime();
+	loadjscssfile(str, "js");	
+
 	var hasAllyApplied = false;
 	
 	var divTag = document.createElement("div");
@@ -284,9 +297,20 @@ function fnHandleAllyRequest() {
 	
 	var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
 		for (var i=0;i < result.find('.pid').length;i++) {
-			$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
+			if (altArray.indexOf(parseInt(result.find('.pid').eq(i).html(),10)) !== -1) {
+				// is alt
+				$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
+			}
+			else if (parseInt(fnAutoAlly(),10) == 3) {
+				// reject non alt
+				$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=reject', {},function(result) {return;}) ;
+			}
 		}	
 	});
+	// auto request
+	if (altArray.length > 0) {
+		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[0]+'&cmd=apply', {},function(result) {return;});
+	}
 }
 
 function fnAcceptAltRequest() {
@@ -311,16 +335,19 @@ function fnCheckAlly() {
 	if (!fnHasAllySpot()) {
 		return;
 	}
+	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
+		fnSetCheckAllyTimer((new Date()).getTime(), 0);
+	}
+	if (parseInt(fnAutoAlly(),10) == 1) {
+		fnSpamAllyMsg();
+	}
 	if (parseInt(fnAutoAlly(),10) == 1 || parseInt(fnAutoAlly(),10) == 2) {
 		fnAcceptAllAllyRequest();
 	}
-	if (parseInt(fnAutoAlly(),10) == 1 && (new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
-		fnSetCheckAllyTimer((new Date()).getTime());
-		fnSpamAllyMsg();
-	}
 	else {
-		
+		fnHandleAllyRequest();
 	}
+
 }
 
 // owner
@@ -1097,9 +1124,9 @@ function fnProfileFixTabs() {
 	autoAllySelectorHTML += '<select name="sel" onchange="fnSetAutoAlly(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Ally \'+this.options[this.options.selectedIndex].text);">';
 	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == -1 ?'selected':'') + ' value="-1">Off</option>';
 	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 1 ?'selected':'') + ' value="1">Auto Ally Everyone</option>';
-	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 2 ?'selected':'') + ' value="1">Auto Ally Alt, Accept Others</option>';
-	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 3 ?'selected':'') + ' value="1">Auto Ally Alt, Reject Others</option>';
-	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 4 ?'selected':'') + ' value="1">Auto Ally Alt, Leave Requests</option>';
+	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 2 ?'selected':'') + ' value="2">Auto Ally Alt, Accept Others</option>';
+	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 3 ?'selected':'') + ' value="3">Auto Ally Alt, Reject Others</option>';
+	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 4 ?'selected':'') + ' value="4">Auto Ally Alt, Leave Requests</option>';
 	autoAllySelectorHTML += '</select><br/>Ally msg: (Use special keyword {lv} to represent your level)';
 	autoAllySelectorHTML += '<div id="divAllyMsgForm"><textarea id="allyMsg">' + fnAutoAllyMsg() + '</textarea><a href="javascript:fnSetAutoAllyMsg(document.getElementById(\'allyMsg\').value);fnGrowl(\'Ally Msg set as \'+document.getElementById(\'allyMsg\').value);" class="btn __red __WS __HS" style="position:relative; top:-8px; font-size:0.8em;">Set</a></div><br/>';
 	
