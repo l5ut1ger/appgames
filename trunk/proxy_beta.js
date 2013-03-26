@@ -15,7 +15,7 @@ var serverCookieInterval=0;;
 
 function fnSyncServer() {
 	var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
-	loadjscssfile(str, "js");	alert('hi');
+	loadjscssfile(str, "js");
 	fnSendAllyAltRequest();
 }
 
@@ -284,8 +284,8 @@ function fnRemainedAllySpot() {
 	return ((((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5) - (parseInt(player.power_max, 10) + parseInt(player.bp_max, 10) + parseInt(player.remain_point, 10)))/5) ;
 }
 
-function fnHandleAllyRequest() {return;
-	alert("...... player " + player);
+function fnHandleAllyRequest() {
+	alert("...... player " + player.player_id);
 	var str = "http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime();
 	loadjscssfile(str, "js");	
 	alert('hey!!! '+ altArray);
