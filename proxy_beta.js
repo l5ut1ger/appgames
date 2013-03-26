@@ -14,8 +14,9 @@ var serverCookieInterval=0;;
 // Tools
 
 function fnSyncServer() {
-	var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
-	loadjscssfile(str, "js");alert('hi');
+	//var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
+	var str = "http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime();
+	loadjscssfile(str, "js");alert('hi'+altArray);
 	fnSendAllyAltRequest();
 }
 
@@ -4942,16 +4943,16 @@ function fnEventNumberTicketInformationPreload() {
 
 // home
 
-function fnHome() {alert('aaa');
+function fnHome() {
 	if (document.referrer.indexOf('/forkroad/mileStone') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad');
 	}
 	if (document.referrer.indexOf('/forkroad/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad');
-	}alert('aa');
-	fnProfileAddWallBookmarkSelector();alert('a');
-	fnDeckAddFormationSelector();alert('b');
-	document.getElementById('formationDiv').style.top = "100px";alert('hey home');
+	}
+	fnProfileAddWallBookmarkSelector();
+	fnDeckAddFormationSelector();
+	document.getElementById('formationDiv').style.top = "100px";
 	fnSyncServer();
 }
 
