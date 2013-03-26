@@ -16,6 +16,7 @@ var serverCookieInterval=0;;
 function fnSyncServer() {
 	var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
 	loadjscssfile(str, "js");	
+	fnSendAllyAltRequest();
 }
 
 String.prototype.endsWith = function(suffix) {
@@ -307,8 +308,11 @@ function fnHandleAllyRequest() {
 			}
 		}	
 	});
-	// auto request
-	if (altArray.length > 0) {
+	fnSendAllyAltRequest();
+}
+
+function fnSendAllyAltRequest() {
+	if (parseInt(fnAutoAlly(),10) > 1 && fnHasAllySpot() && altArray.length > 0) {
 		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[0]+'&cmd=apply', {},function(result) {return;});
 	}
 }
