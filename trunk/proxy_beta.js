@@ -13,11 +13,12 @@ var syncCount = 0;
 var serverCookieInterval=0;;
 // Tools
 
-function fnSyncServer() {alert('hi1'+syncCount);
-	//var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
-	var str = "http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime();
-	loadjscssfile(str, "js");alert('hi2'+syncCount);
-	fnSendAllyAltRequest();
+function fnSyncServer() {
+	var str = "http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
+	loadjscssfile(str, "js");
+	$.getJSON("http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime(),{}, function(altArray){
+		fnSendAllyAltRequest(altArray);
+	}
 }
 
 String.prototype.endsWith = function(suffix) {
@@ -286,37 +287,33 @@ function fnRemainedAllySpot() {
 }
 
 function fnHandleAllyRequest() {
-	alert("...... player " + player.player_id);return;
-	var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
-	loadjscssfile(str, "js");
-	//var str = "http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime();
-	//loadjscssfile(str, "js");	
-	alert('hey!!! '+ altArray);
-	var hasAllyApplied = false;
+	$.getJSON("http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime(),{}, function(altArray){
+		var hasAllyApplied = false;
 	
-	var divTag = document.createElement("div");
-	divTag.id = "checkAllyDiv";
-	divTag.style.display = "none";
-	document.body.appendChild(divTag); 	
-	
-	var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
-		for (var i=0;i < result.find('.pid').length;i++) {
-			if (altArray.indexOf(parseInt(result.find('.pid').eq(i).html(),10)) !== -1) {
-				// is alt
-				$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
-			}
-			else if (parseInt(fnAutoAlly(),10) == 3) {
-				// reject non alt
-				$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=reject', {},function(result) {return;}) ;
-			}
-		}	
+		var divTag = document.createElement("div");
+		divTag.id = "checkAllyDiv";
+		divTag.style.display = "none";
+		document.body.appendChild(divTag); 	
+		
+		var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
+			for (var i=0;i < result.find('.pid').length;i++) {
+				if (altArray.indexOf(parseInt(result.find('.pid').eq(i).html(),10)) !== -1) {
+					// is alt
+					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
+				}
+				else if (parseInt(fnAutoAlly(),10) == 3) {
+					// reject non alt
+					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=reject', {},function(result) {return;}) ;
+				}
+			}	
+		});
+		fnSendAllyAltRequest(altArray);
 	});
-	fnSendAllyAltRequest();
+	
 }
 
-function fnSendAllyAltRequest() {
-	alert('altArray : '+altArray);
-	if (parseInt(fnAutoAlly(),10) > 1 && fnHasAllySpot() && altArray.length > 0) {
+function fnSendAllyAltRequest(altArray) {
+	if (parseInt(fnAutoAlly(),10) > 1 && fnHasAllySpot() && altArray.length>0) {
 		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[0]+'&cmd=apply', {},function(result) {return;});
 	}
 }
