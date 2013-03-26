@@ -285,7 +285,7 @@ function fnRemainedAllySpot() {
 }
 
 function fnHandleAllyRequest() {
-
+	alert("...... player " + player);
 	var str = "http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime();
 	loadjscssfile(str, "js");	
 	alert('hey!!! '+ altArray);
@@ -339,13 +339,13 @@ function fnCheckAlly() {
 	}
 	if (!fnHasAllySpot()) {
 		return;
-	}
+	}alert(".a");
 	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
 		fnSetCheckAllyTimer((new Date()).getTime(), 0);
-	}
+	}alert(".b");
 	if (parseInt(fnAutoAlly(),10) == 1) {
 		fnSpamAllyMsg();
-	}
+	}alert(".c");
 	if (parseInt(fnAutoAlly(),10) == 1 || parseInt(fnAutoAlly(),10) == 2) {
 		fnAcceptAllAllyRequest();
 	}
@@ -5168,13 +5168,9 @@ function fnOnLoad() {alert('onload1');
 
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
-alert('onload2');
 	fnCreateBackButton();
-	alert('onload3');
 	fnAutoUsePoint();
-	alert('onload4');
 	fnCheckAlly();
-	alert('onload5');
 	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	
 }
 
