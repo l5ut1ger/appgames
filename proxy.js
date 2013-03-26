@@ -15,7 +15,7 @@ var serverCookieInterval=0;;
 
 function fnSyncServer() {
 	var str = "http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
-	loadjscssfile(str, "js");	
+	loadjscssfile(str, "js");
 }
 
 String.prototype.endsWith = function(suffix) {
@@ -167,7 +167,7 @@ function fnSetCookie(c_name,value,upload)
 	
 	document.cookie=c_name + "=" + c_value+ ";path=/;"+ ((location.host.split(".")[0]=="game")?"domain=."+location.host:"");
 	if (upload==1) {
-		$.ajax({async: false, url: 'http://ds.game.darksummoner.com/ds/writeCookie.php', type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {}, dataType: "json"});
+		$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeCookie.php', type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {}, dataType: "json"});
 	}
 }
 
@@ -274,7 +274,47 @@ function fnHasAllySpot() {
 	return false;
 }
 
-function fnHasAllyApplied() {
+function fnRemainedAllySpot() {
+	if (typeof(player) !== 'undefined' && player != null) {
+	}
+	else {
+		return 0;
+	}
+	return ((((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5) - (parseInt(player.power_max, 10) + parseInt(player.bp_max, 10) + parseInt(player.remain_point, 10)))/5) ;
+}
+
+function fnHandleAllyRequest() {
+	$.getJSON("http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime(),{}, function(altArray){
+		var hasAllyApplied = false;
+	
+		var divTag = document.createElement("div");
+		divTag.id = "checkAllyDiv";
+		divTag.style.display = "none";
+		document.body.appendChild(divTag); 	
+		
+		var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
+			for (var i=0;i < result.find('.pid').length;i++) {
+				if (altArray.indexOf(parseInt(result.find('.pid').eq(i).html(),10)) !== -1) {
+					// is alt
+					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
+				}
+				else if (parseInt(fnAutoAlly(),10) == 3) {
+					// reject non alt
+					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=reject', {},function(result) {return;}) ;
+				}
+			}	
+		});
+		fnSendAllyAltRequest(altArray);
+	});	
+}
+
+function fnSendAllyAltRequest(altArray) {
+	if (parseInt(fnAutoAlly(),10) > 1 && fnHasAllySpot() && altArray.length>0) {
+		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[0]+'&cmd=apply', {},function(result) {return;});
+	}
+}
+
+function fnAcceptAltRequest() {
 	var hasAllyApplied = false;
 	
 	var divTag = document.createElement("div");
@@ -284,11 +324,9 @@ function fnHasAllyApplied() {
 	
 	var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
 		for (var i=0;i < result.find('.pid').length;i++) {
-			hasAllyApplied = true;
 			$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
 		}	
 	});
-	return hasAllyApplied;
 }
 
 function fnCheckAlly() {
@@ -299,11 +337,18 @@ function fnCheckAlly() {
 		return;
 	}
 	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
-		fnSetCheckAllyTimer((new Date()).getTime());
-		if (!fnHasAllyApplied()) { //bugged.. forgot ajax is asynchronus, so it will always return false, thus always spam
-			fnSpamAllyMsg();
-		}
+		fnSetCheckAllyTimer((new Date()).getTime(), 0);
 	}
+	if (parseInt(fnAutoAlly(),10) == 1) {
+		fnSpamAllyMsg();
+	}
+	if (parseInt(fnAutoAlly(),10) == 1 || parseInt(fnAutoAlly(),10) == 2) {
+		fnAcceptAllAllyRequest();
+	}
+	else {
+		fnHandleAllyRequest();
+	}
+
 }
 
 // owner
@@ -1079,7 +1124,10 @@ function fnProfileFixTabs() {
 	var autoAllySelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto Ally (per 3 mins.)</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	autoAllySelectorHTML += '<select name="sel" onchange="fnSetAutoAlly(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Ally \'+this.options[this.options.selectedIndex].text);">';
 	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == -1 ?'selected':'') + ' value="-1">Off</option>';
-	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 1 ?'selected':'') + ' value="1">On</option>';
+	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 1 ?'selected':'') + ' value="1">Auto Ally Everyone</option>';
+	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 2 ?'selected':'') + ' value="2">Auto Ally Alt, Accept Others</option>';
+	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 3 ?'selected':'') + ' value="3">Auto Ally Alt, Reject Others</option>';
+	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 4 ?'selected':'') + ' value="4">Auto Ally Alt, Leave Requests</option>';
 	autoAllySelectorHTML += '</select><br/>Ally msg: (Use special keyword {lv} to represent your level)';
 	autoAllySelectorHTML += '<div id="divAllyMsgForm"><textarea id="allyMsg">' + fnAutoAllyMsg() + '</textarea><a href="javascript:fnSetAutoAllyMsg(document.getElementById(\'allyMsg\').value);fnGrowl(\'Ally Msg set as \'+document.getElementById(\'allyMsg\').value);" class="btn __red __WS __HS" style="position:relative; top:-8px; font-size:0.8em;">Set</a></div><br/>';
 	
@@ -4916,6 +4964,12 @@ function fnHomeBonus() {
 	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 }
 
+// login days
+
+function fnLoginDays() {
+	setInterval(nextLoginDays, 1000);
+}
+
 // on load
 
 function fnSetupPurrCSS() {
@@ -4961,6 +5015,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/home/bonus') {
 		fnHomeBonus();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/event/loginDays') {
+		fnLoginDays();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/friends') {
 		fnFriend();
@@ -5107,13 +5164,9 @@ function fnOnLoad() {
 
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
-
 	fnCreateBackButton();
-	
 	fnAutoUsePoint();
-	
 	fnCheckAlly();
-	
 	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	
 }
 
