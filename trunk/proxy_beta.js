@@ -312,6 +312,7 @@ function fnHandleAllyRequest() {
 }
 
 function fnSendAllyAltRequest() {
+	alert('altArray : '+altArray);
 	if (parseInt(fnAutoAlly(),10) > 1 && fnHasAllySpot() && altArray.length > 0) {
 		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[0]+'&cmd=apply', {},function(result) {return;});
 	}
