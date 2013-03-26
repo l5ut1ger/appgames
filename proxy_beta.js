@@ -286,8 +286,10 @@ function fnRemainedAllySpot() {
 
 function fnHandleAllyRequest() {
 	alert("...... player " + player.player_id);
-	var str = "http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime();
-	loadjscssfile(str, "js");	
+	var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
+	loadjscssfile(str, "js");
+	//var str = "http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime();
+	//loadjscssfile(str, "js");	
 	alert('hey!!! '+ altArray);
 	var hasAllyApplied = false;
 	
@@ -339,13 +341,13 @@ function fnCheckAlly() {
 	}
 	if (!fnHasAllySpot()) {
 		return;
-	}alert(".a");
+	}
 	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
 		fnSetCheckAllyTimer((new Date()).getTime(), 0);
-	}alert(".b");
+	}
 	if (parseInt(fnAutoAlly(),10) == 1) {
 		fnSpamAllyMsg();
-	}alert(".c");
+	}
 	if (parseInt(fnAutoAlly(),10) == 1 || parseInt(fnAutoAlly(),10) == 2) {
 		fnAcceptAllAllyRequest();
 	}
@@ -5162,7 +5164,7 @@ function fnTimeoutOnLoad() {
 	// /en/'+platform+'/dungeon/recoveryproc
 }
 
-function fnOnLoad() {alert('onload1');
+function fnOnLoad() {
 	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
 
