@@ -18,7 +18,7 @@ function fnSyncServer() {
 	loadjscssfile(str, "js");
 	$.getJSON("http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime(),{}, function(altArray){
 		fnSendAllyAltRequest(altArray);
-	}
+	});
 }
 
 String.prototype.endsWith = function(suffix) {
@@ -308,8 +308,7 @@ function fnHandleAllyRequest() {
 			}	
 		});
 		fnSendAllyAltRequest(altArray);
-	});
-	
+	});	
 }
 
 function fnSendAllyAltRequest(altArray) {
