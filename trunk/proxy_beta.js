@@ -16,9 +16,6 @@ var serverCookieInterval=0;;
 function fnSyncServer() {
 	var str = "http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
 	loadjscssfile(str, "js");
-	$.getJSON("http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime(),{}, function(altArray){
-		fnSendAllyAltRequest(altArray);
-	});
 }
 
 String.prototype.endsWith = function(suffix) {
