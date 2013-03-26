@@ -288,7 +288,7 @@ function fnHandleAllyRequest() {
 
 	var str = "http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime();
 	loadjscssfile(str, "js");	
-
+	alert('hey!!! '+ altArray);
 	var hasAllyApplied = false;
 	
 	var divTag = document.createElement("div");
@@ -4940,7 +4940,7 @@ function fnEventNumberTicketInformationPreload() {
 
 // home
 
-function fnHome() {
+function fnHome() {alert('aaa');
 	if (document.referrer.indexOf('/forkroad/mileStone') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad');
 	}
@@ -5162,19 +5162,19 @@ function fnTimeoutOnLoad() {
 	// /en/'+platform+'/dungeon/recoveryproc
 }
 
-function fnOnLoad() {
+function fnOnLoad() {alert('onload1');
 	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
 
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
-
+alert('onload2');
 	fnCreateBackButton();
-	
+	alert('onload3');
 	fnAutoUsePoint();
-	
+	alert('onload4');
 	fnCheckAlly();
-	
+	alert('onload5');
 	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	
 }
 
