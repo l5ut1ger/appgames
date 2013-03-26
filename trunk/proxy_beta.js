@@ -4949,7 +4949,7 @@ function fnHome() {
 	}
 	fnProfileAddWallBookmarkSelector();
 	fnDeckAddFormationSelector();
-	document.getElementById('formationDiv').style.top = "100px";
+	document.getElementById('formationDiv').style.top = "100px";alert('hey home');
 	fnSyncServer();
 }
 
