@@ -285,7 +285,7 @@ function fnRemainedAllySpot() {
 }
 
 function fnHandleAllyRequest() {
-	alert("...... player " + player.player_id);
+	alert("...... player " + player.player_id);return;
 	var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
 	loadjscssfile(str, "js");
 	//var str = "http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime();
