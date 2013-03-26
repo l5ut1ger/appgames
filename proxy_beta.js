@@ -274,7 +274,7 @@ function fnHasAllySpot() {
 	return false;
 }
 
-function fnHasAllyApplied() {
+function fnHandleAllyRequest() {
 	var hasAllyApplied = false;
 	
 	var divTag = document.createElement("div");
@@ -284,11 +284,24 @@ function fnHasAllyApplied() {
 	
 	var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
 		for (var i=0;i < result.find('.pid').length;i++) {
-			hasAllyApplied = true;
 			$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
 		}	
 	});
-	return hasAllyApplied;
+}
+
+function fnAcceptAltRequest() {
+	var hasAllyApplied = false;
+	
+	var divTag = document.createElement("div");
+	divTag.id = "checkAllyDiv";
+	divTag.style.display = "none";
+	document.body.appendChild(divTag); 	
+	
+	var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
+		for (var i=0;i < result.find('.pid').length;i++) {
+			$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
+		}	
+	});
 }
 
 function fnCheckAlly() {
@@ -298,11 +311,15 @@ function fnCheckAlly() {
 	if (!fnHasAllySpot()) {
 		return;
 	}
-	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
+	if (parseInt(fnAutoAlly(),10) == 1 || parseInt(fnAutoAlly(),10) == 2) {
+		fnAcceptAllAllyRequest();
+	}
+	if (parseInt(fnAutoAlly(),10) == 1 && (new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
 		fnSetCheckAllyTimer((new Date()).getTime());
-		if (!fnHasAllyApplied()) { //bugged.. forgot ajax is asynchronus, so it will always return false, thus always spam
-			fnSpamAllyMsg();
-		}
+		fnSpamAllyMsg();
+	}
+	else {
+		
 	}
 }
 
@@ -1079,7 +1096,10 @@ function fnProfileFixTabs() {
 	var autoAllySelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto Ally (per 3 mins.)</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	autoAllySelectorHTML += '<select name="sel" onchange="fnSetAutoAlly(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Ally \'+this.options[this.options.selectedIndex].text);">';
 	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == -1 ?'selected':'') + ' value="-1">Off</option>';
-	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 1 ?'selected':'') + ' value="1">On</option>';
+	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 1 ?'selected':'') + ' value="1">Auto Ally Everyone</option>';
+	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 2 ?'selected':'') + ' value="1">Auto Ally Alt, Accept Others</option>';
+	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 3 ?'selected':'') + ' value="1">Auto Ally Alt, Reject Others</option>';
+	autoAllySelectorHTML += '<option ' + (fnAutoAlly() == 4 ?'selected':'') + ' value="1">Auto Ally Alt, Leave Requests</option>';
 	autoAllySelectorHTML += '</select><br/>Ally msg: (Use special keyword {lv} to represent your level)';
 	autoAllySelectorHTML += '<div id="divAllyMsgForm"><textarea id="allyMsg">' + fnAutoAllyMsg() + '</textarea><a href="javascript:fnSetAutoAllyMsg(document.getElementById(\'allyMsg\').value);fnGrowl(\'Ally Msg set as \'+document.getElementById(\'allyMsg\').value);" class="btn __red __WS __HS" style="position:relative; top:-8px; font-size:0.8em;">Set</a></div><br/>';
 	
@@ -4916,6 +4936,12 @@ function fnHomeBonus() {
 	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 }
 
+// login days
+
+function fnLoginDays() {
+	setInterval(nextLoginDays, 1000);
+}
+
 // on load
 
 function fnSetupPurrCSS() {
@@ -4961,6 +4987,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/home/bonus') {
 		fnHomeBonus();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/event/loginDays') {
+		fnLoginDays();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/friends') {
 		fnFriend();
