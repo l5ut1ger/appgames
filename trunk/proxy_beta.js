@@ -13,10 +13,10 @@ var syncCount = 0;
 var serverCookieInterval=0;;
 // Tools
 
-function fnSyncServer() {
+function fnSyncServer() {alert('hi1'+syncCount);
 	var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
 	//var str = "http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime();
-	loadjscssfile(str, "js");alert('hi');
+	loadjscssfile(str, "js");alert('hi2'+syncCount);
 	fnSendAllyAltRequest();
 }
 
