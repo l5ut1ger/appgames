@@ -15,7 +15,7 @@ var serverCookieInterval=0;;
 
 function fnSyncServer() {
 	var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
-	loadjscssfile(str, "js");	
+	loadjscssfile(str, "js");	alert('hi');
 	fnSendAllyAltRequest();
 }
 
