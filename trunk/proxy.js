@@ -4874,6 +4874,18 @@ function fnFusion() {
 	fnFusionFixPage();
 }
 
+// tutorial
+
+function fnTutorialStartPage() {
+	fnRedirect('/en/'+platform+'/tutorial/end?t_type=1&p_val=25&key=summon');
+}
+
+// rookie quest
+
+function fnRookieQuest() {
+	fnRedirect('/en/'+platform+'/home?__sc=');
+}
+
 // login Stamp
 
 function fnLoginStamp() {
@@ -5002,7 +5014,13 @@ function fnAutoUsePoint() {
 }
 
 function fnTimeoutOnLoad() {
-	if (window.location.pathname === '/en/'+platform+'/event/loginStamp') {
+	if (window.location.pathname === '/en/'+platform+'/tutorial/start_page') {
+		fnTutorialStartPage();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/rookiequest') {
+		fnRookieQuest();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/event/loginStamp') {
 		fnLoginStamp();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/loginStampContinuous') {
