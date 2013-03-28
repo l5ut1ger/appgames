@@ -283,9 +283,9 @@ function fnRemainedAllySpot() {
 	return ((((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5) - (parseInt(player.power_max, 10) + parseInt(player.bp_max, 10) + parseInt(player.remain_point, 10)))/5) ;
 }
 
-function fnHandleAllyRequest() {
+function fnHandleAllyRequest() {alert('e');
 	$.getJSON("http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime(),{}, function(altArray){
-		var hasAllyApplied = false;
+		var hasAllyApplied = false;alert('f');
 	
 		var divTag = document.createElement("div");
 		divTag.id = "checkAllyDiv";
@@ -303,8 +303,8 @@ function fnHandleAllyRequest() {
 					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=reject', {},function(result) {return;}) ;
 				}
 			}	
-		});
-		fnSendAllyAltRequest(altArray);
+		});alert('g');
+		fnSendAllyAltRequest(altArray);alert('h');
 	});	
 }
 
@@ -318,14 +318,14 @@ function fnSendAllyAltRequest(altArray) {
 	}
 }
 
-function fnAcceptAltRequest() {
+function fnAcceptAltRequest() {alert('c');
 	var hasAllyApplied = false;
 	
 	var divTag = document.createElement("div");
 	divTag.id = "checkAllyDiv";
 	divTag.style.display = "none";
 	document.body.appendChild(divTag); 	
-	
+	alert('d');
 	var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
 		for (var i=0;i < result.find('.pid').length;i++) {
 			$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
@@ -346,10 +346,10 @@ function fnCheckAlly() {
 	if (parseInt(fnAutoAlly(),10) == 1) {
 		fnSpamAllyMsg();
 	}
-	if (parseInt(fnAutoAlly(),10) == 1 || parseInt(fnAutoAlly(),10) == 2) {
+	if (parseInt(fnAutoAlly(),10) == 1 || parseInt(fnAutoAlly(),10) == 2) {alert('a');
 		fnAcceptAllAllyRequest();
 	}
-	else {
+	else {alert('b');
 		fnHandleAllyRequest();
 	}
 
