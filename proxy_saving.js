@@ -318,7 +318,7 @@ function fnSendAllyAltRequest(altArray) {
 	}
 }
 
-function fnAcceptAltRequest() {alert('c');
+function fnAcceptAllAllyRequest() {alert('c');
 	var hasAllyApplied = false;
 	
 	var divTag = document.createElement("div");
