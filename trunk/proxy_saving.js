@@ -345,13 +345,13 @@ function fnCheckAlly() {
 	}
 	if (parseInt(fnAutoAlly(),10) == 1) {
 		fnSpamAllyMsg();
-	}/*
+	}
 	if (parseInt(fnAutoAlly(),10) == 1 || parseInt(fnAutoAlly(),10) == 2) {
 		fnAcceptAllAllyRequest();
 	}
 	else {
 		fnHandleAllyRequest();
-	}*/
+	}
 
 }
 
