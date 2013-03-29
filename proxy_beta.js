@@ -583,7 +583,7 @@ function fnIsBattlingMcFly() {
 
 function fnSetIsBattlingMcFly(value, upload) {
 	if(upload != 0) { upload = 1;}
-	fnSetCookie(battlingMcFlyKey, value, upload);
+	fnSetCookie(battlingMcFlyKey, value, 0);
 }
 
 // ForkRoad Mission Team
@@ -2247,6 +2247,10 @@ function fnFixMissionProcess() {
 				player: result.payload.player
 				});*/
 			}
+			if (result.payload.process.fortitude) {
+				clearInterval(missionInterval);
+				fnRedirect('/en/'+platform+'/tower/fortitudeAppeared');
+			}
 			if (isShadow) EfectMng.push('shadowHide', null);
 			if (result.payload.process.clear) {
 			  if (!mission.is_boss) {
@@ -2274,6 +2278,15 @@ function fnFixMissionProcess() {
 		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'with_buy':1, 'item_id' : 3058, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
 		//EfectMng.push('reload', null);	
+	}
+}
+
+function fnTowerFortitudeAppeared() {
+	if ($("div:contains('It hasn\'t noticed you at all')").length) {
+		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxFortitudeChoose', {'choose':1, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+	}
+	else {
+		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxFortitudeChoose', {'choose':2, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 	}
 }
 
@@ -5104,6 +5117,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower/bossResult') {
 		fnTowerBossResult();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/tower/fortitudeAppeared') {
+		fnTowerFortitudeAppeared();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower/finalRanking') {
 		fnTowerFinalRanking();
