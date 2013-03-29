@@ -284,7 +284,7 @@ function fnRemainedAllySpot() {
 }
 
 function fnHandleAllyRequest() {
-	/*
+	
 	var divTag2 = document.createElement("div");
 	divTag2.id = "checkAllyDiv2";
 	divTag2.style.display = "none";
@@ -298,31 +298,34 @@ function fnHandleAllyRequest() {
 			allyStr += "," + result2.find('#friendship .pid').eq(i).html();
 		}	
 		alert(allyStr);
-	});
-*/
-
-	$.getJSON("http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&allies="++"&__hash="+(new Date()).getTime(),{}, function(altArray){
-		var hasAllyApplied = false;
-	
-		var divTag = document.createElement("div");
-		divTag.id = "checkAllyDiv";
-		divTag.style.display = "none";
-		document.body.appendChild(divTag); 	
 		
-		var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
-			for (var i=0;i < result.find('.pid').length;i++) {
-				if (altArray.indexOf(parseInt(result.find('.pid').eq(i).html(),10)) !== -1) {
-					// is alt
-					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
-				}
-				else if (parseInt(fnAutoAlly(),10) == 3) {
-					// reject non alt
-					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=reject', {},function(result) {return;}) ;
-				}
-			}	
-		});
-		fnSendAllyAltRequest(altArray);
-	});	
+		$.getJSON("http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&allies="+allyStr+"&__hash="+(new Date()).getTime(),{}, function(altArray){
+			var hasAllyApplied = false;
+		
+			var divTag = document.createElement("div");
+			divTag.id = "checkAllyDiv";
+			divTag.style.display = "none";
+			document.body.appendChild(divTag); 	
+			
+			var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
+				for (var i=0;i < result.find('.pid').length;i++) {
+					if (altArray.indexOf(parseInt(result.find('.pid').eq(i).html(),10)) !== -1) {
+						// is alt
+						$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
+					}
+					else if (parseInt(fnAutoAlly(),10) == 3) {
+						// reject non alt
+						$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=reject', {},function(result) {return;}) ;
+					}
+				}	
+			});
+			fnSendAllyAltRequest(altArray);
+		});	
+		
+	});
+
+
+	
 }
 
 function fnSendAllyAltRequest(altArray) {
