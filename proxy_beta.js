@@ -345,7 +345,7 @@ function fnCheckAlly() {
 	}
 	else {
 		return;
-	}
+	}alert('check');
 	if (parseInt(fnAutoAlly(),10) == 1) {
 		fnSpamAllyMsg();
 	}
