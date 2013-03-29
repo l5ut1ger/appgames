@@ -293,9 +293,9 @@ function fnHandleAllyRequest() {
 	var result2= $('#checkAllyDiv2').load('/en/'+platform+'/friends', {}, function(){
 		var allyStr = player.player_id;
 		alert("allyStr"+allyStr);
-		alert("friend ship length "+result2.find('#friendship .pid').length);
-		for (var i=0;i < result2.find('#friendship .pid').length;i++) {
-			allyStr += "," + result2.find('#friendship .pid').eq(i).html();
+		alert("friend ship length "+result2.find('#list-friendship .pid').length);
+		for (var i=0;i < result2.find('#list-friendship .pid').length;i++) {
+			allyStr += "," + result2.find('#list-friendship .pid').eq(i).html();
 		}	
 		alert(allyStr);
 		
