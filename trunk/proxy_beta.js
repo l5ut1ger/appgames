@@ -194,7 +194,7 @@ function fnGetCookie(c_name)
 var autoAllyKey = 'autoAlly';
 var autoAllyMsgKey = 'autoAllyMsg';
 var checkAllyTimeKey = 'checkAllyTime';
-var checkAllyTimeInterval = 1000 * 60 * 3; // if has free ally spot, check ally ever 3 minutes
+var checkAllyTimeInterval = 1000 * 60 * 2; // if has free ally spot, check ally ever 2 minutes
 
 function fnAutoAlly() {
 	if (fnGetCookie(autoAllyKey) === null) {
@@ -342,6 +342,9 @@ function fnCheckAlly() {
 	}
 	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
 		fnSetCheckAllyTimer((new Date()).getTime(), 0);
+	}
+	else {
+		return;
 	}
 	alert("checking ally");
 	if (parseInt(fnAutoAlly(),10) == 1) {
