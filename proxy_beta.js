@@ -346,7 +346,6 @@ function fnCheckAlly() {
 	else {
 		return;
 	}
-	alert("checking ally");
 	if (parseInt(fnAutoAlly(),10) == 1) {
 		fnSpamAllyMsg();
 	}
@@ -2252,7 +2251,7 @@ function fnFixMissionProcess() {
 	}
 }
 
-function fnTowerMission() {
+function fnTowerMission() {return;
 	fnFixMissionProcess();
 	if (document.getElementById('cage-select').style.display != "none") {
 		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  			
