@@ -2283,10 +2283,20 @@ function fnFixMissionProcess() {
 
 function fnTowerFortitudeAppeared() {
 	if ($("div:contains('It hasn\'t noticed you at all')").length) {
-		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxFortitudeChoose', {'choose':1, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxFortitudeChoose', {'choose':1, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {			
+			if (result.status == 0 && result.payload.status == 0) {
+				$('#tap-area').hide();
+				fnRedirect('/en/'+platform+'/tower/mission');
+			}
+		});
 	}
 	else {
-		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxFortitudeChoose', {'choose':2, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxFortitudeChoose', {'choose':2, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {			
+			if (result.status == 0 && result.payload.status == 0) {
+				$('#tap-area').hide();
+				fnRedirect('/en/'+platform+'/tower/mission');
+			}
+		});
 	}
 }
 
