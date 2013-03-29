@@ -343,6 +343,7 @@ function fnCheckAlly() {
 	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
 		fnSetCheckAllyTimer((new Date()).getTime(), 0);
 	}
+	alert("checking ally");
 	if (parseInt(fnAutoAlly(),10) == 1) {
 		fnSpamAllyMsg();
 	}
