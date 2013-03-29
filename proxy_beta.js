@@ -2368,7 +2368,8 @@ function fnTowerBossResult() {
 		if (result.status == 101) {
 			fnRedirect('/en/'+platform+'/tower/mission');
 		} else if (result.payload.resources.foundType != null && result.payload.resources.foundType==10 && result.payload.resResult.items[result.payload.itemMaster.item_id].collected_count==6) { 
-			fnRedirect('/en/'+platform+'/tower');
+			//fnRedirect('/en/'+platform+'/tower');
+			fnRedirect('/en/'+platform+'/tower/subpoena');// summon directly?
 		} else  {
 			fnRedirect('/en/'+platform+'/tower/mission');
 		}
