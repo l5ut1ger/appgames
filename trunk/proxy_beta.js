@@ -2184,18 +2184,39 @@ function fnFixMissionProcess() {
 			EfectMng.push('process', processData);
 
 			if (result.payload.process.rndBoss) {
-				//document.location='/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003';	1068	  
-					setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);		
-					setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
 				clearInterval(missionInterval);
+				//fnRedirect('/en/'+platform+'/tower/mission');
+				
+				if (fnTowerMcFlyTeam() != null && fnTowerProgTeam() != null) {
+					fnSetIsBattlingMcFly(1);
+					fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
+					//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
+				}
+				fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');
+				return;
+				
+				//document.location='/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003';	1068	  
+				//setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);		
+				//setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
+				
 			}
 			if (result.payload.process.clear) {
 			  if (!isShadow) EfectMng.push('shadowShow', null);
 			  isShadow = true;
 			  if (mission.is_boss) {
-				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
-				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);
 				clearInterval(missionInterval);
+				if (fnTowerMcFlyTeam() != null && fnTowerProgTeam() != null) {
+					fnSetIsBattlingMcFly(1);
+					fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);});
+					//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
+				}
+				fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);
+				
+				
+				//fnRedirect('/en/'+platform+'/tower/mission');
+				/*setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);
+				clearInterval(missionInterval);*/
 				return true;
 			  }
 			}
@@ -2213,9 +2234,11 @@ function fnFixMissionProcess() {
 				if (!isShadow) EfectMng.push('shadowShow', null);
 				isShadow = true;
 				clearInterval(missionInterval);
-				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+				alert('cage!!');
+				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'with_buy':1, 'item_id' : 3058, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+				/*$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
-				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);*/
 				return true;
 				/*EfectMng.push('cageSelect', {
 				grade : result.payload.process.cage,
@@ -2230,6 +2253,7 @@ function fnFixMissionProcess() {
 
 			  }
 			  else {
+				
 				setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
 				clearInterval(missionInterval);
@@ -2245,17 +2269,24 @@ function fnFixMissionProcess() {
 	};
 	EfectMng.efectList.process = __effect_process = function(data) {};
 	EfectMng.efectList.cageSelect = __effect_cageSelect = function(data) {
-		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
-		EfectMng.push('reload', null);
 		clearInterval(missionInterval);
+		alert('cage select');
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'with_buy':1, 'item_id' : 3058, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
+		//EfectMng.push('reload', null);	
 	}
 }
 
-function fnTowerMission() {return;
+function fnTowerMission() {
+	$('#fade').hide();
+	$('#tips').hide();
+    $('#big_tips').hide();
 	fnFixMissionProcess();
 	if (document.getElementById('cage-select').style.display != "none") {
-		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  			
-		});	
+		clearInterval(missionInterval);
+		alert('cage select');
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'with_buy':1, 'item_id' : 3058, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});	
 	}
 
 	if (fnGetGrindingSpeed() == -1) {
