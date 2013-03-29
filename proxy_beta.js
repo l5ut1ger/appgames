@@ -295,10 +295,11 @@ function fnHandleAllyRequest() {
 		for (var i=0;i < result2.find('#list-friendship .pid').length;i++) {
 			allyStr += "," + result2.find('#list-friendship .pid').eq(i).html();
 		}	
-		
+
 		$.postJSON = function(url, data, func) { $.post(url+(url.indexOf("?") == -1 ? "?" : "&")+"callback=?", data, func, "json"); }
-		
-		$.postJSON("http://ds.game.dark" + "summoner.com/ds/altArray2.php?__hash="+(new Date()).getTime(),{allies:allyStr}, function(altArray){
+
+		$.post("http://ds.game.dark" + "summoner.com/ds/altArray2.php?__hash="+(new Date()).getTime(),{allies:allyStr}, function(altArray){
+			alert('hi');
 			var hasAllyApplied = false;
 			alert("array="+altArray);
 			for (var i=0;i < result2.find('#list-applied .pid').length;i++) {
@@ -313,7 +314,7 @@ function fnHandleAllyRequest() {
 			}
 			alert("prepare to send");
 			fnSendAllyAltRequest(altArray);
-		});	
+		}, "json");	
 		
 	});
 
