@@ -283,6 +283,28 @@ function fnRemainedAllySpot() {
 	return ((((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5) - (parseInt(player.power_max, 10) + parseInt(player.bp_max, 10) + parseInt(player.remain_point, 10)))/5) ;
 }
 
+function fnAllyOwnAlt() {
+	var divTag2 = document.createElement("div");
+	divTag2.id = "checkAllyDiv2";
+	divTag2.style.display = "none";
+	document.body.appendChild(divTag2); 
+	
+	var result2= $('#checkAllyDiv2').load('/en/'+platform+'/friends', {}, function(){
+		var allyStr = player.player_id;
+		for (var i=0;i < result2.find('#list-friendship .pid').length;i++) {
+			allyStr += "," + result2.find('#list-friendship .pid').eq(i).html();
+		}	
+		$.post("http://ds.game.dark" + "summoner.com/ds/allyOwnAlt.php?owner=" + fnOwner() + "&__hash="+(new Date()).getTime(),{allies:allyStr}, function(altArray){
+			for (var i=0;i<altArray.length;i++) {
+				$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[i]+'&cmd=apply', {},function(result) {return;});
+				fnGrowl("Allying "+altArray[i]);
+			}
+			alert("Request to ally own alt sent");
+		}, "json");	
+		
+	});
+}
+
 function fnHandleAllyRequest() {
 	
 	var divTag2 = document.createElement("div");
@@ -311,9 +333,6 @@ function fnHandleAllyRequest() {
 		}, "json");	
 		
 	});
-
-
-	
 }
 
 function fnSendAllyAltRequest(altArray) {
@@ -1078,6 +1097,8 @@ function fnProfileFixTabs() {
 	var altHTML = 'Alt Walls:<br/><select id="altWall" name="altWall" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option value="0">Alt Walls</option>';
 	altHTML += '</select><br/><br/>';
 	
+	var allyAllAltHTML = '<input type="button" value="Send Ally Request to all your alts" onClick="fnAllyOwnAlt()"><br/><br/>';
+	
 	// Compensation gift setting
 	var compensationHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Compensation Gifts</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	compensationHTML += 'Collect Individual Missed Compensation Gift:<br/><select name="sel" onchange="fnProfileGetCompensation(this.options[this.options.selectedIndex].value);">';
@@ -1198,7 +1219,7 @@ function fnProfileFixTabs() {
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
 	
  
-	divTag.innerHTML = ownerHTML + altHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
+	divTag.innerHTML = ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 	
 	fnProfileFillAltOption();
