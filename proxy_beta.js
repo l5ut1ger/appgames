@@ -2233,13 +2233,10 @@ function fnFixMissionProcess() {
 			if (result.payload.process.cage) {
 				if (!isShadow) EfectMng.push('shadowShow', null);
 				isShadow = true;
-				clearInterval(missionInterval);
-				alert('cage!!');
 				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 				/*$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);*/
-				return true;
 				/*EfectMng.push('cageSelect', {
 				grade : result.payload.process.cage,
 				item : result.payload.event.cage.item,
@@ -2258,10 +2255,11 @@ function fnFixMissionProcess() {
 
 			  }
 			  else {
-				
-				setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
-				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
 				clearInterval(missionInterval);
+				fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);
+				//setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
+				//setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
+				
 				return true;
 			  }
 			}
@@ -2274,8 +2272,6 @@ function fnFixMissionProcess() {
 	};
 	EfectMng.efectList.process = __effect_process = function(data) {};
 	EfectMng.efectList.cageSelect = __effect_cageSelect = function(data) {
-		clearInterval(missionInterval);
-		alert('cage select');
 		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
 		//EfectMng.push('reload', null);	
@@ -2307,11 +2303,8 @@ function fnTowerMission() {
     $('#big_tips').hide();
 	fnFixMissionProcess();
 	if (document.getElementById('cage-select').style.display != "none") {
-		clearInterval(missionInterval);
-		alert('cage select');
 		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});	
-		return;
 	}
 
 	if (fnGetGrindingSpeed() == -1) {
