@@ -299,6 +299,7 @@ function fnAllyOwnAlt() {
 				$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[i]+'&cmd=apply', {},function(result) {return;});
 				fnGrowl("Allying "+altArray[i]);
 			}
+			alert("Request to ally own alt sent");
 		}, "json");	
 		
 	});
