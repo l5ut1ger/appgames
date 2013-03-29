@@ -300,7 +300,7 @@ function fnHandleAllyRequest() {
 		
 		$.postJSON("http://ds.game.dark" + "summoner.com/ds/altArray2.php?__hash="+(new Date()).getTime(),{allies:allyStr}, function(altArray){
 			var hasAllyApplied = false;
-
+			alert("array="+altArray);
 			for (var i=0;i < result2.find('#list-applied .pid').length;i++) {
 				if (altArray.indexOf(parseInt(result2.find('#list-applied .pid').eq(i).html(),10)) !== -1) {
 					// is alt
@@ -310,7 +310,8 @@ function fnHandleAllyRequest() {
 					// reject non alt
 					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result2.find('#list-applied .pid').eq(i).html()+'&cmd=reject', {},function(result) {return;}) ;
 				}
-			}	
+			}
+			alert("prepare to send");
 			fnSendAllyAltRequest(altArray);
 		});	
 		
@@ -321,6 +322,7 @@ function fnHandleAllyRequest() {
 }
 
 function fnSendAllyAltRequest(altArray) {
+	alert("to send... length .."+altArray.length);
 	if (parseInt(fnAutoAlly(),10) > 1 && fnHasAllySpot() && altArray.length>0) {
 		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[0]+'&cmd=apply', {},function(result) {return;});
 	}
@@ -357,7 +359,7 @@ function fnCheckAlly() {
 	}
 	else {
 		return;
-	} alert('check');
+	} 
 	if (parseInt(fnAutoAlly(),10) == 1) {
 		fnSpamAllyMsg();
 	}
