@@ -284,7 +284,24 @@ function fnRemainedAllySpot() {
 }
 
 function fnHandleAllyRequest() {
-	$.getJSON("http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime(),{}, function(altArray){
+
+	var hasAllyApplied = false;
+	
+	var divTag = document.createElement("div");
+	divTag.id = "checkAllyDiv2";
+	divTag.style.display = "none";
+	document.body.appendChild(divTag); 	
+	
+	var result2= $('#checkAllyDiv2').load('/en/'+platform+'/friends', {}, function(){
+		var allyStr = player.player_id;
+		for (var i=0;i < result2.find('#friendship .pid').length;i++) {
+			allyStr += "," + result2.find('#friendship .pid').eq(i).html();
+		}	
+		alert(allyStr);
+	});
+
+
+	$.getJSON("http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&allies="++"&__hash="+(new Date()).getTime(),{}, function(altArray){
 		var hasAllyApplied = false;
 	
 		var divTag = document.createElement("div");
