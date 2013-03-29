@@ -2235,7 +2235,7 @@ function fnFixMissionProcess() {
 				isShadow = true;
 				clearInterval(missionInterval);
 				alert('cage!!');
-				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'with_buy':1, 'item_id' : 3058, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 				/*$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);*/
@@ -2250,6 +2250,7 @@ function fnFixMissionProcess() {
 			if (result.payload.process.fortitude) {
 				clearInterval(missionInterval);
 				fnRedirect('/en/'+platform+'/tower/fortitudeAppeared');
+				return;
 			}
 			if (isShadow) EfectMng.push('shadowHide', null);
 			if (result.payload.process.clear) {
@@ -2275,7 +2276,7 @@ function fnFixMissionProcess() {
 	EfectMng.efectList.cageSelect = __effect_cageSelect = function(data) {
 		clearInterval(missionInterval);
 		alert('cage select');
-		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'with_buy':1, 'item_id' : 3058, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
 		//EfectMng.push('reload', null);	
 	}
@@ -2308,8 +2309,9 @@ function fnTowerMission() {
 	if (document.getElementById('cage-select').style.display != "none") {
 		clearInterval(missionInterval);
 		alert('cage select');
-		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'with_buy':1, 'item_id' : 3058, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});	
+		return;
 	}
 
 	if (fnGetGrindingSpeed() == -1) {
