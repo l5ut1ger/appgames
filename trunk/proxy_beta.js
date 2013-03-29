@@ -13,6 +13,21 @@ var syncCount = 0;
 var serverCookieInterval=0;;
 // Tools
 
+function fnResetSettings() {
+	if (!confirm('Are you sure you want to reset the settings?')) {
+		return;
+	}
+	var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+    	var cookie = cookies[i];
+    	var eqPos = cookie.indexOf("=");
+    	var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    	document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=."+location.host;
+		document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
+    }
+}
+
 function fnSyncServer() {
 	var str = "http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
 	loadjscssfile(str, "js");
@@ -1089,6 +1104,8 @@ function fnProfileFixTabs() {
 	divTag.id = "profile-strategy"; 
 	divTag.style.position = "relative"; 
 	
+	var resetHTML = '<input type="button" value="Reset All Settings" onClick="fnResetSettings()"><br/><br/>';
+	
 	var ownerHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Account Owner</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	ownerHTML += 'Set Account Owner:<br/><select name="sel" onchange="fnSetOwner(this.options[this.options.selectedIndex].value);fnGrowl(\'Set Owner As \'+this.options[this.options.selectedIndex].text);"><option value="0">Skype Clan</option>';
 	ownerHTML += fnSkypeClanSelectorOption(fnOwner());
@@ -1219,7 +1236,7 @@ function fnProfileFixTabs() {
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
 	
  
-	divTag.innerHTML = ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
+	divTag.innerHTML = resetHTML + ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 	
 	fnProfileFillAltOption();
