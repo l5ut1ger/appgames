@@ -287,13 +287,15 @@ function fnHandleAllyRequest() {
 
 	var hasAllyApplied = false;
 	
-	var divTag = document.createElement("div");
-	divTag.id = "checkAllyDiv2";
-	divTag.style.display = "none";
-	document.body.appendChild(divTag); 	
+	var divTag2 = document.createElement("div");
+	divTag2.id = "checkAllyDiv2";
+	divTag2.style.display = "none";
+	document.body.appendChild(divTag2); 	
 	
 	var result2= $('#checkAllyDiv2').load('/en/'+platform+'/friends', {}, function(){
 		var allyStr = player.player_id;
+		alert("allyStr"+allyStr);
+		alert("friend ship length "+result2.find('#friendship .pid').length);
 		for (var i=0;i < result2.find('#friendship .pid').length;i++) {
 			allyStr += "," + result2.find('#friendship .pid').eq(i).html();
 		}	
@@ -362,7 +364,7 @@ function fnCheckAlly() {
 	}
 	else {
 		return;
-	}alert('check');
+	} alert('check');
 	if (parseInt(fnAutoAlly(),10) == 1) {
 		fnSpamAllyMsg();
 	}
