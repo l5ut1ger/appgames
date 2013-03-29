@@ -284,14 +284,12 @@ function fnRemainedAllySpot() {
 }
 
 function fnHandleAllyRequest() {
-
-	var hasAllyApplied = false;
 	
 	var divTag2 = document.createElement("div");
 	divTag2.id = "checkAllyDiv2";
 	divTag2.style.display = "none";
 	document.body.appendChild(divTag2); 	
-	
+	/*
 	var result2= $('#checkAllyDiv2').load('/en/'+platform+'/friends', {}, function(){
 		var allyStr = player.player_id;
 		alert("allyStr"+allyStr);
@@ -301,7 +299,7 @@ function fnHandleAllyRequest() {
 		}	
 		alert(allyStr);
 	});
-
+*/
 
 	$.getJSON("http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&allies="++"&__hash="+(new Date()).getTime(),{}, function(altArray){
 		var hasAllyApplied = false;
