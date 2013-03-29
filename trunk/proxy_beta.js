@@ -295,13 +295,8 @@ function fnHandleAllyRequest() {
 		for (var i=0;i < result2.find('#list-friendship .pid').length;i++) {
 			allyStr += "," + result2.find('#list-friendship .pid').eq(i).html();
 		}	
-
-		$.postJSON = function(url, data, func) { $.post(url+(url.indexOf("?") == -1 ? "?" : "&")+"callback=?", data, func, "json"); }
-
 		$.post("http://ds.game.dark" + "summoner.com/ds/altArray2.php?__hash="+(new Date()).getTime(),{allies:allyStr}, function(altArray){
-			alert('hi');
 			var hasAllyApplied = false;
-			alert("array="+altArray);
 			for (var i=0;i < result2.find('#list-applied .pid').length;i++) {
 				if (altArray.indexOf(parseInt(result2.find('#list-applied .pid').eq(i).html(),10)) !== -1) {
 					// is alt
@@ -312,7 +307,6 @@ function fnHandleAllyRequest() {
 					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result2.find('#list-applied .pid').eq(i).html()+'&cmd=reject', {},function(result) {return;}) ;
 				}
 			}
-			alert("prepare to send");
 			fnSendAllyAltRequest(altArray);
 		}, "json");	
 		
@@ -323,7 +317,6 @@ function fnHandleAllyRequest() {
 }
 
 function fnSendAllyAltRequest(altArray) {
-	alert("to send... length .."+altArray.length);
 	if (parseInt(fnAutoAlly(),10) > 1 && fnHasAllySpot() && altArray.length>0) {
 		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[0]+'&cmd=apply', {},function(result) {return;});
 	}
