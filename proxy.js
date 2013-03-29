@@ -235,7 +235,7 @@ function fnSetCheckAllyTimer(value, upload) {
 	if(upload != 0) { 
 		upload = 1;
 	}
-	fnSetCookie(checkAllyTimeKey, value, upload);
+	fnSetCookie(checkAllyTimeKey, value, 0);
 }
 
 function fnSendAllyMsg(pID, pName, pMsg) {
@@ -340,7 +340,7 @@ function fnCheckAlly() {
 	if (!fnHasAllySpot()) {
 		return;
 	}
-	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
+	if (window.location.pathname === '/en/'+platform+'/home' || (new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
 		fnSetCheckAllyTimer((new Date()).getTime(), 0);
 	}
 	else {
@@ -475,7 +475,7 @@ function fnAutoSkillUp() {
 
 function fnSetAutoSkillUp(value, upload) {
 	if(upload != 0) { upload = 1;}
-	fnSetCookie(autoSkillUpKey, value, upload);
+	fnSetCookie(autoSkillUpKey, value, 0);
 }
 
 // Auto Stack
@@ -491,7 +491,7 @@ function fnAutoStack() {
 
 function fnSetAutoStack(value, upload) {
 	if(upload != 0) { upload = 1;}
-	fnSetCookie(autoStackKey, value, upload);
+	fnSetCookie(autoStackKey, value, 0);
 }
 
 var autoStackBPKey = 'autoStackBP';
