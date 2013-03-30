@@ -2240,7 +2240,9 @@ function fnFixMissionProcess() {
 					fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
 					//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
 				}
-				fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');
+				//fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003', {}, function(data) {});
+				fnRedirect('/en/'+platform+'/tower/bossResult');
 				return;
 				
 				//document.location='/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003';	1068	  
@@ -2258,8 +2260,9 @@ function fnFixMissionProcess() {
 					fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);});
 					//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
 				}
-				fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);
-				
+				//fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id, {}, function(data) {});
+				fnRedirect('/en/'+platform+'/tower/bossResult');
 				
 				//fnRedirect('/en/'+platform+'/tower/mission');
 				/*setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
@@ -2304,7 +2307,10 @@ function fnFixMissionProcess() {
 			  }
 			  else {
 				clearInterval(missionInterval);
-				fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);
+				//fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id, {}, function(data) {});
+				fnRedirect('/en/'+platform+'/tower/bossResult');				
+				
 				//setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
 				//setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
 				
@@ -2366,8 +2372,10 @@ function fnTowerMission() {
 				fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
 				//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
 			}
-			setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 1000);
-			setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
+			//setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 1000);
+			//setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
+			$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003', {}, function(data) {});
+			fnRedirect('/en/'+platform+'/tower/bossResult');
 		}
 		else {
 			if (fnGetGrindingSpeed() == 1) {
@@ -2384,8 +2392,11 @@ function fnTowerMission() {
 			fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
 			//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
 		}
-		setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
-		setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 8000);
+		//setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
+		//setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 8000);
+		$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id, {}, function(data) {});
+		fnRedirect('/en/'+platform+'/tower/bossResult');		
+		
 		//document.location='/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id;
 	}
 }
