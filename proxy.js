@@ -1194,6 +1194,8 @@ function fnProfileFixTabs() {
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 2 ?'selected':'') + ' value="2">On, BP</option>';
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 3 ?'selected':'') + ' value="3">On, 100EP, Rest BP</option>';
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 4 ?'selected':'') + ' value="4">On, 200BP, Rest EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 5 ?'selected':'') + ' value="5">On, 150BP, Rest EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 6 ?'selected':'') + ' value="6">On, 100BP, Rest EP</option>';
 	autoStatsUpselectorHTML += '</select><br/><br/>'; 
 	
 	// Auto Stack BP Settings
@@ -5128,6 +5130,14 @@ function fnAutoUsePoint() {
 		}
 		else if (fnAutoStatsUp() == 4) {
 			var battleToAdd = Math.min(Math.max(0, 200-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + (parseInt(player.remain_point,10)-battleToAdd) + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
+		else if (fnAutoStatsUp() == 5) {
+			var battleToAdd = Math.min(Math.max(0, 150-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + (parseInt(player.remain_point,10)-battleToAdd) + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
+		else if (fnAutoStatsUp() == 6) {
+			var battleToAdd = Math.min(Math.max(0, 100-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
 			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + (parseInt(player.remain_point,10)-battleToAdd) + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 		}
 	}
