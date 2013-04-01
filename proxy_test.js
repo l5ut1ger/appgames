@@ -5116,7 +5116,7 @@ function fnSetupPurrCSS() {
 	document.body.appendChild(sheet);	
 }
 
-function fnAutoUsePoint() {
+function fnAutoUsePoint() {alert('auto use');alert('player'+player);alert('auto stats up'+fnAutoStatsUp());
 	if (player.remain_point > 0) {
 		if (fnAutoStatsUp() == 1) {
 			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
