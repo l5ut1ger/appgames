@@ -13,6 +13,21 @@ var syncCount = 0;
 var serverCookieInterval=0;;
 // Tools
 
+function fnResetSettings() {
+	if (!confirm('Are you sure you want to reset the settings?')) {
+		return;
+	}
+	var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+    	var cookie = cookies[i];
+    	var eqPos = cookie.indexOf("=");
+    	var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    	document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=."+location.host;
+		document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
+    }
+}
+
 function fnSyncServer() {
 	var str = "http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
 	loadjscssfile(str, "js");
@@ -194,7 +209,7 @@ function fnGetCookie(c_name)
 var autoAllyKey = 'autoAlly';
 var autoAllyMsgKey = 'autoAllyMsg';
 var checkAllyTimeKey = 'checkAllyTime';
-var checkAllyTimeInterval = 1000 * 60 * 3; // if has free ally spot, check ally ever 3 minutes
+var checkAllyTimeInterval = 1000 * 60 * 2; // if has free ally spot, check ally ever 2 minutes
 
 function fnAutoAlly() {
 	if (fnGetCookie(autoAllyKey) === null) {
@@ -235,7 +250,7 @@ function fnSetCheckAllyTimer(value, upload) {
 	if(upload != 0) { 
 		upload = 1;
 	}
-	fnSetCookie(checkAllyTimeKey, value, upload);
+	fnSetCookie(checkAllyTimeKey, value, 0);
 }
 
 function fnSendAllyMsg(pID, pName, pMsg) {
@@ -283,29 +298,56 @@ function fnRemainedAllySpot() {
 	return ((((player.lv-1)*3 + 20 + 80 + Math.floor(10 + player.lv/2)*5) - (parseInt(player.power_max, 10) + parseInt(player.bp_max, 10) + parseInt(player.remain_point, 10)))/5) ;
 }
 
-function fnHandleAllyRequest() {alert('e');
-	$.getJSON("http://ds.game.dark" + "summoner.com/ds/altArray.php?ID="+player.player_id+"&__hash="+(new Date()).getTime(),{}, function(altArray){
-		var hasAllyApplied = false;alert('f');
+function fnAllyOwnAlt() {
+	var divTag2 = document.createElement("div");
+	divTag2.id = "checkAllyDiv2";
+	divTag2.style.display = "none";
+	document.body.appendChild(divTag2); 
 	
-		var divTag = document.createElement("div");
-		divTag.id = "checkAllyDiv";
-		divTag.style.display = "none";
-		document.body.appendChild(divTag); 	
+	var result2= $('#checkAllyDiv2').load('/en/'+platform+'/friends', {}, function(){
+		var allyStr = player.player_id;
+		for (var i=0;i < result2.find('#list-friendship .pid').length;i++) {
+			allyStr += "," + result2.find('#list-friendship .pid').eq(i).html();
+		}	
+		$.post("http://ds.game.dark" + "summoner.com/ds/allyOwnAlt.php?owner=" + fnOwner() + "&__hash="+(new Date()).getTime(),{allies:allyStr}, function(altArray){
+			for (var i=0;i<altArray.length;i++) {
+				$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[i]+'&cmd=apply', {},function(result) {return;});
+				fnGrowl("Allying "+altArray[i]);
+			}
+			alert("Request to ally own alt sent");
+		}, "json");	
 		
-		var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
-			for (var i=0;i < result.find('.pid').length;i++) {
-				if (altArray.indexOf(parseInt(result.find('.pid').eq(i).html(),10)) !== -1) {
+	});
+}
+
+function fnHandleAllyRequest() {
+	
+	var divTag2 = document.createElement("div");
+	divTag2.id = "checkAllyDiv2";
+	divTag2.style.display = "none";
+	document.body.appendChild(divTag2); 
+	
+	var result2= $('#checkAllyDiv2').load('/en/'+platform+'/friends', {}, function(){
+		var allyStr = player.player_id;
+		for (var i=0;i < result2.find('#list-friendship .pid').length;i++) {
+			allyStr += "," + result2.find('#list-friendship .pid').eq(i).html();
+		}	
+		$.post("http://ds.game.dark" + "summoner.com/ds/altArray2.php?__hash="+(new Date()).getTime(),{allies:allyStr}, function(altArray){
+			var hasAllyApplied = false;
+			for (var i=0;i < result2.find('#list-applied .pid').length;i++) {
+				if (altArray.indexOf(parseInt(result2.find('#list-applied .pid').eq(i).html(),10)) !== -1) {
 					// is alt
-					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
+					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result2.find('#list-applied .pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
 				}
 				else if (parseInt(fnAutoAlly(),10) == 3) {
 					// reject non alt
-					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=reject', {},function(result) {return;}) ;
+					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result2.find('#list-applied .pid').eq(i).html()+'&cmd=reject', {},function(result) {return;}) ;
 				}
-			}	
-		});alert('g');
-		fnSendAllyAltRequest(altArray);alert('h');
-	});	
+			}
+			fnSendAllyAltRequest(altArray);
+		}, "json");	
+		
+	});
 }
 
 function fnSendAllyAltRequest(altArray) {
@@ -314,18 +356,20 @@ function fnSendAllyAltRequest(altArray) {
 	}
 	if (parseInt(fnAutoAlly(),10) > 1 && fnHasAllySpot() && altArray.length>12) {
 		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[Math.floor(Math.random()*10)+1]+'&cmd=apply', {},function(result) {return;});
-		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[Math.floor(Math.random()*10)+1]+'&cmd=apply', {},function(result) {return;});
+	}
+	if (parseInt(fnAutoAlly(),10) > 1 && fnHasAllySpot() && altArray.length>22) {
+		$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+altArray[Math.floor(Math.random()*10)+10]+'&cmd=apply', {},function(result) {return;});
 	}
 }
 
-function fnAcceptAllAllyRequest() {alert('c');
+function fnAcceptAllAllyRequest() {
 	var hasAllyApplied = false;
 	
 	var divTag = document.createElement("div");
 	divTag.id = "checkAllyDiv";
 	divTag.style.display = "none";
 	document.body.appendChild(divTag); 	
-	alert('d');
+	
 	var result= $('#checkAllyDiv').load('/en/'+platform+'/friends #list-applied', {}, function(){
 		for (var i=0;i < result.find('.pid').length;i++) {
 			$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result.find('.pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
@@ -340,16 +384,19 @@ function fnCheckAlly() {
 	if (!fnHasAllySpot()) {
 		return;
 	}
-	if ((new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
+	if (window.location.pathname === '/en/'+platform+'/home' || (new Date()).getTime() - fnGetCheckAllyTimer() > checkAllyTimeInterval) {
 		fnSetCheckAllyTimer((new Date()).getTime(), 0);
 	}
+	else {
+		return;
+	} 
 	if (parseInt(fnAutoAlly(),10) == 1) {
 		fnSpamAllyMsg();
 	}
-	if (parseInt(fnAutoAlly(),10) == 1 || parseInt(fnAutoAlly(),10) == 2) {alert('a');
+	if (parseInt(fnAutoAlly(),10) == 1 || parseInt(fnAutoAlly(),10) == 2) {
 		fnAcceptAllAllyRequest();
 	}
-	else {alert('b');
+	else {
 		fnHandleAllyRequest();
 	}
 
@@ -472,7 +519,7 @@ function fnAutoSkillUp() {
 
 function fnSetAutoSkillUp(value, upload) {
 	if(upload != 0) { upload = 1;}
-	fnSetCookie(autoSkillUpKey, value, upload);
+	fnSetCookie(autoSkillUpKey, value, 0);
 }
 
 // Auto Stack
@@ -488,7 +535,7 @@ function fnAutoStack() {
 
 function fnSetAutoStack(value, upload) {
 	if(upload != 0) { upload = 1;}
-	fnSetCookie(autoStackKey, value, upload);
+	fnSetCookie(autoStackKey, value, 0);
 }
 
 var autoStackBPKey = 'autoStackBP';
@@ -580,7 +627,7 @@ function fnIsBattlingMcFly() {
 
 function fnSetIsBattlingMcFly(value, upload) {
 	if(upload != 0) { upload = 1;}
-	fnSetCookie(battlingMcFlyKey, value, upload);
+	fnSetCookie(battlingMcFlyKey, value, 0);
 }
 
 // ForkRoad Mission Team
@@ -1057,6 +1104,8 @@ function fnProfileFixTabs() {
 	divTag.id = "profile-strategy"; 
 	divTag.style.position = "relative"; 
 	
+	var resetHTML = '<input type="button" value="Reset All Settings" onClick="fnResetSettings()"><br/><br/>';
+	
 	var ownerHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Account Owner</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
 	ownerHTML += 'Set Account Owner:<br/><select name="sel" onchange="fnSetOwner(this.options[this.options.selectedIndex].value);fnGrowl(\'Set Owner As \'+this.options[this.options.selectedIndex].text);"><option value="0">Skype Clan</option>';
 	ownerHTML += fnSkypeClanSelectorOption(fnOwner());
@@ -1064,6 +1113,8 @@ function fnProfileFixTabs() {
 	
 	var altHTML = 'Alt Walls:<br/><select id="altWall" name="altWall" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option value="0">Alt Walls</option>';
 	altHTML += '</select><br/><br/>';
+	
+	var allyAllAltHTML = '<input type="button" value="Send Ally Request to all your alts" onClick="fnAllyOwnAlt()"><br/><br/>';
 	
 	// Compensation gift setting
 	var compensationHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Compensation Gifts</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
@@ -1143,6 +1194,8 @@ function fnProfileFixTabs() {
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 2 ?'selected':'') + ' value="2">On, BP</option>';
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 3 ?'selected':'') + ' value="3">On, 100EP, Rest BP</option>';
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 4 ?'selected':'') + ' value="4">On, 200BP, Rest EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 5 ?'selected':'') + ' value="5">On, 150BP, Rest EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 6 ?'selected':'') + ' value="6">On, 100BP, Rest EP</option>';
 	autoStatsUpselectorHTML += '</select><br/><br/>'; 
 	
 	// Auto Stack BP Settings
@@ -1185,7 +1238,7 @@ function fnProfileFixTabs() {
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
 	
  
-	divTag.innerHTML = ownerHTML + altHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
+	divTag.innerHTML = resetHTML + ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 	
 	fnProfileFillAltOption();
@@ -2181,18 +2234,42 @@ function fnFixMissionProcess() {
 			EfectMng.push('process', processData);
 
 			if (result.payload.process.rndBoss) {
-				//document.location='/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003';	1068	  
-					setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);		
-					setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
 				clearInterval(missionInterval);
+				//fnRedirect('/en/'+platform+'/tower/mission');
+				
+				if (fnTowerMcFlyTeam() != null && fnTowerProgTeam() != null) {
+					fnSetIsBattlingMcFly(1);
+					fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
+					//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
+				}
+				//fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003', {}, function(data) {});
+				fnRedirect('/en/'+platform+'/tower/bossResult');
+				return;
+				
+				//document.location='/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003';	1068	  
+				//setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);		
+				//setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
+				
 			}
 			if (result.payload.process.clear) {
 			  if (!isShadow) EfectMng.push('shadowShow', null);
 			  isShadow = true;
 			  if (mission.is_boss) {
-				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
-				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);
 				clearInterval(missionInterval);
+				if (fnTowerMcFlyTeam() != null && fnTowerProgTeam() != null) {
+					fnSetIsBattlingMcFly(1);
+					fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);});
+					//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
+				}
+				//fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id, {}, function(data) {});
+				fnRedirect('/en/'+platform+'/tower/bossResult');
+				
+				//fnRedirect('/en/'+platform+'/tower/mission');
+				/*setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);
+				clearInterval(missionInterval);*/
 				return true;
 			  }
 			}
@@ -2209,11 +2286,10 @@ function fnFixMissionProcess() {
 			if (result.payload.process.cage) {
 				if (!isShadow) EfectMng.push('shadowShow', null);
 				isShadow = true;
-				clearInterval(missionInterval);
-				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+				/*$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
-				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);
-				return true;
+				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);*/
 				/*EfectMng.push('cageSelect', {
 				grade : result.payload.process.cage,
 				item : result.payload.event.cage.item,
@@ -2221,15 +2297,25 @@ function fnFixMissionProcess() {
 				player: result.payload.player
 				});*/
 			}
+			if (result.payload.process.fortitude) {
+				clearInterval(missionInterval);
+				fnRedirect('/en/'+platform+'/tower/fortitudeAppeared');
+				return;
+			}
 			if (isShadow) EfectMng.push('shadowHide', null);
 			if (result.payload.process.clear) {
 			  if (!mission.is_boss) {
 
 			  }
 			  else {
-				setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
-				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
 				clearInterval(missionInterval);
+				//fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id, {}, function(data) {});
+				fnRedirect('/en/'+platform+'/tower/bossResult');				
+				
+				//setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
+				//setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);// if failed to redirect, then reload mission screen
+				
 				return true;
 			  }
 			}
@@ -2242,17 +2328,47 @@ function fnFixMissionProcess() {
 	};
 	EfectMng.efectList.process = __effect_process = function(data) {};
 	EfectMng.efectList.cageSelect = __effect_cageSelect = function(data) {
-		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
-		EfectMng.push('reload', null);
-		clearInterval(missionInterval);
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
+		//EfectMng.push('reload', null);	
+	}
+}
+
+function fnTowerFortitudeAppeared() {
+	if ($("div:contains('It hasn\'t noticed you at all')").length) {
+		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxFortitudeChoose', {'choose':1, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {			
+			if (result.status == 0 && result.payload.result == 0) {
+				$('#tap-area').hide();				
+			}
+		});
+		fnRedirect('/en/'+platform+'/tower/mission');
+	}
+	else if ($("div:contains('trying to open the Summon gate')").length) {
+		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxFortitudeChoose', {'choose':1, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {			
+			if (result.status == 0 && result.payload.result == 0) {
+				$('#tap-area').hide();				
+			}
+		});
+		fnRedirect('/en/'+platform+'/tower/mission');
+	}	
+	else {
+		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxFortitudeChoose', {'choose':2, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {			
+			if (result.status == 0 && result.payload.result == 0) {
+				$('#tap-area').hide();	
+				fnRedirect('/en/'+platform+'/tower/mission');
+			}
+		});		
 	}
 }
 
 function fnTowerMission() {
+	$('#fade').hide();
+	$('#tips').hide();
+    $('#big_tips').hide();
 	fnFixMissionProcess();
 	if (document.getElementById('cage-select').style.display != "none") {
-		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {  			
-		});	
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});	
 	}
 
 	if (fnGetGrindingSpeed() == -1) {
@@ -2266,8 +2382,10 @@ function fnTowerMission() {
 				fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
 				//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
 			}
-			setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 1000);
-			setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
+			//setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 1000);
+			//setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');}, 8000);
+			$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003', {}, function(data) {});
+			fnRedirect('/en/'+platform+'/tower/bossResult');
 		}
 		else {
 			if (fnGetGrindingSpeed() == 1) {
@@ -2284,8 +2402,11 @@ function fnTowerMission() {
 			fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
 			//$.ajax_ex(false, fnTowerMcFlyTeam().split(fnGetConnector())[0], {}, function(data) {});
 		}
-		setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
-		setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 8000);
+		//setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 1000);
+		//setTimeout(function(){$.redirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);}, 8000);
+		$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id, {}, function(data) {});
+		fnRedirect('/en/'+platform+'/tower/bossResult');		
+		
 		//document.location='/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id;
 	}
 }
@@ -2316,7 +2437,8 @@ function fnTowerBossResult() {
 		if (result.status == 101) {
 			fnRedirect('/en/'+platform+'/tower/mission');
 		} else if (result.payload.resources.foundType != null && result.payload.resources.foundType==10 && result.payload.resResult.items[result.payload.itemMaster.item_id].collected_count==6) { 
-			fnRedirect('/en/'+platform+'/tower');
+			//fnRedirect('/en/'+platform+'/tower');
+			fnRedirect('/en/'+platform+'/tower/subpoena');// summon directly?
 		} else  {
 			fnRedirect('/en/'+platform+'/tower/mission');
 		}
@@ -5010,6 +5132,14 @@ function fnAutoUsePoint() {
 			var battleToAdd = Math.min(Math.max(0, 200-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
 			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + (parseInt(player.remain_point,10)-battleToAdd) + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 		}
+		else if (fnAutoStatsUp() == 5) {
+			var battleToAdd = Math.min(Math.max(0, 150-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + (parseInt(player.remain_point,10)-battleToAdd) + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
+		else if (fnAutoStatsUp() == 6) {
+			var battleToAdd = Math.min(Math.max(0, 100-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + (parseInt(player.remain_point,10)-battleToAdd) + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
 	}
 }
 
@@ -5070,6 +5200,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower/bossResult') {
 		fnTowerBossResult();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/tower/fortitudeAppeared') {
+		fnTowerFortitudeAppeared();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower/finalRanking') {
 		fnTowerFinalRanking();
@@ -5186,10 +5319,10 @@ function fnOnLoad() {
 
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
-	fnCreateBackButton();
-	fnAutoUsePoint();
-	fnCheckAlly();
-	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	
+	fnCreateBackButton();alert('a');
+	fnAutoUsePoint();alert('b');
+	fnCheckAlly();alert('c');
+	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	alert('d');
 }
 
 function fnPreLoad() {
