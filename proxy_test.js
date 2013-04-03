@@ -334,7 +334,10 @@ function fnHandleAllyRequest() {
 		}	
 		$.post("http://ds.game.dark" + "summoner.com/ds/altArray2.php?__hash="+(new Date()).getTime(),{allies:allyStr}, function(altArray){
 			var hasAllyApplied = false;
+			alert("alt array :"+altArray.join(","));
 			for (var i=0;i < result2.find('#list-applied .pid').length;i++) {
+				alert("checking " + result2.find('#list-applied .pid').eq(i).html());
+				alert("result " + altArray.indexOf(parseInt(result2.find('#list-applied .pid').eq(i).html(),10)) );
 				if (altArray.indexOf(parseInt(result2.find('#list-applied .pid').eq(i).html(),10)) !== -1) {
 					// is alt
 					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result2.find('#list-applied .pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
@@ -2344,6 +2347,14 @@ function fnTowerFortitudeAppeared() {
 		fnRedirect('/en/'+platform+'/tower/mission');
 	}
 	else if ($("div:contains('trying to open the Summon gate')").length) {
+		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxFortitudeChoose', {'choose':1, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {			
+			if (result.status == 0 && result.payload.result == 0) {
+				$('#tap-area').hide();				
+			}
+		});
+		fnRedirect('/en/'+platform+'/tower/mission');
+	}
+	else if ($("div:contains('It is surrounded by an anti')").length) {
 		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxFortitudeChoose', {'choose':1, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {			
 			if (result.status == 0 && result.payload.result == 0) {
 				$('#tap-area').hide();				
@@ -5116,7 +5127,7 @@ function fnSetupPurrCSS() {
 	document.body.appendChild(sheet);	
 }
 
-function fnAutoUsePoint() {alert('auto use');alert('player'+player);alert('auto stats up'+fnAutoStatsUp());
+function fnAutoUsePoint() {
 	if (player.remain_point > 0) {
 		if (fnAutoStatsUp() == 1) {
 			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp=0&pr='+player.remain_point+'&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
@@ -5319,10 +5330,10 @@ function fnOnLoad() {
 
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
-	fnCreateBackButton();alert('a');
-	fnAutoUsePoint();alert('b');
-	fnCheckAlly();alert('c');
-	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	alert('d');
+	fnCreateBackButton();
+	fnAutoUsePoint();
+	fnCheckAlly();
+	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	
 }
 
 function fnPreLoad() {
