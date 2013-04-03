@@ -334,10 +334,7 @@ function fnHandleAllyRequest() {
 		}	
 		$.post("http://ds.game.dark" + "summoner.com/ds/altArray2.php?__hash="+(new Date()).getTime(),{allies:allyStr}, function(altArray){
 			var hasAllyApplied = false;
-			alert("alt array :"+altArray.join(","));
 			for (var i=0;i < result2.find('#list-applied .pid').length;i++) {
-				alert("checking " + result2.find('#list-applied .pid').eq(i).html());
-				alert("result " + altArray.indexOf(parseInt(result2.find('#list-applied .pid').eq(i).html(),10)) );
 				if (altArray.indexOf(parseInt(result2.find('#list-applied .pid').eq(i).html(),10)) !== -1) {
 					// is alt
 					$.ajax_ex(false, '/en/'+platform+'/friends/operation?pid='+result2.find('#list-applied .pid').eq(i).html()+'&cmd=accept', {},function(result) {return;}) ;
