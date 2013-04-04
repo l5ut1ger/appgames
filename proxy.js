@@ -1469,7 +1469,7 @@ function fnFriendActionGiftFormation() {
 	}
 	$.ajax_ex(false, '/en/'+platform+'/fusion/list?types=0&sort=14&api=json', {}, function(result) {
 		giftList = [];
-		var result_array = {"l1":"0", "l2":"0", "l3":"0", "l4":"0", "l5":"0"};
+		var result_array = {"l1":0, "l2":0, "l3":0, "l4":0, "l5":0};
 		for (var i=0;i<result.payload.length;i++) {
 			if (result.payload[i].location > 0) {
 				giftList.push('2:'+result.payload[i].unique_no+':1');				
@@ -1490,19 +1490,19 @@ function fnFriendActionGiftFormation() {
 				}
 				if (!usedInTeam) {
 					if (result_array['l'+(j+1)] == 0) {
-						if (totalBP + result.payload[i].bp <= player.bp_max) { 
+						if (totalBP + parseInt(result.payload[i].bp,10) <= parseInt(player.bp_max,10)) { 
 							result_array['l'+(j+1)] = result.payload[i].unique_no;
 							result_array['l'+(j+1)+'level'] = result.payload[i].lv;
 							result_array['l'+(j+1)+'skillLevel'] = result.payload[i].skill_lv;
 							result_array['l'+(j+1)+'bp'] = result.payload[i].bp;
-							totalBP += result.payload[i].bp;
+							totalBP += parseInt(result.payload[i].bp,10);
 						}
 					}
 					else {
 						if (parseInt(result.payload[i].lv,10) > parseInt(result_array['l'+(j+1)+'level'],10) || (parseInt(result.payload[i].lv, 10) == parseInt(result_array['l'+(j+1)+'level'],10) && parseInt(result.payload[i].skill_lv,10) > parseInt(result_array['l'+(j+1)+'skillLevel'], 10)) || (parseInt(result.payload[i].lv, 10) == parseInt(result_array['l'+(j+1)+'level'],10) && parseInt(result.payload[i].skill_lv, 10) == parseInt(result_array['l'+(j+1)+'skillLevel'],10) && parseInt(result.payload[i].bp,10) > parseInt(result_array['l'+(j+1)+'bp'], 10))) {
-							if (totalBP - result_array['l'+(j+1)+'bp'] + result.payload[i].bp <= player.bp_max) { 
+							if (totalBP - parseInt(result_array['l'+(j+1)+'bp'],10) + parseInt(result.payload[i].bp,10) <= parseInt(player.bp_max,10)) { 
 								totalBP -= result_array['l'+(j+1)+'bp'];
-								result_array['l'+(j+1)] = result.payload[i].unique_no;
+								result_array['l'+(j+1)] = parseInt(result.payload[i].unique_no,10);
 								result_array['l'+(j+1)+'level'] = result.payload[i].lv;
 								result_array['l'+(j+1)+'skillLevel'] = result.payload[i].skill_lv;
 								result_array['l'+(j+1)+'bp'] = result.payload[i].bp;
