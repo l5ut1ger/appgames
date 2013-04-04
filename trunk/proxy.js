@@ -4106,6 +4106,36 @@ function fnAuctionDetail() {
 
 // present box
 
+function fnPresentBoxReceiveAllGoodiesPerPage(pPage) {
+	fnGrowl('Receiving Page ' + pPage);
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {
+			if (boxes[i].permanent_type == 3) {
+				onReceive(null, boxes[i]);
+			}
+			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 5) {
+				onReceive(null, boxes[i]);
+				fnGrowl("Receiving " + boxes[i].monster_name);
+			}
+			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 3 && boxes[i].monster_bp ==1) {
+				onReceive(null, boxes[i]);
+				fnGrowl("Receiving " + boxes[i].monster_name);
+			}
+		}
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxReceiveAllGoodiesPerPage,500,pPage-1);
+		}
+	});
+}
+
+function fnPresentBoxReceiveAllGoodies() {
+	fnGrowl("Receiving...");
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxReceiveAllGoodiesPerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
 function fnPresentBoxReceiveAllItemsPerPage(pPage) {
 	fnGrowl('Receiving Page ' + pPage);
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
@@ -4372,6 +4402,9 @@ function fnPresentBoxAction(pValue) {
 	if (pValue == "allItems") {
 		fnPresentBoxReceiveAllItems();
 	}
+	else if (pValue == "allGoodies") {
+		fnPresentBoxReceiveAllGoodies();
+	}
 	else if (pValue == "all100kGold") {
 		fnPresentBoxReceiveAll100kGold();
 	}
@@ -4419,6 +4452,7 @@ function fnPresentBox() {
 		divTag.style.position = "relative"; 
 		
 		var selectorHTML = '<select name="giftBox" onchange="fnPresentBoxAction(this.options[this.options.selectedIndex].value);"><option selected value="0">Gift Box Action</option>';
+		selectorHTML += '<option value="allGoodies">Receive Goodies</option>';
 		selectorHTML += '<option value="allItems">Receive Items</option>';
 		selectorHTML += '<option value="all100kGold">Receive <100k$</option>';
 		selectorHTML += '<option value="allAAs">Receive AA/+</option>';
