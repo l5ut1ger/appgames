@@ -931,7 +931,7 @@ function fnSkypeClanSelectorOption(pDefault) {
 	option += '<option value="2747200019" ' + (pDefault=="2747200019"?"selected":"") + '>Getr3kt</option>';
 	option += '<option value="2578795263" ' + (pDefault=="2578795263"?"selected":"") + '>Joe</option>';
 	//option += '<option value="2121751804" ' + (pDefault=="2121751804"?"selected":"") + '>Josh</option>';
-	option += '<option value="2337077116" ' + (pDefault=="2337077116"?"selected":"") + '>devistator(Josh)</option>';
+	//option += '<option value="2337077116" ' + (pDefault=="2337077116"?"selected":"") + '>devistator(Josh)</option>';
 	option += '<option value="2993558878" ' + (pDefault=="2993558878"?"selected":"") + '>mr_saving</option>';
 	//option += '<option value="1806070535" ' + (pDefault=="1806070535"?"selected":"") + '>Kissy</option>';
 	option += '<option value="2656724949" ' + (pDefault=="2656724949"?"selected":"") + '>Kissy</option>';
@@ -4439,7 +4439,7 @@ function fnPresentBox() {
 }
 
 // add my item gifting/trading
-function fnGiftMyItems() {
+function fnGiftMyItems() {return;//disabling gift my items as it doesn't work anymore.
 	if (typeof(items) !== 'undefined' && items != null) {
 		$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 			if ( (data == null) || (data.status != 0) ) { return; }
