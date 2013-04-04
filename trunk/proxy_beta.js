@@ -1449,13 +1449,8 @@ function fnFriendActionGiftProg() {
 			}
 			if (giftList.length > 0) {
 				fnSetGiftCookies(giftList.join(fnGetSeparator()));	
-				
-				$.ajax_ex(false, document.getElementById('do_present').getAttribute('href'), {},function(result) {return;});
-				var itemArray = fnGiftCookies().split(fnGetSeparator());
-				var itemResultArray = itemArray.splice(0,1);
-				fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-				var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
-				fnRedirect(link);
+				setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+				setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
 			}
 			else {
 				alert("You have no prog left.");
@@ -1528,13 +1523,8 @@ function fnFriendActionGiftFormation() {
 		
 		if (giftList.length > 0) {
 			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
-			
-			$.ajax_ex(false, document.getElementById('do_present').getAttribute('href'), {},function(result) {return;});
-			var itemArray = fnGiftCookies().split(fnGetSeparator());
-			var itemResultArray = itemArray.splice(0,1);
-			fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-			var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
-			fnRedirect(link);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
 		}
 	});
 }
@@ -1554,13 +1544,8 @@ function fnFriendActionGiftSoul() {
 		}
 		if (giftList.length > 0) {
 			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
-			
-			$.ajax_ex(false, document.getElementById('do_present').getAttribute('href'), {},function(result) {return;});
-			var itemArray = fnGiftCookies().split(fnGetSeparator());
-			var itemResultArray = itemArray.splice(0,1);
-			fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-			var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
-			fnRedirect(link);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
 		}
 		else {
 			alert("You have no soul left. LOL.");
@@ -1588,13 +1573,8 @@ function fnFriendActionGiftStacked() {
 		}
 		if (giftList.length > 0) {
 			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
-			
-			$.ajax_ex(false, document.getElementById('do_present').getAttribute('href'), {},function(result) {return;});
-			var itemArray = fnGiftCookies().split(fnGetSeparator());
-			var itemResultArray = itemArray.splice(0,1);
-			fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-			var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
-			fnRedirect(link);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
 		}
 		else {
 			alert("You have no stacked(4) B/B+/A/A+");
@@ -1625,13 +1605,8 @@ function fnFriendActionGiftGuildDown() {
 		}
 		if (giftList.length > 0) {
 			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
-			
-			$.ajax_ex(false, document.getElementById('do_present').getAttribute('href'), {},function(result) {return;});
-			var itemArray = fnGiftCookies().split(fnGetSeparator());
-			var itemResultArray = itemArray.splice(0,1);
-			fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-			var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
-			fnRedirect(link);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
 		}
 		else {
 			alert("You have no " + skillArray[pSkillID] + " B/B+/A/A+");
@@ -1662,13 +1637,8 @@ function fnFriendActionGiftSpeciesDown() {
 		}
 		if (giftList.length > 0) {
 			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
-			
-			$.ajax_ex(false, document.getElementById('do_present').getAttribute('href'), {},function(result) {return;});
-			var itemArray = fnGiftCookies().split(fnGetSeparator());
-			var itemResultArray = itemArray.splice(0,1);
-			fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-			var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
-			fnRedirect(link);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
 		}
 		else {
 			alert("You have no " + skillArray[pSkillID] + " B/B+/A/A+");
@@ -1696,13 +1666,8 @@ function fnFriendActionGiftSkill(pSkillID) {
 		}
 		if (giftList.length > 0) {
 			fnSetGiftCookies(giftList.join(fnGetSeparator()));	
-			
-			$.ajax_ex(false, document.getElementById('do_present').getAttribute('href'), {},function(result) {return;});
-			var itemArray = fnGiftCookies().split(fnGetSeparator());
-			var itemResultArray = itemArray.splice(0,1);
-			fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-			var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
-			fnRedirect(link);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href'));}, 6000);
 		}
 		else {
 			alert("You have no " + skillArray[pSkillID] + " B/B+/A");
@@ -1723,13 +1688,8 @@ function fnFriendActionGiftAllItems() {
 		}
 		if (items.length > 0) {
 			fnSetGiftCookies(items.join(fnGetSeparator()));
-			
-			$.ajax_ex(false, document.getElementById('do_present').getAttribute('href'), {},function(result) {return;});
-			var itemArray = fnGiftCookies().split(fnGetSeparator());
-			var itemResultArray = itemArray.splice(0,1);
-			fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-			var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
-			fnRedirect(link);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
 		}
 		else {
 			alert("You have no items left");
@@ -1777,13 +1737,8 @@ function fnFriendActionGiftSummons() {
 		}
 		if (items.length > 0) {
 			fnSetGiftCookies(items.join(fnGetSeparator()));	
-			
-			$.ajax_ex(false, document.getElementById('do_present').getAttribute('href'), {},function(result) {return;});
-			var itemArray = fnGiftCookies().split(fnGetSeparator());
-			var itemResultArray = itemArray.splice(0,1);
-			fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-			var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
-			fnRedirect(link);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
+			setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
 		}
 		else {
 			alert("You have no major summons left");
@@ -1837,14 +1792,9 @@ function fnFriendActionGiftItemsAndSummons() {
 				}
 			}
 			if (giftList.length > 0) {
-				fnSetGiftCookies(giftList.join(fnGetSeparator()));
-				
-				$.ajax_ex(false, document.getElementById('do_present').getAttribute('href'), {},function(result) {return;});
-				var itemArray = fnGiftCookies().split(fnGetSeparator());
-				var itemResultArray = itemArray.splice(0,1);
-				fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-				var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
-				fnRedirect(link);
+				fnSetGiftCookies(giftList.join(fnGetSeparator()));	
+				setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 1000);
+				setTimeout(function(){$.redirect(document.getElementById('do_present').getAttribute('href')+"&name="+encodeURIComponent(friendship.nickname));}, 6000);
 			}
 			else {
 				alert("You have no items & major summons left");
@@ -4562,33 +4512,13 @@ function fnPresentConfirm() {
 	$('#present-cancel').unbind('click');
 	$('#present-cancel').click(function(){
 		$('#present-cancel').unbind('click');
-		if (fnGiftCookies() != 0) {
-			$.ajax_ex(false, '/en/'+platform+'/present/suggest?&name='+fnReferrerQueryString('name'), {},function(result) {return;});
-			var itemArray = fnGiftCookies().split(fnGetSeparator());
-			var itemResultArray = itemArray.splice(0,1);
-			fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-			var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
-			fnRedirect(link);
-		}
-		else {
-			$.redirect('/en/'+platform+'/present/suggest?&name='+fnReferrerQueryString('name'));
-		}
+		$.redirect('/en/'+platform+'/present/suggest?&name='+fnReferrerQueryString('name'));
 	});
 	$('#present-commit').unbind('click');
 	$('#present-commit').click(function(){
 		$('#present-commit').unbind('click');
-		if (fnGiftCookies() != 0) {
-			$.ajax_ex(false, '/en/'+platform+'/present/suggest?&name='+fnReferrerQueryString('name'), {},function(result) {return;});
-			var itemArray = fnGiftCookies().split(fnGetSeparator());
-			var itemResultArray = itemArray.splice(0,1);
-			fnSetGiftCookies(itemArray.join(fnGetSeparator()));
-			var link = '/en/'+platform+'/present/confirm?ctg='+itemResultArray[0].split(":")[0]+"&pid="+itemResultArray[0].split(":")[1] + (itemResultArray[0].split(":").length>2?("&amt=" + itemResultArray[0].split(":")[2]):"");
-			fnRedirect(link);
-		}
-		else {
-			$.ajax_ex(false, '/en/'+platform+'/present/request', { msg:$('#present-comment').val() },function(result) {return;}) ;
-			$.redirect('/en/'+platform+'/present/suggest?&name='+fnReferrerQueryString('name'));
-		}
+		$.ajax_ex(false, '/en/'+platform+'/present/request', { msg:$('#present-comment').val() },function(result) {return;}) ;
+		$.redirect('/en/'+platform+'/present/suggest?&name='+fnReferrerQueryString('name'));
 	});
 
 	if (fnReferrerQueryString('name') != '') {
