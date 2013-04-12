@@ -5048,7 +5048,7 @@ function fnTutorialStartPage() {
 // rookie quest
 
 function fnRookieQuest() {
-	fnRedirect('/en/'+platform+'/home?__sc=');
+	//fnRedirect('/en/'+platform+'/home?__sc=');
 }
 
 // login Stamp
