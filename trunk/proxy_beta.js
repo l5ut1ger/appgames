@@ -4211,7 +4211,7 @@ function fnPresentBoxReceiveAllSacsPerPage(pPage) {
 		var boxes = data.payload.boxes;
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 2) {
-				if (sacSkillList.indexOf(parseInt(boxes[i].skill_id,10)) !== -1) {
+				if (sacSkillList.indexOf(parseInt(boxes[i].skill_id,10)) !== -1 && parseInt(boxes[i].monster_grade,10) <= 4) {
 					onReceive(null, boxes[i]);
 					fnGrowl("Receiving " + boxes[i].monster_name);
 				}
