@@ -9,6 +9,7 @@ var progressionList=[50113, 53113, 56113];
 var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "Revive", "16": "Pre-Strike", "17": "DEA", "20": "DED", "24": "Agility", "27": "Critical", "30": "Dodge", "37": "Venom", "47": "HellBlaze", "50": "Artic", "53": "Lightning", "57": "Health", "58": "ImpDown", "59": "CovDown", "60": "PsyDown", "61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
 var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
+var sacSkillList=[0,7,10,13,16,24,30,37];
 var syncCount = 0;
 var serverCookieInterval=0;;
 // Tools
@@ -4203,6 +4204,31 @@ function fnPresentBoxReceiveAll_1bp_A() {
 		setTimeout(fnPresentBoxReceiveAll_1bp_APerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
 }
+
+function fnPresentBoxReceiveAllSacsPerPage(pPage) {
+	fnGrowl('Receiving Page ' + pPage);
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {
+			if (boxes[i].permanent_type == 2) {
+				if (sacSkillList.indexOf(parseInt(boxes[i].skill_id,10)) !== -1 && parseInt(boxes[i].monster_grade,10) <= 4) {
+					onReceive(null, boxes[i]);
+					fnGrowl("Receiving " + boxes[i].monster_name);
+				}
+			}
+		}
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxReceiveAllSacsPerPage,500,pPage-1);
+		}
+	});
+}
+
+function fnPresentBoxReceiveAllSacs() {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxReceiveAllSacsPerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
 function fnPresentBoxReceiveAll20sPerPage(pPage) {
 	fnGrowl('Receiving Page ' + pPage);
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
@@ -4327,12 +4353,7 @@ function fnPresentBoxReceiveAllSkillPerPage(pPage) {
 			if (boxes[i].permanent_type == 2) {
 				if (parseInt(boxes[i].skill_id,10) > 0) {
 					onReceive(null, boxes[i]);
-					if (boxes[i].monster_grade > 5) {
-						fnGrowl("Receiving " + boxes[i].monster_name);
-					}
-					else {
-						fnGrowl("Receiving " + boxes[i].monster_name);
-					}
+					fnGrowl("Receiving " + boxes[i].monster_name);
 				}
 			}
 		}
@@ -4356,12 +4377,7 @@ function fnPresentBoxReceiveSkillPerPage(pPage, pSkill) {
 			if (boxes[i].permanent_type == 2) {
 				if (parseInt(boxes[i].skill_id,10) == parseInt(pSkill,10)) {
 					onReceive(null, boxes[i]);
-					if (boxes[i].monster_grade > 5) {
-						fnGrowl("Receiving " + boxes[i].monster_name);
-					}
-					else {
-						fnGrowl("Receiving " + boxes[i].monster_name);
-					}
+					fnGrowl("Receiving " + boxes[i].monster_name);
 				}
 			}
 		}
@@ -4415,6 +4431,9 @@ function fnPresentBoxAction(pValue) {
 	else if (pValue == "all1bpA") {
 		fnPresentBoxReceiveAll_1bp_A();
 	}
+	else if (pValue == "allSacs") {
+		fnPresentBoxReceiveAllSacs();
+	}
 	else if (pValue == "all20s") {
 		fnPresentBoxReceiveAll20s();
 	}
@@ -4458,6 +4477,7 @@ function fnPresentBox() {
 		selectorHTML += '<option value="all100kGold">Receive <100k$</option>';
 		selectorHTML += '<option value="allAAs">Receive AA/+</option>';
 		selectorHTML += '<option value="all1bpA">Receive 1BP A/+</option>';
+		selectorHTML += '<option value="allSacs">Receive Sacs</option>';
 		selectorHTML += '<option value="all20s">Receive 20+BP</option>';
 		selectorHTML += '<option value="all25s">Receive 25+BP</option>';
 		selectorHTML += '<option value="allSkill">Receive All Skill</option>';
