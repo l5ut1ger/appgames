@@ -633,32 +633,32 @@ function fnSetIsBattlingMcFly(value, upload) {
 
 // ForkRoad Mission Team
 
-var forkRoadMissionTeamKey = 'frMT';
+var eventMissionTeamKey = 'frMT';
 
-function fnForkRoadMissionTeam() {
-	if(fnGetCookie(forkRoadMissionTeamKey) === null) {
-		fnSetForkRoadMissionTeam('', 0);
+function fnEventMissionTeam() {
+	if(fnGetCookie(eventMissionTeamKey) === null) {
+		fnSetEventMissionTeam('', 0);
 	}
-	return fnGetCookie(forkRoadMissionTeamKey);
+	return fnGetCookie(eventMissionTeamKey);
 }
 
-function fnSetForkRoadMissionTeam(value, upload) {
+function fnSetEventMissionTeam(value, upload) {
 	if(upload != 0) { upload = 1;}
-	fnSetCookie(forkRoadMissionTeamKey, value, upload);
+	fnSetCookie(eventMissionTeamKey, value, upload);
 }
 
-var forkRoadBattleTeamKey = 'frBT';
+var eventBattleTeamKey = 'frBT';
 
-function fnForkRoadBattleTeam() {
-	if(fnGetCookie(forkRoadBattleTeamKey) === null) {
-		fnSetForkRoadBattleTeam('', 0);
+function fnEventBattleTeam() {
+	if(fnGetCookie(eventBattleTeamKey) === null) {
+		fnSetEventBattleTeam('', 0);
 	}
-	return fnGetCookie(forkRoadBattleTeamKey);
+	return fnGetCookie(eventBattleTeamKey);
 }
 
-function fnSetForkRoadBattleTeam(value, upload) {
+function fnSetEventBattleTeam(value, upload) {
 	if(upload != 0) { upload = 1;}
-	fnSetCookie(forkRoadBattleTeamKey, value, upload);
+	fnSetCookie(eventBattleTeamKey, value, upload);
 }
 
 var forkRoadStayKey = 'frStay';
@@ -2479,9 +2479,9 @@ function fnFixForkRoadMissionProcess() {
 			}
 			else if (result.status == 4) {
 				// switch to battle
-				if (fnForkRoadMissionTeam() != null && fnForkRoadBattleTeam() != null && parseInt(player.bp, 10) >= 1) {
+				if (fnEventMissionTeam() != null && fnEventBattleTeam() != null && parseInt(player.bp, 10) >= 1) {
 					clearInterval(missionInterval);
-					fnDeckChangeAdvance(fnForkRoadBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad/list');});
+					fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad/list');});
 					fnRedirect('/en/'+platform+'/forkroad/list');
 					return;
 				}
@@ -2696,17 +2696,17 @@ function fnForkRoad() {return;
 	divTag.id = "frDiv";
 
 	var aFormationArray = fnGetFormationArray();
-	var missionTeamSelectorHTML =  'Mission Team:<select name="boss" onchange="fnSetForkRoadMissionTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Mission Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnForkRoadMissionTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	var missionTeamSelectorHTML =  'Mission Team:<select name="boss" onchange="fnSetEventMissionTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Mission Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnEventMissionTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		missionTeamSelectorHTML+='<option ' + (fnForkRoadMissionTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		missionTeamSelectorHTML+='<option ' + (fnEventMissionTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	missionTeamSelectorHTML+='</select><br/>'; 
 
-	var battleTeamSelectorHTML =  'Battle Team<select name="prog" onchange="fnSetForkRoadBattleTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Battle Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonProgTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	var battleTeamSelectorHTML =  'Battle Team<select name="prog" onchange="fnSetEventBattleTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Battle Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonProgTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
 	for (i=0;i<aFormationArray.length;i++) {
 		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		battleTeamSelectorHTML+='<option ' + (fnForkRoadBattleTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+		battleTeamSelectorHTML+='<option ' + (fnEventBattleTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	battleTeamSelectorHTML+='</select><br/>'; 
 	
@@ -2767,17 +2767,17 @@ function fnForkRoadRedirection() {
 			return;
 		}
 	}
-	if (fnForkRoadBattleTeam() != null) {
+	if (fnEventBattleTeam() != null) {
 		// if have enough bp, change to battle team to battle;
 		if (parseInt(player.deck_total_bp,10) > 1 && parseInt(player.bp,10) >= 10) {
-			fnDeckChangeAdvance(fnForkRoadBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad');});
+			fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad');});
 			fnRedirect('/en/'+platform+'/forkroad');
 			return;
 		}
 	}
-	if (fnForkRoadMissionTeam() != null && parseInt(player.deck_total_bp,10) == 1) {
+	if (fnEventMissionTeam() != null && parseInt(player.deck_total_bp,10) == 1) {
 		// change to high bp team to look legit, and do mission if have power
-		fnDeckChangeAdvance(fnForkRoadMissionTeam(), false, function(){});
+		fnDeckChangeAdvance(fnEventMissionTeam(), false, function(){});
 	}
 	if (parseInt(player.power, 10) >= 20) {
 		fnRedirect('/en/'+platform+'/forkroad/mission');
@@ -2798,7 +2798,7 @@ function fnForkRoadAutoDrink(pRedirect) {
 	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
-		if (fnForkRoadBattleTeam() != null) {
+		if (fnEventBattleTeam() != null) {
 			for (var j=0;j<items.length;j++) {
 				if (items[j].item_id == 3024) { // consume my 100 elixir
 					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
@@ -2828,7 +2828,7 @@ function fnForkRoadAutoDrink(pRedirect) {
 				return;
 			}
 		}
-		if (fnForkRoadBattleTeam() != null) {
+		if (fnEventBattleTeam() != null) {
 			for (var j=0;j<items.length;j++) {
 				if (items[j].item_id == 3011) { // consum elixir
 					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
@@ -2903,25 +2903,82 @@ function fnForkRoadSummon() {
 
 // cemetery
 
+function fnCemetery() {
+	var divTag = document.createElement("div");
+	divTag.id = "frDiv";
+
+	var aFormationArray = fnGetFormationArray();
+	var missionTeamSelectorHTML =  'Mission Team:<select name="boss" onchange="fnSetEventMissionTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Mission Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnEventMissionTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		missionTeamSelectorHTML+='<option ' + (fnEventMissionTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	missionTeamSelectorHTML+='</select><br/>'; 
+
+	var battleTeamSelectorHTML =  'Battle Team<select name="prog" onchange="fnSetEventBattleTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Battle Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonProgTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		battleTeamSelectorHTML+='<option ' + (fnEventBattleTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	battleTeamSelectorHTML+='</select><br/>'; 
+	
+	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnAutoBP(),10)==3043?'selected':'') + ' value="3043">My 100 BP</option><option ' + (parseInt(fnAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3024?'selected':'') + ' value="3024">My 100 Elixir</option></select><br/>';	
+	
+	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;
+	document.body.appendChild(divTag);
+	
+	if (parseInt(player.bp, 10) <= 1) {
+		fnPresentBoxReceiveAllItems();
+	}
+}
+
 function fnCemeteryMission() {
-	// check sins orb
-	/*if (parseInt($('.bottle_1').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
-		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=1&aid='+areaId+'&skip=0&event=7');
+
+	if (parseInt(player.deck_total_bp, 10) > 1 && fnEventMissionTeam() != null && fnEventBattleTeam() != null && parseInt(player.bp, 10) >= 10) {
+		fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/cemetery/mission');});
+		fnRedirect('/en/'+platform+'/cemetery/mission');
 		return;
 	}
-	// check rancor orb
-	if (parseInt($('.bottle_2').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
-		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=2&aid='+areaId+'&skip=0&event=7');
+	
+	var sinsOrb = parseInt($('.bottle_1').find('.orb_text_value').eq(0).html(),10);
+	var rancorOrb = parseInt($('.bottle_2').find('.orb_text_value').eq(0).html(),10);
+	var tyrannyOrb = parseInt($('.bottle_3').find('.orb_text_value').eq(0).html(),10);
+	
+	if (parseInt(player.deck_total_bp, 10) == 1 && parseInt(player.bp, 10) >= 1) {		
+		// check sins orb
+		if (sinsOrb < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10) || (sinsOrb <= rancorOrb && sinsOrb <= tyrannyOrb)) {
+			fnRedirect('/en/'+platform+'/battle/battleact?pid='+sinsCemeteryBattleList[Math.floor(Math.random()*sinsCemeteryBattleList.length)]+'&skip=1&event=6');
+			return;
+		}
+		// check rancor orb
+		if (rancorOrb < parseInt($('.bottle_2').find('.orb_text_base').eq(0).html().substr(2),10) || rancorOrb <= tyrannyOrb) {
+			fnRedirect('/en/'+platform+'/battle/battleact?pid='+rancorCemeteryBattleList[Math.floor(Math.random()*rancorCemeteryBattleList.length)]+'&skip=1&event=6');
+			return;
+		}
+		// check tyranny orb
+		if (true || tyrannyOrb < parseInt($('.bottle_3').find('.orb_text_base').eq(0).html().substr(2),10)) {
+			fnRedirect('/en/'+platform+'/battle/battleact?pid='+tyrannyCemeteryBattleList[Math.floor(Math.random()*tyrannyCemeteryBattleList.length)]+'&skip=1&event=6');
+			return;
+		}
+	}
+	
+	if (parseInt(player.deck_total_bp, 10) == 1 && fnEventMissionTeam() != null) {
+		fnDeckChangeAdvance(fnEventMissionTeam(), false, function(){fnRedirect('/en/'+platform+'/cemetery/mission');});
+		fnRedirect('/en/'+platform+'/cemetery/mission');
 		return;
 	}
-	// check tyranny orb
-	if (parseInt($('.bottle_3').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
-		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=3&aid='+areaId+'&skip=0&event=7');
-		return;
-	}*/
 	
 	if (parseInt(missionMaster.is_gate,10)) {
-		fnRedirect('/en/'+platform+'/cemetery/openGate?open_gate=' + missionMaster.mission_id);
+		if (sinsOrb >= parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10) && rancorOrb >= parseInt($('.bottle_2').find('.orb_text_base').eq(0).html().substr(2),10) && tyrannyOrb >= parseInt($('.bottle_3').find('.orb_text_base').eq(0).html().substr(2),10)) {
+			fnRedirect('/en/'+platform+'/cemetery/openGate?open_gate=' + missionMaster.mission_id);
+		}
+		else if (parseInt(fnAutoBP(),10)) {
+			$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnAutoBP()}, function(data) {});
+			fnRedirect('/en/'+platform+'/cemetery/mission');
+		}
+		else{
+			setInterval(fnRedirect, 60000, '/en/'+platform+'/cemetery/mission');
+		}
 		return;
 	}
 	
@@ -3051,7 +3108,10 @@ function fnCemeteryBattleResult() {
 }
 
 // fnCemeteryBattleList
-var cemeteryBattleList=['2220539725','2274393881', '2582019965'];
+var sinsCemeteryBattleList=['2220539725'];//momma
+var rancorCemeteryBattleList=['1887003918'];//green
+var tyrannyCemeteryBattleList=['2521542356'];//everi
+var cemeteryBattleList = ['2220539725','1887003918','2521542356'];
 function fnCemeteryBattleList() {
 	if (parseInt(player.deck_total_bp, 10) == 1 && parseInt(player.bp, 10) >= 1) {
 		fnRedirect('/en/'+platform+'/battle/battleact?pid='+cemeteryBattleList[Math.floor(Math.random()*cemeteryBattleList.length)]+'&skip=1&event=6');
