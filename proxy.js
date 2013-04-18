@@ -2979,6 +2979,11 @@ function fnCemeteryMission() {
 			fnRedirect('/en/'+platform+'/cemetery/openGate?open_gate=' + missionMaster.mission_id);
 		}
 		else if (parseInt(fnAutoBP(),10)) {
+			if (parseInt(player.deck_total_bp, 10) > 1 && fnEventMissionTeam() != null && fnEventBattleTeam() != null && parseInt(player.bp, 10) >= 1) {
+				fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/cemetery/mission');});
+				fnRedirect('/en/'+platform+'/cemetery/mission');
+				return;
+			}
 			$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnAutoBP()}, function(data) {});
 			fnRedirect('/en/'+platform+'/cemetery/mission');
 		}
