@@ -3008,9 +3008,10 @@ function fnCemeteryMission() {
 				}
 			}
 
-			if (result.payload.process.clear) {
-				if (!mission.is_boss) {
-				}
+			if (result.payload.process.enemy_type) {
+				clearInterval(missionInterval);
+				fnRedirect('/en/'+platform+'/battle/battleact?pid=' + result.payload.process.enemy_type + '&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7');
+				return;
 			}
 		});
 
