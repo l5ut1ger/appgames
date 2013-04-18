@@ -3045,6 +3045,14 @@ function fnCemeteryBattleResult() {
 	fnRedirect('/en/'+platform+'/cemetery/mission');
 }
 
+// fnCemeteryBattleList
+
+function fnCemeteryBattleList() {
+	if (parseInt(player.deck_total_bp, 10) == 1 && parseInt(player.bp, 10) >= 1) {
+		fnRedirect('/en/'+platform+'/battle/battleact?pid='+forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)]+'&skip=1&event=6');
+	}
+}
+
 // fnSubjugationMission
 
 function fnSubjugation() {
@@ -5506,6 +5514,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/cemetery/battleResult') {
 		fnCemeteryBattleResult();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/cemetery/battleList') {
+		fnCemeteryBattleList();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/subjugation') {
 		fnSubjugation();
