@@ -2906,17 +2906,17 @@ function fnForkRoadSummon() {
 function fnCemeteryMission() {
 	// check sins orb
 	if (parseInt($('.bottle_1').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
-		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=1&aid=1&skip=1&event=7');
+		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=1&aid='+areaId+'&skip=0&event=7');
 		return;
 	}
 	// check rancor orb
 	if (parseInt($('.bottle_2').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
-		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=2&aid=1&skip=1&event=7');
+		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=2&aid='+areaId+'&skip=0&event=7');
 		return;
 	}
 	// check tyranny orb
 	if (parseInt($('.bottle_3').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
-		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=3&aid=1&skip=1&event=7');
+		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=3&aid='+areaId+'&skip=0&event=7');
 		return;
 	}
 	
@@ -3032,6 +3032,12 @@ function fnCemeteryMission() {
 // fnCemeteryOpenGate
 
 function fnCemeteryOpenGate() {
+	fnRedirect('/en/'+platform+'/cemetery/mission');
+}
+
+// fnCemeteryBattleResult
+
+function fnCemeteryBattleResult() {
 	fnRedirect('/en/'+platform+'/cemetery/mission');
 }
 
@@ -3871,6 +3877,9 @@ function fnBattleBattle() {
 	}
 	else if (document.referrer.indexOf('/forkroad/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad/battleResult');
+	}
+	else if (document.referrer.indexOf('/cemetery/mission') >= 0) {
+		fnRedirect('/en/'+platform+'/cemetery/battleResult');
 	}
 	else if (document.referrer.indexOf('/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/mission/battleResult');
@@ -5490,6 +5499,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/cemetery/openGate') {
 		fnCemeteryOpenGate();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/cemetery/battleResult') {
+		fnCemeteryBattleResult();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/subjugation') {
 		fnSubjugation();
