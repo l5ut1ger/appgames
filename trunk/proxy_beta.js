@@ -2998,6 +2998,7 @@ function fnCemeteryMission() {
 		}, function(result) {
 			if (result.status != 0) {
 				if (result.status == 901) {
+					clearInterval(missionInterval);
 					if (fnAutoDrink() == 1) {
 						var useEnergy100 = false;
 						for (var i=0;i<result.payload.recoverItems.length;i++) {
@@ -3029,19 +3030,16 @@ function fnCemeteryMission() {
 						else {
 							$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.recoverItems[0].item_id}, function(data) {});
 						}
-						if (fnGetGrindingSpeed() == 1) {
-							missionProcess();
-						}
+						fnRedirect('/en/'+platform+'/cemetery/mission');
 						return;
 					}
 					else {
-						clearInterval(missionInterval);
-						fnRedirect('/en/'+platform+'/cemetery');
+						setInterval(fnRedirect, 60000, '/en/'+platform+'/cemetery/mission');
 						return;
 					}
 				} else {
 					clearInterval(missionInterval);
-					fnRedirect('/en/'+platform+'/cemetery');
+					fnRedirect('/en/'+platform+'/cemetery/mission');
 					return;
 				}
 			}
