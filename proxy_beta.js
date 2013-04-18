@@ -3067,10 +3067,7 @@ function fnCemeteryMission() {
 
 			if (result.payload.process.enemy_type) {
 				clearInterval(missionInterval);
-				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid=' + result.payload.process.enemy_type + '&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7', { }, function(data) {});
-				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid=' + result.payload.process.enemy_type + '&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7', { }, function(data) {});
-				
-				//fnRedirect('/en/'+platform+'/battle/battleact?pid=' + result.payload.process.enemy_type + '&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7');
+				fnRedirect('/en/'+platform+'/battle/battleact?pid=' + result.payload.process.enemy_type + '&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7');
 				return;
 			}
 		});
@@ -3958,7 +3955,7 @@ function fnBattleBattle() {
 	else if (document.referrer.indexOf('/cemetery/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/cemetery/battleResult');
 	}
-	else if (document.referrer.indexOf('/cemetery/mission') >= 0) {
+	else if (document.referrer.indexOf('/cemetery/battleList') >= 0) {
 		fnRedirect('/en/'+platform+'/cemetery/battleResult');
 	}
 	else if (document.referrer.indexOf('/mission') >= 0) {
