@@ -2901,6 +2901,13 @@ function fnForkRoadSummon() {
 	fnRedirect('/en/'+platform+'/forkroad/list');
 }
 
+// cemetery
+
+function fnCemeteryMission() {
+	alert($('.bottle_1').find('.orb_text_value').eq(0).html());
+	alert($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2));
+}
+
 // fnSubjugationMission
 
 function fnSubjugation() {
@@ -5347,6 +5354,15 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/summon') {
 		fnForkRoadSummon();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/cemetery') {
+		fnCemetery();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/cemetery/mission') {
+		fnCemeteryMission();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/cemetery/openGate') {
+		fnCemeteryOpenGate();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/subjugation') {
 		fnSubjugation();
