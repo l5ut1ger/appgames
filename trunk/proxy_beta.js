@@ -3042,14 +3042,19 @@ function fnCemeteryOpenGate() {
 // fnCemeteryBattleResult
 
 function fnCemeteryBattleResult() {
-	fnRedirect('/en/'+platform+'/cemetery/mission');
+	if (document.referrer.indexOf('/cemetery/mission') >= 0) {
+		fnRedirect('/en/'+platform+'/cemetery/mission');
+	}
+	else if (document.referrer.indexOf('/cemetery/battleList') >= 0) {
+		fnRedirect('/en/'+platform+'/cemetery/battleList');
+	}
 }
 
 // fnCemeteryBattleList
-
+var cemeteryBattleList=['2220539725','2274393881', '2582019965'];
 function fnCemeteryBattleList() {
 	if (parseInt(player.deck_total_bp, 10) == 1 && parseInt(player.bp, 10) >= 1) {
-		fnRedirect('/en/'+platform+'/battle/battleact?pid='+forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)]+'&skip=1&event=6');
+		fnRedirect('/en/'+platform+'/battle/battleact?pid='+cemeteryBattleList[Math.floor(Math.random()*cemeteryBattleList.length)]+'&skip=1&event=6');
 	}
 }
 
@@ -3889,6 +3894,9 @@ function fnBattleBattle() {
 	}
 	else if (document.referrer.indexOf('/forkroad/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad/battleResult');
+	}
+	else if (document.referrer.indexOf('/cemetery/mission') >= 0) {
+		fnRedirect('/en/'+platform+'/cemetery/battleResult');
 	}
 	else if (document.referrer.indexOf('/cemetery/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/cemetery/battleResult');
