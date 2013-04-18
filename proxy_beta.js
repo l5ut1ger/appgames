@@ -2905,7 +2905,7 @@ function fnForkRoadSummon() {
 
 function fnCemeteryMission() {
 	// check sins orb
-	if (parseInt($('.bottle_1').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
+	/*if (parseInt($('.bottle_1').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
 		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=1&aid='+areaId+'&skip=0&event=7');
 		return;
 	}
@@ -2918,7 +2918,7 @@ function fnCemeteryMission() {
 	if (parseInt($('.bottle_3').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
 		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=3&aid='+areaId+'&skip=0&event=7');
 		return;
-	}
+	}*/
 	
 	if (parseInt(missionMaster.is_gate,10)) {
 		fnRedirect('/en/'+platform+'/cemetery/openGate?open_gate=' + missionMaster.mission_id);
