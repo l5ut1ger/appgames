@@ -3010,7 +3010,10 @@ function fnCemeteryMission() {
 
 			if (result.payload.process.enemy_type) {
 				clearInterval(missionInterval);
-				fnRedirect('/en/'+platform+'/battle/battleact?pid=' + result.payload.process.enemy_type + '&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7');
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid=' + result.payload.process.enemy_type + '&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7'), { }, function(data) {});
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid=' + result.payload.process.enemy_type + '&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7'), { }, function(data) {});
+				
+				//fnRedirect('/en/'+platform+'/battle/battleact?pid=' + result.payload.process.enemy_type + '&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7');
 				return;
 			}
 		});
