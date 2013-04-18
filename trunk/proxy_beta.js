@@ -2906,17 +2906,17 @@ function fnForkRoadSummon() {
 function fnCemeteryMission() {
 	// check sins orb
 	if (parseInt($('.bottle_1').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
-		fnRedirect('/en/'+platform+'/battle/battleact?pid=1&ptribe=1&aid=1&skip=1&event=7');
+		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=1&aid=1&skip=1&event=7');
 		return;
 	}
 	// check rancor orb
 	if (parseInt($('.bottle_2').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
-		fnRedirect('/en/'+platform+'/battle/battleact?pid=1&ptribe=2&aid=1&skip=1&event=7');
+		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=2&aid=1&skip=1&event=7');
 		return;
 	}
 	// check tyranny orb
 	if (parseInt($('.bottle_3').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
-		fnRedirect('/en/'+platform+'/battle/battleact?pid=1&ptribe=2&aid=1&skip=1&event=7');
+		fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe=3&aid=1&skip=1&event=7');
 		return;
 	}
 	
