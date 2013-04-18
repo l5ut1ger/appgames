@@ -2904,8 +2904,121 @@ function fnForkRoadSummon() {
 // cemetery
 
 function fnCemeteryMission() {
-	alert($('.bottle_1').find('.orb_text_value').eq(0).html());
-	alert($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2));
+	// check sins orb
+	if (parseInt($('.bottle_1').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
+		fnRedirect('/en/ios/battle/battleact?pid=1&ptribe=1&aid=1&skip=1&event=7');
+	}
+	// check rancor orb
+	if (parseInt($('.bottle_2').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
+		fnRedirect('/en/ios/battle/battleact?pid=1&ptribe=2&aid=1&skip=1&event=7');
+	}
+	// check tyranny orb
+	if (parseInt($('.bottle_3').find('.orb_text_value').eq(0).html(),10) < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) {
+		fnRedirect('/en/ios/battle/battleact?pid=1&ptribe=2&aid=1&skip=1&event=7');
+	}
+	
+	missionProcess = function() {
+
+		$.ajax_ex(false, '/en/ios/cemetery/process', {
+			'area_id'    : areaId,
+			'mission_id' : mission.last_mission_id,
+			api          : 'json', 
+			'__hash'     : ('' + (new Date()).getTime())
+		}, function(result) {
+			if (result.status != 0) {
+				if (result.status == 901) {
+					if (fnAutoDrink() == 1) {
+						var useEnergy100 = false;
+						for (var i=0;i<result.payload.recoverItems.length;i++) {
+							if (parseInt(result.payload.recoverItems[i].item_id,10)==3022) {
+								if (parseInt(player.power_max,10) <= 300 && (parseInt(player.next_exp,10) - parseInt(player.now_exp,10) < parseInt(result.payload.recoverItems[i].amount,10)  * 100)) {
+									// max energy too low, drink enenrgy100 to level up instead of full ep
+									useEnergy100 = true;
+									break;
+								}
+								if (parseInt(player.next_exp,10) - parseInt(player.now_exp,10) > parseInt(player.power_max,10)) {
+									// not close to level up, so drink full ep
+									break;
+								}
+								if (parseInt(player.next_exp,10) - parseInt(player.now_exp,10) > 400) {
+									// close to level up, but not going to spend five energy100 to level up, so drink full ep anyway
+									break;
+								}
+								if (parseInt(player.next_exp,10) - parseInt(player.now_exp,10) <= parseInt(result.payload.recoverItems[i].amount,10) * 100) {
+									// close to level up, and player has enough my energy 100 potion, drink enenrgy100 to level up instead of full ep
+									useEnergy100 = true;
+									break;
+								}
+								break;
+							}
+						}
+						if (useEnergy100) {
+							$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3022}, function(data) {});
+						}
+						else {
+							$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.recoverItems[0].item_id}, function(data) {});
+						}
+						if (fnGetGrindingSpeed() == 1) {
+							missionProcess();
+						}
+						return;
+					}
+					else {
+						clearInterval(missionInterval);
+						fnRedirect('/en/'+platform+'/cemetery');
+						return;
+					}
+				} else {
+					clearInterval(missionInterval);
+					fnRedirect('/en/'+platform+'/cemetery');
+					return;
+				}
+			}
+
+			mission = result.payload.mission;
+			$('#mission_progress').progressbar().setValue(result.payload.process.clear ? 100 : ~~mission.progress / 10);
+
+			// progress_text
+			$('#progress-value span').html((result.payload.process.clear ? 100 : ~~mission.progress / 10) + '%');
+
+			player = result.payload.player;
+			$.refreshStatus(false, null);
+
+			EfectMng.clear();
+			var processData = {
+				process : result.payload.process,
+				crack   : false, 
+				pot     : false, 
+				stairs  : result.payload.process.clear 
+			};
+
+			if (result.payload.process.clear) {
+				if (mission.is_gate) {
+					clearInterval(missionInterval);
+					EfectMng.push('reload', null);
+					return;
+				}
+			}
+
+			if (result.payload.process.clear) {
+				if (!mission.is_boss) {
+				}
+			}
+		});
+
+		return false; 
+	};	
+	
+	if (fnGetGrindingSpeed() == -1) {
+		// user press by himself, dont automate
+		return;
+	}
+	if (fnGetGrindingSpeed() == 1) {
+		missionProcess();
+	}
+	else {
+		missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
+	}
 }
 
 // fnSubjugationMission
