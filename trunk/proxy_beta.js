@@ -3074,7 +3074,16 @@ function fnCemeteryMission() {
 				clearInterval(missionInterval);
 				//fnRedirect('/en/'+platform+'/battle/battleact?pid=' + result.payload.process.enemy_type + '&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7');
 				//fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7');
-				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid=2&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+				//$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid=2&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+				if (sinsOrb <= rancorOrb && sinsOrb <= tyrannyOrb) {
+					$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid=2&ptribe=1&aid='+areaId+'&skip=1&event=7', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+				}
+				else if (rancorOrb <= tyrannyOrb) {
+					$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid=2&ptribe=2&aid='+areaId+'&skip=1&event=7', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+				}
+				else {
+					$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid=2&ptribe=3&aid='+areaId+'&skip=1&event=7', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+				}
 				fnRedirect('/en/'+platform+'/cemetery/mission');
 				return;
 			}
