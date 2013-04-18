@@ -3060,14 +3060,16 @@ function fnCemeteryMission() {
 			if (result.payload.process.clear) {
 				if (mission.is_gate) {
 					clearInterval(missionInterval);
-					fnRedirect('/en/'+platform+'/cemetery/openGate?open_gate=' + mission.current_mission_id);
+					//fnRedirect('/en/'+platform+'/cemetery/openGate?open_gate=' + mission.current_mission_id);
+					fnRedirect('/en/'+platform+'/cemetery/mission');
 					return;
 				}
 			}
 
 			if (result.payload.process.enemy_type) {
 				clearInterval(missionInterval);
-				fnRedirect('/en/'+platform+'/battle/battleact?pid=' + result.payload.process.enemy_type + '&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7');
+				//fnRedirect('/en/'+platform+'/battle/battleact?pid=' + result.payload.process.enemy_type + '&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7');
+				fnRedirect('/en/'+platform+'/battle/battleact?pid=2&ptribe='+ result.payload.process.enemy_tribe + '&aid='+areaId+'&skip=1&event=7');
 				return;
 			}
 		});
