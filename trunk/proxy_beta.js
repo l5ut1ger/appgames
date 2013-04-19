@@ -1140,7 +1140,7 @@ function fnProfileFixTabs() {
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 4000 ?'selected':'') + ' value="4000">Seems Legit</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 3000 ?'selected':'') + ' value="3000">Barely Legal</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 2000 ?'selected':'') + ' value="2000">Ferrari</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 2000 ?'selected':'') + ' value="2000">BoomOnBlow</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1000 ?'selected':'') + ' value="1000">CC Speed</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 500 ?'selected':'') + ' value="500">Too Fast</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 200 ?'selected':'') + ' value="200">Too Furious</option>';
@@ -1155,7 +1155,7 @@ function fnProfileFixTabs() {
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 6000 ?'selected':'') + ' value="6000">Legit</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 4000 ?'selected':'') + ' value="4000">Seems Legit</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 3000 ?'selected':'') + ' value="3000">Barely Legal</option>';
-	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 2000 ?'selected':'') + ' value="2000">Ferrari</option>';
+	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 2000 ?'selected':'') + ' value="2000">BoomOnBlow</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 1000 ?'selected':'') + ' value="1000">CC Speed</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 500 ?'selected':'') + ' value="500">Too Fast</option>';
 	grindSelectorHTML += '<option ' + (fnGetGrindingSpeed() == 200 ?'selected':'') + ' value="200">Too Furious</option>';
@@ -3128,9 +3128,9 @@ function fnCemeteryBattleResult() {
 
 // fnCemeteryBattleList
 var sinsCemeteryBattleList=['2220539725'];//momma
-var rancorCemeteryBattleList=['1887003918'];//green
-var tyrannyCemeteryBattleList=['2521542356'];//everi
-var cemeteryBattleList = ['2220539725','1887003918','2521542356'];
+var rancorCemeteryBattleList=['2552015020'];//max rebo
+var tyrannyCemeteryBattleList=['1414640721'];//IG-88
+var cemeteryBattleList = ['2220539725','2552015020','1414640721'];
 function fnCemeteryBattleList() {
 	if (parseInt(player.deck_total_bp, 10) == 1 && parseInt(player.bp, 10) >= 1) {
 		fnRedirect('/en/'+platform+'/battle/battleact?pid='+cemeteryBattleList[Math.floor(Math.random()*cemeteryBattleList.length)]+'&skip=1&event=6');
