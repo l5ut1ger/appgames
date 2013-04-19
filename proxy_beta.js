@@ -2943,6 +2943,15 @@ function fnCemeteryMission() {
 	var sinsOrb = parseInt($('.bottle_1').find('.orb_text_value').eq(0).html(),10);
 	var rancorOrb = parseInt($('.bottle_2').find('.orb_text_value').eq(0).html(),10);
 	var tyrannyOrb = parseInt($('.bottle_3').find('.orb_text_value').eq(0).html(),10);
+	if (isNaN(sinsOrb)) {
+		sinsOrb = parseInt($('.bottle_1').find('.orb_text_value_max').eq(0).html(),10);
+	}
+	if (isNaN(rancorOrb)) {
+		rancorOrb = parseInt($('.bottle_2').find('.orb_text_value_max').eq(0).html(),10);
+	}
+	if (isNaN(tyrannyOrb)) {
+		tyrannyOrb = parseInt($('.bottle_3').find('.orb_text_value_max').eq(0).html(),10);
+	}
 	alert (sinsOrb);
 	alert(rancorOrb);
 	alert(tyrannyOrb);
