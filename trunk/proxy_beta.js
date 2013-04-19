@@ -2955,22 +2955,34 @@ function fnCemeteryMission() {
 	if (parseInt(player.deck_total_bp, 10) == 1 && parseInt(player.bp, 10) >= 1) {		
 		// check sins orb
 		if ((sinsOrb < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) || (sinsOrb <= rancorOrb && sinsOrb <= tyrannyOrb)) {
-			//fnRedirect('/en/'+platform+'/battle/battleact?pid='+sinsCemeteryBattleList[Math.floor(Math.random()*sinsCemeteryBattleList.length)]+'&skip=1&event=6');
-			$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+sinsCemeteryBattleList[Math.floor(Math.random()*sinsCemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+			if (parseInt(player.next_exp,10) - parseInt(player.now_exp,10) <= parseInt(player.bp,10)*2) {
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+sinsLv3CemeteryBattleList[Math.floor(Math.random()*sinsLv3CemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+			}
+			else {
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+sinsCemeteryBattleList[Math.floor(Math.random()*sinsCemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+			}
 			fnRedirect('/en/'+platform+'/cemetery/mission');
 			return;
 		}
 		// check rancor orb
 		if ((rancorOrb < parseInt($('.bottle_2').find('.orb_text_base').eq(0).html().substr(2),10)) || rancorOrb <= tyrannyOrb) {
-			//fnRedirect('/en/'+platform+'/battle/battleact?pid='+rancorCemeteryBattleList[Math.floor(Math.random()*rancorCemeteryBattleList.length)]+'&skip=1&event=6');
-			$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+rancorCemeteryBattleList[Math.floor(Math.random()*rancorCemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+			if (parseInt(player.next_exp,10) - parseInt(player.now_exp,10) <= parseInt(player.bp,10)*2) {
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+rancorLv3CemeteryBattleList[Math.floor(Math.random()*rancorLv3CemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+			}
+			else {
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+rancorCemeteryBattleList[Math.floor(Math.random()*rancorCemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+			}
 			fnRedirect('/en/'+platform+'/cemetery/mission');
 			return;
 		}
 		// check tyranny orb
 		if (true || tyrannyOrb < parseInt($('.bottle_3').find('.orb_text_base').eq(0).html().substr(2),10)) {
-			//fnRedirect('/en/'+platform+'/battle/battleact?pid='+tyrannyCemeteryBattleList[Math.floor(Math.random()*tyrannyCemeteryBattleList.length)]+'&skip=1&event=6');
-			$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+tyrannyCemeteryBattleList[Math.floor(Math.random()*tyrannyCemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+			if (parseInt(player.next_exp,10) - parseInt(player.now_exp,10) <= parseInt(player.bp,10)*2) {
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+tyrannyLv3CemeteryBattleList[Math.floor(Math.random()*tyrannyLv3CemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+			}
+			else {
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+tyrannyCemeteryBattleList[Math.floor(Math.random()*tyrannyCemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+			}
 			fnRedirect('/en/'+platform+'/cemetery/mission');
 			return;
 		}
@@ -3136,9 +3148,12 @@ function fnCemeteryBattleResult() {
 
 // fnCemeteryBattleList
 var sinsCemeteryBattleList=['2220539725'];//momma
+var sinsLv3CemeteryBattleList=['2598350157'];//Dummy
 var rancorCemeteryBattleList=['2552015020'];//max rebo
+var rancorLv3CemeteryBattleList=['2348595327'];//Curt
 var tyrannyCemeteryBattleList=['1414640721'];//IG-88
-var cemeteryBattleList = ['2220539725','2552015020','1414640721'];
+var tyrannyLv3CemeteryBattleList=['2410261971'];//Punching Bag
+var cemeteryBattleList = ['2220539725','2598350157','2552015020','2348595327','1414640721','2410261971'];
 function fnCemeteryBattleList() {
 	if (parseInt(player.deck_total_bp, 10) == 1 && parseInt(player.bp, 10) >= 1) {
 		fnRedirect('/en/'+platform+'/battle/battleact?pid='+cemeteryBattleList[Math.floor(Math.random()*cemeteryBattleList.length)]+'&skip=1&event=6');
