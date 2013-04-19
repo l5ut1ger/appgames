@@ -2946,14 +2946,14 @@ function fnCemeteryMission() {
 	
 	if (parseInt(player.deck_total_bp, 10) == 1 && parseInt(player.bp, 10) >= 1) {		
 		// check sins orb
-		if (sinsOrb < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10) || (sinsOrb <= rancorOrb && sinsOrb <= tyrannyOrb)) {
+		if ((sinsOrb < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) || (sinsOrb <= rancorOrb && sinsOrb <= tyrannyOrb)) {
 			//fnRedirect('/en/'+platform+'/battle/battleact?pid='+sinsCemeteryBattleList[Math.floor(Math.random()*sinsCemeteryBattleList.length)]+'&skip=1&event=6');
 			$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+sinsCemeteryBattleList[Math.floor(Math.random()*sinsCemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
 			fnRedirect('/en/'+platform+'/cemetery/mission');
 			return;
 		}
 		// check rancor orb
-		if (rancorOrb < parseInt($('.bottle_2').find('.orb_text_base').eq(0).html().substr(2),10) || rancorOrb <= tyrannyOrb) {
+		if ((rancorOrb < parseInt($('.bottle_2').find('.orb_text_base').eq(0).html().substr(2),10)) || rancorOrb <= tyrannyOrb) {
 			//fnRedirect('/en/'+platform+'/battle/battleact?pid='+rancorCemeteryBattleList[Math.floor(Math.random()*rancorCemeteryBattleList.length)]+'&skip=1&event=6');
 			$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+rancorCemeteryBattleList[Math.floor(Math.random()*rancorCemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
 			fnRedirect('/en/'+platform+'/cemetery/mission');
