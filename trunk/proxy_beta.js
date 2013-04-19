@@ -2952,9 +2952,6 @@ function fnCemeteryMission() {
 	if (isNaN(tyrannyOrb)) {
 		tyrannyOrb = parseInt($('.bottle_3').find('.orb_text_value_max').eq(0).html(),10);
 	}
-	alert (sinsOrb);
-	alert(rancorOrb);
-	alert(tyrannyOrb);
 	if (parseInt(player.deck_total_bp, 10) == 1 && parseInt(player.bp, 10) >= 1) {		
 		// check sins orb
 		if ((sinsOrb < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) || (sinsOrb <= rancorOrb && sinsOrb <= tyrannyOrb)) {
