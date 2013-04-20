@@ -2977,9 +2977,6 @@ function fnAutoSetEventFormation() {
 		if (!fnArrayHasItem(aFormationArray, finalStr)) {
 			aFormationArray.splice(0,0,finalStr);
 		}
-		else {
-			return;
-		}
 		var aFormationArrayText = aFormationArray.join(fnGetSeparator());
 		fnSetCookie(formationString,aFormationArrayText);
 		fnSetEventMissionTeam(finalStr);
