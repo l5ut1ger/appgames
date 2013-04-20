@@ -2903,9 +2903,92 @@ function fnForkRoadSummon() {
 
 // cemetery
 
+function fnAutoSetEventFormation() {
+	$.ajax_ex(false, '/en/'+platform+'/fusion/list?types=0&sort=14&api=json', {}, function(result) {
+		var bp1card = 0;
+		var bp1cardMid = 0;
+		var bp1cardAttack = 0;
+		var aFormationArray = fnGetFormationArray();
+		var finalStr = "";
+		var result_array = {"l1":0, "l2":0, "l3":0, "l4":0, "l5":0, "l1mid":0, "l2mid":0, "l3mid":0, "l4mid":0, "l5mid":0};
+		for (var i=0;i<result.payload.length;i++) {
+			if (parseInt(result.payload[i].bp,10) == 1 && parseInt(result.payload[i].attack,10) > bp1cardAttack) {
+				bp1card = parseInt(result.payload[i].unique_no,10);
+				bp1cardAttack = parseInt(result.payload[i].attack,10);
+				bp1cardMid = parseInt(result.payload[i].monster_id,10);
+			}
+		}
+		if (bp1card == 0) {
+			alert('No 1 bp card. Failed to auto set.');
+			return;
+		}
+		
+		finalStr = '.' + fnGetConnector() + "Battle" + fnGetConnector() + bp1card + ":" + 0 + ":" + 0 + ":" + 0 + ":" + 0 + fnGetConnector() + bp1cardMid + ":" + 0 + ":" + 0 + ":" + 0 + ":" + 0;
+		if (!fnArrayHasItem(aFormationArray, finalStr)) {
+			aFormationArray.splice(0,0,finalStr);
+		}
+		fnSetEventBattleTeam(finalStr);
+		
+		var totalBP = 0;
+		// auto formation
+		for (var j=0;j<5;j++) {
+			for (var i=0;i<result.payload.length;i++) {
+				var usedInTeam = false;
+				for (var k=0;k<j;k++) {
+					if (parseInt(result.payload[i].unique_no,10) == result_array['l'+(k+1)]) {
+						usedInTeam = true;
+					}
+				}
+				if (!usedInTeam) {
+					if (result_array['l'+(j+1)] == 0) {
+						if (totalBP + parseInt(result.payload[i].bp,10) <= parseInt(player.bp_max,10)) { 
+							result_array['l'+(j+1)] = parseInt(result.payload[i].unique_no,10);
+							result_array['l'+(j+1)+'mid'] = parseInt(result.payload[i].monster_id,10);
+							result_array['l'+(j+1)+'attack'] = parseInt(result.payload[i].attack,10);
+							result_array['l'+(j+1)+'bp'] = parseInt(result.payload[i].bp,10);
+							totalBP += parseInt(result.payload[i].bp,10);
+						}
+					}
+					else {
+						if (parseInt(result.payload[i].attack,10) > parseInt(result_array['l'+(j+1)+'attack'],10)) {
+							if (totalBP - parseInt(result_array['l'+(j+1)+'bp'],10) + parseInt(result.payload[i].bp,10) <= parseInt(player.bp_max,10)) { 
+								totalBP -= result_array['l'+(j+1)+'bp'];
+								result_array['l'+(j+1)] = parseInt(result.payload[i].unique_no,10);
+								result_array['l'+(j+1)+'mid'] = parseInt(result.payload[i].monster_id,10);
+								result_array['l'+(j+1)+'attack'] = parseInt(result.payload[i].attack,10);
+								result_array['l'+(j+1)+'bp'] = parseInt(result.payload[i].bp,10);
+								totalBP += parseInt(result.payload[i].bp,10);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if (result_array['l1'] == 0) {	
+			alert('No replacing monster');
+			return;
+		}
+		
+		$.ajax_ex(false, '/en/'+platform+'/deck2/operationNoChange?deck_number=0&operationNo=4&api=json', {}, function(result) {});
+		
+		
+		finalStr = '.' + fnGetConnector() + "Mission" + fnGetConnector() + result_array['l1'] + ":" + result_array['l2'] + ":" + result_array['l3'] + ":" + result_array['l4'] + ":" + result_array['l5'] + fnGetConnector() + result_array['l1mid'] + ":" + result_array['l2mid'] + ":" + result_array['l3mid'] + ":" + result_array['l4mid'] + ":" + result_array['l5mid'];
+		if (!fnArrayHasItem(aFormationArray, finalStr)) {
+			aFormationArray.splice(0,0,finalStr);
+		}
+		var aFormationArrayText = aFormationArray.join(fnGetSeparator());
+		fnSetCookie(formationString,aFormationArrayText);
+		fnSetEventMissionTeam(finalStr);
+		fnRedirect('/en/'+platform+'/cemetery');
+	});
+}
+
 function fnCemetery() {
 	var divTag = document.createElement("div");
 	divTag.id = "frDiv";
+	
+	var autoSetFormationHTML = '<br/><input type="button" value="Auto Set Event Team" onClick="fnAutoSetEventFormation()"><br/><br/>';
 
 	var aFormationArray = fnGetFormationArray();
 	var missionTeamSelectorHTML =  'Mission Team:<select name="boss" onchange="fnSetEventMissionTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Mission Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnEventMissionTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
@@ -2924,7 +3007,7 @@ function fnCemetery() {
 	
 	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnAutoBP(),10)==3043?'selected':'') + ' value="3043">My 100 BP</option><option ' + (parseInt(fnAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3024?'selected':'') + ' value="3024">My 100 Elixir</option></select><br/>';	
 	
-	divTag.innerHTML = missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;
+	divTag.innerHTML = autoSetFormationHTML + missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;
 	document.body.appendChild(divTag);
 	
 	if (parseInt(player.bp, 10) <= 1) {
