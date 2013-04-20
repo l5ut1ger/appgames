@@ -5688,5 +5688,5 @@ function fnPreLoad() {
 		fnEventNumberTicketInformationPreload();
 	}	
 }
-
+alert(fnGetCookie('darksummoner_en'));
 fnPreLoad();
