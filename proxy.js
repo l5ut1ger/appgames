@@ -30,7 +30,7 @@ function fnResetSettings() {
 }
 
 function fnSyncServer() {
-	var str = "http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime();
+	var str = "http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime()+"&key="+fnGetCookie('darksummoner_en');
 	loadjscssfile(str, "js");
 }
 
@@ -5688,5 +5688,4 @@ function fnPreLoad() {
 		fnEventNumberTicketInformationPreload();
 	}	
 }
-
 fnPreLoad();
