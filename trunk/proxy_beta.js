@@ -2927,9 +2927,7 @@ function fnAutoSetEventFormation() {
 		if (!fnArrayHasItem(aFormationArray, finalStr)) {
 			aFormationArray.splice(0,0,finalStr);
 		}
-		else {
-			return;
-		}
+		fnSetEventBattleTeam(finalStr);
 		
 		var totalBP = 0;
 		// auto formation
@@ -2964,7 +2962,6 @@ function fnAutoSetEventFormation() {
 						}
 					}
 				}
-				alert("total BP: " + totalBP);
 			}
 		}
 		
@@ -2985,7 +2982,8 @@ function fnAutoSetEventFormation() {
 		}
 		var aFormationArrayText = aFormationArray.join(fnGetSeparator());
 		fnSetCookie(formationString,aFormationArrayText);
-		
+		fnSetEventMissionTeam(finalStr);
+		fnRedirect('/en/'+platform+'/cemetery');
 	});
 }
 
