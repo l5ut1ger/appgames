@@ -5661,11 +5661,11 @@ function fnOnLoad() {
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
 
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
-	fnSetupPurrCSS();
-	fnCreateBackButton();
-	fnAutoUsePoint();
-	fnCheckAlly();
-	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	
+	fnSetupPurrCSS();alert('a');
+	fnCreateBackButton();alert('b');
+	fnAutoUsePoint();alert('c');
+	fnCheckAlly();alert('d');
+	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	alert('e');
 }
 
 function fnPreLoad() {
