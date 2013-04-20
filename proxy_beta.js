@@ -2949,6 +2949,7 @@ function fnAutoSetEventFormation() {
 						}
 					}
 				}
+				alert("total BP: " + totalBP);
 			}
 		}
 		
