@@ -3079,6 +3079,7 @@ function fnCemeteryMission() {
 			//fnRedirect('/en/'+platform+'/cemetery/mission');
 		}
 		player.bp = parseInt(player.bp, 10)  - 1;
+		$('#misc_status_bp').text(player.bp);
 		if (parseInt(player.bp, 10) <= 0 || parseInt(player.next_exp,10) <= parseInt(player.now_exp,10)) {
 			fnRedirect('/en/'+platform+'/cemetery/mission');
 		}
