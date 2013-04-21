@@ -3022,53 +3022,71 @@ function fnCemeteryMission() {
 		fnRedirect('/en/'+platform+'/cemetery/mission');
 		return;
 	}
-	
+	var maxText = false;
 	var sinsOrb = parseInt($('.bottle_1').find('.orb_text_value').eq(0).html(),10);
 	var rancorOrb = parseInt($('.bottle_2').find('.orb_text_value').eq(0).html(),10);
 	var tyrannyOrb = parseInt($('.bottle_3').find('.orb_text_value').eq(0).html(),10);
 	if (isNaN(sinsOrb)) {
 		sinsOrb = parseInt($('.bottle_1').find('.orb_text_value_max').eq(0).html(),10);
+		maxText = true;
 	}
 	if (isNaN(rancorOrb)) {
 		rancorOrb = parseInt($('.bottle_2').find('.orb_text_value_max').eq(0).html(),10);
+		maxText = true;
 	}
 	if (isNaN(tyrannyOrb)) {
 		tyrannyOrb = parseInt($('.bottle_3').find('.orb_text_value_max').eq(0).html(),10);
+		maxText = true;
 	}
-	if (parseInt(player.deck_total_bp, 10) == 1 && parseInt(player.bp, 10) >= 1) {		
+	if (parseInt(player.deck_total_bp, 10) == 1 && parseInt(player.bp, 10) >= 1 && fnGetGrindingSpeed() != -1) {		
 		// check sins orb
 		if ((sinsOrb < parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10)) || (sinsOrb <= rancorOrb && sinsOrb <= tyrannyOrb)) {
 			if (parseInt(player.next_exp,10) - parseInt(player.now_exp,10) <= parseInt(player.bp,10)*2) {
 				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+sinsLv3CemeteryBattleList[Math.floor(Math.random()*sinsLv3CemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+				player.now_exp = parseInt(player.now_exp,10) + 12;
 			}
 			else {
 				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+sinsCemeteryBattleList[Math.floor(Math.random()*sinsCemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+				player.now_exp = parseInt(player.now_exp,10) + 2;
 			}
-			fnRedirect('/en/'+platform+'/cemetery/mission');
-			return;
+			$('.bottle_1').find(maxText?'.orb_text_value_max':'.orb_text_value').eq(0).html(sinsOrb+10);
+			//fnRedirect('/en/'+platform+'/cemetery/mission');
 		}
 		// check rancor orb
-		if ((rancorOrb < parseInt($('.bottle_2').find('.orb_text_base').eq(0).html().substr(2),10)) || rancorOrb <= tyrannyOrb) {
+		else if ((rancorOrb < parseInt($('.bottle_2').find('.orb_text_base').eq(0).html().substr(2),10)) || rancorOrb <= tyrannyOrb) {
 			if (parseInt(player.next_exp,10) - parseInt(player.now_exp,10) <= parseInt(player.bp,10)*2) {
 				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+rancorLv3CemeteryBattleList[Math.floor(Math.random()*rancorLv3CemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+				player.now_exp = parseInt(player.now_exp,10) + 12;
 			}
 			else {
 				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+rancorCemeteryBattleList[Math.floor(Math.random()*rancorCemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+				player.now_exp = parseInt(player.now_exp,10) + 2;
 			}
-			fnRedirect('/en/'+platform+'/cemetery/mission');
-			return;
+			$('.bottle_2').find(maxText?'.orb_text_value_max':'.orb_text_value').eq(0).html(rancorOrb+10);
+			//fnRedirect('/en/'+platform+'/cemetery/mission');
 		}
 		// check tyranny orb
-		if (true || tyrannyOrb < parseInt($('.bottle_3').find('.orb_text_base').eq(0).html().substr(2),10)) {
+		else if (true || tyrannyOrb < parseInt($('.bottle_3').find('.orb_text_base').eq(0).html().substr(2),10)) {
 			if (parseInt(player.next_exp,10) - parseInt(player.now_exp,10) <= parseInt(player.bp,10)*2) {
 				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+tyrannyLv3CemeteryBattleList[Math.floor(Math.random()*tyrannyLv3CemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+				player.now_exp = parseInt(player.now_exp,10) + 12;
 			}
 			else {
 				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+tyrannyCemeteryBattleList[Math.floor(Math.random()*tyrannyCemeteryBattleList.length)]+'&skip=1&event=6', {}, function(data) {fnRedirect('/en/'+platform+'/cemetery/mission');});
+				player.now_exp = parseInt(player.now_exp,10) + 2;
 			}
-			fnRedirect('/en/'+platform+'/cemetery/mission');
-			return;
+			$('.bottle_3').find(maxText?'.orb_text_value_max':'.orb_text_value').eq(0).html(tyrannyOrb+10);
+			//fnRedirect('/en/'+platform+'/cemetery/mission');
 		}
+		player.bp = parseInt(player.bp, 10)  - 1;
+		$('#misc_status_bp').text(player.bp);
+		if (parseInt(player.bp, 10) <= 0 || parseInt(player.next_exp,10) <= parseInt(player.now_exp,10)) {
+			fnRedirect('/en/'+platform+'/cemetery/mission');
+		}
+		else {
+			setTimeout(fnCemeteryMission, fnGetGrindingSpeed());
+		}
+		return;
 	}
 	
 	if (parseInt(player.deck_total_bp, 10) == 1 && fnEventMissionTeam() != null) {
