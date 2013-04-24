@@ -3016,8 +3016,7 @@ function fnCemetery() {
 }
 
 function fnCemeteryMission() {
-
-	if (parseInt(player.deck_total_bp, 10) > 1 && fnEventMissionTeam() != null && fnEventBattleTeam() != null && parseInt(player.bp, 10) >= 10) {
+	if (parseInt(player.deck_total_bp, 10) > 1 && fnEventMissionTeam() != '' && fnEventBattleTeam() != '' && parseInt(player.bp, 10) >= 10) {
 		fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/cemetery/mission');});
 		fnRedirect('/en/'+platform+'/cemetery/mission');
 		return;
@@ -3089,7 +3088,7 @@ function fnCemeteryMission() {
 		return;
 	}
 	
-	if (parseInt(player.deck_total_bp, 10) == 1 && fnEventMissionTeam() != null) {
+	if (parseInt(player.deck_total_bp, 10) == 1 && fnEventMissionTeam() != '') {
 		fnDeckChangeAdvance(fnEventMissionTeam(), false, function(){fnRedirect('/en/'+platform+'/cemetery/mission');});
 		fnRedirect('/en/'+platform+'/cemetery/mission');
 		return;
@@ -3100,7 +3099,7 @@ function fnCemeteryMission() {
 			fnRedirect('/en/'+platform+'/cemetery/openGate?open_gate=' + mission.current_mission_id);
 		}
 		else if (parseInt(fnAutoBP(),10)) {
-			if (parseInt(player.deck_total_bp, 10) > 1 && fnEventMissionTeam() != null && fnEventBattleTeam() != null && parseInt(player.bp, 10) >= 1) {
+			if (parseInt(player.deck_total_bp, 10) > 1 && fnEventMissionTeam() != '' && fnEventBattleTeam() != '' && parseInt(player.bp, 10) >= 1) {
 				fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/cemetery/mission');});
 				fnRedirect('/en/'+platform+'/cemetery/mission');
 				return;
