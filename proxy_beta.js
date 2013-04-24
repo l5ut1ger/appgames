@@ -3016,7 +3016,6 @@ function fnCemetery() {
 }
 
 function fnCemeteryMission() {
-alert('battle team : ' + (fnEventBattleTeam() != '') +"," +fnEventBattleTeam() +";" );
 	if (parseInt(player.deck_total_bp, 10) > 1 && fnEventMissionTeam() != '' && fnEventBattleTeam() != '' && parseInt(player.bp, 10) >= 10) {
 		fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/cemetery/mission');});
 		fnRedirect('/en/'+platform+'/cemetery/mission');
