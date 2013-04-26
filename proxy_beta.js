@@ -2423,7 +2423,9 @@ function fnTowerMission() {
 
 function fnTower() {
 	if (document.getElementById('div-btn-system') != null) {
-		fnRedirect('/en/'+platform+'/tower/subpoena');
+		//fnRedirect('/en/'+platform+'/tower/subpoena');
+		$.ajax_ex(false, '/en/ios/tower/ajaxSubpoena', {'__hash': (new Date()).getTime()}, function(data) {});
+		fnRedirect('/en/'+platform+'/tower/mission');
 		return;
 	}
 	if (document.referrer.indexOf('/battle/battle') >= 0 || document.referrer.indexOf('/tower/boss') >=0 || document.referrer.indexOf('/tower/subpoena') >=0) {
@@ -2448,7 +2450,9 @@ function fnTowerBossResult() {
 			fnRedirect('/en/'+platform+'/tower/mission');
 		} else if (result.payload.resources.foundType != null && result.payload.resources.foundType==10 && result.payload.resResult.items[result.payload.itemMaster.item_id].collected_count==6) { 
 			//fnRedirect('/en/'+platform+'/tower');
-			fnRedirect('/en/'+platform+'/tower/subpoena');// summon directly?
+			//fnRedirect('/en/'+platform+'/tower/subpoena');// summon directly?
+			$.ajax_ex(false, '/en/ios/tower/ajaxSubpoena', {'__hash': (new Date()).getTime()}, function(data) {});
+			fnRedirect('/en/'+platform+'/tower/mission');
 		} else  {
 			fnRedirect('/en/'+platform+'/tower/mission');
 		}
