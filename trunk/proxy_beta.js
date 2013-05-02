@@ -2449,10 +2449,10 @@ function fnTowerBossResult() {
 		if (result.status == 101) {
 			fnRedirect('/en/'+platform+'/tower/mission');
 		} else if (result.payload.resources.foundType != null && result.payload.resources.foundType==10 && result.payload.resResult.items[result.payload.itemMaster.item_id].collected_count==6) { 
-			//fnRedirect('/en/'+platform+'/tower');
+			fnRedirect('/en/'+platform+'/tower');
 			//fnRedirect('/en/'+platform+'/tower/subpoena');// summon directly?
-			$.ajax_ex(false, '/en/ios/tower/ajaxSubpoena', {'__hash': (new Date()).getTime()}, function(data) {});
-			fnRedirect('/en/'+platform+'/tower/mission');
+			//$.ajax_ex(false, '/en/ios/tower/ajaxSubpoena', {'__hash': (new Date()).getTime()}, function(data) {});
+			//fnRedirect('/en/'+platform+'/tower/mission');
 		} else  {
 			fnRedirect('/en/'+platform+'/tower/mission');
 		}
