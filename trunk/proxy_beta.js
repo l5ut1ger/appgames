@@ -5446,6 +5446,13 @@ function fnLoginStamp() {
 	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 }
 
+// First Day of the Month Stamp
+
+function fnFirstDayOfMonth() {
+	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
+}
+
+
 // slot stamp
 
 function fnSlotInformationPreload() {
@@ -5588,6 +5595,10 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/event/loginStampContinuous') {
 		fnLoginStamp();
 	}
+   	else if (window.location.pathname === '/en/'+platform+'/event/rewardToGetFirstDay') {
+		fnFirstDayOfMonth();
+	}
+
 	else if (window.location.pathname === '/en/'+platform+'/home/profile') {
 		fnProfile();
 	}
