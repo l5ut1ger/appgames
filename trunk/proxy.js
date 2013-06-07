@@ -10,6 +10,7 @@ var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "
 var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
 var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 var sacSkillList=[0,7,10,13,16,24,30,37];
+var bpItemList = [3043, 3024, 3019, 3020, 3003, 3011];
 var syncCount = 0;
 var serverCookieInterval=0;;
 // Tools
@@ -938,9 +939,8 @@ function fnSkypeClanSelectorOption(pDefault) {
 	option += '<option value="2656724949" ' + (pDefault=="2656724949"?"selected":"") + '>Kissy</option>';
 	//option += '<option value="1330745254" ' + (pDefault=="1330745254"?"selected":"") + '>Unreality</option>';
 	option += '<option value="1847429107" ' + (pDefault=="1847429107"?"selected":"") + '>Unreality</option>';
-	//option += '<option value="2320103292" ' + (pDefault=="2320103292"?"selected":"") + '>Drakkar</option>';
-	option += '<option value="2320103292" ' + (pDefault=="2661557047"?"selected":"") + '>Kelv</option>';
-   return option;
+	option += '<option value="2320103292" ' + (pDefault=="2320103292"?"selected":"") + '>Drakkar</option>';
+	return option;
 }
 
 function fnProfileAddSkypeClanSelector() {
@@ -4092,6 +4092,71 @@ function fnDungeon() {
 	}
 }
 
+// clan battle event
+
+function fnClanBattle() {
+	if ($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').length) {
+		fnTimeOutRedirect($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').eq(0).attr("href"));
+	}
+	setInterval(fnRedirect, 60000, '/en/'+platform+'/clanbattle');
+}
+
+function fnClanBattleSelect() {
+	if (parseInt(player.bp,10) >= parseInt(player.deck_total_bp)) {
+		fnRedirect('/en/'+platform+'/clanbattle/battleAct?percent=100&battle_off_flag=true');
+	}
+	else {
+		if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10)) {
+			// auto use bp to secure wins
+			$.ajax_ex(false, '/misc/ajaxItemPopup', { 'item_type': 1, '__hash': ('' + (new Date()).getTime()) }, function(result) {
+				if (result.status == 0) {
+					for (var i=0;i<result.payload.item_ids.length;i++) {
+						for (var j=0;j<bpItemList.length;j++) {
+							if (result.payload.item_ids[i]==bpItemList[j]) {
+								$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:bpItemList[j]}, function(data) {});
+								fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+								return;
+							}
+						}
+					}
+				}
+			});
+		}
+	}
+	setInterval(fnRedirect, 60000, '/en/'+platform+'/clanbattle/battleSelect');
+}
+
+function fnClanBattleAct() {
+}
+
+function fnClanBattleBattle() {
+	fnRedirect('/en/'+platform+'/clanbattle/battleResult'+window.location.search);
+}
+function fnClanBattleBattleResult() {
+	fnRedirect('/en/'+platform+'/clanbattle/executionSelect');
+}
+
+function fnClanBattleExecutionSelect() {
+	var choice = 1;
+	var bonus = 5;
+	for (var i=0;i<executions.length;i++) {
+		if (executions[i].enable && parseInt(executions[i].execution_bonus,10) > bonus) {
+			bonus = parseInt(executions[i].execution_bonus,10);
+			choice = executions[i].id;
+		}
+	}
+	fnRedirect('/en/'+platform+'/clanbattle/execution?choice=' + choice + '&execution_off_flag=true');
+}
+function fnClanBattleExecution() {
+	
+}
+function fnClanBattleExecutionAnimationCreateJS() {
+	fnRedirect('/en/'+platform+'/clanbattle/executionResult?');
+}
+function fnClanBattleExecutionResult() {
+	fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+}
+
 // battle
 
 function fnBattleBattle() {
@@ -5447,6 +5512,13 @@ function fnLoginStamp() {
 	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 }
 
+// First Day of the Month Stamp
+
+function fnFirstDayOfMonth() {
+	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
+}
+
+
 // slot stamp
 
 function fnSlotInformationPreload() {
@@ -5503,6 +5575,14 @@ function fnEventBingo() {
 
 function fnEventNumberTicketInformationPreload() {
 	window.location = '/en/'+platform+'/home';
+}
+
+// campaign list
+
+function fnCampaignList() {
+	if (window.location.search == "?login=") {
+		fnRedirect('/en/'+platform+'/home');
+	}
 }
 
 // home
@@ -5589,6 +5669,10 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/event/loginStampContinuous') {
 		fnLoginStamp();
 	}
+   	else if (window.location.pathname === '/en/'+platform+'/event/rewardToGetFirstDay') {
+		fnFirstDayOfMonth();
+	}
+
 	else if (window.location.pathname === '/en/'+platform+'/home/profile') {
 		fnProfile();
 	}
@@ -5651,6 +5735,33 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/dungeon/win') {
 		fnDungeonWin();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle') {
+		fnClanBattle();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleSelect') {
+		fnClanBattleSelect();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleAct') {
+		fnClanBattleAct();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/battle') {
+		fnClanBattleBattle();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleResult') {
+		fnClanBattleBattleResult();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionSelect') {
+		fnClanBattleExecutionSelect();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/execution') {
+		fnClanBattleExecution();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionAnimationCreateJS') {
+		fnClanBattleExecutionAnimationCreateJS();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionResult') {
+		fnClanBattleExecutionResult();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/battle/battle') {
 		fnBattleBattle();
@@ -5753,6 +5864,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/slotReward') {
 		fnSlotReward();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/campaign/list') {
+		fnCampaignList();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/bingo') {
 		//fnEventBingo();
