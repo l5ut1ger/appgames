@@ -4098,6 +4098,8 @@ function fnClanBattle() {
 		fnTimeOutRedirect($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').eq(0).attr("href"));
 	}
 	else {
+		alert("dd"+$('dd').length);
+		alert("dd ally"+$('dd').find('.ally').length);
 		alert($('dd').find('.ally').eq(0).html());
 	}
 }
