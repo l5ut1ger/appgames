@@ -4102,7 +4102,24 @@ function fnClanBattle() {
 }
 
 function fnClanBattleSelect() {
+	if (parseInt(player.bp,10) >= parseInt(player.deck_total_bp)) {
+		fnRedirect('/en/'+platform+'/clanbattle/battleAct?percent=100&battle_off_flag=true');
+	}
+	else {
+		if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10)) {
+			// auto use bp to secure wins
+			$.ajax_ex(false, '/misc/ajaxItemPopup'+, { 'item_type': 1, '__hash': ('' + (new Date()).getTime()) }, function(result) {
+				if (result.status == 0) {
+					for (var i=0;i<result.payload.item_ids.length;i++) {
+						for (var j=0;j<bpItemList.length;j++) {
 
+						}
+					}
+				}
+			});
+		}
+	}
+	setInterval(fnRedirect, 60000, '/en/'+platform+'/clanbattle/battleSelect');
 }
 
 function fnClanBattleAct() {
