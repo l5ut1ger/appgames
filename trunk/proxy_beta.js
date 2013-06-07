@@ -4094,6 +4094,7 @@ function fnDungeon() {
 // clan battle event
 
 function fnClanBattle() {
+	fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
 }
 
 function fnClanBattleSelect() {
@@ -4108,13 +4109,8 @@ function fnClanBattleAct() {
 function fnClanBattleBattle() {
 	fnRedirect('/en/'+platform+'/clanbattle/battleResult'+window.location.search);
 }
-function fnClanBattleResult() {
-	if (btn) {
-		fnRedirect('/en/'+platform+'/clanbattle/executionSelect');
-	}
-	else {
-		fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
-	}
+function fnClanBattleBattleResult() {
+	fnRedirect('/en/'+platform+'/clanbattle/executionSelect');
 }
 
 function fnClanBattleExecutionSelect() {
@@ -5558,6 +5554,14 @@ function fnEventNumberTicketInformationPreload() {
 	window.location = '/en/'+platform+'/home';
 }
 
+// campaign list
+
+function fnCampaignList() {
+	if (window.location.search == "?login=") {
+		fnRedirect('/en/'+platform+'/home');
+	}
+}
+
 // home
 
 function fnHome() {
@@ -5722,7 +5726,7 @@ function fnTimeoutOnLoad() {
 		fnClanBattleBattle();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleResult') {
-		fnClanBattleResult();
+		fnClanBattleBattleResult();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionSelect') {
 		fnClanBattleExecutionSelect();
@@ -5837,6 +5841,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/slotReward') {
 		fnSlotReward();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/campaign/list') {
+		fnCampaignList();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/bingo') {
 		//fnEventBingo();
