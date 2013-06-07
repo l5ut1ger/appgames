@@ -4108,7 +4108,19 @@ function fnClanBattleSelect() {
 	else {
 		if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10)) {
 			// auto use bp to secure wins
-
+			$.ajax_ex(false, '/misc/ajaxItemPopup', { 'item_type': 1, '__hash': ('' + (new Date()).getTime()) }, function(result) {
+				if (result.status == 0) {
+					for (var i=0;i<result.payload.item_ids.length;i++) {
+						for (var j=0;j<bpItemList.length;j++) {
+							if (result.payload.item_ids[i]==bpItemList[j]) {
+								$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:bpItemList[j]}, function(data) {});
+								fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+								return;
+							}
+						}
+					}
+				}
+			});
 		}
 	}
 	setInterval(fnRedirect, 60000, '/en/'+platform+'/clanbattle/battleSelect');
