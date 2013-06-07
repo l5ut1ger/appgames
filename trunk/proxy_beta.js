@@ -4099,8 +4099,8 @@ function fnClanBattle() {
 	}
 	else {
 		alert("dd"+$('dd').length);
-		alert("dd ally"+$('dd').find('.ally').length);
-		alert($('dd').find('.ally').eq(0).html());
+		alert("dd ally"+$('dd.ally').length);
+		alert($('dd.ally').eq(0).html());
 	}
 }
 
