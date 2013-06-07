@@ -10,6 +10,7 @@ var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "
 var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
 var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
 var sacSkillList=[0,7,10,13,16,24,30,37];
+var bpItemList = [3043, 3024, 3019, 3020, 3003, 3011];
 var syncCount = 0;
 var serverCookieInterval=0;;
 // Tools
@@ -4097,21 +4098,34 @@ function fnClanBattle() {
 	if ($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').length) {
 		fnTimeOutRedirect($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').eq(0).attr("href"));
 	}
-	else {
-		alert("dd"+$('dd').length);
-		alert("dd ally"+$('dd.ally').length);
-		alert($('dd.ally').eq(0).html());
-	}
+	setInterval(fnRedirect, 60000, '/en/'+platform+'/clanbattle');
 }
+
+
 
 function fnClanBattleSelect() {
 	if (parseInt(player.bp,10) >= parseInt(player.deck_total_bp)) {
 		fnRedirect('/en/'+platform+'/clanbattle/battleAct?percent=100&battle_off_flag=true');
 	}
 	else {
-		alert($('.ally', $('dd')).eq(0).html());
-		alert($('.enemy', $('dd')).eq(0).html());
+		if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10)) {
+			// auto use bp to secure wins
+			$.ajax_ex(false, '/misc/ajaxItemPopup'+, { 'item_type': 1, '__hash': ('' + (new Date()).getTime()) }, function(result) {
+				if (result.status == 0) {
+					for (var i=0;i<result.payload.item_ids.length;i++) {
+						for (var j=0;j<bpItemList.length;j++) {
+							if (result.payload.item_ids[i]==bpItemList[j]) {
+								$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:bpItemList[j]}, function(data) {});
+								fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+								return;
+							}
+						}
+					}
+				}
+			});
+		}
 	}
+	setInterval(fnRedirect, 60000, '/en/'+platform+'/clanbattle/battleSelect');
 }
 
 function fnClanBattleAct() {
