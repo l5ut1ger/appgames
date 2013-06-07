@@ -4102,8 +4102,8 @@ function fnClanBattleSelect() {
 		fnRedirect('/en/'+platform+'/clanbattle/battleAct?percent=100&battle_off_flag=true');
 	}
 	else {
-		alert($('dd .ally').eq(0).text());
-		alert($('dd .enemy').eq(0).text());
+		alert($('.ally', $('dd')).eq(0).html());
+		alert($('.enemy', $('dd')).eq(0).html());
 	}
 }
 
