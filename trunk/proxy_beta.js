@@ -4101,6 +4101,10 @@ function fnClanBattleSelect() {
 	if (parseInt(player.bp,10) >= parseInt(player.deck_total_bp)) {
 		fnRedirect('/en/'+platform+'/clanbattle/battleAct?percent=100&battle_off_flag=true');
 	}
+	else {
+		alert($('dd .ally').eq(0).text());
+		alert($('dd .enemy').eq(0).text());
+	}
 }
 
 function fnClanBattleAct() {
