@@ -4091,6 +4091,53 @@ function fnDungeon() {
 	}
 }
 
+// clan battle event
+
+function fnClanBattle() {
+}
+
+function fnClanBattleSelect() {
+	if (parseInt(player.bp,10) >= parseInt(player.deck_total_bp)) {
+		fnRedirect('/en/'+platform+'/clanbattle/battleAct?percent=100&battle_off_flag=true');
+	}
+}
+
+function fnClanBattleAct() {
+}
+
+function fnClanBattleBattle() {
+	fnRedirect('/en/'+platform+'/clanbattle/battleResult'+window.location.search);
+}
+function fnClanBattleResult() {
+	if (btn) {
+		fnRedirect('/en/'+platform+'/clanbattle/executionSelect');
+	}
+	else {
+		fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+	}
+}
+
+function fnClanBattleExecutionSelect() {
+	var choice = 1;
+	var bonus = 5;
+	for (var i=0;i<executions.length;i++) {
+		if (executions[i].enable && parseInt(executions[i].execution_bonus,10) > bonus) {
+			bonus = parseInt(executions[i].execution_bonus,10);
+			choice = executions[i].id;
+		}
+	}
+	fnRedirect('/en/'+platform+'/clanbattle/execution?choice=' + choice + '&execution_off_flag=true');
+}
+function fnClanBattleExecution() {
+	
+}
+function fnClanBattleExecutionAnimationCreateJS() {
+	fnRedirect('/en/'+platform+'/clanbattle/executionResult?');
+}
+function fnClanBattleExecutionResult() {
+	fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+}
+
 // battle
 
 function fnBattleBattle() {
@@ -5661,6 +5708,33 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/dungeon/win') {
 		fnDungeonWin();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle') {
+		fnClanBattle();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleSelect') {
+		fnClanBattleSelect();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleAct') {
+		fnClanBattleAct();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/battle') {
+		fnClanBattleBattle();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleResult') {
+		fnClanBattleResult();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionSelect') {
+		fnClanBattleExecutionSelect();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/execution') {
+		fnClanBattleExecution();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionAnimationCreateJS') {
+		fnClanBattleExecutionAnimationCreateJS();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionResult') {
+		fnClanBattleExecutionResult();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/battle/battle') {
 		fnBattleBattle();
