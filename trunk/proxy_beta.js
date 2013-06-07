@@ -4098,7 +4098,7 @@ function fnClanBattle() {
 		fnTimeOutRedirect($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').eq(0).attr("href"));
 	}
 	else {
-		alert($('.ally', $('dd')).eq(0).html());
+		alert($('dd').find('.ally').eq(0).html());
 	}
 }
 
