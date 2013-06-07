@@ -4094,7 +4094,12 @@ function fnDungeon() {
 // clan battle event
 
 function fnClanBattle() {
-	fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+	if ($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').length) {
+		fnTimeOutRedirect($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').eq(0).attr("href"));
+	}
+	else {
+		alert($('.ally', $('dd')).eq(0).html());
+	}
 }
 
 function fnClanBattleSelect() {
