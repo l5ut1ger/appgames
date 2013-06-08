@@ -4108,7 +4108,7 @@ function fnClanBattleSelect() {
 	else {
 		if (true || parseInt($('dd.ally').eq(0).html(),10)*2 <= parseInt($('dd.enemy').eq(0).html(),10)) {
 			// auto use bp to secure wins
-			$.ajax_ex(false, '/misc/ajaxItemPopup', { 'item_type': 1, '__hash': ('' + (new Date()).getTime()) }, function(result) {
+			$.ajax_ex(false, '/en/'+platform+'/misc/ajaxItemPopup', { 'item_type': 1, '__hash': ('' + (new Date()).getTime()) }, function(result) {
 				if (result.status == 0) {
 					for (var i=0;i<result.payload.item_ids.length;i++) {
 						for (var j=0;j<bpItemList.length;j++) {
