@@ -928,8 +928,8 @@ function fnSkypeClanSelectorOption(pDefault) {
 		pDefault = "0";
 	}
 	var option = '<option value="1860292579" ' + (pDefault=="1860292579"?"selected":"") + '>about2punt</option>';
-	//option += '<option value="2171680461" ' + (pDefault=="2171680461"?"selected":"") + '>Byce</option>';
-	//option += '<option value="2271156591" ' + (pDefault=="2271156591"?"selected":"") + '>caos5522</option>';
+	option += '<option value="2171680461" ' + (pDefault=="2171680461"?"selected":"") + '>Byce</option>';
+	option += '<option value="2271156591" ' + (pDefault=="2271156591"?"selected":"") + '>caos5522</option>';
 	option += '<option value="2747200019" ' + (pDefault=="2747200019"?"selected":"") + '>Getr3kt</option>';
 	option += '<option value="2578795263" ' + (pDefault=="2578795263"?"selected":"") + '>Joe</option>';
 	//option += '<option value="2121751804" ' + (pDefault=="2121751804"?"selected":"") + '>Josh</option>';
@@ -939,9 +939,8 @@ function fnSkypeClanSelectorOption(pDefault) {
 	option += '<option value="2656724949" ' + (pDefault=="2656724949"?"selected":"") + '>Kissy</option>';
 	//option += '<option value="1330745254" ' + (pDefault=="1330745254"?"selected":"") + '>Unreality</option>';
 	option += '<option value="1847429107" ' + (pDefault=="1847429107"?"selected":"") + '>Unreality</option>';
-	//option += '<option value="2320103292" ' + (pDefault=="2320103292"?"selected":"") + '>Drakkar</option>';
-	option += '<option value="2320103292" ' + (pDefault=="2661557047"?"selected":"") + '>Kelv(Drakkar)</option>';
-  return option;
+	option += '<option value="2320103292" ' + (pDefault=="2320103292"?"selected":"") + '>Drakkar</option>';
+	return option;
 }
 
 function fnProfileAddSkypeClanSelector() {
@@ -4109,7 +4108,7 @@ function fnClanBattleSelect() {
 	else {
 		if (parseInt($('dd.ally').eq(0).html(),10)*2 <= parseInt($('dd.enemy').eq(0).html(),10)) {
 			// auto use bp to secure wins
-			$.ajax_ex(false, '/misc/ajaxItemPopup', { 'item_type': 1, '__hash': ('' + (new Date()).getTime()) }, function(result) {
+			$.ajax_ex(false, '/en/'+platform+'/misc/ajaxItemPopup', { 'item_type': 1, '__hash': ('' + (new Date()).getTime()) }, function(result) {
 				if (result.status == 0) {
 					for (var i=0;i<result.payload.item_ids.length;i++) {
 						for (var j=0;j<bpItemList.length;j++) {
