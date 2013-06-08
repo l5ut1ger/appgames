@@ -4106,9 +4106,7 @@ function fnClanBattleSelect() {
 		fnRedirect('/en/'+platform+'/clanbattle/battleAct?percent=100&battle_off_flag=true');
 	}
 	else {
-	alert(parseInt($('dd.ally').eq(0).html(),10)*2);
-	alert(parseInt($('dd.enemy').eq(0).html(),10));
-		if (parseInt($('dd.ally').eq(0).html(),10)*2 <= parseInt($('dd.enemy').eq(0).html(),10)) {
+		if (true || parseInt($('dd.ally').eq(0).html(),10)*2 <= parseInt($('dd.enemy').eq(0).html(),10)) {
 			// auto use bp to secure wins
 			$.ajax_ex(false, '/misc/ajaxItemPopup', { 'item_type': 1, '__hash': ('' + (new Date()).getTime()) }, function(result) {
 				if (result.status == 0) {
