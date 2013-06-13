@@ -2759,7 +2759,8 @@ function fnForkRoadItemComplete() {
 		// change to high bp team to look legit, and do mission if have power
 		fnDeckChangeAdvance(fnEventMissionTeam(), false, function(){});
 	}
-	fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid=100');
+	$.ajax_ex(false, '/en/'+platform+'/battle/battleact?event=4&aid=100', {}, function(data) {});
+	fnRedirect('/en/'+platform+'/battle/bossResult');
 	
 // commented because we need to grind faster
 	//$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
