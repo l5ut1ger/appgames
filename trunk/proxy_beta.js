@@ -2731,13 +2731,14 @@ function fnForkRoadMileStone() {
 }
 
 function fnForkRoadItemComplete() {	
+	$('#battle_btn').trigger("click");
 // commented because we need to grind faster
 	//$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
 		//$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.boxes[0].boxed_id, {}, function(data) {
-			fnForkRoadRedirection();		
+			//fnForkRoadRedirection();		
 		//});		
 	//});
-	setInterval(fnRedirect, 60000, '/en/'+platform+'/forkroad');
+	//setInterval(fnRedirect, 60000, '/en/'+platform+'/forkroad');
 }
 
 //var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
