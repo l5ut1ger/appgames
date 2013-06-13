@@ -2760,7 +2760,7 @@ function fnForkRoadItemComplete() {
 		fnDeckChangeAdvance(fnEventMissionTeam(), false, function(){});
 	}
 	$.ajax_ex(false, '/en/'+platform+'/battle/battleact?event=4&aid=100', {}, function(data) {});
-	fnRedirect('/en/'+platform+'/battle/bossResult');
+	fnRedirect('/en/'+platform+'/forkroad/bossResult');
 	
 // commented because we need to grind faster
 	//$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
