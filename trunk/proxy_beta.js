@@ -2755,9 +2755,12 @@ function fnForkRoadMileStone() {
 }
 
 function fnForkRoadItemComplete() {	
-	if (fnGetGrindingSpeed()  > 0) {
-		setTimeout(function() {$('#battle_btn').trigger("click");}, fnGetGrindingSpeed());
+	if (fnEventMissionTeam() != null && fnEventMissionTeam() != 0 && parseInt(player.deck_total_bp,10) == 1) {
+		// change to high bp team to look legit, and do mission if have power
+		fnDeckChangeAdvance(fnEventMissionTeam(), false, function(){});
 	}
+	fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid=100');
+	
 // commented because we need to grind faster
 	//$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
 		//$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.boxes[0].boxed_id, {}, function(data) {
