@@ -2834,6 +2834,29 @@ function fnForkRoadAutoDrink(pRedirect) {
 	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3022) { // consume my 100 energy
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect(pRedirect);
+				return;
+			}
+		}
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3018) { // consume my energy
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect(pRedirect);
+				return;
+			}
+		}
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3001) { // consum energy
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect(pRedirect);
+				return;
+			}
+		}
+		
+		/*
 		if (fnEventBattleTeam() != null && fnEventBattleTeam() != 0) {
 			for (var j=0;j<items.length;j++) {
 				if (items[j].item_id == 3024) { // consume my 100 elixir
@@ -2850,21 +2873,7 @@ function fnForkRoadAutoDrink(pRedirect) {
 				}
 			}
 		}
-		for (var j=0;j<items.length;j++) {
-			if (items[j].item_id == 3022) { // consume my 100 energy
-				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
-				fnRedirect(pRedirect);
-				return;
-			}
-		}
-		for (var j=0;j<items.length;j++) {
-			if (items[j].item_id == 3018) { // consume my energy
-				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
-				fnRedirect(pRedirect);
-				return;
-			}
-		}
-		if (fnEventBattleTeam() != null) {
+		if (fnEventBattleTeam() != null && fnEventBattleTeam() != 0) {
 			for (var j=0;j<items.length;j++) {
 				if (items[j].item_id == 3011) { // consum elixir
 					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
@@ -2872,14 +2881,8 @@ function fnForkRoadAutoDrink(pRedirect) {
 					return;
 				}
 			}
-		}
-		for (var j=0;j<items.length;j++) {
-			if (items[j].item_id == 3001) { // consum energy
-				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
-				fnRedirect(pRedirect);
-				return;
-			}
-		}
+		}*/
+		
 		fnRedirect(pRedirect);
 	});	
 }
