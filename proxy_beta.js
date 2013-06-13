@@ -2484,7 +2484,7 @@ function fnFixForkRoadMissionProcess() {
 			}
 			else if (result.status == 4) {
 				// switch to battle
-				if (fnEventMissionTeam() != null && fnEventBattleTeam() != null && parseInt(player.bp, 10) >= 1) {
+				if (fnEventMissionTeam() != null && fnEventBattleTeam() != null && fnEventMissionTeam() != 0 && fnEventBattleTeam() != 0 && parseInt(player.bp, 10) >= 1) {
 					clearInterval(missionInterval);
 					fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad/list');});
 					fnRedirect('/en/'+platform+'/forkroad/list');
@@ -2695,8 +2695,32 @@ function fnForkRoad() {
 		}
 	}
 	fnForkRoadRedirection();
+	var divTag = document.createElement("div");
+	divTag.id = "frDiv";
+	
+	var autoSetFormationHTML = '<br/><input type="button" value="Auto Set Event Team" onClick="fnAutoSetEventFormation()"><br/><br/>';
+
+	var aFormationArray = fnGetFormationArray();
+	var missionTeamSelectorHTML =  'Mission Team:<select name="boss" onchange="fnSetEventMissionTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Mission Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnEventMissionTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		missionTeamSelectorHTML+='<option ' + (fnEventMissionTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	missionTeamSelectorHTML+='</select><br/>'; 
+
+	var battleTeamSelectorHTML =  'Battle Team<select name="prog" onchange="fnSetEventBattleTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Battle Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnDungeonProgTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
+	for (i=0;i<aFormationArray.length;i++) {
+		if (typeof(aFormationArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+		battleTeamSelectorHTML+='<option ' + (fnEventBattleTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
+	}
+	battleTeamSelectorHTML+='</select><br/>'; 
+	
+	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnAutoBP(),10)==3043?'selected':'') + ' value="3043">My 100 BP</option><option ' + (parseInt(fnAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3024?'selected':'') + ' value="3024">My 100 Elixir</option></select><br/>';	
+	
+	divTag.innerHTML = autoSetFormationHTML + missionTeamSelectorHTML + battleTeamSelectorHTML + bpSelectorHTML;
+	document.body.appendChild(divTag);
   
-  
+  /*
 	var divTag = document.createElement("div");
 	divTag.id = "frDiv";
 
@@ -2723,7 +2747,7 @@ function fnForkRoad() {
 	if (parseInt(player.bp, 10) <= 1) {
 		fnPresentBoxReceiveAllItems();
 	}
-  
+  */
 }
 
 function fnForkRoadMileStone() {
@@ -2775,7 +2799,7 @@ function fnForkRoadRedirection() {
 			return;
 		}
 	}
-	if (fnEventBattleTeam() != null) {
+	if (fnEventBattleTeam() != null && fnEventBattleTeam() != 0) {
 		// if have enough bp, change to battle team to battle;
 		if (parseInt(player.deck_total_bp,10) > 1 && parseInt(player.bp,10) >= 10) {
 			fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad');});
@@ -2783,7 +2807,7 @@ function fnForkRoadRedirection() {
 			return;
 		}
 	}
-	if (fnEventMissionTeam() != null && parseInt(player.deck_total_bp,10) == 1) {
+	if (fnEventMissionTeam() != null && fnEventMissionTeam() != 0 && parseInt(player.deck_total_bp,10) == 1) {
 		// change to high bp team to look legit, and do mission if have power
 		fnDeckChangeAdvance(fnEventMissionTeam(), false, function(){});
 	}
@@ -2806,7 +2830,7 @@ function fnForkRoadAutoDrink(pRedirect) {
 	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
-		if (fnEventBattleTeam() != "") {
+		if (fnEventBattleTeam() != null && fnEventBattleTeam() != 0) {
 			for (var j=0;j<items.length;j++) {
 				if (items[j].item_id == 3024) { // consume my 100 elixir
 					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
