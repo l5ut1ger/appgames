@@ -2731,7 +2731,9 @@ function fnForkRoadMileStone() {
 }
 
 function fnForkRoadItemComplete() {	
-	$('#battle_btn').trigger("click");
+	if (fnGetGrindingSpeed()  > 0) {
+		setTimeout(function() {$('#battle_btn').trigger("click");}, fnGetGrindingSpeed());
+	}
 // commented because we need to grind faster
 	//$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', {}, function(data) {
 		//$.ajax_ex(false, '/en/'+platform+'/present/receive?bid='+data.payload.boxes[0].boxed_id, {}, function(data) {
@@ -2804,7 +2806,7 @@ function fnForkRoadAutoDrink(pRedirect) {
 	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
-		if (fnEventBattleTeam() != null) {
+		if (fnEventBattleTeam() != "") {
 			for (var j=0;j<items.length;j++) {
 				if (items[j].item_id == 3024) { // consume my 100 elixir
 					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
