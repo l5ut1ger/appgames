@@ -2683,7 +2683,7 @@ function fnForkRoadMission() {
 	fnForkRoadAutoGrind();	
 }
 
-function fnForkRoad() {return;
+function fnForkRoad() {
 	if ($('#fragments_complete').is(":visible")) {
 		fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 		return;
