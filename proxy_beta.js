@@ -2903,6 +2903,15 @@ function fnForkRoadBattleResult() {
 	}
 }
 
+function fnForkRoadBossResult() {
+	if (document.referrer.indexOf('battle/battle') >= 0) {
+		fnRedirect('/en/'+platform+'/forkroad/mission?');
+	}
+	else {
+		fnForkRoadRedirection();
+	}
+}
+
 function fnForkRoadSummon() {
 	fnRedirect('/en/'+platform+'/forkroad/list');
 }
@@ -4167,6 +4176,9 @@ function fnBattleBattle() {
 	}
 	else if (document.referrer.indexOf('/forkroad/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/forkroad/battleResult');
+	}
+	else if (document.referrer.indexOf('/forkroad/itemComplete') >= 0) {
+		fnRedirect('/en/'+platform+'/forkroad/bossResult');
 	}
 	else if (document.referrer.indexOf('/cemetery/mission') >= 0) {
 		fnRedirect('/en/'+platform+'/cemetery/battleResult');
@@ -5826,6 +5838,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/battleResult') {
 		fnForkRoadBattleResult();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/forkroad/bossResult') {
+		fnForkRoadBossResult();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/forkroad/summon') {
 		fnForkRoadSummon();
