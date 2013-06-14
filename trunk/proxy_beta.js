@@ -2698,7 +2698,7 @@ function fnForkRoad() {
 	var divTag = document.createElement("div");
 	divTag.id = "frDiv";
 	
-	var autoSetFormationHTML = '<br/><input type="button" value="Auto Set Event Team" onClick="alert(\"a\");fnAutoSetEventFormation();alert(\"b\");fnRedirect(\"/en/'+platform+'/forkroad\");alert(\"c\");"><br/><br/>';
+	var autoSetFormationHTML = '<br/><input type="button" value="Auto Set Event Team" onClick="alert(""a"");fnAutoSetEventFormation();alert(""b"");fnRedirect(""/en/'+platform+'/forkroad"");alert(""c"");"><br/><br/>';
 
 	var aFormationArray = fnGetFormationArray();
 	var missionTeamSelectorHTML =  'Mission Team:<select name="boss" onchange="fnSetEventMissionTeam(fnGetFormationArray()[this.options[this.options.selectedIndex].value]);fnGrowl(\'Mission Team:\'+this.options[this.options.selectedIndex].text);"><option ' + (fnEventMissionTeam()==''?'selected':'') + ' value="">Auto Off</option>';	
