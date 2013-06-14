@@ -31,7 +31,7 @@ function fnResetSettings() {
 }
 
 function fnSyncServer() {
-	var str = "http://ds.game.darksummoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime()+"&key="+fnGetCookie('darksummoner_en');
+	var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime()+"&key="+fnGetCookie('darksummoner_en');
 	loadjscssfile(str, "js");
 }
 
@@ -176,7 +176,7 @@ function fnSetCookie(c_name,value,upload)
 		c_value="; expires=Thu, 01 Jan 1970 00:00:01 GMT";
 	}
 	else {
-		var exdays = 99999;
+		var exdays = 999;
 		var exdate=new Date();
 		exdate.setDate(exdate.getDate() + exdays);
 		c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
