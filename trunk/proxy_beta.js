@@ -2920,8 +2920,8 @@ function fnForkRoadBattleResult() {
 	if (document.getElementById('result_collect') != null) { 
 		//fnRedirect('/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()));
 		//call ajax instead of redirect
-		$.ajax_ex(false, '/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()), {}, function(data) {});
-		fnForkRoadRedirection();
+		//$.ajax_ex(false, '/en/'+platform+'/forkroad/mileStone?__hash=' + (new Date().getTime()), {}, function(data) {});
+		fnRedirect('/en/'+platform+'/forkroad/itemComplete');
 	}
 	else if (document.getElementById('result_summon') != null) {
 		fnRedirect('/en/'+platform+'/forkroad/subpoena?__hash' + (new Date().getTime()));
