@@ -2809,11 +2809,12 @@ function fnForkRoadRedirection() {
 		if (parseInt(player.deck_total_bp,10) > 1 && parseInt(player.bp,10) >= 10) {
 			fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){});
 			//fnRedirect('/en/'+platform+'/forkroad');
-			for (i=1;i<=5 && parseInt(player.bp,10)>0;i++) {
-				if (!fnForkRoadBattleAttempt()) {
-					fnRedirect('/en/'+platform+'/forkroad');
-					break;
-				}
+			for (i=1;i<=5;i++) {
+				$.ajax_ex(false, '/en/'+platform+'/battle/battleact?pid='+forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)]+'&skip=1&event=5', {}, function(data) {});				
+			}
+			if (!fnForkRoadBattleAttempt()) {
+				fnRedirect('/en/'+platform+'/forkroad');
+				break;
 			}
 			return;
 		}
