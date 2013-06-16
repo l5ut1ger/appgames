@@ -2807,7 +2807,10 @@ function fnForkRoadRedirection() {
 		// if have enough bp, change to battle team to battle;
 		if (parseInt(player.deck_total_bp,10) > 1 && parseInt(player.bp,10) >= 10) {
 			fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad');});
-			fnRedirect('/en/'+platform+'/forkroad');
+			//fnRedirect('/en/'+platform+'/forkroad');
+			if (!fnForkRoadBattleAttempt()) {
+				fnRedirect('/en/'+platform+'/forkroad');
+			}
 			return;
 		}
 	}
