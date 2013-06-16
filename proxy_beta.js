@@ -2814,7 +2814,6 @@ function fnForkRoadRedirection() {
 			}
 			if (!fnForkRoadBattleAttempt()) {
 				fnRedirect('/en/'+platform+'/forkroad');
-				break;
 			}
 			return;
 		}
