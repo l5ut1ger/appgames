@@ -2774,7 +2774,8 @@ function fnForkRoadItemComplete() {
 //var forkRoadBattleList=['2105497160','2376495127','1707996294', '2274393881', '2582019965'];
 var forkRoadBattleList=['2274393881', '2582019965'];
 function fnForkRoadBattleAttempt() {
-	if (parseInt(player.bp,10) >= 1) {				
+	if (parseInt(player.bp,10) >= 1) {
+		player.bp = parseInt(player.bp,10)-parseInt(player.deck_total_bp,10);
 		fnRedirect('/en/'+platform+'/battle/battleact?pid='+forkRoadBattleList[Math.floor(Math.random()*forkRoadBattleList.length)]+'&skip=1&event=5');
 		return true;
 	}
@@ -2806,10 +2807,13 @@ function fnForkRoadRedirection() {
 	if (fnEventBattleTeam() != null && fnEventBattleTeam() != 0) {
 		// if have enough bp, change to battle team to battle;
 		if (parseInt(player.deck_total_bp,10) > 1 && parseInt(player.bp,10) >= 10) {
-			fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){fnRedirect('/en/'+platform+'/forkroad');});
+			fnDeckChangeAdvance(fnEventBattleTeam(), false, function(){});
 			//fnRedirect('/en/'+platform+'/forkroad');
-			if (!fnForkRoadBattleAttempt()) {
-				fnRedirect('/en/'+platform+'/forkroad');
+			for (i=1;i<=5 && parseInt(player.bp,10)>0;i++) {
+				if (!fnForkRoadBattleAttempt()) {
+					fnRedirect('/en/'+platform+'/forkroad');
+					break;
+				}
 			}
 			return;
 		}
