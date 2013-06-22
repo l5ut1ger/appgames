@@ -3382,7 +3382,7 @@ function fnSubjugationDrinkBP(pRedirect) {
 				return;
 			}
 		}
-		if (player.bp_max >= 300 && raid_data.boss_id == 17) {
+		if (parseInt(fnSubjucationMissionStay(),10)==1 || player.bp_max >= 300 && raid_data.boss_id == 17) {
 			for (var j=0;j<items.length;j++) {
 				if (items[j].item_id == 3019) { // consume my battle potions
 					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
