@@ -5567,6 +5567,7 @@ function fnLoginStamp() {
 // First Day of the Month Stamp
 
 function fnFirstDayOfMonth() {
+	$.ajax_ex(false, '/en/'+platform+'/present/fpAll', {},function(result) {return;}) ;
 	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 }
 
@@ -5721,7 +5722,7 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/event/loginStampContinuous') {
 		fnLoginStamp();
 	}
-   	else if (window.location.pathname === '/en/'+platform+'/event/rewardToGetFirstDay') {
+  else if (window.location.pathname === '/en/'+platform+'/event/rewardToGetFirstDay') {
 		fnFirstDayOfMonth();
 	}
 
