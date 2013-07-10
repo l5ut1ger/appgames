@@ -2544,7 +2544,7 @@ function fnFixForkRoadMissionProcess() {
 			confirmId = result.payload.confirm_id;
 
 
-			// é²æã«åãããä½ç½®ã«å¤æ´
+			// Ã©Â€Â²Ã¦ÂÂ—Ã£ÂÂ«Ã¥ÂÂˆÃ£Â‚ÂÃ£ÂÂ›Ã£ÂÂŸÃ¤Â½ÂÃ§Â½Â®Ã£ÂÂ«Ã¥Â¤Â‰Ã¦Â›Â´
 			//var m_area = missionAreaMaster[result.payload.mission.unique_id];
 			//scrollTemplate.setPosition((320 - m_area.pos_x) - (320 / 2) - 30, (200 - m_area.pos_y) - (200 / 2) - 30);
 
@@ -2598,7 +2598,7 @@ function fnFixForkRoadMissionProcess() {
 				}
 			}
 
-			//ã¤ãã³ãã®å¤å®
+			//Ã£Â‚Â¤Ã£ÂƒÂ™Ã£ÂƒÂ³Ã£ÂƒÂˆÃ£ÂÂ®Ã¥ÂˆÂ¤Ã¥Â®Âš
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
 					if ((parseInt(fnForkRoadStay(),10) == 1) || (parseInt(fnForkRoadStay(),10) == 2) || (parseInt(fnForkRoadStay(),10) == 3)) {
@@ -2617,7 +2617,7 @@ function fnFixForkRoadMissionProcess() {
 				}
 			}
 
-			//åå²é¸æã®å¤å®
+			//Ã¥ÂˆÂ†Ã¥Â²ÂÃ©ÂÂ¸Ã¦ÂŠÂžÃ£ÂÂ®Ã¥ÂˆÂ¤Ã¥Â®Âš
 			if(result.payload.process.fork_flag) {
 				clearInterval(missionInterval);
 				$.ajax_ex(false, '/en/'+platform+'/forkroad/ajax_area_select?fflag='+((parseInt(player.deck_total_attack,10) < 50000)?1:2), {}, function(result) {
@@ -2626,7 +2626,7 @@ function fnFixForkRoadMissionProcess() {
 				return;
 			}
 
-			//åå²çµäºã®å¤å®
+			//Ã¥ÂˆÂ†Ã¥Â²ÂÃ§ÂµÂ‚Ã¤ÂºÂ†Ã£ÂÂ®Ã¥ÂˆÂ¤Ã¥Â®Âš
 			if(result.payload.event.event_info.fork == 64 && result.payload.event.clear) {
 				event.phase.push('fork_end');
 				//event = eventManager(event);
@@ -2634,10 +2634,10 @@ function fnFixForkRoadMissionProcess() {
 				//return;
 			}
 
-			//ç§»å
+			//Ã§Â§Â»Ã¥Â‹Â•
 			if(event.clear)                          event.phase.push('mission_move');
 
-			//ã«ã«ãã«ã¼ã
+			//Ã£Â‚Â«Ã£ÂƒÂ«Ã£ÂƒÂžÃ£Â‚Â«Ã£ÂƒÂ¼Ã£ÂƒÂ‰
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(666 == result.payload.event.event_info.params.type){
 					clearInterval(missionInterval);
@@ -2646,7 +2646,7 @@ function fnFixForkRoadMissionProcess() {
 				}
 			}
 
-			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
+			//Ã£ÂƒÂ©Ã£ÂƒÂ³Ã£ÂƒÂ€Ã£Âƒ Ã£ÂƒÂœÃ£Â‚Â¹Ã£ÂÂ¨Ã£ÂÂ®Ã©ÂÂ­Ã©ÂÂ‡Ã¥ÂˆÂ¤Ã¥Â®Âš
 			if(event.enemy_encount) {
 				//clearInterval(missionInterval);
 				//fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id+'&skip=1');	
@@ -3613,7 +3613,7 @@ function fnSubjugationFixAttack() {
 		});
 
 		if (! short_of_bp) {
-			// ææ´ãæ¶ã
+			// Ã¦Â•Â‘Ã¦ÂÂ´Ã£Â‚Â’Ã¦Â¶ÂˆÃ£ÂÂ™
 			raid_data.cheer_attack = 0;
 			raid_data.member_count = 0;
 
@@ -4461,7 +4461,7 @@ function fnAuctionDisplayCommission() {
 			$('.img_auction_comment', base_tag).hide();
 		}
 
-		// a-?a?¡Lc¢Foea?a??a??a??
+		// a-?a?Â¡LcÂ¢Foea?a??a??a??
 		if(entry.permanent_thumb_image_0){
 			$('.item_0', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_0);
 		}
@@ -5546,6 +5546,11 @@ function fnFusion() {
 	fnFusionFixPage();
 }
 
+// quicker battles against other people
+function fnBattleResult() {
+	fnRedirect('/en/'+platform+'/battle?__sc=');
+
+
 // tutorial
 
 function fnTutorialStartPage() {
@@ -5842,6 +5847,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/auction/detail') {
 		fnAuctionDetail();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/battle/result') {
+		fnBattleResult();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/trade') {
 		fnTrade();
