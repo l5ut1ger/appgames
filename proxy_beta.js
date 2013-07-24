@@ -2544,7 +2544,7 @@ function fnFixForkRoadMissionProcess() {
 			confirmId = result.payload.confirm_id;
 
 
-			// Ã©Â€Â²Ã¦ÂÂ—Ã£ÂÂ«Ã¥ÂÂˆÃ£Â‚ÂÃ£ÂÂ›Ã£ÂÂŸÃ¤Â½ÂÃ§Â½Â®Ã£ÂÂ«Ã¥Â¤Â‰Ã¦Â›Â´
+			// é²æã«åãããä½ç½®ã«å¤æ´
 			//var m_area = missionAreaMaster[result.payload.mission.unique_id];
 			//scrollTemplate.setPosition((320 - m_area.pos_x) - (320 / 2) - 30, (200 - m_area.pos_y) - (200 / 2) - 30);
 
@@ -2598,7 +2598,7 @@ function fnFixForkRoadMissionProcess() {
 				}
 			}
 
-			//Ã£Â‚Â¤Ã£ÂƒÂ™Ã£ÂƒÂ³Ã£ÂƒÂˆÃ£ÂÂ®Ã¥ÂˆÂ¤Ã¥Â®Âš
+			//ã¤ãã³ãã®å¤å®
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(255 == result.payload.event.event_info.params.type){
 					if ((parseInt(fnForkRoadStay(),10) == 1) || (parseInt(fnForkRoadStay(),10) == 2) || (parseInt(fnForkRoadStay(),10) == 3)) {
@@ -2617,7 +2617,7 @@ function fnFixForkRoadMissionProcess() {
 				}
 			}
 
-			//Ã¥ÂˆÂ†Ã¥Â²ÂÃ©ÂÂ¸Ã¦ÂŠÂžÃ£ÂÂ®Ã¥ÂˆÂ¤Ã¥Â®Âš
+			//åå²é¸æã®å¤å®
 			if(result.payload.process.fork_flag) {
 				clearInterval(missionInterval);
 				$.ajax_ex(false, '/en/'+platform+'/forkroad/ajax_area_select?fflag='+((parseInt(player.deck_total_attack,10) < 50000)?1:2), {}, function(result) {
@@ -2626,7 +2626,7 @@ function fnFixForkRoadMissionProcess() {
 				return;
 			}
 
-			//Ã¥ÂˆÂ†Ã¥Â²ÂÃ§ÂµÂ‚Ã¤ÂºÂ†Ã£ÂÂ®Ã¥ÂˆÂ¤Ã¥Â®Âš
+			//åå²çµäºã®å¤å®
 			if(result.payload.event.event_info.fork == 64 && result.payload.event.clear) {
 				event.phase.push('fork_end');
 				//event = eventManager(event);
@@ -2634,10 +2634,10 @@ function fnFixForkRoadMissionProcess() {
 				//return;
 			}
 
-			//Ã§Â§Â»Ã¥Â‹Â•
+			//ç§»å
 			if(event.clear)                          event.phase.push('mission_move');
 
-			//Ã£Â‚Â«Ã£ÂƒÂ«Ã£ÂƒÂžÃ£Â‚Â«Ã£ÂƒÂ¼Ã£ÂƒÂ‰
+			//ã«ã«ãã«ã¼ã
 			if(typeof(result.payload.event.event_info.params) != 'undefined') {
 				if(666 == result.payload.event.event_info.params.type){
 					clearInterval(missionInterval);
@@ -2646,7 +2646,7 @@ function fnFixForkRoadMissionProcess() {
 				}
 			}
 
-			//Ã£ÂƒÂ©Ã£ÂƒÂ³Ã£ÂƒÂ€Ã£Âƒ Ã£ÂƒÂœÃ£Â‚Â¹Ã£ÂÂ¨Ã£ÂÂ®Ã©ÂÂ­Ã©ÂÂ‡Ã¥ÂˆÂ¤Ã¥Â®Âš
+			//ã©ã³ãã ãã¹ã¨ã®é­éå¤å®
 			if(event.enemy_encount) {
 				//clearInterval(missionInterval);
 				//fnRedirect('/en/'+platform+'/battle/battleact?event=4&aid='+area_id+'&skip=1');	
@@ -3613,7 +3613,7 @@ function fnSubjugationFixAttack() {
 		});
 
 		if (! short_of_bp) {
-			// Ã¦Â•Â‘Ã¦ÂÂ´Ã£Â‚Â’Ã¦Â¶ÂˆÃ£ÂÂ™
+			// ææ´ãæ¶ã
 			raid_data.cheer_attack = 0;
 			raid_data.member_count = 0;
 
@@ -3856,6 +3856,102 @@ function fnSubjugationMission() {
 	else {
 		missionInterval = setInterval(mission_exec,fnGetGrindingSpeed());
 	}	
+}
+
+// adventure mission
+
+function fnFixAdventureMission() {
+	mission_exec = function() {
+
+		$.ajax_ex(false, '/en/'+platform+'/adventure/process', {
+			area_id: area_id,
+			mission: mission.current_mission,
+			confirm_id: confirm_id
+		}, function(result) {
+			if (result.status == 4) {
+				if (fnAutoDrink() == 1) {
+					var useEnergy100 = false;
+					for (var i=0;i<result.payload.item_ids.length;i++) {
+						if (result.payload.item_ids[i]==3022) {
+							if (player.power_max <= 300 && (player.next_exp - player.now_exp < result.payload.amount[i] * 100)) {
+								// max energy too low, drink enenrgy100 to level up instead of full ep
+								useEnergy100 = true;
+								break;
+							}
+							if (player.next_exp - player.now_exp > player.power_max) {
+								// not close to level up, so drink full ep
+								break;
+							}
+							if (player.next_exp - player.now_exp > 400) {
+								// close to level up, but not going to spend five energy100 to level up, so drink full ep anyway
+								break;
+							}
+							if (player.next_exp - player.now_exp <= result.payload.amount[i] * 100) {
+								// close to level up, and player has enough my energy 100 potion, drink enenrgy100 to level up instead of full ep
+								useEnergy100 = true;
+								break;
+							}
+							break;
+						}
+					}
+					if (useEnergy100) {
+						$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3022}, function(data) {});
+					}
+					else {
+						$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
+					}
+					if (fnGetGrindingSpeed() == 1) {
+						mission_exec();
+					}
+					return;
+				}
+				else {
+					phase_no_power(result.payload);
+					clearInterval(missionInterval);
+				}
+			} else if(result.status != 0) {
+				confirm_id = result.payload.confirm_id;
+				return;
+			}
+
+			//console.log(result);
+			confirm_id = result.payload.confirm_id;
+
+			mission = result.payload.mission;
+			event = result.payload.event;
+			event.phase = new Array();
+
+			draw();
+
+
+			//      if(mission.last_mission == 5)event.phase.push('enemy_summoner');
+			if(event.clear)
+			if(event.next_area) {
+				$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', { area_id: area_id, '__hash': ('' + (new Date()).getTime()) }, function(result) {
+					if (result.status != 0) {
+						return;
+					}
+					$.redirect('/en/'+platform+'/adventure/mission');
+				});
+			}
+
+			event = eventManager(event);
+			if (fnGetGrindingSpeed() == 1) {
+				mission_exec();
+			}
+
+		});
+	}
+}
+
+function fnAdventureMission() {
+	fnFixAdventureMission();
+	if (fnGetGrindingSpeed() == 1) {
+		mission_exec();
+	}
+	else {
+		missionInterval = setInterval(mission_exec,fnGetGrindingSpeed());
+	}
 }
 
 // dungeon mission
@@ -4461,7 +4557,7 @@ function fnAuctionDisplayCommission() {
 			$('.img_auction_comment', base_tag).hide();
 		}
 
-		// a-?a?Â¡LcÂ¢Foea?a??a??a??
+		// a-?a?¡Lc¢Foea?a??a??a??
 		if(entry.permanent_thumb_image_0){
 			$('.item_0', base_tag).attr('src', IMG_BASE + entry.permanent_thumb_image_0);
 		}
@@ -5546,11 +5642,6 @@ function fnFusion() {
 	fnFusionFixPage();
 }
 
-// quicker battles against other people
-function fnBattleResult() {
-	fnRedirect('/en/'+platform+'/battle?__sc=');
-
-
 // tutorial
 
 function fnTutorialStartPage() {
@@ -5572,7 +5663,7 @@ function fnLoginStamp() {
 // First Day of the Month Stamp
 
 function fnFirstDayOfMonth() {
-	$.ajax_ex(false, '/en/'+platform+'/present/fpAll', {},function(result) {return;}) ;
+$.ajax_ex(false, '/en/'+platform+'/present/fpAll', {},function(result) {return;}) ;
 	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
 }
 
@@ -5727,7 +5818,7 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/event/loginStampContinuous') {
 		fnLoginStamp();
 	}
-  else if (window.location.pathname === '/en/'+platform+'/event/rewardToGetFirstDay') {
+   	else if (window.location.pathname === '/en/'+platform+'/event/rewardToGetFirstDay') {
 		fnFirstDayOfMonth();
 	}
 
@@ -5781,6 +5872,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower/finalRanking') {
 		fnTowerFinalRanking();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/adventure/mission') {
+		fnAdventureMission();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/dungeon' || window.location.pathname === '/en/'+platform+'/dungeon/index') {
 		fnDungeon();
@@ -5847,9 +5941,6 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/auction/detail') {
 		fnAuctionDetail();
-	}
-	else if (window.location.pathname === '/en/'+platform+'/battle/result') {
-		fnBattleResult();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/trade') {
 		fnTrade();
