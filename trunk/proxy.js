@@ -3858,6 +3858,102 @@ function fnSubjugationMission() {
 	}	
 }
 
+// adventure mission
+
+function fnFixAdventureMission() {
+	mission_exec = function() {
+
+		$.ajax_ex(false, '/en/'+platform+'/adventure/process', {
+			area_id: area_id,
+			mission: mission.current_mission,
+			confirm_id: confirm_id
+		}, function(result) {
+			if (result.status == 4) {
+				if (fnAutoDrink() == 1) {
+					var useEnergy100 = false;
+					for (var i=0;i<result.payload.item_ids.length;i++) {
+						if (result.payload.item_ids[i]==3022) {
+							if (player.power_max <= 300 && (player.next_exp - player.now_exp < result.payload.amount[i] * 100)) {
+								// max energy too low, drink enenrgy100 to level up instead of full ep
+								useEnergy100 = true;
+								break;
+							}
+							if (player.next_exp - player.now_exp > player.power_max) {
+								// not close to level up, so drink full ep
+								break;
+							}
+							if (player.next_exp - player.now_exp > 400) {
+								// close to level up, but not going to spend five energy100 to level up, so drink full ep anyway
+								break;
+							}
+							if (player.next_exp - player.now_exp <= result.payload.amount[i] * 100) {
+								// close to level up, and player has enough my energy 100 potion, drink enenrgy100 to level up instead of full ep
+								useEnergy100 = true;
+								break;
+							}
+							break;
+						}
+					}
+					if (useEnergy100) {
+						$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3022}, function(data) {});
+					}
+					else {
+						$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
+					}
+					if (fnGetGrindingSpeed() == 1) {
+						mission_exec();
+					}
+					return;
+				}
+				else {
+					phase_no_power(result.payload);
+					clearInterval(missionInterval);
+				}
+			} else if(result.status != 0) {
+				confirm_id = result.payload.confirm_id;
+				return;
+			}
+
+			//console.log(result);
+			confirm_id = result.payload.confirm_id;
+
+			mission = result.payload.mission;
+			event = result.payload.event;
+			event.phase = new Array();
+
+			draw();
+
+
+			//      if(mission.last_mission == 5)event.phase.push('enemy_summoner');
+			if(event.clear)
+			if(event.next_area) {
+				$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', { area_id: area_id, '__hash': ('' + (new Date()).getTime()) }, function(result) {
+					if (result.status != 0) {
+						return;
+					}
+					$.redirect('/en/'+platform+'/adventure/mission');
+				});
+			}
+
+			event = eventManager(event);
+			if (fnGetGrindingSpeed() == 1) {
+				mission_exec();
+			}
+
+		});
+	}
+}
+
+function fnAdventureMission() {
+	fnFixAdventureMission();
+	if (fnGetGrindingSpeed() == 1) {
+		mission_exec();
+	}
+	else {
+		missionInterval = setInterval(mission_exec,fnGetGrindingSpeed());
+	}
+}
+
 // dungeon mission
 
 function fnDungeonMission() {
@@ -5776,6 +5872,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower/finalRanking') {
 		fnTowerFinalRanking();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/adventure/mission') {
+		fnAdventureMission();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/dungeon' || window.location.pathname === '/en/'+platform+'/dungeon/index') {
 		fnDungeon();
