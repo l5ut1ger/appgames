@@ -3301,13 +3301,13 @@ function fnCemeteryBattleResult() {
 }
 
 // fnCemeteryBattleList
-var sinsCemeteryBattleList=['2220539725'];//momma
-var sinsLv3CemeteryBattleList=['2598350157'];//Dummy
-var rancorCemeteryBattleList=['2552015020'];//max rebo
-var rancorLv3CemeteryBattleList=['2348595327'];//Curt
-var tyrannyCemeteryBattleList=['1414640721'];//IG-88
-var tyrannyLv3CemeteryBattleList=['2410261971'];//Punching Bag
-var cemeteryBattleList = ['2220539725','2598350157','2552015020','2348595327','1414640721','2410261971'];
+var sinsCemeteryBattleList=['2655216569'];//['2372158593'];//momma2
+var sinsLv3CemeteryBattleList=['2655216569'];//['2598350157'];//Dummy
+var rancorCemeteryBattleList=['2655216569'];//['2552015020'];//max rebo
+var rancorLv3CemeteryBattleList=['2655216569'];//['2348595327'];//Curt
+var tyrannyCemeteryBattleList=['2655216569'];//['1414640721'];//IG-88
+var tyrannyLv3CemeteryBattleList=['2655216569'];//['2410261971'];//Punching Bag
+var cemeteryBattleList = ['2655216569'];//['2372158593','2598350157','2552015020','2348595327','1414640721','2410261971'];
 function fnCemeteryBattleList() {
 	if (parseInt(player.deck_total_bp, 10) == 1 && parseInt(player.bp, 10) >= 1) {
 		fnRedirect('/en/'+platform+'/battle/battleact?pid='+cemeteryBattleList[Math.floor(Math.random()*cemeteryBattleList.length)]+'&skip=1&event=6');
