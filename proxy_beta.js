@@ -3149,8 +3149,10 @@ function fnCemeteryMission() {
 	}
 	
 	if (parseInt(missionMaster.is_gate,10)) {
-		if (sinsOrb >= parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10) || rancorOrb >= parseInt($('.bottle_2').find('.orb_text_base').eq(0).html().substr(2),10) || tyrannyOrb >= parseInt($('.bottle_3').find('.orb_text_base').eq(0).html().substr(2),10)) {
+		if (parseInt(missionMaster.area_id,10) <= 50 && (sinsOrb >= parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10) || rancorOrb >= parseInt($('.bottle_2').find('.orb_text_base').eq(0).html().substr(2),10) || tyrannyOrb >= parseInt($('.bottle_3').find('.orb_text_base').eq(0).html().substr(2),10))) {
 			fnRedirect('/en/'+platform+'/cemetery/openGate?open_gate=' + mission.current_mission_id);
+		}
+		else if (parseInt(missionMaster.area_id,10) >= 51 && (sinsOrb >= parseInt($('.bottle_1').find('.orb_text_base').eq(0).html().substr(2),10) && rancorOrb >= parseInt($('.bottle_2').find('.orb_text_base').eq(0).html().substr(2),10) && tyrannyOrb >= parseInt($('.bottle_3').find('.orb_text_base').eq(0).html().substr(2),10))) {
 		}
 		else if (parseInt(fnAutoBP(),10)) {
 			if (parseInt(player.deck_total_bp, 10) > 1 && fnEventMissionTeam() != '' && fnEventBattleTeam() != '' && parseInt(player.bp, 10) >= 1) {
