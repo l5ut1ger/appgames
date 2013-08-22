@@ -896,32 +896,32 @@ function fnProfileGotoWallBookmark(pWall) {
 	}
 }
 
-function fnProfileAddWallBookmarkSelector() {
-	var i;
-	var divTag = document.createElement("div"); 
+//function fnProfileAddWallBookmarkSelector() {
+ //  var i;
+ //  var divTag = document.createElement("div"); 
 
-	divTag.id = "wallBookmarkDiv"; 
+ //  divTag.id = "wallBookmarkDiv"; 
 
-	divTag.style["z-index"] = 1000; 
+ //  divTag.style["z-index"] = 1000; 
 
-	divTag.style.position = "absolute"; 
+ //  divTag.style.position = "absolute"; 
 
-	divTag.style.left = "200px"; 
-	divTag.style.top = "100px"; 
+ //  divTag.style.left = "200px"; 
+ //  divTag.style.top = "100px"; 
 
-	var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
-	selectorHTML += '<option value="weekly1">Weekly Rank1</option>'
-	selectorHTML += '<option value="overall1">Overall Rank1</option>'
-	var aFriendArray = fnGetBookmarkFriendArray();
-	for (i=0;i<aFriendArray.length;i++) {
-		if (typeof(aFriendArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-		selectorHTML+='<option value="' + aFriendArray[i].split(fnGetConnector())[0] + '">' + aFriendArray[i].split(fnGetConnector())[1] + '</option>';
-	}
-	selectorHTML+='</select>'; 
+ //  var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
+ //  selectorHTML += '<option value="weekly1">Weekly Rank1</option>'
+ //  selectorHTML += '<option value="overall1">Overall Rank1</option>'
+ //  var aFriendArray = fnGetBookmarkFriendArray();
+ //  for (i=0;i<aFriendArray.length;i++) {
+ //	if (typeof(aFriendArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+ //	selectorHTML+='<option value="' + aFriendArray[i].split(fnGetConnector())[0] + '">' + aFriendArray[i].split(fnGetConnector())[1] + '</option>';
+ //  }
+ //  selectorHTML+='</select>'; 
 
-	divTag.innerHTML = selectorHTML;
-	document.body.appendChild(divTag);
-}
+ //  divTag.innerHTML = selectorHTML;
+ //  document.body.appendChild(divTag);
+//}
 
 function fnSkypeClanSelectorOption(pDefault) {
 	if (pDefault == null) {
