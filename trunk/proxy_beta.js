@@ -929,7 +929,7 @@ function fnSkypeClanSelectorOption(pDefault) {
 	}
 	var option = '<option value="1860292579" ' + (pDefault=="1860292579"?"selected":"") + '>about2punt</option>';
 	option += '<option value="2171680461" ' + (pDefault=="2171680461"?"selected":"") + '>Byce</option>';
-	option += '<option value="2271156591" ' + (pDefault=="2271156591"?"selected":"") + '>caos5522</option>';
+	option += '<option value="2271156591" ' + (pDefault=="2687205744"?"selected":"") + '>Beastly(Josh)</option>';
 	option += '<option value="2747200019" ' + (pDefault=="2747200019"?"selected":"") + '>Getr3kt</option>';
 	option += '<option value="2578795263" ' + (pDefault=="2578795263"?"selected":"") + '>Joe</option>';
 	//option += '<option value="2121751804" ' + (pDefault=="2121751804"?"selected":"") + '>Josh</option>';
@@ -938,8 +938,9 @@ function fnSkypeClanSelectorOption(pDefault) {
 	//option += '<option value="1806070535" ' + (pDefault=="1806070535"?"selected":"") + '>Kissy</option>';
 	option += '<option value="2656724949" ' + (pDefault=="2656724949"?"selected":"") + '>Kissy</option>';
 	//option += '<option value="1330745254" ' + (pDefault=="1330745254"?"selected":"") + '>Unreality</option>';
-	option += '<option value="1847429107" ' + (pDefault=="1847429107"?"selected":"") + '>Unreality</option>';
-	option += '<option value="2320103292" ' + (pDefault=="2320103292"?"selected":"") + '>Drakkar</option>';
+	//option += '<option value="1847429107" ' + (pDefault=="1847429107"?"selected":"") + '>Unreality</option>';
+	option += '<option value="1847429107" ' + (pDefault=="2220539725"?"selected":"") + '>Unreal(Momma)</option>';
+  option += '<option value="2320103292" ' + (pDefault=="2661557047"?"selected":"") + '>Kelv(Drakkar)</option>';
 	return option;
 }
 
