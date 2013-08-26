@@ -5253,395 +5253,395 @@ function fnTrade() {
 
 // fusion
 
-function fnFusionGenerateMonsterFromAllySummon() {
-	var divTag = document.createElement("div");
-	divTag.id = "summon";
-	divTag.style.display = "none";
-	document.body.appendChild(divTag); 	
+//function fnFusionGenerateMonsterFromAllySummon() {
+ //  var divTag = document.createElement("div");
+ //  divTag.id = "summon";
+ //  divTag.style.display = "none";
+ //  document.body.appendChild(divTag); 	
 	
-	var result= $('#summon').load('/en/'+platform+'/summon/act?type=0', {}, function(){});
+ //  var result= $('#summon').load('/en/'+platform+'/summon/act?type=0', {}, function(){});
 	//$.ajax_ex(false, '/en/'+platform+'/summon/act', {"type":0}, function(data) {});	
-}
+//}
 
-function fnFusionAuto(pUniqueNo) {
-	var sacStr = "";
-	var sacCount = 0;
-	if (parseInt(source.lv_max,10) - parseInt(source.lv,10) == 0) {
-		fnSetAutoFusion(0);
-		alert('Auto Level Up Done');
-		return;
-	}
-	for (var i=0;i<monsters.length;i++) {
-		if (parseInt(monsters[i].lv, 10)== 1) {  //sac level 1
-			if (parseInt(monsters[i].skill_id,10) == 0) { // no skill
-				if (parseInt(monsters[i].grade,10) <= 3) { // <= rank B+
-					if (parseInt(monsters[i].bp,10) < 100) { // no soul
-						if (monsters[i].unique_no != pUniqueNo) {
-							if (monsters[i].location ==0) { // not in formation
-								sacStr += '&uno_' + sacCount + '=' + monsters[i].unique_no;
-								sacCount++;
-								if (parseInt(source.lv_max,10) - parseInt(source.lv,10) == 1) {
-									if (sacCount >= 5) {
-										break;
-									}
-								}
-								if (sacCount >= 10) {
-									break;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	if (sacCount > 0) {
+//function fnFusionAuto(pUniqueNo) {
+ //  var sacStr = "";
+ //  var sacCount = 0;
+ //  if (parseInt(source.lv_max,10) - parseInt(source.lv,10) == 0) {
+ //  	fnSetAutoFusion(0);
+ //  	alert('Auto Level Up Done');
+ //  	return;
+ //  }
+ //  for (var i=0;i<monsters.length;i++) {
+ //  	if (parseInt(monsters[i].lv, 10)== 1) {  //sac level 1
+ //  		if (parseInt(monsters[i].skill_id,10) == 0) { // no skill
+ //  			if (parseInt(monsters[i].grade,10) <= 3) { // <= rank B+
+ //  				if (parseInt(monsters[i].bp,10) < 100) { // no soul
+ //  					if (monsters[i].unique_no != pUniqueNo) {
+ //  						if (monsters[i].location ==0) { // not in formation
+ //  							sacStr += '&uno_' + sacCount + '=' + monsters[i].unique_no;
+ //  							sacCount++;
+ //  							if (parseInt(source.lv_max,10) - parseInt(source.lv,10) == 1) {
+ //  								if (sacCount >= 5) {
+ //  									break;
+ //  								}
+ //  							}
+ //  							if (sacCount >= 10) {
+ //  								break;
+ //  							}
+ //  						}
+ //  					}
+ //  				}
+ //  			}
+ //  		}
+ //  	}
+ //  }
+ //  if (sacCount > 0) {
 		
-		var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-		//location = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-		setTimeout(function(){$.redirect(link);}, 1000);
-		setTimeout(function(){$.redirect(link);}, 6000);
-	}
-	else {
-		alert("You have no monsters to sacrifice.");
-	}
-	return;
-}
+ //  	var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+ //  	//location = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+ //  	setTimeout(function(){$.redirect(link);}, 1000);
+ //  	setTimeout(function(){$.redirect(link);}, 6000);
+ //  }
+ //  else {
+ //  	alert("You have no monsters to sacrifice.");
+ //  }
+ //  return;
+//}
 
-function fnSkillUpAuto(pUniqueNo) {
-	var sacStr = "";
-	var sacCount = 0;
-	var sacGrade = -1;
-	if (parseInt(source.skill_lv,10) == 20) {
-		fnSetAutoSkillUp(0);
-		alert('Auto Skill Up Done');
-		return;
-	}
-	for (var i=0;i<monsters.length;i++) {
+//function fnSkillUpAuto(pUniqueNo) {
+ //  var sacStr = "";
+ //  var sacCount = 0;
+ //  var sacGrade = -1;
+ //  if (parseInt(source.skill_lv,10) == 20) {
+ //  	fnSetAutoSkillUp(0);
+ //  	alert('Auto Skill Up Done');
+ //  	return;
+ //  }
+ //  for (var i=0;i<monsters.length;i++) {
 		//if (parseInt(monsters[i].lv, 10)== 1) {  //sac level 1
-			if (parseInt(monsters[i].skill_id,10) == parseInt(source.skill_id,10)) { // same skill
-				if (parseInt(monsters[i].skill_lv,10) == (parseInt(source.skill_lv,10) < 6?1:4)) {  // sac skill level 1 for skill < 6, else sac 4
-					if (parseInt(monsters[i].grade,10) <= 3 || (parseInt(monsters[i].grade,10) == 4 && parseInt(monsters[i].bp,10) <= fnAutoStackBP() && parseInt(monsters[i].monster_id, 10) != parseInt(source.monster_id, 10))) { // <= rank B+ or low bp rank A
-						if (parseInt(monsters[i].grade,10) > parseInt(sacGrade, 10)) { // prefer sac higher grade
-							if (parseInt(monsters[i].bp,10) > 1) { // dont sac spirit!
-								if (monsters[i].unique_no != pUniqueNo) {
-									if (monsters[i].location ==0) { // not in formation
-										sacStr = '&uno_0=' + monsters[i].unique_no;
-										sacCount=1;
-										sacGrade = monsters[i].grade;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+ //  		if (parseInt(monsters[i].skill_id,10) == parseInt(source.skill_id,10)) { // same skill
+ //  			if (parseInt(monsters[i].skill_lv,10) == (parseInt(source.skill_lv,10) < 6?1:4)) {  // sac skill level 1 for skill < 6, else sac 4
+ //  				if (parseInt(monsters[i].grade,10) <= 3 || (parseInt(monsters[i].grade,10) == 4 && parseInt(monsters[i].bp,10) <= fnAutoStackBP() && //parseInt(monsters[i].monster_id, 10) != parseInt(source.monster_id, 10))) { // <= rank B+ or low bp rank A
+ //  					if (parseInt(monsters[i].grade,10) > parseInt(sacGrade, 10)) { // prefer sac higher grade
+ //  						if (parseInt(monsters[i].bp,10) > 1) { // dont sac spirit!
+ //  							if (monsters[i].unique_no != pUniqueNo) {
+ //  								if (monsters[i].location ==0) { // not in formation
+ //  									sacStr = '&uno_0=' + monsters[i].unique_no;
+ //  									sacCount=1;
+ //  									sacGrade = monsters[i].grade;
+ //  								}
+ //  							}
+ //  						}
+ //  					}
+ //  				}
+ //  			}
+ //  		}
 		//}
-	}
-	if (sacCount > 0) {		
-		var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+ //  }
+//	if (sacCount > 0) {		
+ //  	var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
 		//location = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-		setTimeout(function(){$.redirect(link);}, 1000);
-		setTimeout(function(){$.redirect(link);}, 6000);
-	}
-	else {
-		alert("You have no same skill monsters to sacrifice.");
-	}
-	return;
-}
+ //  	setTimeout(function(){$.redirect(link);}, 1000);
+ //  	setTimeout(function(){$.redirect(link);}, 6000);
+ //  }
+ //  else {
+ //  	alert("You have no same skill monsters to sacrifice.");
+ //  }
+ //  return;
+//}
 
-function fnStackAuto(pUniqueNo) {
-	var sacStr = "";
-	var sacCount = 0;
-	var sacGrade = -1;
-	if (parseInt(source.skill_lv,10) == 4) {
-		fnSetAutoStack(0);
-		alert('Auto Stack Done');
-		return;
-	}
-	for (var i=0;i<monsters.length;i++) {
-		if (parseInt(monsters[i].lv, 10)== 1) {  //sac level 1
-			if (parseInt(monsters[i].skill_id,10) == parseInt(source.skill_id,10)) { // same skill
-				if (parseInt(monsters[i].skill_lv,10) == 1) {  // skill 1
-					if (parseInt(monsters[i].grade,10) <= 3 || (parseInt(monsters[i].grade,10) == 4 && parseInt(monsters[i].bp,10) <= fnAutoStackBP() && parseInt(monsters[i].monster_id, 10) != parseInt(source.monster_id, 10))) { // <= rank B+ or low bp rank A
-						if (parseInt(monsters[i].grade,10) > parseInt(sacGrade, 10)) { // prefer sac higher grade
-							if (parseInt(monsters[i].bp,10) > 1) { // dont sac spirit!
-								if (monsters[i].unique_no != pUniqueNo) {
-									if (monsters[i].location ==0) { // not in formation
-										sacStr = '&uno_0=' + monsters[i].unique_no;
-										sacCount=1;
-										sacGrade = monsters[i].grade;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	if (sacCount > 0) {		
-		var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+//function fnStackAuto(pUniqueNo) {
+ //  var sacStr = "";
+ //  var sacCount = 0;
+ //  var sacGrade = -1;
+ //  if (parseInt(source.skill_lv,10) == 4) {
+ //  	fnSetAutoStack(0);
+ //  	alert('Auto Stack Done');
+ //  	return;
+ //  }
+ //  for (var i=0;i<monsters.length;i++) {
+ //  	if (parseInt(monsters[i].lv, 10)== 1) {  //sac level 1
+ //  		if (parseInt(monsters[i].skill_id,10) == parseInt(source.skill_id,10)) { // same skill
+ //  			if (parseInt(monsters[i].skill_lv,10) == 1) {  // skill 1
+ //  				if (parseInt(monsters[i].grade,10) <= 3 || (parseInt(monsters[i].grade,10) == 4 && parseInt(monsters[i].bp,10) <= fnAutoStackBP() && parseInt(monsters[i].monster_id, 10) != parseInt(source.monster_id, 10))) { // <= rank B+ or low bp rank A
+ //  					if (parseInt(monsters[i].grade,10) > parseInt(sacGrade, 10)) { // prefer sac higher grade
+ //  						if (parseInt(monsters[i].bp,10) > 1) { // dont sac spirit!
+ //  							if (monsters[i].unique_no != pUniqueNo) {
+ //  								if (monsters[i].location ==0) { // not in formation
+ //  									sacStr = '&uno_0=' + monsters[i].unique_no;
+ //  									sacCount=1;
+ //  									sacGrade = monsters[i].grade;
+ //  								}
+ //  							}
+ //  						}
+ //  					}
+ //  				}
+ //  			}
+ //  		}
+ //  	}
+ //  }
+ //  if (sacCount > 0) {		
+ //  	var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
 		//location = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-		setTimeout(function(){$.redirect(link);}, 1000);
-		setTimeout(function(){$.redirect(link);}, 6000);
-	}
-	else {
-		alert("You have no same skill monsters to sacrifice.");
-	}
-	return;
-}
+ //  	setTimeout(function(){$.redirect(link);}, 1000);
+ //  	setTimeout(function(){$.redirect(link);}, 6000);
+ //  }
+ //  else {
+ //  	alert("You have no same skill monsters to sacrifice.");
+ //  }
+ //  return;
+//}
 
-function fnFusionFixDestPage() {
-	showMonsters = function (offset, limit)
-	{
-		if (parseInt(fnAutoFusion(),10) > 0) {
-			fnFusionAuto(fnQueryString('uno'));
-		}
+//function fnFusionFixDestPage() {
+ //  showMonsters = function (offset, limit)
+ //  {
+ //  	if (parseInt(fnAutoFusion(),10) > 0) {
+ //  		fnFusionAuto(fnQueryString('uno'));
+ //  	}
 		
-		if (parseInt(fnAutoStack(),10) > 0) {
-			fnStackAuto(fnQueryString('uno'));
-		}
+ //  	if (parseInt(fnAutoStack(),10) > 0) {
+ //  		fnStackAuto(fnQueryString('uno'));
+ //  	}
 		
-		if (parseInt(fnAutoSkillUp(),10) > 0) {
-			fnSkillUpAuto(fnQueryString('uno'));
-		}
+ //  	if (parseInt(fnAutoSkillUp(),10) > 0) {
+ //  		fnSkillUpAuto(fnQueryString('uno'));
+ //  	}
 	
-		if (monsters === false) { return; }
+ //  	if (monsters === false) { return; }
 
 		// 
-		$('#monsters').empty();
-		$('#original > img').attr('src', 'http://res.dark'+'summoner.com/en/s/cards/none.png');
-		$('#jewel').css('color', 'white').html('0');
+ //  	$('#monsters').empty();
+ //  	$('#original > img').attr('src', 'http://res.dark'+'summoner.com/en/s/cards/none.png');
+ //  	$('#jewel').css('color', 'white').html('0');
 
 		// 
-		$.each(monsters, function(i, monster) {
-			if ( (i < offset) || (i >= (offset + limit)) ) { return true; }
+ //  	$.each(monsters, function(i, monster) {
+ //  		if ( (i < offset) || (i >= (offset + limit)) ) { return true; }
 
-			var id = 'monster_' + i;
+ //  		var id = 'monster_' + i;
 
-			var base_tag = $('<div id="' + id + '" class="monster"></div>');
+ //  		var base_tag = $('<div id="' + id + '" class="monster"></div>');
 
-			base_tag
-				.append('<div class="thumb"><img src="http://res.dark'+'summoner.com/en/s/' + monster.small_thumb_image + '" /></div>')
-				.append('<div class="information"><img src="http://res.dark'+'summoner.com/en/s/misc/monster/information_' + monster.tribe + '.png" /></div>')
-				.append('<div class="party"></div>')
-				.append('<div class="name">' + monster.m.name + '</div>')
-				.append('<div class="' + ((~~monster.lv >= ~~monster.m.lv_max) ? 'lv_max' : 'lv') + '">' + monster.lv + '</div>')
-				.append('<div class="bp">' + monster.bp + '</div>')
-				.append('<div class="attack">' + monster.attack + '</div>')
-				.append('<div class="defense">' + monster.defense + '</div>')
-				.append('<div class="hp">' + monster.hp + '</div>')
-				.append('<div class="skill">' + SKILLS[monster.skill_id][monster.skill_lv]['name'] + '</div>')
-				.append('<div class="lv-icon">Lv</div>')
-				.append('<div class="attack-icon">ATK</div>')
-				.append('<div class="defense-icon">DEF</div>')
-				.append('<div class="bp-icon">BP</div>')
-				.append('<div class="hp-icon">HP</div>')
-				.data('monster', monster);
+ //  		base_tag
+ //  			.append('<div class="thumb"><img src="http://res.dark'+'summoner.com/en/s/' + monster.small_thumb_image + '" /></div>')
+ //  			.append('<div class="information"><img src="http://res.dark'+'summoner.com/en/s/misc/monster/information_' + monster.tribe + '.png" /></div>')
+ //  			.append('<div class="party"></div>')
+ //  			.append('<div class="name">' + monster.m.name + '</div>')
+ //  			.append('<div class="' + ((~~monster.lv >= ~~monster.m.lv_max) ? 'lv_max' : 'lv') + '">' + monster.lv + '</div>')
+ //  			.append('<div class="bp">' + monster.bp + '</div>')
+ //  			.append('<div class="attack">' + monster.attack + '</div>')
+ //  			.append('<div class="defense">' + monster.defense + '</div>')
+ //  			.append('<div class="hp">' + monster.hp + '</div>')
+ //  			.append('<div class="skill">' + SKILLS[monster.skill_id][monster.skill_lv]['name'] + '</div>')
+ //  			.append('<div class="lv-icon">Lv</div>')
+ //  			.append('<div class="attack-icon">ATK</div>')
+ //  			.append('<div class="defense-icon">DEF</div>')
+ //  			.append('<div class="bp-icon">BP</div>')
+ //  			.append('<div class="hp-icon">HP</div>')
+ //  			.data('monster', monster);
 
-			$('> .thumb > img', base_tag).click(function() {
-				monster.skill   = SKILLS[monster.skill_id][monster.skill_lv];
-				monster.species = SPECIES[monster.m.species];
-				$.showMonsterInformation(monster);
-			});
-
-			// 
-			var reason_for_disable = false;
-
-			if (~~monster.is_locked != 0) {
-			reason_for_disable = 1;
-			}
-
-			if (reason_for_disable !== false) {
-			var disable_tag = $('<div class="disable"></div>');
-			disable_tag
-			.append('<img class="disable-icon" src="http://res.dark'+'summoner.com/en/s/misc/icons/exclamation.png" />')
-			.append('<div class="disable-label">' + DISABLE_REASONS[reason_for_disable] + '</div>');
-
-			base_tag
-			.append(disable_tag)
-			.addClass('monster-tribe-' + monster.tribe)
-			.append('<div class="check-icon"><img src="http://res.dark'+'summoner.com/en/s/misc/icons/check_box_lock.png" /></div>');
-			}
-			else {
-			var index = findIndex(monster);
-
-			if (index === false) {
-			base_tag
-			.append('<div class="check-icon"><img src="' + check_off + '" /></div>')
-			.addClass('monster-tribe-' + monster.tribe);
-
-			}
-			else {
-			base_tag
-			.append('<div class="check-icon"><img src="' + check_on + '" /></div>')
-			.addClass('monster-tribe-' + monster.tribe + '-selected');
-			}
+ //  		$('> .thumb > img', base_tag).click(function() {
+ //  			monster.skill   = SKILLS[monster.skill_id][monster.skill_lv];
+ //  			monster.species = SPECIES[monster.m.species];
+ //  			$.showMonsterInformation(monster);
+ //  		});
 
 			// 
-			var select_tag = $('<div class="selection"></div>');
-			base_tag.append(select_tag);
+ //  		var reason_for_disable = false;
 
-			select_tag.click(function() {
-			onEntry(base_tag, monster);
-			});
-			}
+ //  		if (~~monster.is_locked != 0) {
+ //  		reason_for_disable = 1;
+ //  		}
 
-			$('#monsters').append(base_tag);
-		});
+ //  		if (reason_for_disable !== false) {
+ //  		var disable_tag = $('<div class="disable"></div>');
+ //  		disable_tag
+ //  		.append('<img class="disable-icon" src="http://res.dark'+'summoner.com/en/s/misc/icons/exclamation.png" />')
+ //  		.append('<div class="disable-label">' + DISABLE_REASONS[reason_for_disable] + '</div>');
 
-		updateSeletecionState();
-	}
-}
+ //  		base_tag
+ //  		.append(disable_tag)
+ //  		.addClass('monster-tribe-' + monster.tribe)
+ //  		.append('<div class="check-icon"><img src="http://res.dark'+'summoner.com/en/s/misc/icons/check_box_lock.png" /></div>');
+ //  		}
+ //  		else {
+ //  		var index = findIndex(monster);
 
-function fnFusionFixPage() {
-	showMonsters = function (offset, limit)
-	{
-	  if (monsters === false) { return; }
+ //  		if (index === false) {
+ //  		base_tag
+ //  		.append('<div class="check-icon"><img src="' + check_off + '" /></div>')
+ //  		.addClass('monster-tribe-' + monster.tribe);
+
+ //  		}
+ //  		else {
+ //  		base_tag
+ //  		.append('<div class="check-icon"><img src="' + check_on + '" /></div>')
+ //  		.addClass('monster-tribe-' + monster.tribe + '-selected');
+ //  		}
+
+			// 
+ //  		var select_tag = $('<div class="selection"></div>');
+ //  		base_tag.append(select_tag);
+
+ //  		select_tag.click(function() {
+ //  		onEntry(base_tag, monster);
+ //  		});
+ //  		}
+
+ //  		$('#monsters').append(base_tag);
+ //  	});
+
+//		updateSeletecionState();
+//	}
+//}
+
+//function fnFusionFixPage() {
+ //  showMonsters = function (offset, limit)
+ //  {
+ //    if (monsters === false) { return; }
 
 	  // 
-	  $('#monsters').empty();
+ //    $('#monsters').empty();
 
 	  // 
-	  $.each(monsters, function(i, monster) {
-		if ( (i < offset) || (i >= (offset + limit)) ) { return true; }  
+//	  $.each(monsters, function(i, monster) {
+ //  	if ( (i < offset) || (i >= (offset + limit)) ) { return true; }  
 		
-		var id = 'monster_' + i;
-		var base_tag = $('<div id="' + id + '" class="monster monster-tribe-' + monster.tribe + '"></div>');
+ //  	var id = 'monster_' + i;
+ //  	var base_tag = $('<div id="' + id + '" class="monster monster-tribe-' + monster.tribe + '"></div>');
 
-		base_tag
-		  .append('<div class="thumb"><img src="http://res.dark'+'summoner.com/en/s/' + monster.small_thumb_image + '" /></div>')
-		  .append('<div class="information"><img src="http://res.dark'+'summoner.com/en/s/misc/monster/information_' + monster.tribe + '.png" /></div>')
-		  .append('<div class="party"></div>')
-		  .append('<div class="name">' + monster.m.name + '</div>')
-		  .append('<div class="lv">' + monster.lv + '</div>')
-		  .append('<div class="bp">' + monster.bp + '</div>')
-		  .append('<div class="attack">' + monster.attack + '</div>')
-		  .append('<div class="defense">' + monster.defense + '</div>')
-		  .append('<div class="hp">' + monster.hp + '</div>')
-		  .append('<div class="skill">' + SKILLS[monster.skill_id][monster.skill_lv]['name'] + '</div>')
-		  .append('<div class="lv-icon">Lv </div>')
-		  .append('<div class="attack-icon">ATK</div>')
-		  .append('<div class="defense-icon">DEF</div>')
-		  .append('<div class="bp-icon">BP</div>')
-		  .append('<div class="hp-icon">HP</div>');
+ //  	base_tag
+ //  	  .append('<div class="thumb"><img src="http://res.dark'+'summoner.com/en/s/' + monster.small_thumb_image + '" /></div>')
+ //  	  .append('<div class="information"><img src="http://res.dark'+'summoner.com/en/s/misc/monster/information_' + monster.tribe + '.png" /></div>')
+ //  	  .append('<div class="party"></div>')
+ //  	  .append('<div class="name">' + monster.m.name + '</div>')
+ //  	  .append('<div class="lv">' + monster.lv + '</div>')
+ //  	  .append('<div class="bp">' + monster.bp + '</div>')
+ //  	  .append('<div class="attack">' + monster.attack + '</div>')
+ //  	  .append('<div class="defense">' + monster.defense + '</div>')
+ //  	  .append('<div class="hp">' + monster.hp + '</div>')
+ //  	  .append('<div class="skill">' + SKILLS[monster.skill_id][monster.skill_lv]['name'] + '</div>')
+ //  	  .append('<div class="lv-icon">Lv </div>')
+ //  	  .append('<div class="attack-icon">ATK</div>')
+ //  	  .append('<div class="defense-icon">DEF</div>')
+ //  	  .append('<div class="bp-icon">BP</div>')
+ //  	  .append('<div class="hp-icon">HP</div>');
 
-		if (monster.location > 0) {
-		  var name_tag = $('.name', base_tag);
-		  name_tag.css({ left:'35px' });
+ //  	if (monster.location > 0) {
+ //  	  var name_tag = $('.name', base_tag);
+ //  	  name_tag.css({ left:'35px' });
 
-		  var icon_img = 'http://res.dark'+'summoner.com/en/s/misc/icons/icon_' + ((monster.location == 1) ? 'leader' : 'party') + '.png'; 
-		  base_tag.append('<div class="party-icon"><img src="' + icon_img + '" /></div>');
-		}
+//		  var icon_img = 'http://res.dark'+'summoner.com/en/s/misc/icons/icon_' + ((monster.location == 1) ? 'leader' : 'party') + '.png'; 
+ //  	  base_tag.append('<div class="party-icon"><img src="' + icon_img + '" /></div>');
+ //  	}
 
-		$('> .thumb > img', base_tag).click(function() {
-		  monster.skill   = SKILLS[monster.skill_id][monster.skill_lv];
-		  monster.species = SPECIES[monster.m.species];
-		  $.showMonsterInformation(monster);
+ //  	$('> .thumb > img', base_tag).click(function() {
+ //  	  monster.skill   = SKILLS[monster.skill_id][monster.skill_lv];
+ //  	  monster.species = SPECIES[monster.m.species];
+ //  	  $.showMonsterInformation(monster);
 	//      $.showMonserInformationWithAjax(monster.unique_no);
-		});
+ //  	});
 
 		// 
-		var reason_for_disable = false;
+ //  	var reason_for_disable = false;
 		
-		if (~~monster.is_locked != 0) {
-		  reason_for_disable = 1;
-		}
-		else if (~~monster.lv >= ~~monster.m.lv_max) {
+ //  	if (~~monster.is_locked != 0) {
+ //  	  reason_for_disable = 1;
+ //  	}
+ //  	else if (~~monster.lv >= ~~monster.m.lv_max) {
 	//      reason_for_disable = 2;
-		  $('.lv', base_tag).addClass('lv_max');
-		}
+ //  	  $('.lv', base_tag).addClass('lv_max');
+ //  	}
 
-		if (reason_for_disable !== false) {
-		  var disable_tag = $('<div class="disable"></div>');
-		  disable_tag
-			.append('<img class="disable-icon" src="http://res.dark'+'summoner.com/en/s/misc/icons/exclamation.png" />')
-			.append('<div class="disable-label">' + DISABLE_REASONS[reason_for_disable] + '</div>');
+ //  	if (reason_for_disable !== false) {
+ //  	  var disable_tag = $('<div class="disable"></div>');
+ //  	  disable_tag
+ //  		.append('<img class="disable-icon" src="http://res.dark'+'summoner.com/en/s/misc/icons/exclamation.png" />')
+ //  		.append('<div class="disable-label">' + DISABLE_REASONS[reason_for_disable] + '</div>');
 
-		  base_tag.append(disable_tag);
-		}
-		else {
-			base_tag.append('<div class="autodecide-button btn __red __WS __HS" style="position:absolute; top: 83px; left: 100px;">Auto</div>');
-			$('> .autodecide-button', base_tag).click(function () {
-				fnSetAutoFusion(monster.unique_no);
+ //  	  base_tag.append(disable_tag);
+ // 	}
+ //  	else {
+ //  		base_tag.append('<div class="autodecide-button btn __red __WS __HS" style="position:absolute; top: 83px; left: 100px;">Auto</div>');
+ //  		$('> .autodecide-button', base_tag).click(function () {
+ //  			fnSetAutoFusion(monster.unique_no);
 				
-				fnGrowl('Please wait, using Ally Summon...');
-				var timeGap = 0;
-				var minGap = 500;
-				for (var j=0;j<10 && parseInt(monsters.length,10)+j < parseInt(player.summon_max,10);j++) {
-					timeGap+=minGap;
-					fnFusionGenerateMonsterFromAllySummon();
+ //  			fnGrowl('Please wait, using Ally Summon...');
+ //  			var timeGap = 0;
+ //  			var minGap = 500;
+ //  			for (var j=0;j<10 && parseInt(monsters.length,10)+j < parseInt(player.summon_max,10);j++) {
+ //  				timeGap+=minGap;
+ //  				fnFusionGenerateMonsterFromAllySummon();
 					//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
-				}				
-				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, timeGap);
-				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, timeGap+5000);
-			});
-			if (monster.skill_id > 0 && monster.skill_lv < 20 && monster.grade >= 5) {
-				base_tag.append('<div class="autoSkill-button btn __red __WS __HS" style="position:absolute; top: 2px; left: 160px;">Skill^</div>');
-				$('> .autoSkill-button', base_tag).click(function () {
-					fnSetAutoSkillUp(monster.unique_no);		
-					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0);
-					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0+5000);
-				});
-			}
-			else if (monster.skill_id > 0 && monster.skill_lv < 4) {
-				base_tag.append('<div class="autoStack-button btn __red __WS __HS" style="position:absolute; top: 2px; left: 160px;">Stack</div>');
-				$('> .autoStack-button', base_tag).click(function () {
-					fnSetAutoStack(monster.unique_no);		
-					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0);
-					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0+5000);
-				});
-			}
-			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
-			$('> .decide-button', base_tag).click(function () {
-				$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });
-			});
-		}
+ //  			}				
+ //  			setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, timeGap);
+ //  			setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, timeGap+5000);
+ //  		});
+ //  		if (monster.skill_id > 0 && monster.skill_lv < 20 && monster.grade >= 5) {
+ //  			base_tag.append('<div class="autoSkill-button btn __red __WS __HS" style="position:absolute; top: 2px; left: 160px;">Skill^</div>');
+ //  			$('> .autoSkill-button', base_tag).click(function () {
+ //  				fnSetAutoSkillUp(monster.unique_no);		
+ //  				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0);
+ //  				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0+5000);
+ //  			});
+ //  		}
+ //  		else if (monster.skill_id > 0 && monster.skill_lv < 4) {
+ //  			base_tag.append('<div class="autoStack-button btn __red __WS __HS" style="position:absolute; top: 2px; left: 160px;">Stack</div>');
+ //  			$('> .autoStack-button', base_tag).click(function () {
+ //  				fnSetAutoStack(monster.unique_no);		
+ //  				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0);
+ //  				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0+5000);
+ //  			});
+ //  		}
+ //  		base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
+ //  		$('> .decide-button', base_tag).click(function () {
+ //  			$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });
+ //  		});
+ //  	}
 		
 		
-		$('#monsters').append(base_tag);
-	  });
-	}
+ //  	$('#monsters').append(base_tag);
+ //    });
+ //  }
 
-}
+//}
 
-function fnFusionFusion() {
-	if (parseInt(fnAutoFusion(),10) > 0) {
-		var timeGap = 0;
-		var minGap = 500;
-		for (var j=0;j<10;j++) {
-			timeGap+=minGap;
-			fnFusionGenerateMonsterFromAllySummon();
+//function fnFusionFusion() {
+ //  if (parseInt(fnAutoFusion(),10) > 0) {
+ //  	var timeGap = 0;
+ //  	var minGap = 500;
+ //  	for (var j=0;j<10;j++) {
+ //  		timeGap+=minGap;
+ //  		fnFusionGenerateMonsterFromAllySummon();
 			//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
-		}
-		timeGap+=minGap;
+ //  	}
+ //  	timeGap+=minGap;
 	
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoFusion() });}, timeGap);
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoFusion() });}, timeGap+5000);
-	}
-	if (parseInt(fnAutoStack(),10) > 0) {
-		var timeGap = 0;
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoStack() });}, timeGap);
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoStack() });}, timeGap+5000);
-	}
-	if (parseInt(fnAutoSkillUp(),10) > 0) {
-		var timeGap = 0;
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoSkillUp() });}, timeGap);
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoSkillUp() });}, timeGap+5000);
-	}
-}
+//		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoFusion() });}, timeGap);
+ //  	setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoFusion() });}, timeGap+5000);
+ //  }
+ //  if (parseInt(fnAutoStack(),10) > 0) {
+ //  	var timeGap = 0;
+ //  	setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoStack() });}, timeGap);
+ //  	setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoStack() });}, timeGap+5000);
+ //  }
+ //  if (parseInt(fnAutoSkillUp(),10) > 0) {
+ //  	var timeGap = 0;
+ //  	setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoSkillUp() });}, timeGap);
+ //  	setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoSkillUp() });}, timeGap+5000);
+ //  }
+//}
 
-function fnFusionDest() {
-	fnFusionFixDestPage();
-}
+//function fnFusionDest() {
+ //  fnFusionFixDestPage();
+//}
 
-function fnFusion() {
-	fnSetAutoFusion(0,0);
-	fnSetAutoStack(0,0);
-	fnSetAutoSkillUp(0,0);
-	fnFusionFixPage();
-}
+//function fnFusion() {
+ //  fnSetAutoFusion(0,0);
+//	fnSetAutoStack(0,0);
+//	fnSetAutoSkillUp(0,0);
+ //  fnFusionFixPage();
+//}
 
 // tutorial
 
@@ -5946,15 +5946,15 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/trade') {
 		fnTrade();
 	}
-	else if (window.location.pathname === '/en/'+platform+'/fusion') {
-		fnFusion();
-	}
-	else if (window.location.pathname === '/en/'+platform+'/fusion/dest') {
-		fnFusionDest();
-	}
-	else if (window.location.pathname === '/en/'+platform+'/fusion/fusion') {
-		fnFusionFusion();
-	}
+ //  else if (window.location.pathname === '/en/'+platform+'/fusion') {
+ //  	fnFusion();
+ //  }
+ //  else if (window.location.pathname === '/en/'+platform+'/fusion/dest') {
+ //  	fnFusionDest();
+ //  }
+ //  else if (window.location.pathname === '/en/'+platform+'/fusion/fusion') {
+ //  	fnFusionFusion();
+ //  }
 	else if (window.location.pathname === '/en/'+platform+'/forkroad') {
 		fnForkRoad();
 	}
