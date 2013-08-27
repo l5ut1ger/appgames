@@ -4244,11 +4244,109 @@ function fnDungeon() {
 // clan battle event
 
 function fnClanBattle() {
-	alert($('a[href^="/en/'+platform+'/clanbattle/guardianCommandSelect"]').text());return;
+	clanBG = parseInt($('a[href^="/en/'+platform+'/clanbattle/guardianCommandSelect"]').text().substr(3),10);
+
+	//
 	if ($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').length) {
+		if (player.power_max >= parseInt(player.bp_max, 10)) {
+			fnRedirect('/en/'+platform+'/clanbattle/mission?');
+			return;
+		}
 		fnTimeOutRedirect($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').eq(0).attr("href"));
 	}
 	setInterval(fnRedirect, 60000, '/en/'+platform+'/clanbattle');
+}
+
+function fnClanBattleMissionAutoDrink(pRedirect) {
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		var items = data.payload.items;
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3022) { // consume my 100 energy
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect(pRedirect);
+				return;
+			}
+		}
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3018) { // consume my energy
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect(pRedirect);
+				return;
+			}
+		}
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3001) { // consum energy
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect(pRedirect);
+				return;
+			}
+		}
+		fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+	});
+}
+
+function fnClanBattleMission() {
+	missionProcess = function() {
+
+
+		// ããã·ã§ã³å¦çéå§
+		$.ajax_ex(false, '/en/'+platform+'/clanbattle/ajaxMissionAct', {
+			'floor_id' : floor_id,
+			api        : 'json',
+			'__hash'   : ('' + (new Date()).getTime())
+		}, function(result) {
+			if (result.status != 0) {
+				// ãã¯ã¼ä¸è¶³
+				if (result.status == 901) {
+					//itemPopup(0);
+				} else {
+					//$.redirect('/en/ios/clanbattle');
+				}
+				//$.redirect('/en/ios/clanbattle');
+				if (player.power_max < parseInt(player.bp_max, 10)) {
+					fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+					return;
+				}
+				fnClanBattleMissionAutoDrink('/en/'+platform+'/clanbattle/mission?');
+				return;
+			}
+
+
+			// ãã¯ã¼ã®æ´æ°
+			$('.battle-point .text .bp').html(result.payload.mission.after_power);
+			window.setBP(result.payload.mission.after_power);
+
+
+			// BGãã¤ã¬ã¼ã¸æ©è³ãåå¾ãã
+			var mile = result.payload.bgMileageKeys;
+			if (mile) {
+				EfectMng.push('getMile', mile);
+			}
+
+			// ããã·ã§ã³ã¯ãªã¢å¤å®
+			if (result.payload.mission.clear) {
+				EfectMng.push('reload', null).play();
+			} else {
+			}
+			if (fnGetGrindingSpeed() == 1) {
+				missionProcess();
+			}
+		});
+
+
+		return false;
+	};
+
+	if (fnGetGrindingSpeed() == -1) {
+		// user press by himself, dont automate
+		return;
+	}
+	if (fnGetGrindingSpeed() == 1) {
+		missionProcess();
+	else {
+		missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
+	}
 }
 
 function fnClanBattleSelect() {
@@ -5899,6 +5997,9 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleSelect') {
 		fnClanBattleSelect();
 	}
+	else if (window.location.pathname === '/en/'+platform+'/clanbattle/mission') {
+		fnClanBattleMission();
+	}	
 	else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleAct') {
 		fnClanBattleAct();
 	}
