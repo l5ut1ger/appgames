@@ -4295,7 +4295,7 @@ function fnClanBattleMission() {
 		}, function(result) {
 			if (result.status != 0) {
 				// ãã¯ã¼ä¸è¶³
-				if (result.status == 1) {
+				if (result.status == 901) {
 					//itemPopup(0);
 				} else {
 					//$.redirect('/en/ios/clanbattle');
@@ -4305,7 +4305,7 @@ function fnClanBattleMission() {
 					fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
 					return;
 				}
-				if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 5000) {
+				if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 2) {
 					fnClanBattleMissionAutoDrink('/en/'+platform+'/clanbattle/mission?');
 				}
 				else {
@@ -4362,7 +4362,7 @@ function fnClanBattleSelect() {
 		fnRedirect('/en/'+platform+'/clanbattle/battleAct?percent=100&battle_off_flag=true');
 	}
 	else {
-		if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 5000) {
+		if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 2) {
 			// auto use bp to secure wins
 			$.ajax_ex(false, '/en/'+platform+'/misc/ajaxItemPopup', { 'item_type': 1, '__hash': ('' + (new Date()).getTime()) }, function(result) {
 				if (result.status == 0) {
