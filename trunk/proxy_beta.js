@@ -4248,7 +4248,7 @@ function fnClanBattle() {
 
 	//
 	if ($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').length) {
-		if (player.power_max >= parseInt(player.bp_max, 10)) {
+		if (player.power_max >= parseInt(player.bp_max, 10) || parseInt(player.power, 10) > 3) {
 			fnRedirect('/en/'+platform+'/clanbattle/mission?');
 			return;
 		}
@@ -4304,11 +4304,16 @@ function fnClanBattleMission() {
 					//$.redirect('/en/ios/clanbattle');
 				}
 				//$.redirect('/en/ios/clanbattle');
-				if (player.power_max < parseInt(player.bp_max, 10)) {
+				if (parseInt(player.power_max,10) < parseInt(player.bp_max, 10)) {
 					fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
 					return;
 				}
-				fnClanBattleMissionAutoDrink('/en/'+platform+'/clanbattle/mission?');
+				if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 2) {
+					fnClanBattleMissionAutoDrink('/en/'+platform+'/clanbattle/mission?');
+				}
+				else {
+					fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+				}
 				return;
 			}
 
@@ -4337,6 +4342,11 @@ function fnClanBattleMission() {
 
 		return false;
 	};
+
+	if (parseInt($('.__bg_bar #black_gem_bar .current_black_gem').text()) >= 15000) {
+		fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+		return;
+	}
 
 	if (fnGetGrindingSpeed() == -1) {
 		// user press by himself, dont automate
