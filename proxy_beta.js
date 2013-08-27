@@ -4244,6 +4244,7 @@ function fnDungeon() {
 // clan battle event
 
 function fnClanBattle() {
+	alert($('a[href^="/en/'+platform+'/clanbattle/guardianCommandSelect"]').text());return;
 	if ($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').length) {
 		fnTimeOutRedirect($('a[href^="/en/'+platform+'/clanbattle/battleSelect"]').eq(0).attr("href"));
 	}
