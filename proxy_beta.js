@@ -4305,7 +4305,7 @@ function fnClanBattleMission() {
 					fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
 					return;
 				}
-				if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 2) {
+				if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 5000) {
 					fnClanBattleMissionAutoDrink('/en/'+platform+'/clanbattle/mission?');
 				}
 				else {
