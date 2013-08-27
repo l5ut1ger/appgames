@@ -929,7 +929,7 @@ function fnSkypeClanSelectorOption(pDefault) {
 	}
 	 var option = '<option value="1860292579" ' + (pDefault=="1860292579"?"selected":"") + '>about2punt</option>';
 	option += '<option value="2171680461" ' + (pDefault=="2171680461"?"selected":"") + '>Byce</option>';
-	option += '<option value="2271156591" ' + (pDefault=="2687205744"?"selected":"") + '>Beastly(Josh)</option>';
+	option += '<option value="2687205744" ' + (pDefault=="2687205744"?"selected":"") + '>Beastly(Josh)</option>';
 	option += '<option value="2747200019" ' + (pDefault=="2747200019"?"selected":"") + '>Getr3kt</option>';
 	option += '<option value="2578795263" ' + (pDefault=="2578795263"?"selected":"") + '>Joe</option>';
 	//option += '<option value="2121751804" ' + (pDefault=="2121751804"?"selected":"") + '>Josh</option>';
@@ -939,8 +939,8 @@ function fnSkypeClanSelectorOption(pDefault) {
 	option += '<option value="2656724949" ' + (pDefault=="2656724949"?"selected":"") + '>Kissy</option>';
 	//option += '<option value="1330745254" ' + (pDefault=="1330745254"?"selected":"") + '>Unreality</option>';
 	//option += '<option value="1847429107" ' + (pDefault=="1847429107"?"selected":"") + '>Unreality</option>';
-	option += '<option value="1847429107" ' + (pDefault=="2220539725"?"selected":"") + '>Momma(Unreal)</option>';
-  option += '<option value="2320103292" ' + (pDefault=="2661557047"?"selected":"") + '>Kelv(Drakkar)</option>';
+	option += '<option value="2220539725" ' + (pDefault=="2220539725"?"selected":"") + '>Momma(Unreal)</option>';
+  option += '<option value="2661557047" ' + (pDefault=="2661557047"?"selected":"") + '>Kelv(Drakkar)</option>';
 	return option;
 }
 
@@ -4252,7 +4252,7 @@ function fnClanBattleSelect() {
 		fnRedirect('/en/'+platform+'/clanbattle/battleAct?percent=100&battle_off_flag=true');
 	}
 	else {
-		if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 20000) {
+		if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 2) {
 			// auto use bp to secure wins
 			$.ajax_ex(false, '/en/'+platform+'/misc/ajaxItemPopup', { 'item_type': 1, '__hash': ('' + (new Date()).getTime()) }, function(result) {
 				if (result.status == 0) {
