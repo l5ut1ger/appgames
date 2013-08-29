@@ -4296,21 +4296,23 @@ function fnClanBattleMission() {
 			if (result.status != 0) {
 				// ãã¯ã¼ä¸è¶³
 				if (result.status == 901) {
+					if (parseInt(player.power_max,10) < parseInt(player.bp_max, 10)) {
+						fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+						return;
+					}
+					if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 2) {
+						fnClanBattleMissionAutoDrink('/en/'+platform+'/clanbattle/mission?');
+					}
+					else {
+						fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
+					}
+					return;
 					//itemPopup(0);
 				} else {
-					//$.redirect('/en/ios/clanbattle');
+					$.redirect('/en/ios/clanbattle');
 				}
 				//$.redirect('/en/ios/clanbattle');
-				if (parseInt(player.power_max,10) < parseInt(player.bp_max, 10)) {
-					fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
-					return;
-				}
-				if (parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 2) {
-					fnClanBattleMissionAutoDrink('/en/'+platform+'/clanbattle/mission?');
-				}
-				else {
-					fnRedirect('/en/'+platform+'/clanbattle/battleSelect');
-				}
+				
 				return;
 			}
 
