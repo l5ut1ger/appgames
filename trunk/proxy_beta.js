@@ -1090,6 +1090,9 @@ function fnProfileAddSpamButton() {
 
 	$('#btn-bbs-clearAll').click(function() { 
 
+		while ($( "div[id|='div-bbs-item-']" ).length) {
+			$( "div[id|='div-bbs-item-']" ).eq(0).remove();
+		}	
 	});
 }
 
