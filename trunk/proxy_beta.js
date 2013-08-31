@@ -1075,6 +1075,31 @@ function fnProfileAddSpamButton() {
 			}
 		}
 	});
+
+	divTag = document.createElement("a"); 
+	divTag.id = "btn-bbs-clearAll"; 
+
+	divTag.style["font-size"] = "0.6em"; 
+	divTag.style.position = "relative";
+	divTag.style.top = "0px";
+
+	divTag.className =("btn __red __WS __HS");
+	divTag.href = "#";
+	divTag.innerHTML = "X-all";
+	document.getElementById('div-bbs-form').appendChild(divTag);
+
+	$('#btn-bbs-clearAll').click(function() { 
+		for (i=0;i<$( "div[id|='div-bbs-item-']" ).length;i++) {
+			$.getJSON('/en/ios/bbs/remove', {
+				'target_id': player.player_id,
+				'sub_id': $( "div[id|='div-bbs-item-']" ).eq(i).attr("id").replace("div-bbs-item-","");
+			}, function(result) {
+			});
+		}
+		while ($( "div[id|='div-bbs-item-']" ).length) {
+			$( "div[id|='div-bbs-item-']" ).eq(0).remove();
+		}	
+	});
 }
 
 function fnProfileGetAllCompenation(pID) {
