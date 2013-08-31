@@ -1089,16 +1089,7 @@ function fnProfileAddSpamButton() {
 	document.getElementById('div-bbs-form').appendChild(divTag);
 
 	$('#btn-bbs-clearAll').click(function() { 
-		for (i=0;i<$( "div[id|='div-bbs-item-']" ).length;i++) {
-			$.getJSON('/en/ios/bbs/remove', {
-				'target_id': player.player_id,
-				'sub_id': $( "div[id|='div-bbs-item-']" ).eq(i).attr("id").replace("div-bbs-item-","");
-			}, function(result) {
-			});
-		}
-		while ($( "div[id|='div-bbs-item-']" ).length) {
-			$( "div[id|='div-bbs-item-']" ).eq(0).remove();
-		}	
+
 	});
 }
 
