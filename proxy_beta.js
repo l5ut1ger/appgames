@@ -1273,9 +1273,7 @@ function fnProfileFixTabs() {
 				if (enable_phonegap) { }  break; 
 			case '_1': onChangeProfileFix('category-record'); 
 				if (enable_phonegap) { }  break; 
-			case '_2': onChangeProfileFix('category-wishlist'); 
-				if (enable_phonegap) { }  break; 
-			case '_3': onChangeProfileFix('category-bbs'); 
+			case '_2': onChangeProfileFix('category-bbs'); 
 				if (enable_phonegap) { }  break; 
 
 			default: break;
@@ -1296,6 +1294,8 @@ function fnProfileFixTabs() {
 			'profile-present', 
 			'profile-best-login', 
 			'profile-current-login', 
+			'profile-make_account', 
+			'profile-lapsed_days', 
 			'profile-wishlist', 
 			'profile-bbs', 
 			'profile-bbs-body',
@@ -1305,34 +1305,36 @@ function fnProfileFixTabs() {
 		var visible_block = false;
 
 		switch (id) {
-		case 'category-level':
-			visible_block = [
-				'profile-status', 
-				'profile-statusup', 
-				'profile-level', 
-				'profile-deck', 
-				'profile-record', 
-				'profile-ranking', 
-				'profile-invite', 
-				'profile-summon', 
-				'profile-present', 
-				'profile-best-login', 
-				'profile-current-login', 
-			];
-			break;
-		case 'category-record': 
-			visible_block = [
-				'profile-strategy',
-			];
-			break;
+			case 'category-level':
+				visible_block = [
+					'profile-status', 
+					'profile-statusup', 
+					'profile-level', 
+					'profile-deck', 
+					'profile-record', 
+					'profile-ranking', 
+					'profile-invite', 
+					'profile-summon', 
+					'profile-present', 
+					'profile-best-login', 
+					'profile-current-login', 
+					'profile-make_account', 
+        			'profile-lapsed_days',
+				];
+				break;
+			case 'category-record': 
+				visible_block = [
+					'profile-strategy',
+				];
+				break;
 
-		case 'category-wishlist':
-			visible_block = ['profile-wishlist'];
-			break;
+			case 'category-wishlist':
+				visible_block = ['profile-wishlist'];
+				break;
 
-		case 'category-bbs':
-			visible_block = ['profile-bbs', 'profile-bbs-body'];
-			break; 
+			case 'category-bbs':
+				visible_block = ['profile-bbs', 'profile-bbs-body'];
+				break; 
 		}
 
 		$.each(PROFILE_BLOCKS, function(i, tag){
@@ -4364,7 +4366,7 @@ function fnClanBattleSelect() {
 		fnRedirect('/en/'+platform+'/clanbattle/battleAct?percent=100&battle_off_flag=true');
 	}
 	else {
-		if (isNaN($('dd.enemy').eq(0).html()) || guardian_command_list[2]['status'] == 1 || guardian_command_list[3]['status'] == 1 || guardian_command_list[5]['status'] == 1 || parseInt($('dd.ally').eq(0).html(),10) <= 50000 || parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 50) {
+		if (isNaN($('dd.enemy').eq(0).html()) || guardian_command_list[2]['status'] == 1 || guardian_command_list[3]['status'] == 1 || guardian_command_list[5]['status'] == 1 || parseInt($('dd.ally').eq(0).html(),10) <= 50000 || parseInt($('dd.ally').eq(0).html(),10) <= parseInt($('dd.enemy').eq(0).html(),10) * 2) {
 			// auto use bp to secure wins
 			$.ajax_ex(false, '/en/'+platform+'/misc/ajaxItemPopup', { 'item_type': 1, '__hash': ('' + (new Date()).getTime()) }, function(result) {
 				if (result.status == 0) {
