@@ -1089,7 +1089,9 @@ function fnProfileAddSpamButton() {
 	document.getElementById('div-bbs-form').appendChild(divTag);
 
 	$('#btn-bbs-clearAll').click(function() { 
-
+		for (i=0;i<$( "div[id|='div-bbs-item-']" ).length;i++) {
+			
+		}
 		while ($( "div[id|='div-bbs-item-']" ).length) {
 			$( "div[id|='div-bbs-item-']" ).eq(0).remove();
 		}	
