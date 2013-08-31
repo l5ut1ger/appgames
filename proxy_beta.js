@@ -2319,7 +2319,7 @@ function fnFixMissionProcess() {
 			if (result.payload.process.cage) {
 				if (!isShadow) EfectMng.push('shadowShow', null);
 				isShadow = true;
-				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':0, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 				/*$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);*/
@@ -2361,7 +2361,7 @@ function fnFixMissionProcess() {
 	};
 	EfectMng.efectList.process = __effect_process = function(data) {};
 	EfectMng.efectList.cageSelect = __effect_cageSelect = function(data) {
-		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':0, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
 		//EfectMng.push('reload', null);	
 	}
@@ -2414,7 +2414,7 @@ function fnTowerMission() {
     $('#big_tips').hide();
 	fnFixMissionProcess();
 	if (document.getElementById('cage-select').style.display != "none") {
-		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':0, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});	
 	}
 
