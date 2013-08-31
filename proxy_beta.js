@@ -2319,7 +2319,7 @@ function fnFixMissionProcess() {
 			if (result.payload.process.cage) {
 				if (!isShadow) EfectMng.push('shadowShow', null);
 				isShadow = true;
-				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':0, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 				/*$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);*/
@@ -2361,7 +2361,7 @@ function fnFixMissionProcess() {
 	};
 	EfectMng.efectList.process = __effect_process = function(data) {};
 	EfectMng.efectList.cageSelect = __effect_cageSelect = function(data) {
-		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':0, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
 		//EfectMng.push('reload', null);	
 	}
@@ -2398,8 +2398,10 @@ function fnTowerFortitudeAppeared() {
 				$('#tap-area').hide();	
 				fnRedirect('/en/'+platform+'/tower/mission');
 			}
-		});		
+		});
+		fnRedirect('/en/'+platform+'/tower/mission');
 	}
+	fnRedirect('/en/'+platform+'/tower/mission');
 }
 
 function fnTowerStory() {
@@ -2412,7 +2414,7 @@ function fnTowerMission() {
     $('#big_tips').hide();
 	fnFixMissionProcess();
 	if (document.getElementById('cage-select').style.display != "none") {
-		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':0, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':1, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});	
 	}
 
@@ -5184,6 +5186,8 @@ function fnPresentBoxAction(pValue) {
 }
 
 function fnPresentBox() {
+	$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {});
+	$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=3&check=4%2C7%2C1', { }, function(data) {});
 	if (document.getElementById('button_fp_all') != null) {
 		setTimeout(function(){$.redirect('/en/'+platform+'/present/fpAll');}, 1000);
 		return;
@@ -5803,7 +5807,7 @@ function fnRookieQuest() {
 // login Stamp
 
 function fnLoginStamp() {
-	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
+	fnRedirect('/en/'+platform+'/home');
 }
 
 // First Day of the Month Stamp
