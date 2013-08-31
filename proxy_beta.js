@@ -2402,6 +2402,10 @@ function fnTowerFortitudeAppeared() {
 	}
 }
 
+function fnTowerStory() {
+	fnRedirect('/en/'+platform+'/tower/mission?intentional=1');
+}
+
 function fnTowerMission() {
 	$('#fade').hide();
 	$('#tips').hide();
@@ -5999,6 +6003,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower') {
 		fnTower();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/tower/story') {
+		fnTowerStory();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower/summon') {
 		fnTowerSummon();
