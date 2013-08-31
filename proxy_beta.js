@@ -984,7 +984,7 @@ function fnSpam(pID, pName, pMsg) {
 }
 
 function fnProfileAddSpamButton() {
-	var divTag = document.createElement("a"); 
+	/*var divTag = document.createElement("a"); 
 	divTag.id = "btn-bbs-spam-overall"; 
 
 	divTag.style["font-size"] = "0.6em"; 
@@ -1075,8 +1075,9 @@ function fnProfileAddSpamButton() {
 			}
 		}
 	});
+*/
 
-	divTag = document.createElement("a"); 
+	var divTag = document.createElement("a"); 
 	divTag.id = "btn-bbs-clearAll"; 
 
 	divTag.style["font-size"] = "0.6em"; 
