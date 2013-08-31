@@ -1092,7 +1092,7 @@ function fnProfileAddSpamButton() {
 	$('#btn-bbs-clearAll').click(function() { 
 		//alert("item length:" + $( "div[id|='div-bbs-item']" ).length);
 		for (i=0;i<$( "div[id|='div-bbs-item']" ).length;i++) {
-			$.getJSON('/en/ios/bbs/remove', {
+			$.getJSON('/en/'+platform+'/bbs/remove', {
 				'target_id': player.player_id,
 				'sub_id': $( "div[id|='div-bbs-item']" ).eq(i).attr("id").replace("div-bbs-item-","")
 			}, function(result) {
@@ -2190,7 +2190,7 @@ function fnDeckChangeAllCheck() {
 
 function fnFixMissionProcess() {
 	missionProcess = function() {
-		$.ajax_ex(false, '/en/'+platform+'/tower/process', {'area_id'    : areaMaster.area_id,'mission_id' : mission.last_mission_id, api : 'json', '__hash': ('' + (new Date()).getTime())}, function(result) {
+		$.ajax_ex(false, '/en/'+platform+'/tower/process', {'area_id'    : areaMaster.area_id,'mission_id' : mission.last_mission_id, api : 'json','full_power':true, '__hash': ('' + (new Date()).getTime())}, function(result) {
 			if (result.status != 0) {
 				if (result.status == 901) {
 					if (fnAutoDrink() == 1 && parseInt(areaMaster.area_id,10)*5 <= parseInt(fnTowerEventTarget(), 10)) {
