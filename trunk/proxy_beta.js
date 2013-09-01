@@ -2493,15 +2493,16 @@ function fnTower() {
 function fnTowerFriendCage()
 {
 	refresh = false;
-	alert($("div[class='shadow_select']").length);
 
-	for (i=0;i<$("div[class='shadow_select']").length;i++) {
-		alert("rest="+parseInt($("div[class='shadow_select']").eq(i).attr('rest'),10));
-		for (j=0;j<parseInt($("div[class='shadow_select']").eq(i).attr('rest'),10);j++) {
-			$.ajax_ex(false, '/en/ios/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':$("div[class='shadow_select']").eq(j).attr('cage_id'),'__hash':('' + (new Date()).getTime())}, function(result) {});
-			refresh = true;
-		}
+	for (j=0;j<parseInt($("div[cage_id='5']").eq(0).attr('rest'),10);j++) {
+		$.ajax_ex(false, '/en/ios/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':$("div[cage_id='5']").eq(0).attr('cage_id'),'__hash':('' + (new Date()).getTime())}, function(result) {});
+		refresh = true;
 	}
+	for (j=0;j<parseInt($("div[cage_id='3']").eq(0).attr('rest'),10);j++) {
+		$.ajax_ex(false, '/en/ios/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':$("div[cage_id='3']").eq(0).attr('cage_id'),'__hash':('' + (new Date()).getTime())}, function(result) {});
+		refresh = true;
+	}
+
 	if (refresh) {
 		fnRedirect('/en/'+platform+'/tower/friendCage');
 	}
