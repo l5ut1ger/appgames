@@ -2492,7 +2492,16 @@ function fnTower() {
 
 function fnTowerFriendCage()
 {
-	alert($("div[class|='shadow_select']").eq(0).attr('cage_id'));
+	refresh = false;
+	for (i=0;i<$("div[class|='shadow_select']").length;i++) {
+		for (j=0;j<parseInt($("div[class|='shadow_select']").eq(i).attr('rest'),10);j++) {
+			$.ajax_ex(false, '/en/ios/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':$("div[class|='shadow_select']").eq(j).attr('cage_id'),'__hash':('' + (new Date()).getTime())}, function(result) {});
+			refresh = true;
+		}
+	}
+	if (refresh) {
+		fnRedirect('/en/'+platform+'/tower/friendCage');
+	}
 }
 
 function fnTowerSummon() {
