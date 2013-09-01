@@ -616,6 +616,20 @@ function fnSetTowerProgTeam(value, upload) {
 	fnSetCookie(towerProgTeamKey, value, upload);
 }
 
+var towerTrapKey = 'TTK';
+
+function fnTowerTrap() {
+	if(fnGetCookie(towerTrapKey) === null) {
+		fnSetTowerTrap('0', 0);
+	}
+	return fnGetCookie(towerTrapKey);
+}
+
+function fnSetTowerTrap(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(towerTrapKey, value, upload);
+}
+
 // cookies that store whether the player is battling mcfly, so the player will switch back to prog team later
 
 var battlingMcFlyKey = 'battlingMcFly';
@@ -1267,9 +1281,15 @@ function fnProfileFixTabs() {
 		mcFlyTeamSelectorHTML+='<option ' + (fnTowerMcFlyTeam()==aFormationArray[i]?'selected':'') + ' value="' + i + '">' + aFormationArray[i].split(fnGetConnector())[1] + '</option>';
 	}
 	mcFlyTeamSelectorHTML+='</select><br/><br/>'; 
+
+	var towerTrapSelectorHTML = 'Trap Item<br/>';
+	towerTrapSelectorHTML += '<select name="sel" onchange="fnSetTowerTrap(this.options[this.options.selectedIndex].value);fnGrowl(\'Tower Trap \'+this.options[this.options.selectedIndex].text);">';	
+	towerTrapSelectorHTML += '<option ' + (fnTowerTrap()==0?'selected':'') + ' value="0">Nil</option>';	
+	towerTrapSelectorHTML += '<option ' + (fnTowerTrap()==4002?'selected':'') + ' value="4002">Mission 1-1\'s loot</option>';
+	towerTrapSelectorHTML+='</select><br/><br/>'; 
 	
  
-	divTag.innerHTML = resetHTML + ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML; 
+	divTag.innerHTML = resetHTML + ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML+towerTrapSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 	
 	fnProfileFillAltOption();
@@ -2319,7 +2339,7 @@ function fnFixMissionProcess() {
 			if (result.payload.process.cage) {
 				if (!isShadow) EfectMng.push('shadowShow', null);
 				isShadow = true;
-				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':0, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+				$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : fnTowerTrap(), 'sample_trap':0, 'challenge_trap' : 5, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 				/*$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 1000);
 				setTimeout(function(){$.redirect('/en/'+platform+'/tower/mission');}, 8000);*/
@@ -2361,7 +2381,7 @@ function fnFixMissionProcess() {
 	};
 	EfectMng.efectList.process = __effect_process = function(data) {};
 	EfectMng.efectList.cageSelect = __effect_cageSelect = function(data) {
-		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':0, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : fnTowerTrap(), 'sample_trap':0, 'challenge_trap' : 5, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) { 	});
 		//EfectMng.push('reload', null);	
 	}
@@ -2414,7 +2434,7 @@ function fnTowerMission() {
     $('#big_tips').hide();
 	fnFixMissionProcess();
 	if (document.getElementById('cage-select').style.display != "none") {
-		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, 'sample_trap':0, 'challenge_trap' : 3, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
+		$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : fnTowerTrap(), 'sample_trap':0, 'challenge_trap' : 5, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});
 		//$.ajax_ex(false, '/en/'+platform+'/tower/cageUse', {'item_id' : 0, api : 'json',  '__hash' : ('' + (new Date()).getTime()) },function(result) {});	
 	}
 
@@ -2468,6 +2488,10 @@ function fnTower() {
 	if (document.referrer.indexOf('/battle/battle') >= 0 || document.referrer.indexOf('/tower/boss') >=0 || document.referrer.indexOf('/tower/subpoena') >=0) {
 		fnRedirect('/en/'+platform+'/tower/mission');
 	}
+}
+
+function fnTowerFriendCage()
+{
 }
 
 function fnTowerSummon() {
@@ -6014,6 +6038,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower') {
 		fnTower();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/tower/friendcage') {
+		fnTowerFriendCage();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower/story') {
 		fnTowerStory();
