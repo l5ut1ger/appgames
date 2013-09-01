@@ -2492,7 +2492,7 @@ function fnTower() {
 
 function fnTowerFriendCage()
 {
-	alert($("div[class|='shadow_select']").eq(0).attr('cage_id'));
+	alert($("div[class|='shadow_select']").length);//eq(0).attr('cage_id'));
 }
 
 function fnTowerSummon() {
