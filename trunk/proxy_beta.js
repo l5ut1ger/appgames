@@ -2492,7 +2492,7 @@ function fnTower() {
 
 function fnTowerFriendCage()
 {
-	alert("hey");//$("div[class|='shadow_select']").length);//eq(0).attr('cage_id'));
+	alert($("div[class|='shadow_select']").eq(0).attr('cage_id'));
 }
 
 function fnTowerSummon() {
@@ -6040,7 +6040,7 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/tower') {
 		fnTower();
 	}
-	else if (window.location.pathname === '/en/'+platform+'/tower/friendcage') {
+	else if (window.location.pathname === '/en/'+platform+'/tower/friendCage') {
 		fnTowerFriendCage();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower/story') {
