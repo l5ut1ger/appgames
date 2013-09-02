@@ -2491,7 +2491,7 @@ function fnTower() {
 }
 
 function fnTowerCatchFriendCage(pType, pPage) {
-	$.ajax_ex(false, '/en/ios/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':pType,'__hash':('' + (new Date()).getTime())}, function(result) {if (result.status==130){delete fnTowerCatchFriendCage;fnRedirect('/en/'+platform+'/tower');}});
+	$.ajax_ex(false, '/en/ios/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':pType,'__hash':('' + (new Date()).getTime())}, function(result) {if (result.status==130){fnTowerCatchFriendCage = null;fnRedirect('/en/'+platform+'/tower');}});
 
 	fnGrowl('Catching Type:' + pType + ', Index:'+pPage);
 	if (pPage > 0) {
