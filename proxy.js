@@ -2510,26 +2510,12 @@ function fnPresentBoxReceiveAll_1bp_A() {
 
 function fnTowerFriendCage()
 {
-	refresh = false;
-
 	if (parseInt($("div[cage_id='5']").eq(0).attr('rest'),10) > 0) {
 		fnTowerCatchFriendCage(5, parseInt($("div[cage_id='5']").eq(0).attr('rest'),10));
+		return;
 	}
 	if (parseInt($("div[cage_id='3']").eq(0).attr('rest'),10) > 0) {
 		fnTowerCatchFriendCage(3, parseInt($("div[cage_id='3']").eq(0).attr('rest'),10));
-	}
-
-	/*for (j=0;j<parseInt($("div[cage_id='5']").eq(0).attr('rest'),10);j++) {
-		$.ajax_ex(false, '/en/ios/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':$("div[cage_id='5']").eq(0).attr('cage_id'),'__hash':('' + (new Date()).getTime())}, function(result) {});
-		refresh = true;
-	}
-	for (j=0;j<parseInt($("div[cage_id='3']").eq(0).attr('rest'),10);j++) {
-		$.ajax_ex(false, '/en/ios/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':$("div[cage_id='3']").eq(0).attr('cage_id'),'__hash':('' + (new Date()).getTime())}, function(result) {});
-		refresh = true;
-	}*/
-
-	if (refresh) {
-		fnRedirect('/en/'+platform+'/tower/friendCage');
 	}
 }
 
@@ -5251,15 +5237,7 @@ function fnPresentBoxAction(pValue) {
 function fnPresentBox() {
 	$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {});
 	$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=3&check=4%2C7%2C1', { }, function(data) {});
-	if (document.getElementById('button_fp_all') != null) {
-		setTimeout(function(){$.redirect('/en/'+platform+'/present/fpAll');}, 1000);
-		return;
-	}
-	if (document.getElementById('button_gold_all') != null) {
-		setTimeout(function(){$.redirect('/en/'+platform+'/present/jewelAll');}, 1000);
-		return;
-	}
-	if (document.getElementById('button_fp_ng') != null) {
+	if (document.getElementById('receive_all_1') != null) {
 		//document.getElementById('button_fp_ng').style.display = "none";
 		
 		var divTag = document.createElement("div"); 
@@ -5285,7 +5263,7 @@ function fnPresentBox() {
 		selectorHTML += '</select>';
 		
      divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="for (var i=0;i<document.getElementById(\'presents\').childNodes.length;i++)$(\'.receive-button\',$(\'#\'+document.getElementById(\'presents\').childNodes[i].id)).trigger(\'click\');"><span class="download2">Receive All</span></button>' + selectorHTML; 
-		document.getElementById('button_fp_ng').parentNode.replaceChild(divTag, document.getElementById('button_fp_ng'));
+		document.getElementById('receive_all_1').parentNode.appendChild(divTag, document.getElementById('button_fp_ng'));
 	}
 }
 
