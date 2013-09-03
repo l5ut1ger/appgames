@@ -953,8 +953,8 @@ function fnSkypeClanSelectorOption(pDefault) {
 	option += '<option value="2656724949" ' + (pDefault=="2656724949"?"selected":"") + '>Kissy</option>';
 	//option += '<option value="1330745254" ' + (pDefault=="1330745254"?"selected":"") + '>Unreality</option>';
 	//option += '<option value="1847429107" ' + (pDefault=="1847429107"?"selected":"") + '>Unreality</option>';
-	option += '<option value="2220539725" ' + (pDefault=="2220539725"?"selected":"") + '>Momma(Unreal)</option>';
-  option += '<option value="2661557047" ' + (pDefault=="2661557047"?"selected":"") + '>Kelv(Drakkar)</option>';
+	option += '<option value="2150306457" ' + (pDefault=="2150306457"?"selected":"") + '>Unreality</option>';
+	option += '<option value="2661557047" ' + (pDefault=="2661557047"?"selected":"") + '>Kelv(Drakkar)</option>';
 	return option;
 }
 
@@ -5971,7 +5971,7 @@ function fnHome() {
 
 function fnHomeLogin() {
 	$.ajax_ex(false, '/en/'+platform+'/present/fpAll', {},function(result) {return;}) ;
-	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
+	fnRedirect('/en/'+platform+'/home');
 }
 
 // home bonus
@@ -5979,13 +5979,19 @@ function fnHomeLogin() {
 function fnHomeBonus() {
 	$.ajax_ex(false, '/en/'+platform+'/present/fpAll', {},function(result) {return;}) ;
 	$.ajax_ex(false, '/en/'+platform+'/present/jewelAll', {},function(result) {return;}) ;
-	setTimeout(function(){$.redirect('/en/'+platform+'/home');}, 1);
+	fnRedirect('/en/'+platform+'/home');
 }
 
 // login days
 
 function fnLoginDays() {
 	setInterval(nextLoginDays, 1000);
+}
+
+// making opening
+
+function fnMakingOpening() {
+	fnRedirect('/en/'+platform+'/making/name2');
 }
 
 // on load
@@ -6026,6 +6032,9 @@ function fnAutoUsePoint() {
 function fnTimeoutOnLoad() {
 	if (window.location.pathname === '/en/'+platform+'/tutorial/start_page') {
 		fnTutorialStartPage();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/making/opening') {
+		fnMakingOpening();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/rookiequest') {
 		fnRookieQuest();
@@ -6266,9 +6275,11 @@ function fnOnLoad() {
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
 	fnCreateBackButton();
-	fnAutoUsePoint();
-	fnCheckAlly();
-	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	
+	if (!(typeof player === 'undefined')) {
+		fnAutoUsePoint();
+		fnCheckAlly();
+	}
+	$(document).ready(function() {setTimeout(fnTimeoutOnLoad, 0);});	
 }
 
 function fnPreLoad() {
