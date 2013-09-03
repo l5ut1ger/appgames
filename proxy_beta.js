@@ -953,8 +953,8 @@ function fnSkypeClanSelectorOption(pDefault) {
 	option += '<option value="2656724949" ' + (pDefault=="2656724949"?"selected":"") + '>Kissy</option>';
 	//option += '<option value="1330745254" ' + (pDefault=="1330745254"?"selected":"") + '>Unreality</option>';
 	//option += '<option value="1847429107" ' + (pDefault=="1847429107"?"selected":"") + '>Unreality</option>';
-	option += '<option value="2220539725" ' + (pDefault=="2220539725"?"selected":"") + '>Momma(Unreal)</option>';
-  option += '<option value="2661557047" ' + (pDefault=="2661557047"?"selected":"") + '>Kelv(Drakkar)</option>';
+	option += '<option value="2150306457" ' + (pDefault=="2150306457"?"selected":"") + '>Unreality</option>';
+	option += '<option value="2661557047" ' + (pDefault=="2661557047"?"selected":"") + '>Kelv(Drakkar)</option>';
 	return option;
 }
 
