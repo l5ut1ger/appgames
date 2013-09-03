@@ -5991,6 +5991,7 @@ function fnLoginDays() {
 // making opening
 
 function fnMakingOpening() {
+	alert('test');
 	fnRedirect('/en/'+platform+'/making/name2');
 }
 
