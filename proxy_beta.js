@@ -5774,7 +5774,7 @@ function fnFusionFixPage() {
 		  base_tag.append('<div class="party-icon"><img src="' + icon_img + '" /></div>');
 		}
 
-		$('> .thumb > img', base_tag).click(function() {
+		$('> .thumb > img', base_tag).click(function() {alert('hey');
 			fnRedirect('/en/'+platform+'/market/othersExhibitList?type=2&permanent_id='+monster.monster_id);
 			/*
 		  monster.skill   = SKILLS[monster.skill_id][monster.skill_lv];
