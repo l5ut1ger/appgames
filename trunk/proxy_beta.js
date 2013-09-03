@@ -5865,7 +5865,7 @@ function fnTutorialStartPage() {
 
 function fnRookieQuest() {
 	prize = false;
-	for (i=0;i<$('span.receive').length);i++) {
+	for (i=0;i<$('span.receive').length;i++) {
 		$('span.receive').eq(i).trigger('click');
 		prize = true;
 	}
