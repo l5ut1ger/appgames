@@ -5632,7 +5632,7 @@ function fnStackAuto(pUniqueNo) {
 }
 
 function fnFusionFixDestPage() {
-	showMonsters = function (offset, limit)
+	/*showMonsters = function (offset, limit)
 	{
 		if (parseInt(fnAutoFusion(),10) > 0) {
 			fnFusionAuto(fnQueryString('uno'));
@@ -5730,6 +5730,125 @@ function fnFusionFixDestPage() {
 			$('#monsters').append(base_tag);
 		});
 
+		updateSeletecionState();
+	}*/
+
+
+	showMonsters = function (offset, limit)
+	{
+		if (monsters === false) { return; }
+
+		if (parseInt(fnAutoFusion(),10) > 0) {
+			fnFusionAuto(fnQueryString('uno'));
+		}
+		
+		if (parseInt(fnAutoStack(),10) > 0) {
+			fnStackAuto(fnQueryString('uno'));
+		}
+		
+		if (parseInt(fnAutoSkillUp(),10) > 0) {
+			fnSkillUpAuto(fnQueryString('uno'));
+		}
+
+		// 
+		$('#monsters').empty();
+		$('#original > img').attr('src', 'http://res.darksummoner.com/en/s/cards/none.png');
+		$('#jewel').css('color', 'white').html('0');
+
+		var need_jewel    = getFusionJewel();
+		var ex_jewel_able = 24000544 >= need_jewel;
+
+		// 
+		$.each(monsters, function(i, monster) {
+		if ( (i < offset) || (i >= (offset + limit)) ) { return true; }
+
+		var id = 'monster_' + i;
+		var base_tag      = $('<div id="' + id + '" class="monster"></div>');
+
+		// EXé²åæã®ã¢ã¤ãã æ¬è¡¨ç¤º
+		showExItems(monster, i);
+
+		base_tag
+		.append('<div class="thumb"><img src="http://res.darksummoner.com/en/s/' + monster.small_thumb_image + '" /></div>')
+		.append('<div class="information"><img src="http://res.darksummoner.com/en/s/misc/monster/information_' + monster.tribe + '.png" /></div>')
+		.append('<div class="party"></div>')
+		.append('<div class="name">' + monster.m.name + '</div>')
+		.append('<div class="' + ((~~monster.lv >= ~~monster.m.lv_max) ? 'lv_max' : 'lv') + '">' + monster.lv + '</div>')
+		.append('<div class="lv-icon">Lv</div>')
+		.data('monster', monster);
+
+		if (monster.is_spirit) {
+		base_tag
+		.append('<div class="spirit-description">' + monster.m.description + '</div>')
+		.append('<div class="spirit-skill">' + SKILLS[monster.skill_id][monster.skill_lv]['name'] + '</div>');
+		} else {
+		base_tag
+		.append('<div class="bp">' + monster.bp + '</div>')
+		.append('<div class="attack">' + monster.attack + '</div>')
+		.append('<div class="defense">' + monster.defense + '</div>')
+		.append('<div class="hp">' + monster.hp + '</div>')
+		.append('<div class="skill">' + SKILLS[monster.skill_id][monster.skill_lv]['name'] + '</div>')
+		.append('<div class="attack-icon">ATK</div>')
+		.append('<div class="defense-icon">DEF</div>')
+		.append('<div class="bp-icon">BP</div>')
+		.append('<div class="hp-icon">HP</div>');
+		}
+
+		$('> .thumb > img', base_tag).click(function() {
+		monster.skill   = SKILLS[monster.skill_id][monster.skill_lv];
+		monster.species = SPECIES[monster.m.species];
+		$.showMonsterInformation(monster);
+		});
+
+
+		// 
+		var reason_for_disable = false;
+
+		if (~~monster.is_locked != 0) {
+		if (~~monster.is_locked == 1) {
+		reason_for_disable = 1;
+		} else if (~~monster.is_locked == 2) {
+		reason_for_disable = 2;
+		} else {
+		reason_for_disable = 3;
+		}
+		}
+		if (reason_for_disable !== false) {
+		var disable_tag = $('<div class="disable"></div>');
+		disable_tag
+		.append('<img class="disable-icon" src="http://res.darksummoner.com/en/s/misc/icons/exclamation.png" />')
+		.append('<div class="disable-label">' + DISABLE_REASONS[reason_for_disable] + '</div>');
+
+		base_tag
+		.append(disable_tag)
+		.addClass('monster-tribe-' + monster.tribe)
+		}
+		else {
+		var index = findIndex(monster);
+
+		if (index === false) {
+		base_tag
+		.append('<div class="check-icon"><img src="' + check_off + '" /></div>')
+		.addClass('monster-tribe-' + monster.tribe);
+
+		}
+		else {
+		base_tag
+		.append('<div class="check-icon"><img src="' + check_on + '" /></div>')
+		.addClass('monster-tribe-' + monster.tribe + '-selected');
+		}
+
+		// 
+		var select_tag = $('<div class="selection"></div>');
+		base_tag.append(select_tag);
+
+		select_tag.click(function() {
+		onEntry(base_tag, monster);
+		});
+		}
+
+		$('#monsters').append(base_tag);
+		});
 		updateSeletecionState();
 	}
 }
