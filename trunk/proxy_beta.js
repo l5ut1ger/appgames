@@ -5888,7 +5888,7 @@ function fnMonster() {
 				if (monsters.length < 1) {return; }
 				for (var i=0;i<monsters.length;i++) {
 					var monster = monsters[i];
-					if (parseInt(monster.lv,10) == 1 && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {				
+					if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == "false" && monster.is_ex_evolution == "false" && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {				
 						sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
 					}
 				}
@@ -5917,7 +5917,7 @@ function fnMonster() {
 				if (monsters.length < 1) {return; }
 				for (var i=0;i<monsters.length;i++) {
 					var monster = monsters[i];
-					if (parseInt(monster.lv,10) == 1 && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {				
+					if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == "false" && monster.is_ex_evolution == "false" && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {				
 						sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
 					}
 				}
