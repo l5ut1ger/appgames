@@ -2510,26 +2510,12 @@ function fnPresentBoxReceiveAll_1bp_A() {
 
 function fnTowerFriendCage()
 {
-	refresh = false;
-
 	if (parseInt($("div[cage_id='5']").eq(0).attr('rest'),10) > 0) {
 		fnTowerCatchFriendCage(5, parseInt($("div[cage_id='5']").eq(0).attr('rest'),10));
+		return;
 	}
 	if (parseInt($("div[cage_id='3']").eq(0).attr('rest'),10) > 0) {
 		fnTowerCatchFriendCage(3, parseInt($("div[cage_id='3']").eq(0).attr('rest'),10));
-	}
-
-	/*for (j=0;j<parseInt($("div[cage_id='5']").eq(0).attr('rest'),10);j++) {
-		$.ajax_ex(false, '/en/ios/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':$("div[cage_id='5']").eq(0).attr('cage_id'),'__hash':('' + (new Date()).getTime())}, function(result) {});
-		refresh = true;
-	}
-	for (j=0;j<parseInt($("div[cage_id='3']").eq(0).attr('rest'),10);j++) {
-		$.ajax_ex(false, '/en/ios/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':$("div[cage_id='3']").eq(0).attr('cage_id'),'__hash':('' + (new Date()).getTime())}, function(result) {});
-		refresh = true;
-	}*/
-
-	if (refresh) {
-		fnRedirect('/en/'+platform+'/tower/friendCage');
 	}
 }
 
