@@ -6030,11 +6030,11 @@ function fnAutoUsePoint() {
 	}
 }
 
-function fnTimeoutOnLoad() {
+function fnTimeoutOnLoad() {alert('e');
 	if (window.location.pathname === '/en/'+platform+'/tutorial/start_page') {
 		fnTutorialStartPage();
 	}
-	else if (window.location.pathname === '/en/'+platform+'/making/opening') {
+	else if (window.location.pathname === '/en/'+platform+'/making/opening') {alert('f');
 		fnMakingOpening();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/rookiequest') {
@@ -6269,18 +6269,18 @@ function fnTimeoutOnLoad() {
 	// /en/'+platform+'/dungeon/recoveryproc
 }
 
-function fnOnLoad() {
+function fnOnLoad() {alert('a');
 	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
 
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
-	fnCreateBackButton();
-	if (!(player === null)) {
+	fnCreateBackButton();alert('b');
+	if (!(player === null)) {alert('c');
 		fnAutoUsePoint();
 		fnCheckAlly();
 	}
-	$(document).ready(function() {  setTimeout(fnTimeoutOnLoad, 0);});	
+	$(document).ready(function() { alert('d'); setTimeout(fnTimeoutOnLoad, 0);});	
 }
 
 function fnPreLoad() {
