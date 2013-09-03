@@ -6275,12 +6275,12 @@ function fnOnLoad() {
 
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
-	fnCreateBackButton();
-	if (!(player === null)) {
+	fnCreateBackButton();alert('pre');
+	if (!(player === null)) {alert('no');
 		fnAutoUsePoint();
 		fnCheckAlly();
 	}
-	else {
+	else {alert('A');
 		fnTimeoutOnLoad();
 	}
 	$(document).ready(function() {setTimeout(fnTimeoutOnLoad, 0);});	
