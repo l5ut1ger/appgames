@@ -5864,6 +5864,7 @@ function fnTutorialStartPage() {
 // rookie quest
 
 function fnRookieQuest() {
+	alert("quest length"+ $('span.receive').length);
 	//fnRedirect('/en/'+platform+'/home?__sc=');
 }
 
