@@ -5872,7 +5872,6 @@ function fnMonster() {
 		var divTag = document.createElement("div"); 
 		divTag.id = "sellAllWithConfirm"; 
 		divTag.className =("btn __red __disabled");
-		divTag.style["z-index"] = 1000; 
 		divTag.style.position = "relative"; 
 		divTag.style.width = "250px"; 
 		divTag.style.height = "40px"; 
@@ -5889,7 +5888,7 @@ function fnMonster() {
 				if (monsters.length < 1) {return; }
 				for (var i=0;i<monsters.length;i++) {
 					var monster = monsters[i];
-					if (parseInt(monster.lv,10) == 1 && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {				
+					if (parseInt(monster.lv,10) == 1 && (parseInt(monster.grade,10) <= 2 || ((parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {				
 						sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
 					}
 				}
@@ -5902,7 +5901,6 @@ function fnMonster() {
 		divTag = document.createElement("div"); 
 		divTag.id = "sellAllWithoutConfirm"; 
 		divTag.className =("btn __red __disabled");
-		divTag.style["z-index"] = 1000; 
 		divTag.style.position = "relative"; 
 		divTag.style.width = "250px"; 
 		divTag.style.height = "40px"; 
@@ -5919,7 +5917,7 @@ function fnMonster() {
 				if (monsters.length < 1) {return; }
 				for (var i=0;i<monsters.length;i++) {
 					var monster = monsters[i];
-					if (parseInt(monster.lv,10) == 1 && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {				
+					if (parseInt(monster.lv,10) == 1 && (parseInt(monster.grade,10) <= 2 || ((parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {				
 						sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
 					}
 				}
