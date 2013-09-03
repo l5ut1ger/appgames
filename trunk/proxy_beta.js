@@ -5864,7 +5864,16 @@ function fnTutorialStartPage() {
 // rookie quest
 
 function fnRookieQuest() {
-	alert("quest length"+ $('span.receive').length);
+	prize = false;
+	for (i=0;i<$('span.receive').length);i++) {
+		$('span.receive').eq(i).trigger('click');
+		prize = true;
+	}
+	if (prize) {
+		$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {});
+		$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=3&check=4%2C7%2C1', { }, function(data) {});
+		fnRedirect('/en/'+platform+'/home?__sc=');
+	}
 	//fnRedirect('/en/'+platform+'/home?__sc=');
 }
 
