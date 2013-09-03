@@ -5991,7 +5991,6 @@ function fnLoginDays() {
 // making opening
 
 function fnMakingOpening() {
-	alert('test');
 	fnRedirect('/en/'+platform+'/making/name2');
 }
 
@@ -6030,11 +6029,11 @@ function fnAutoUsePoint() {
 	}
 }
 
-function fnTimeoutOnLoad() {alert('e');
+function fnTimeoutOnLoad() {
 	if (window.location.pathname === '/en/'+platform+'/tutorial/start_page') {
 		fnTutorialStartPage();
 	}
-	else if (window.location.pathname === '/en/'+platform+'/making/opening') {alert('f');
+	else if (window.location.pathname === '/en/'+platform+'/making/opening') {
 		fnMakingOpening();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/rookiequest') {
@@ -6275,13 +6274,10 @@ function fnOnLoad() {
 
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
-	fnCreateBackButton();alert('pre');
-	if (!(typeof player === 'undefined')) {alert('no');
+	fnCreateBackButton();
+	if (!(typeof player === 'undefined')) {
 		fnAutoUsePoint();
 		fnCheckAlly();
-	}
-	else {alert('A');
-		fnTimeoutOnLoad();
 	}
 	$(document).ready(function() {setTimeout(fnTimeoutOnLoad, 0);});	
 }
