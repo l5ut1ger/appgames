@@ -5877,6 +5877,7 @@ function fnMonster() {
 		divTag.style.height = "40px"; 
 		divTag.style.margin = "10px auto"; 
 		divTag.style.left = "25px"; 		
+		divTag.style.top = "-60px"; 
     	divTag.innerHTML = 'SMART SELL ALL W/ CONFIRM'; 
 		document.getElementById('monster-counter').appendChild(divTag);
 
@@ -5897,7 +5898,7 @@ function fnMonster() {
 				}
 			});
 		});
-
+		/*
 		divTag = document.createElement("div"); 
 		divTag.id = "sellAllWithoutConfirm"; 
 		divTag.className =("btn __red __disabled");
@@ -5925,7 +5926,7 @@ function fnMonster() {
 					fnRedirect('/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList);
 				}
 			});
-		});
+		});*/
 	}
 }
 // tutorial
