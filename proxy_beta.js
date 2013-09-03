@@ -6276,7 +6276,7 @@ function fnOnLoad() {
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
 	fnCreateBackButton();alert('pre');
-	if (!(player === null)) {alert('no');
+	if (!(typeof player === 'undefined')) {alert('no');
 		fnAutoUsePoint();
 		fnCheckAlly();
 	}
