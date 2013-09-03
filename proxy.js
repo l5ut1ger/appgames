@@ -5864,6 +5864,71 @@ function fnFusion() {
 	fnFusionFixPage();
 }
 
+// sell monster page
+
+function fnMonster() {
+	if (document.getElementById('monster-counter') != null) {
+		//document.getElementById('button_fp_ng').style.display = "none";		
+		var divTag = document.createElement("div"); 
+		divTag.id = "sellAllWithConfirm"; 
+		divTag.className =("btn __red __disabled");
+		divTag.style.position = "relative"; 
+		divTag.style.width = "250px"; 
+		divTag.style.height = "40px"; 
+		divTag.style.margin = "10px auto"; 
+		divTag.style.left = "25px"; 		
+		divTag.style.top = "-80px"; 
+    	divTag.innerHTML = 'SMART SELL ALL W/ CONFIRM'; 
+		document.getElementById('monster-counter').appendChild(divTag);
+
+		$('#sellAllWithConfirm').click(function() {
+			$.ajax_ex(false, '/en/'+platform+'/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
+				if ( (data == null) || (data.status != 0) ) { return; }
+				var sellingList = "";
+				var monsters = data.payload;
+				if (monsters.length < 1) {return; }
+				for (var i=0;i<monsters.length;i++) {
+					var monster = monsters[i];
+					if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == false && monster.is_ex_evolution == false && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {				
+						sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
+					}
+				}
+				if (sellingList != "") {
+					fnRedirect('/en/'+platform+'/monster/sell_check?uno='+sellingList);
+				}
+			});
+		});
+		/*
+		divTag = document.createElement("div"); 
+		divTag.id = "sellAllWithoutConfirm"; 
+		divTag.className =("btn __red __disabled");
+		divTag.style.position = "relative"; 
+		divTag.style.width = "250px"; 
+		divTag.style.height = "40px"; 
+		divTag.style.margin = "10px auto"; 
+		divTag.style.left = "25px"; 		
+    	divTag.innerHTML = 'SMART SELL ALL W/O CONFIRM'; 
+		document.getElementById('monster-counter').appendChild(divTag);
+
+		$('#sellAllWithoutConfirm').click(function() {
+			$.ajax_ex(false, '/en/'+platform+'/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
+				if ( (data == null) || (data.status != 0) ) { return; }
+				var sellingList = "";
+				var monsters = data.payload;
+				if (monsters.length < 1) {return; }
+				for (var i=0;i<monsters.length;i++) {
+					var monster = monsters[i];
+					if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == false && monster.is_ex_evolution == false && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {				
+						sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
+					}
+				}
+				if (sellingList != "") {
+					fnRedirect('/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList);
+				}
+			});
+		});*/
+	}
+}
 // tutorial
 
 function fnTutorialStartPage() {
@@ -6084,6 +6149,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/loginDays') {
 		fnLoginDays();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/monster') {
+		fnMonster(); // sell monster page
 	}
 	else if (window.location.pathname === '/en/'+platform+'/friends') {
 		fnFriend();
