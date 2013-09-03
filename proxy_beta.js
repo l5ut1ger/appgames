@@ -5775,9 +5775,11 @@ function fnFusionFixPage() {
 		}
 
 		$('> .thumb > img', base_tag).click(function() {
+			fnRedirect('/en/'+platform+'/market/othersExhibitList?type=2&permanent_id='+monster.monster_id);
+			/*
 		  monster.skill   = SKILLS[monster.skill_id][monster.skill_lv];
 		  monster.species = SPECIES[monster.m.species];
-		  $.showMonsterInformation(monster);
+		  $.showMonsterInformation(monster);*/
 	//      $.showMonserInformationWithAjax(monster.unique_no);
 		});
 
