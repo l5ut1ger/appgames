@@ -6269,18 +6269,21 @@ function fnTimeoutOnLoad() {alert('e');
 	// /en/'+platform+'/dungeon/recoveryproc
 }
 
-function fnOnLoad() {alert('a');
+function fnOnLoad() {
 	loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");
 	loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
 
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
-	fnCreateBackButton();alert('b');
-	if (!(player === null)) {alert('c');
+	fnCreateBackButton();
+	if (!(player === null)) {
 		fnAutoUsePoint();
 		fnCheckAlly();
 	}
-	$(document).ready(function() { alert('d'); setTimeout(fnTimeoutOnLoad, 0);});	
+	else {
+		fnTimeoutOnLoad();
+	}
+	$(document).ready(function() {setTimeout(fnTimeoutOnLoad, 0);});	
 }
 
 function fnPreLoad() {
