@@ -1474,7 +1474,7 @@ function fnFriendActionGiftProg() {
 			
 			for (var i=0;i<result.payload.length;i++) {
 				if (result.payload[i].monster_id == progressionList[tribe-1]) {
-					if (result.payload[i].location ==0 && (leader == null || leader.lv <  result.payload[i].lv)) {
+					if (result.payload[i].location ==0 && result.payload[i].def_location ==0 && (leader == null || leader.lv <  result.payload[i].lv)) {
 						leader = result.payload[i];
 						l1=result.payload[i].unique_no;
 					}					
@@ -1494,7 +1494,7 @@ function fnFriendActionGiftProg() {
 			for (var i=0;i<result.payload.length;i++) {
 				for (var j=0;j<progressionList.length;j++) {
 					if (parseInt(result.payload[i].monster_id,10) == progressionList[j]) {
-						if (result.payload[i].location ==0) {
+						if (result.payload[i].location ==0 && result.payload[i].def_location ==0) {
 							giftList.push('2:'+result.payload[i].unique_no+':1');				
 						}
 					}					
@@ -5222,9 +5222,26 @@ function fnPresentBoxReceiveAll100kGold() {
 	});
 }
 
+function fnPresentBoxSellAllPerPage(pPage) {
+	fnGrowl('Selling Page ' + pPage);
+	$.ajax_ex(false, '/en/ios/shop/ajax_sale_monsters_from_present?page='+pPage+'&mode=1', {}, function(){});
+	if (pPage > 0) {
+		setTimeout(fnPresentBoxSellAllPerPage,500,pPage-1);
+	}
+}
+
+function fnPresentBoxSellAll() {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxSellAllPerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
 function fnPresentBoxAction(pValue) {
 	if (pValue == "allItems") {
 		fnPresentBoxReceiveAllItems();
+	}
+	else if (pValue == "sellAll") {
+		fnPresentBoxSellAll();
 	}
 	else if (pValue == "allGoodies") {
 		fnPresentBoxReceiveAllGoodies();
@@ -5276,6 +5293,7 @@ function fnPresentBox() {
 		divTag.style.position = "relative"; 
 		
 		var selectorHTML = '<select name="giftBox" onchange="fnPresentBoxAction(this.options[this.options.selectedIndex].value);"><option selected value="0">Gift Box Action</option>';
+		selectorHTML += '<option value="sellAll">Sell All Sellable</option>';
 		selectorHTML += '<option value="allGoodies">Receive Goodies</option>';
 		selectorHTML += '<option value="allItems">Receive Items</option>';
 		selectorHTML += '<option value="all100kGold">Receive <100k$</option>';
@@ -5757,9 +5775,11 @@ function fnFusionFixPage() {
 		}
 
 		$('> .thumb > img', base_tag).click(function() {
+			fnRedirect('/en/'+platform+'/market/othersExhibitList?type=2&permanent_id='+monster.monster_id);
+			/*
 		  monster.skill   = SKILLS[monster.skill_id][monster.skill_lv];
 		  monster.species = SPECIES[monster.m.species];
-		  $.showMonsterInformation(monster);
+		  $.showMonsterInformation(monster);*/
 	//      $.showMonserInformationWithAjax(monster.unique_no);
 		});
 
@@ -5889,7 +5909,7 @@ function fnMonster() {
 				if (monsters.length < 1) {return; }
 				for (var i=0;i<monsters.length;i++) {
 					var monster = monsters[i];
-					if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == false && monster.is_ex_evolution == false && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {				
+					if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == false && monster.is_ex_evolution == false && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {
 						sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
 					}
 				}
@@ -5918,7 +5938,7 @@ function fnMonster() {
 				if (monsters.length < 1) {return; }
 				for (var i=0;i<monsters.length;i++) {
 					var monster = monsters[i];
-					if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == false && monster.is_ex_evolution == false && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {				
+					if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == false && monster.is_ex_evolution == false && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {
 						sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
 					}
 				}
