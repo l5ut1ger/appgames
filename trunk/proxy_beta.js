@@ -5263,7 +5263,7 @@ function fnPresentBox() {
 		selectorHTML += '</select>';
 		
      divTag.innerHTML = '<button class="sexybutton sexysimple sexyblue" onmousedown="for (var i=0;i<document.getElementById(\'presents\').childNodes.length;i++)$(\'.receive-button\',$(\'#\'+document.getElementById(\'presents\').childNodes[i].id)).trigger(\'click\');"><span class="download2">Receive All</span></button>' + selectorHTML; 
-		document.getElementById('receive_all_1').parentNode.replaceChild(divTag, document.getElementById('button_fp_ng'));
+		document.getElementById('receive_all_1').parentNode.appendChild(divTag, document.getElementById('button_fp_ng'));
 	}
 }
 
