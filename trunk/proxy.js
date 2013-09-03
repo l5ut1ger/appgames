@@ -5063,6 +5063,33 @@ function fnPresentBoxReceiveAll25s() {
 	});
 }
 
+function fnPresentBoxReceiveAll100sPerPage(pPage) {
+	fnGrowl('Receiving Page ' + pPage);
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {
+			if (boxes[i].permanent_type == 2 && boxes[i].monster_bp >= 100) {
+				onReceive(null, boxes[i]);
+				if (boxes[i].monster_grade > 5) {
+					fnGrowl("Receiving " + boxes[i].monster_name);
+				}
+				else {
+					fnGrowl("Receiving " + boxes[i].monster_name);
+				}
+			}
+		}
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxReceiveAll100sPerPage,500,pPage-1);
+		}
+	});
+}
+
+function fnPresentBoxReceiveAll100s() {
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxReceiveAll100sPerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
 function fnPresentBoxReceiveAllGuildDownPerPage(pPage) {
 	fnGrowl('Receiving Page ' + pPage);
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
@@ -5220,6 +5247,9 @@ function fnPresentBoxAction(pValue) {
 	else if (pValue == "all25s") {
 		fnPresentBoxReceiveAll25s();
 	}
+	else if (pValue == "all100s") {
+		fnPresentBoxReceiveAll100s();
+	}
 	else if (pValue == "allSkill") {
 		fnPresentBoxReceiveAllSkill();
 	}
@@ -5254,6 +5284,7 @@ function fnPresentBox() {
 		selectorHTML += '<option value="allSacs">Receive Sacs</option>';
 		selectorHTML += '<option value="all20s">Receive 20+BP</option>';
 		selectorHTML += '<option value="all25s">Receive 25+BP</option>';
+		selectorHTML += '<option value="all100s">Receive 100+BP</option>';
 		selectorHTML += '<option value="allSkill">Receive All Skill</option>';
 		selectorHTML += '<option value="allGuildDown">Receive Guild Down</option>';
 		selectorHTML += '<option value="allSpeciesDown">Receive Species Down</option>';
