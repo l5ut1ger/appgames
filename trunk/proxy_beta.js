@@ -5877,7 +5877,7 @@ function fnMonster() {
 		divTag.style.height = "40px"; 
 		divTag.style.margin = "10px auto"; 
 		divTag.style.left = "25px"; 		
-		divTag.style.top = "-60px"; 
+		divTag.style.top = "-80px"; 
     	divTag.innerHTML = 'SMART SELL ALL W/ CONFIRM'; 
 		document.getElementById('monster-counter').appendChild(divTag);
 
