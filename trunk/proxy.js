@@ -4904,7 +4904,7 @@ function fnPresentBoxReceiveAllGoodiesPerPage(pPage) {
 				onReceive(null, boxes[i]);
 				fnGrowl("Receiving " + boxes[i].monster_name);
 			}
-			if (boxes[i].permanent_type == 2 && boxes[i].monster_bp >= 50) {
+			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 3 && boxes[i].monster_bp >= 100) {
 				onReceive(null, boxes[i]);
 				fnGrowl("Receiving " + boxes[i].monster_name);
 			}
