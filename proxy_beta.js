@@ -2525,10 +2525,10 @@ function fnTowerCatchFriendCage(pType, pCount) {
 				fnTowerCatchFriendCage = null;//fnRedirect('/en/'+platform+'/tower');
 				red_flower_count = 0;
 				red_flower_target = pCount;
-				$.ajax_ex(false, '/en/'+platform+'/mission?area=1', {}, function(data) {
-					$('#failer').html(data);
-					alert($('#failer').confirm_id);
-					red_flower_confirm_id = $('#failer').confirm_id;
+				$.ajax_ex(false, '/en/'+platform+'/mission?area=1', {}, function(data) {alert('a');
+					$('#failer').html(data);alert('b');
+					alert(confirm_id);alert('c');
+					red_flower_confirm_id = confirm_id;
 					fnTowerCollectRedFlower();
 				});				
 			}
