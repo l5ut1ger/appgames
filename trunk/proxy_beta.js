@@ -2517,7 +2517,7 @@ function fnTowerCollectRedFlower() {
 	}
 }
 
-function fnTowerCatchFriendCage(pType, pCount) {alert('0');
+function fnTowerCatchFriendCage(pType, pCount) {
 	$.ajax_ex(false, '/en/'+platform+'/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':pType,'__hash':('' + (new Date()).getTime())}, function(result) {
 			if (result.status==130) { // pick red flower
 				fnTowerCatchFriendCage = null;//fnRedirect('/en/'+platform+'/tower');
@@ -2526,10 +2526,10 @@ function fnTowerCatchFriendCage(pType, pCount) {alert('0');
 				fnTowerCollectRedFlower();
 			}
 		});
-alert('a');
+
 	fnGrowl('Catching Type:' + pType + ', Index:'+pCount);
-	if (pCount > 0) {alert('b');
-		setTimeout(fnTowerCatchFriendCage,Math.max(500,fnGetGrindingSpeed()),pType,pCount-1);alert('c');
+	if (pCount > 0) {
+		setTimeout(fnTowerCatchFriendCage,Math.max(500,fnGetGrindingSpeed()),pType,pCount-1);
 	}
 	else {
 		fnRedirect('/en/'+platform+'/tower/friendCage');
