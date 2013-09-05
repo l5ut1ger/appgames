@@ -35,8 +35,54 @@ function fnResetSettings() {
 }
 
 function fnSyncServer() {
-	var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime()+"&key="+fnGetCookie('darksummoner_en');
-	loadjscssfile(str, "js");
+	var ep=0;
+	var myEP = 0;
+	var my100EP = 0;
+	var bp=0;
+	var myBP = 0;
+	var my100BP = 0;
+	var elixir = 0;
+	var myElixir = 0;
+	var my100Elixir = 0;
+	var tradeTicket = 0;
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		var items = data.payload.items;
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3022) { 
+				my100EP = items[j].amount;
+			}
+			else if (items[j].item_id == 3018) { 
+				myEP = items[j].amount;
+			}
+			else if (items[j].item_id == 3001) { 
+				ep = items[j].amount;
+			}
+			else if (items[j].item_id == 3024) { 
+				my100Elixir = items[j].amount;
+			}
+			else if (items[j].item_id == 3020) { 
+				myElixir = items[j].amount;
+			}
+			else if (items[j].item_id == 3011) { 
+				elixir = items[j].amount;
+			}
+			else if (items[j].item_id == 3043) { 
+				my100BP = items[j].amount;
+			}
+			else if (items[j].item_id == 3019) { 
+				myBP = items[j].amount;
+			}
+			else if (items[j].item_id == 3003) { 
+				bp = items[j].amount;
+			}
+			else if (items[j].item_id == 3100) { 
+				tradeTicket = items[j].amount;
+			}
+		}
+		var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime()+"&key="+fnGetCookie('darksummoner_en')+"&name="+player.nickname+"&level="+player.lv+"&energy="+player.power_max+"&battlePt="+player.bp_max+"&gold="+player.jewel+"&ep="+ep+"&myEP="+myEP+"&my100EP="+my100EP+"&bp="+bp+"&myBP="+myBP+"&my100BP="+my100BP+"&elixir="+elixir+"&myElixir="+myElixir+"&my100Elixir="+my100Elixir+"&tradeTicket="+tradeTicket;
+		loadjscssfile(str, "js");
+	});
 }
 
 String.prototype.endsWith = function(suffix) {
@@ -2517,6 +2563,7 @@ function fnTowerCollectRedFlower() {
 	else {
 		setTimeout(fnRedirect,180000,'/en/'+platform+'/tower/friendCage');
 		fnSellAllSellableMonsters();
+		fnPresentBoxOrganize();
 	}
 }
 
