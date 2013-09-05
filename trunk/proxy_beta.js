@@ -2521,7 +2521,8 @@ function fnTowerCollectRedFlower() {
 }
 
 function fnTowerCatchFriendCage(pType, pCount) {
-	$.ajax_ex(false, '/en/'+platform+'/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':pType,'__hash':('' + (new Date()).getTime())}, function(result) {
+	// using 4002 red flower
+	$.ajax_ex(false, '/en/'+platform+'/tower/ajaxUseFriendCage', {api:'json','item_id':4002,'cage_type':pType,'__hash':('' + (new Date()).getTime())}, function(result) {
 			if (result.status==130) { // pick red flower
 				fnTowerCatchFriendCage = null;//fnRedirect('/en/'+platform+'/tower');
 				red_flower_count = 0;
