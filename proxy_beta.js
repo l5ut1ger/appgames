@@ -2530,7 +2530,17 @@ function fnTowerCatchFriendCage(pType, pCount) {
 					alert(confirm_id);alert('c');
 					red_flower_confirm_id = confirm_id;
 					fnTowerCollectRedFlower();
-				});				
+				});
+				$.ajax({
+					type: "GET",
+					url: '/en/'+platform+'/mission?area=1',
+					dataType: "html",
+					success: function(html){
+						$('#failer').html(html);
+						alert(confirm_id);
+					}
+				});
+		
 			}
 		});
 	if (pCount > 0) {
