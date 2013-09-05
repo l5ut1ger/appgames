@@ -13,10 +13,10 @@ var sacSkillList=[0,7,10,13,16,24,30,37];
 var bpItemList = [3043, 3024, 3019, 3020, 3003, 3011];
 var syncCount = 0;
 var serverCookieInterval=0;;
-
+/*
 if (typeof confirm_id == 'undefined') {
 	var confirm_id = 0;
-}
+}*/
 // Tools
 
 function fnResetSettings() {
@@ -2496,11 +2496,12 @@ function fnTower() {
 
 var red_flower_count = 0;
 var red_flower_target = 0;
+var red_flower_confirm_id = 0;
 
 function fnTowerCollectRedFlower() {
 	if (parseInt(player.power,10) > 0) {
-		$.ajax_ex(false, '/en/'+platform+'/mission/process?area_id=1&mission=0&confirm_id='+confirm_id, {}, function(result2) {
-			confirm_id = result2.payload.confirm_id;
+		$.ajax_ex(false, '/en/'+platform+'/mission/process?area_id=1&mission=0&confirm_id='+red_flower_confirm_id, {}, function(result2) {
+			red_flower_confirm_id = result2.payload.confirm_id;
 			if (result2.payload.event && result2.payload.event.treasure && parseInt(result2.payload.event.treasure.item_id,10)==4002) {
 				red_flower_count++;
 				if (red_flower_count >= red_flower_target) {
@@ -2524,7 +2525,12 @@ function fnTowerCatchFriendCage(pType, pCount) {
 				fnTowerCatchFriendCage = null;//fnRedirect('/en/'+platform+'/tower');
 				red_flower_count = 0;
 				red_flower_target = pCount;
-				fnTowerCollectRedFlower();
+				$.ajax_ex(false, '/en/'+platform+'/mission?area=1', {}, function(data) {
+					$('#failer').html(data);
+					alert($('#failer').confirm_id);
+					red_flower_confirm_id = $('#failer').confirm_id;
+					fnTowerCollectRedFlower();
+				});				
 			}
 		});
 	if (pCount > 0) {
