@@ -2526,14 +2526,13 @@ function fnTowerCatchFriendCage(pType, pCount) {
 				fnTowerCollectRedFlower();
 			}
 		});
-
-	fnGrowl('Catching Type:' + pType + ', Index:'+pCount);
 	if (pCount > 0) {
 		setTimeout(fnTowerCatchFriendCage,Math.max(500,fnGetGrindingSpeed()),pType,pCount-1);
 	}
 	else {
 		fnRedirect('/en/'+platform+'/tower/friendCage');
 	}
+	fnGrowl('Catching Type:' + pType + ', Index:'+pCount);
 }
 
 function fnTowerFriendCage()
