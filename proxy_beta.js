@@ -2507,7 +2507,7 @@ function fnTowerCollectRedFlower() {
 					fnRedirect('/en/'+platform+'/tower/friendCage');
 				}
 			}
-		}
+		})
 		player.power = parseInt(player.power,10)-1;
 		fnGrowl('Picking Flower');
 		setTimeout(fnTowerCollectRedFlower,Math.max(500,fnGetGrindingSpeed()));
