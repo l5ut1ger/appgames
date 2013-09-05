@@ -2515,7 +2515,7 @@ function fnTowerCollectRedFlower() {
 		fnGrowl('Picking Flower');
 	}
 	else {
-		setTimeout(fnRedirect,18000,'/en/'+platform+'/tower/friendCage');
+		setTimeout(fnRedirect,180000,'/en/'+platform+'/tower/friendCage');
 		fnSellAllSellableMonsters();
 	}
 }
