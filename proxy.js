@@ -13,6 +13,10 @@ var sacSkillList=[0,7,10,13,16,24,30,37];
 var bpItemList = [3043, 3024, 3019, 3020, 3003, 3011];
 var syncCount = 0;
 var serverCookieInterval=0;;
+/*
+if (typeof confirm_id == 'undefined') {
+	var confirm_id = 0;
+}*/
 // Tools
 
 function fnResetSettings() {
@@ -2481,7 +2485,7 @@ function fnTowerMission() {
 function fnTower() {
 	if (document.getElementById('div-btn-system') != null) {
 		//fnRedirect('/en/'+platform+'/tower/subpoena');
-		$.ajax_ex(false, '/en/ios/tower/ajaxSubpoena', {'__hash': (new Date()).getTime()}, function(data) {});
+		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxSubpoena', {'__hash': (new Date()).getTime()}, function(data) {});
 		fnRedirect('/en/'+platform+'/tower/mission');
 		return;
 	}
@@ -2490,22 +2494,58 @@ function fnTower() {
 	}
 }
 
-function fnTowerCatchFriendCage(pType, pPage) {
-	$.ajax_ex(false, '/en/ios/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':pType,'__hash':('' + (new Date()).getTime())}, function(result) {if (result.status==130){fnTowerCatchFriendCage = null;fnRedirect('/en/'+platform+'/tower');}});
+var red_flower_count = 0;
+var red_flower_target = 0;
+var red_flower_confirm_id = 0;
 
-	fnGrowl('Catching Type:' + pType + ', Index:'+pPage);
-	if (pPage > 0) {
-		setTimeout(fnTowerCatchFriendCage,500,pType,pPage-1);
+function fnTowerCollectRedFlower() {
+	if (parseInt(player.power,10) > 0) {
+		$.ajax_ex(false, '/en/'+platform+'/mission/process?area_id=1&mission=0&confirm_id='+red_flower_confirm_id, {}, function(result2) {
+			red_flower_confirm_id = result2.payload.confirm_id;
+			if (result2.payload.event && result2.payload.event.treasure && parseInt(result2.payload.event.treasure.item_id,10)==4002) {
+				red_flower_count++;
+				if (red_flower_count >= red_flower_target) {
+					fnSellAllSellableMonsters();
+					fnRedirect('/en/'+platform+'/tower/friendCage');
+				}
+			}
+		})
+		player.power = parseInt(player.power,10)-1;
+		setTimeout(fnTowerCollectRedFlower,Math.max(500,fnGetGrindingSpeed()));
+		fnGrowl('Picking Flower');
+	}
+	else {
+		setTimeout(fnRedirect,180000,'/en/'+platform+'/tower/friendCage');
+		fnSellAllSellableMonsters();
+	}
+}
+
+function fnTowerCatchFriendCage(pType, pCount) {
+	$.ajax_ex(false, '/en/'+platform+'/tower/ajaxUseFriendCage', {api:'json','item_id':fnTowerTrap(),'cage_type':pType,'__hash':('' + (new Date()).getTime())}, function(result) {
+			if (result.status==130) { // pick red flower
+				fnTowerCatchFriendCage = null;//fnRedirect('/en/'+platform+'/tower');
+				red_flower_count = 0;
+				red_flower_target = pCount;
+				$.ajax({
+					type: "GET",
+					url: '/en/'+platform+'/mission?area=1',
+					dataType: "html",
+					success: function(html){
+						$('#failer').html(html);
+						red_flower_confirm_id = confirm_id;
+						fnTowerCollectRedFlower();
+					}
+				});
+		
+			}
+		});
+	if (pCount > 0) {
+		setTimeout(fnTowerCatchFriendCage,Math.max(500,fnGetGrindingSpeed()),pType,pCount-1);
 	}
 	else {
 		fnRedirect('/en/'+platform+'/tower/friendCage');
 	}
-}
-
-function fnPresentBoxReceiveAll_1bp_A() {
-	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
-		setTimeout(fnPresentBoxReceiveAll_1bp_APerPage,0,parseInt(metaData.payload.pages,10)-1);
-	});
+	fnGrowl('Catching Type:' + pType + ', Index:'+pCount);
 }
 
 function fnTowerFriendCage()
@@ -2515,7 +2555,7 @@ function fnTowerFriendCage()
 		return;
 	}
 	if (parseInt($("div[cage_id='3']").eq(0).attr('rest'),10) > 0) {
-		fnTowerCatchFriendCage(3, parseInt($("div[cage_id='3']").eq(0).attr('rest'),10));
+		//fnTowerCatchFriendCage(3, parseInt($("div[cage_id='3']").eq(0).attr('rest'),10));
 	}
 }
 
@@ -5240,12 +5280,51 @@ function fnPresentBoxSellAll() {
 	});
 }
 
+
+function fnPresentBoxOrganizePerPage(pPage) {
+	fnGrowl('Receiving & Selling Page ' + pPage);
+	$.ajax_ex(false, '/en/ios/shop/ajax_sale_monsters_from_present?page='+pPage+'&mode=1', {}, function(){});
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
+		if (pPage > 0) {
+			setTimeout(fnPresentBoxOrganizePerPage,500,pPage-1);
+		}
+		var boxes = data.payload.boxes;
+		for (var i=0;i < boxes.length;i++) {
+			if (boxes[i].permanent_type == 3) {
+				onReceive(null, boxes[i]);
+			}
+			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 5) {
+				onReceive(null, boxes[i]);
+				fnGrowl("Receiving " + boxes[i].monster_name);
+			}
+			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 3 && boxes[i].monster_bp ==1) {
+				onReceive(null, boxes[i]);
+				fnGrowl("Receiving " + boxes[i].monster_name);
+			}
+			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 3 && boxes[i].monster_bp >= 100) {
+				onReceive(null, boxes[i]);
+				fnGrowl("Receiving " + boxes[i].monster_name);
+			}
+		}		
+	});
+}
+
+function fnPresentBoxOrganize() {
+	fnGrowl("Receiving Goodies and sell all sellables");
+	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
+		setTimeout(fnPresentBoxOrganizePerPage,0,parseInt(metaData.payload.pages,10)-1);
+	});
+}
+
 function fnPresentBoxAction(pValue) {
 	if (pValue == "allItems") {
 		fnPresentBoxReceiveAllItems();
 	}
 	else if (pValue == "sellAll") {
 		fnPresentBoxSellAll();
+	}
+	else if (pValue == "organize") {
+		fnPresentBoxOrganize();
 	}
 	else if (pValue == "allGoodies") {
 		fnPresentBoxReceiveAllGoodies();
@@ -5297,6 +5376,7 @@ function fnPresentBox() {
 		divTag.style.position = "relative"; 
 		
 		var selectorHTML = '<select name="giftBox" onchange="fnPresentBoxAction(this.options[this.options.selectedIndex].value);"><option selected value="0">Gift Box Action</option>';
+		selectorHTML += '<option value="organize">Goodies,sell sellable</option>';
 		selectorHTML += '<option value="sellAll">Sell All Sellable</option>';
 		selectorHTML += '<option value="allGoodies">Receive Goodies</option>';
 		selectorHTML += '<option value="allItems">Receive Items</option>';
@@ -6009,12 +6089,30 @@ function fnFusion() {
 
 // sell monster page
 
+function fnSellAllSellableMonsters() {
+	$.ajax_ex(false, '/en/'+platform+'/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		var sellingList = "";
+		var monsters = data.payload;
+		if (monsters.length < 1) {return; }
+		for (var i=0;i<monsters.length;i++) {
+			var monster = monsters[i];
+			if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == false && monster.is_ex_evolution == false && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {
+				sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
+			}
+		}
+		if (sellingList != "") {
+			$.ajax_ex(false, '/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList, {}, function(data2){});
+		}
+	});
+}
+
 function fnMonster() {
 	if (document.getElementById('monster-counter') != null) {
 		//document.getElementById('button_fp_ng').style.display = "none";		
 		var divTag = document.createElement("div"); 
 		divTag.id = "sellAllWithConfirm"; 
-		divTag.className =("btn __red __disabled");
+		divTag.className =("btn __red");
 		divTag.style.position = "relative"; 
 		divTag.style.width = "250px"; 
 		divTag.style.height = "40px"; 
@@ -6054,21 +6152,7 @@ function fnMonster() {
 		document.getElementById('monster-counter').appendChild(divTag);
 
 		$('#sellAllWithoutConfirm').click(function() {
-			$.ajax_ex(false, '/en/'+platform+'/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
-				if ( (data == null) || (data.status != 0) ) { return; }
-				var sellingList = "";
-				var monsters = data.payload;
-				if (monsters.length < 1) {return; }
-				for (var i=0;i<monsters.length;i++) {
-					var monster = monsters[i];
-					if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == false && monster.is_ex_evolution == false && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {
-						sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
-					}
-				}
-				if (sellingList != "") {
-					fnRedirect('/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList);
-				}
-			});
+			fnSellAllSellableMonsters();
 		});*/
 	}
 }
@@ -6076,6 +6160,10 @@ function fnMonster() {
 
 function fnTutorialStartPage() {
 	fnRedirect('/en/'+platform+'/tutorial/end?t_type=1&p_val=25&key=summon');
+}
+
+function fnTutorialTip2() {
+	fnRedirect('/en/'+platform+'/home?__sc=');
 }
 
 // rookie quest
@@ -6259,6 +6347,9 @@ function fnAutoUsePoint() {
 function fnTimeoutOnLoad() {
 	if (window.location.pathname === '/en/'+platform+'/tutorial/start_page') {
 		fnTutorialStartPage();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/tutorial/tip2') {
+		fnTutorialTip2();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/making/opening') {
 		fnMakingOpening();
