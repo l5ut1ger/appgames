@@ -5331,7 +5331,7 @@ function fnPresentBoxSellAll() {
 
 function fnPresentBoxOrganizePerPage(pPage) {
 	fnGrowl('Receiving & Selling Page ' + pPage);
-	$.ajax_ex(false, '/en/ios/shop/ajax_sale_monsters_from_present?page='+pPage+'&mode=1', {}, function(){});
+	$.ajax_ex(false, '/en/'+platform+'/shop/ajax_sale_monsters_from_present?page='+pPage+'&mode=1', {}, function(){});
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
 		if (pPage > 0) {
 			setTimeout(fnPresentBoxOrganizePerPage,500,pPage-1);
@@ -5339,18 +5339,18 @@ function fnPresentBoxOrganizePerPage(pPage) {
 		var boxes = data.payload.boxes;
 		for (var i=0;i < boxes.length;i++) {
 			if (boxes[i].permanent_type == 3) {
-				onReceive(null, boxes[i]);
+				$.ajax_ex(false, '/en/'+platform+'/present/receive', { bid: boxes[i].boxed_id }, function(data) {});
 			}
 			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 5) {
-				onReceive(null, boxes[i]);
+				$.ajax_ex(false, '/en/'+platform+'/present/receive', { bid: boxes[i].boxed_id }, function(data) {});
 				fnGrowl("Receiving " + boxes[i].monster_name);
 			}
 			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 3 && boxes[i].monster_bp ==1) {
-				onReceive(null, boxes[i]);
+				$.ajax_ex(false, '/en/'+platform+'/present/receive', { bid: boxes[i].boxed_id }, function(data) {});
 				fnGrowl("Receiving " + boxes[i].monster_name);
 			}
 			if (boxes[i].permanent_type == 2 && boxes[i].monster_grade > 3 && boxes[i].monster_bp >= 100) {
-				onReceive(null, boxes[i]);
+				$.ajax_ex(false, '/en/'+platform+'/present/receive', { bid: boxes[i].boxed_id }, function(data) {});
 				fnGrowl("Receiving " + boxes[i].monster_name);
 			}
 		}		
