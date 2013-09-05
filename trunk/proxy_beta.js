@@ -2529,17 +2529,11 @@ function fnTowerCatchFriendCage(pType, pCount) {
 
 	fnGrowl('Catching Type:' + pType + ', Index:'+pCount);
 	if (pCount > 0) {
-		setTimeout(fnTowerCatchFriendCage,500,pType,pCount-1);
+		setTimeout(fnTowerCatchFriendCage,Math.max(500,fnGetGrindingSpeed()),pType,pCount-1);
 	}
 	else {
 		fnRedirect('/en/'+platform+'/tower/friendCage');
 	}
-}
-
-function fnPresentBoxReceiveAll_1bp_A() {
-	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
-		setTimeout(fnPresentBoxReceiveAll_1bp_APerPage,0,parseInt(metaData.payload.pages,10)-1);
-	});
 }
 
 function fnTowerFriendCage()
