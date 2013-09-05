@@ -2504,6 +2504,7 @@ function fnTowerCollectRedFlower() {
 			if (result2.payload.event && result2.payload.event.treasure && parseInt(result2.payload.event.treasure.item_id,10)==4002) {
 				red_flower_count++;
 				if (red_flower_count >= red_flower_target) {
+					fnSellAllSellableMonsters();
 					fnRedirect('/en/'+platform+'/tower/friendCage');
 				}
 			}
@@ -6076,6 +6077,24 @@ function fnFusion() {
 
 // sell monster page
 
+function fnSellAllSellableMonsters() {
+	$.ajax_ex(false, '/en/'+platform+'/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		var sellingList = "";
+		var monsters = data.payload;
+		if (monsters.length < 1) {return; }
+		for (var i=0;i<monsters.length;i++) {
+			var monster = monsters[i];
+			if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == false && monster.is_ex_evolution == false && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {
+				sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
+			}
+		}
+		if (sellingList != "") {
+			$.ajax_ex(false, '/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList, {}, function(data2){});
+		}
+	});
+}
+
 function fnMonster() {
 	if (document.getElementById('monster-counter') != null) {
 		//document.getElementById('button_fp_ng').style.display = "none";		
@@ -6121,21 +6140,7 @@ function fnMonster() {
 		document.getElementById('monster-counter').appendChild(divTag);
 
 		$('#sellAllWithoutConfirm').click(function() {
-			$.ajax_ex(false, '/en/'+platform+'/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
-				if ( (data == null) || (data.status != 0) ) { return; }
-				var sellingList = "";
-				var monsters = data.payload;
-				if (monsters.length < 1) {return; }
-				for (var i=0;i<monsters.length;i++) {
-					var monster = monsters[i];
-					if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == false && monster.is_ex_evolution == false && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {
-						sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
-					}
-				}
-				if (sellingList != "") {
-					fnRedirect('/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList);
-				}
-			});
+			fnSellAllSellableMonsters();
 		});*/
 	}
 }
