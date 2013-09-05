@@ -2297,6 +2297,7 @@ function fnFixMissionProcess() {
 					}
 					else {
 						clearInterval(missionInterval);
+						fnRedirect('/en/'+platform+'/tower/friendCage');
 						EfectMng.clear()
 						.push('hideSystemBtns', null)
 						.push('shadowShow', null)
@@ -2563,6 +2564,7 @@ function fnTowerCollectRedFlower() {
 	else {
 		setTimeout(fnRedirect,180000,'/en/'+platform+'/tower/friendCage');
 		fnSellAllSellableMonsters();
+		fnAutoTrade();
 		fnPresentBoxOrganize();
 	}
 }
@@ -2601,6 +2603,9 @@ function fnTowerFriendCage()
 	if (parseInt($("div[cage_id='5']").eq(0).attr('rest'),10) > 0) {
 		fnTowerCatchFriendCage(5, parseInt($("div[cage_id='5']").eq(0).attr('rest'),10));
 		return;
+	}
+	else if (parseInt(player.power,10) >= 20 && fnAutoDrink() == 0) {
+		fnRedirect('/en/'+platform+'/tower/mission');
 	}
 	if (parseInt($("div[cage_id='3']").eq(0).attr('rest'),10) > 0) {
 		//fnTowerCatchFriendCage(3, parseInt($("div[cage_id='3']").eq(0).attr('rest'),10));
@@ -5620,6 +5625,59 @@ function fnFixTradeFunctions() {
 
 function fnTrade() {
 	fnFixTradeFunctions();
+}
+
+// trade market
+
+function fnAutoTrade() {return;
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		var items = data.payload.items;
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3100) { 
+				var tradeTicket = parseInt(items[j].amount,10);
+				if (tradeTicket > 0) {
+					// allow trade, now check our monster inventory
+					$.ajax_ex(false, '/en/'+platform+'/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
+						if ( (data == null) || (data.status != 0) ) { return; }
+						var sellingList = "";
+						var monsters = data.payload;
+						if (monsters.length < 1) {return; }
+						var to_sell_monster = null;
+						for (var i=0;i<monsters.length;i++) {
+							var monster = monsters[i];
+							if (parseInt(monster.is_locked,10) == 0 && parseInt(monster.is_much_locked,10) == 0 && parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && parseInt(monster.grade,10) == 6 && parseInt(monster.m.bp,10) >= 30) {
+								if (to_sell_monster == null) {
+									to_sell_monster = monster;
+								}
+								else if (parseInt(monster.tribe,10) == 4 && parseInt(to_sell_monster.tribe,10) < 4) {
+									to_sell_monster = monster;
+								}
+								else if (parseInt(monster.tribe,10) == 1 && (parseInt(to_sell_monster.tribe,10) == 2 || parseInt(to_sell_monster.tribe,10) == 3)) {
+									to_sell_monster = monster;
+								}
+								else if (parseInt(monster.tribe,10) == 3 && parseInt(to_sell_monster.tribe,10) == 2) {
+									to_sell_monster = monster;
+								}
+								else if (parseInt(monster.m.skill_id,10) == 24 && parseInt(to_sell_monster.m.skill_id,10) != 24) {
+									to_sell_monster = monster;
+								}
+								if (parseInt(to_sell_monster.m.skill_id,10) == 24) {
+									continue;
+								}
+								else if (parseInt(monster.m.bp,10) > parseInt(to_sell_monster.m.bp,10)) {
+									to_sell_monster = monster;
+								}
+							}
+						}
+						if (to_sell_monster != null) {
+							$.ajax_ex(false, '/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList, {}, function(data2){});
+						}
+					});
+				}
+			}
+		}
+	});
 }
 
 // fusion
