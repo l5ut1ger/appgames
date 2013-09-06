@@ -5698,6 +5698,7 @@ function fnAutoTradeMonster(pMonster) {
 					success: function(html){
 						$('#autoSell').html(html);
 						alert('yes');
+						paramArr = new Object();
 						paramArr.give = new Object();
 						paramArr.give.type = 2;
 						paramArr.give.id=sell_monster_array[i].unique_no;
