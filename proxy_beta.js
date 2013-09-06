@@ -5644,34 +5644,38 @@ function fnAutoTrade() {return;
 						var monsters = data.payload;
 						if (monsters.length < 1) {return; }
 						var to_sell_monster = null;
+						var sell_monster_array = new Array();
 						for (var i=0;i<monsters.length;i++) {
 							var monster = monsters[i];
 							if (parseInt(monster.is_locked,10) == 0 && parseInt(monster.is_much_locked,10) == 0 && parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && parseInt(monster.grade,10) == 6 && parseInt(monster.m.bp,10) >= 30) {
-								if (to_sell_monster == null) {
-									to_sell_monster = monster;
-								}
-								else if (parseInt(monster.tribe,10) == 4 && parseInt(to_sell_monster.tribe,10) < 4) {
-									to_sell_monster = monster;
-								}
-								else if (parseInt(monster.tribe,10) == 1 && (parseInt(to_sell_monster.tribe,10) == 2 || parseInt(to_sell_monster.tribe,10) == 3)) {
-									to_sell_monster = monster;
-								}
-								else if (parseInt(monster.tribe,10) == 3 && parseInt(to_sell_monster.tribe,10) == 2) {
-									to_sell_monster = monster;
-								}
-								else if (parseInt(monster.m.skill_id,10) == 24 && parseInt(to_sell_monster.m.skill_id,10) != 24) {
-									to_sell_monster = monster;
-								}
-								if (parseInt(to_sell_monster.m.skill_id,10) == 24) {
-									continue;
-								}
-								else if (parseInt(monster.m.bp,10) > parseInt(to_sell_monster.m.bp,10)) {
-									to_sell_monster = monster;
-								}
+								sell_monster_array.push(monster);
 							}
 						}
-						if (to_sell_monster != null) {
-							$.ajax_ex(false, '/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList, {}, function(data2){});
+						if (sell_monster_array.length > 0) {
+							sell_monster_array.sort(function(a,b){
+								if (parseInt(b.tribe,10) == 4 && parseInt(a.tribe,10) < 4) {
+									return true;
+								}
+								else if (parseInt(b.tribe,10) == 1 && (parseInt(a.tribe,10) == 2 || parseInt(a.tribe,10) == 3)) {
+									return true;
+								}
+								else if (parseInt(b.tribe,10) == 3 && parseInt(a.tribe,10) == 2) {
+									return true;
+								}
+								else if (parseInt(b.m.skill_id,10) == 24 && parseInt(a.m.skill_id,10) != 24) {
+									return true;
+								}
+								else if (parseInt(a.m.skill_id,10) == 24) {
+									return false;
+								}
+								else if (parseInt(b.m.bp,10) > parseInt(a.m.bp,10)) {
+									return true;
+								}
+								return parseInt(b.monster_id,10) > parseInt(a.monster_id,10);
+							});
+						}
+						for (var i=0;i<sell_monster_array.length;i++) {
+							alert(sell_monster_array[i].m.name);
 						}
 					});
 				}
@@ -6191,6 +6195,7 @@ function fnFusion() {
 	fnSetAutoStack(0,0);
 	fnSetAutoSkillUp(0,0);
 	fnFusionFixPage();
+	fnAutoTrade();
 }
 
 // sell monster page
