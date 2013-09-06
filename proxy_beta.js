@@ -6323,7 +6323,6 @@ function fnFusion() {
 	fnSetAutoStack(0,0);
 	fnSetAutoSkillUp(0,0);
 	fnFusionFixPage();
-	fnAutoTrade('/en/'+platform+'/tower/friendCage');
 }
 
 // sell monster page
