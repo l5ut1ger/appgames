@@ -5812,6 +5812,24 @@ function fnAutoTrade(pURL) {
 	});
 }
 
+function fnMarket() {
+	var divTag = document.createElement("div"); 
+	divTag.id = "autoTradeButton"; 
+	divTag.className =("btn __red");
+	divTag.style.position = "relative"; 
+	divTag.style.width = "250px"; 
+	divTag.style.height = "40px"; 
+	divTag.style.margin = "10px auto"; 
+	divTag.style.left = "25px"; 		
+	//divTag.style.top = "-80px"; 
+	divTag.innerHTML = 'Auto Trade'; 
+	document.body.appendChild(divTag);
+
+	$('#autoTradeButton').click(function() {
+		fnAutoTrade('/en/'+platform+'/market/myExhibitList?');
+	});
+}
+
 // fusion
 
 function fnFusionGenerateMonsterFromAllySummon() {
@@ -6618,6 +6636,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/home/bonus') {
 		fnHomeBonus();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/market') {
+		fnMarket();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/loginDays') {
 		fnLoginDays();
