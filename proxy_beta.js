@@ -5629,7 +5629,7 @@ function fnTrade() {
 
 // trade market
 
-function fnAutoTrade() {return;
+function fnAutoTrade() {
 	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
