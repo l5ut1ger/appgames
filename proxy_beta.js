@@ -5653,14 +5653,26 @@ function fnAutoTrade() {
 						}
 						if (sell_monster_array.length > 0) {
 							sell_monster_array.sort(function(a,b){
-								if (parseInt(b.tribe,10) == 4 && parseInt(a.tribe,10) < 4) {
-									return 1;
-								}
-								else if (parseInt(b.tribe,10) == 1 && (parseInt(a.tribe,10) == 2 || parseInt(a.tribe,10) == 3)) {
-									return 1;
-								}
-								else if (parseInt(b.tribe,10) == 3 && parseInt(a.tribe,10) == 2) {
-									return 1;
+								if (parseInt(b.tribe,10) != parseInt(a.tribe,10)) {
+									if (parseInt(a.tribe,10) == 4) {
+										return -1;
+									}
+									else if (parseInt(b.tribe,10) == 4) {
+										return 1;
+									}
+									else if (parseInt(a.tribe,10) == 1) {
+										return -1;
+									}
+									else if (parseInt(b.tribe,10) == 1) {
+										return 1;
+									}
+									else if (parseInt(a.tribe,10) == 3) {
+										return -1;
+									}
+									else if (parseInt(b.tribe,10) == 3) {
+										return 1;
+									}
+									return 0;
 								}
 								else if (parseInt(b.m.skill_id,10) == 24 && parseInt(a.m.skill_id,10) != 24) {
 									return 1;
