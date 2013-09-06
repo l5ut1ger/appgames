@@ -2563,9 +2563,9 @@ function fnTowerCollectRedFlower() {
 	}
 	else {
 		setTimeout(fnRedirect,180000,'/en/'+platform+'/tower/friendCage');
-		fnSellAllSellableMonsters();
-		fnAutoTrade();
+		fnSellAllSellableMonsters();		
 		fnPresentBoxOrganize();
+		fnAutoTrade('/en/'+platform+'/tower/friendCage');
 	}
 }
 
@@ -5630,7 +5630,7 @@ function fnTrade() {
 
 var sell_monster_array = new Array();
 
-function fnAutoTradeMonster(pMonster) {
+function fnAutoTradeMonster(pMonster, pURL) {
 	var divTag = document.createElement("div");
 	divTag.id = "autoTrade";
 	divTag.style.display = "none";
@@ -5697,29 +5697,29 @@ function fnAutoTradeMonster(pMonster) {
 					dataType: "html",
 					success: function(html){
 						$('#autoSell').html(html);
-						alert('yes');
 						paramArr = new Object();
 						paramArr.give = new Object();
 						paramArr.give.type = 2;
 						paramArr.give.id=pMonster.unique_no;
-						paramArr.give.amount = "1&wt_1_1=3&wi_1_1=3001&wa_1_1="+tradePrice+"&wt_2_1=3&wi_2_1=3003&wa_2_1="+ (Math.floor(Math.random() * 2) + 2)*tradePrice;
-						alert('hi');
-						alert(procDecision);
+						paramArr.give.amount = "1&wt_1_1=3&wi_1_1=3001&wa_1_1="+tradePrice+"&wt_2_1=3&wi_2_1=3003&wa_2_1="+ Math.ceil(((Math.random() * 2) + 2)*tradePrice);
 						procDecision();
-						alert('k');
+						fnRedirect(pURL);
 					}
 				});
 			}
 			else {
 				if (sell_monster_array.length > 0) {
-					fnAutoTradeMonster(sell_monster_array.splice(0,1)[0]);
-				}				
+					fnAutoTradeMonster(sell_monster_array.splice(0,1)[0], pURL);
+				}
+				else {
+					fnRedirect(pURL);
+				}		
 			}
 		}
 	});
 }
 
-function fnAutoTrade() {
+function fnAutoTrade(pURL) {
 	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
@@ -5780,9 +5780,12 @@ function fnAutoTrade() {
 							});
 						}
 						if (sell_monster_array.length) {
-							fnAutoTradeMonster(sell_monster_array.splice(0,1)[0]);
+							fnAutoTradeMonster(sell_monster_array.splice(0,1)[0], pURL);
 						}
 					});
+				}
+				else {
+					fnRedirect(pURL);
 				}
 			}
 		}
@@ -6300,7 +6303,6 @@ function fnFusion() {
 	fnSetAutoStack(0,0);
 	fnSetAutoSkillUp(0,0);
 	fnFusionFixPage();
-	fnAutoTrade();
 }
 
 // sell monster page
