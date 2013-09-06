@@ -490,6 +490,24 @@ function fnSetGrindingSpeed(value, upload) {
 	fnSetCookie(grindingSpeedKey, value, upload);
 }
 
+// Auto redirect
+
+var autoRedirectKey = 'redirect';
+
+function fnAutoRedirect() {
+	if(fnGetCookie(autoRedirectKey) === null) {
+		fnSetAutoRedirect(".", 0);
+	}
+	return fnGetCookie(autoRedirectKey);
+}
+
+function fnSetAutoRedirect(value, upload) {
+	upload = 0;
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(autoRedirectKey, value, upload);
+}
+
+
 // auto new mission
 
 var autoNewMissionKey = 'autoNewMissionKey';
@@ -2563,9 +2581,9 @@ function fnTowerCollectRedFlower() {
 	}
 	else {
 		setTimeout(fnRedirect,180000,'/en/'+platform+'/tower/friendCage');
-		fnSellAllSellableMonsters();
-		fnAutoTrade();
+		fnSellAllSellableMonsters();		
 		fnPresentBoxOrganize();
+		fnAutoTrade('/en/'+platform+'/tower/friendCage');
 	}
 }
 
@@ -2585,8 +2603,7 @@ function fnTowerCatchFriendCage(pType, pCount) {
 						red_flower_confirm_id = confirm_id;
 						fnTowerCollectRedFlower();
 					}
-				});
-		
+				});		
 			}
 		});
 	if (pCount > 0) {
@@ -5629,7 +5646,100 @@ function fnTrade() {
 
 // trade market
 
-function fnAutoTrade() {return;
+var sell_monster_array = new Array();
+
+function fnAutoTradeMonster(pMonster, pURL) {
+	var divTag = document.createElement("div");
+	divTag.id = "autoTrade"+pMonster.unique_no;
+	divTag.style.display = "none";
+	document.body.appendChild(divTag);
+	var divTag2 = document.createElement("div");
+	divTag2.id = "autoSell"+pMonster.unique_no;
+	divTag2.style.display = "none";
+	document.body.appendChild(divTag2);
+	$.ajax({
+		type: "GET",
+		url: '/en/'+platform+'/market/othersExhibitList?type=2&permanent_id='+pMonster.m.monster_id,
+		dataType: "html",
+		success: function(html){
+			$('#autoTrade'+pMonster.unique_no).html(html);
+			var tradeObject;
+			var tradeCandidate1;
+			var tradeCandidate2;
+			var lowestPrice = 0;
+			var skypeLowestPrice = 99999;
+			var lowestPriceIsSkype = false;
+			var lowestPriceUpdated = false;
+			for (var j=0;j<permanents.length;j++) {
+				tradeObject = permanents[j];
+				tradeCandidate1 = tradeObject.want_permanent_desc[0];
+				if (tradeObject.want_permanent_desc.length > 1) {
+					tradeCandidate2 = tradeObject.want_permanent_desc[1];
+				}
+				else {
+					tradeCandidate2 = null;
+				}
+				if (tradeCandidate1.length == 1 && parseInt(tradeCandidate1[0].permanent_type,10) == 3 && parseInt(tradeCandidate1[0].permanent_id,10) == 3001) {
+					if (lowestPrice == 0 || parseInt(tradeCandidate1[0].amount,10) < lowestPrice) {
+						lowestPrice = parseInt(tradeCandidate1[0].amount,10);
+						lowestPriceUpdated = true;
+						// skype clan trade put candidate 2 = candidate 1 * 200%+ bp
+						if (tradeCandidate2 != null && tradeCandidate2.length == 1 && parseInt(tradeCandidate2[0].permanent_type,10) == 3 && parseInt(tradeCandidate2[0].permanent_id,10) == 3003 && parseInt(tradeCandidate2[0].amount,10) >= parseInt(tradeCandidate1[0].amount,10) * 2) {
+								skypeLowestPrice = lowestPrice;
+								lowestPriceIsSkype = true; 
+						}
+						else {
+							lowestPriceIsSkype = false;
+						}
+					}
+					else if (parseInt(tradeCandidate1[0].amount,10) == lowestPrice) {
+						if (tradeCandidate2 != null && tradeCandidate2.length == 1 && parseInt(tradeCandidate2[0].permanent_type,10) == 3 && parseInt(tradeCandidate2[0].permanent_id,10) == 3003 && parseInt(tradeCandidate2[0].amount,10) >= parseInt(tradeCandidate1[0].amount,10) * 2) {
+								skypeLowestPrice = lowestPrice;
+								lowestPriceIsSkype = true; 
+						}
+					}
+				} 
+				if (tradeCandidate2 != null && tradeCandidate2.length == 1 && parseInt(tradeCandidate2[0].permanent_type,10) == 3 && parseInt(tradeCandidate2[0].permanent_id,10) == 3001) {
+					if (lowestPrice == 0 || parseInt(tradeCandidate2[0].amount,10) < lowestPrice) {
+						lowestPrice = parseInt(tradeCandidate2[0].amount,10);
+						lowestPriceUpdated = true;
+						lowestPriceIsSkype = false; // skype clan trade only lowest in candidate 1
+					}
+				}
+			}
+			if (!lowestPriceIsSkype && lowestPrice > 0) {
+				var tradePrice = Math.ceil(lowestPrice * 0.9);
+				$.ajax({
+					type: "GET",
+					url: '/en/'+platform+'/market/exhibitSelect?',
+					dataType: "html",
+					success: function(html){
+						$('#autoSell'+pMonster.unique_no).html(html);
+						setTimeout(function(){
+							paramArr = new Object();
+							paramArr.give = new Object();
+							paramArr.give.type = 2;
+							paramArr.give.id=pMonster.unique_no;
+							paramArr.give.amount = "1&wt_1_1=3&wi_1_1=3001&wa_1_1="+tradePrice+"&wt_2_1=3&wi_2_1=3003&wa_2_1="+ Math.ceil(((Math.random() * 2) + 2)*tradePrice);
+							fnSetAutoRedirect(pURL);
+							procDecision();
+						},1000);						
+					}
+				});
+			}
+			else {
+				if (sell_monster_array.length) {
+					fnAutoTradeMonster(sell_monster_array.splice(0,1)[0], pURL);
+				}
+				else {
+					fnRedirect(pURL);
+				}		
+			}
+		}
+	});
+}
+
+function fnAutoTrade(pURL) {
 	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
@@ -5644,39 +5754,79 @@ function fnAutoTrade() {return;
 						var monsters = data.payload;
 						if (monsters.length < 1) {return; }
 						var to_sell_monster = null;
+						sell_monster_array = new Array();
 						for (var i=0;i<monsters.length;i++) {
 							var monster = monsters[i];
-							if (parseInt(monster.is_locked,10) == 0 && parseInt(monster.is_much_locked,10) == 0 && parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && parseInt(monster.grade,10) == 6 && parseInt(monster.m.bp,10) >= 30) {
-								if (to_sell_monster == null) {
-									to_sell_monster = monster;
-								}
-								else if (parseInt(monster.tribe,10) == 4 && parseInt(to_sell_monster.tribe,10) < 4) {
-									to_sell_monster = monster;
-								}
-								else if (parseInt(monster.tribe,10) == 1 && (parseInt(to_sell_monster.tribe,10) == 2 || parseInt(to_sell_monster.tribe,10) == 3)) {
-									to_sell_monster = monster;
-								}
-								else if (parseInt(monster.tribe,10) == 3 && parseInt(to_sell_monster.tribe,10) == 2) {
-									to_sell_monster = monster;
-								}
-								else if (parseInt(monster.m.skill_id,10) == 24 && parseInt(to_sell_monster.m.skill_id,10) != 24) {
-									to_sell_monster = monster;
-								}
-								if (parseInt(to_sell_monster.m.skill_id,10) == 24) {
-									continue;
-								}
-								else if (parseInt(monster.m.bp,10) > parseInt(to_sell_monster.m.bp,10)) {
-									to_sell_monster = monster;
-								}
+							if (parseInt(monster.is_locked,10) == 0 && parseInt(monster.is_much_locked,10) == 0 && parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && parseInt(monster.grade,10) == 6 && parseInt(monster.m.bp,10) >= 40) {
+								sell_monster_array.push(monster);
 							}
 						}
-						if (to_sell_monster != null) {
-							$.ajax_ex(false, '/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList, {}, function(data2){});
+						if (sell_monster_array.length > 0) {
+							sell_monster_array.sort(function(a,b){
+								if (parseInt(b.tribe,10) != parseInt(a.tribe,10)) {
+									if (parseInt(a.tribe,10) == 4) {
+										return -1;
+									}
+									else if (parseInt(b.tribe,10) == 4) {
+										return 1;
+									}
+									else if (parseInt(a.tribe,10) == 1) {
+										return -1;
+									}
+									else if (parseInt(b.tribe,10) == 1) {
+										return 1;
+									}
+									else if (parseInt(a.tribe,10) == 3) {
+										return -1;
+									}
+									else if (parseInt(b.tribe,10) == 3) {
+										return 1;
+									}
+									return 0;
+								}
+								else if (parseInt(b.m.skill_id,10) == 24 && parseInt(a.m.skill_id,10) != 24) {
+									return 1;
+								}
+								else if (parseInt(a.m.skill_id,10) == 24) {
+									return -1;
+								}
+								else if (parseInt(b.bp,10) > parseInt(a.bp,10)) {
+									return 1;
+								}
+								else if (parseInt(a.bp,10) > parseInt(b.bp,10)) {
+									return -1;
+								}
+								return parseInt(b.monster_id,10) - parseInt(a.monster_id,10);
+							});
+						}
+						if (sell_monster_array.length) {
+							fnAutoTradeMonster(sell_monster_array.splice(0,1)[0], pURL);
 						}
 					});
 				}
+				else {
+					fnRedirect(pURL);
+				}
 			}
 		}
+	});
+}
+
+function fnMarket() {
+	var divTag = document.createElement("div"); 
+	divTag.id = "autoTradeButton"; 
+	divTag.className =("btn __red");
+	divTag.style.position = "relative"; 
+	divTag.style.width = "250px"; 
+	divTag.style.height = "40px"; 
+	divTag.style.margin = "10px auto"; 
+	divTag.style.left = "25px"; 		
+	//divTag.style.top = "-80px"; 
+	divTag.innerHTML = 'Auto Trade'; 
+	document.body.appendChild(divTag);
+
+	$('#autoTradeButton').click(function() {
+		fnAutoTrade('/en/'+platform+'/market/myExhibitList?');
 	});
 }
 
@@ -6487,6 +6637,9 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/home/bonus') {
 		fnHomeBonus();
 	}
+	else if (window.location.pathname === '/en/'+platform+'/market') {
+		fnMarket();
+	}
 	else if (window.location.pathname === '/en/'+platform+'/event/loginDays') {
 		fnLoginDays();
 	}
@@ -6702,6 +6855,12 @@ function fnOnLoad() {
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
 	fnCreateBackButton();
+	if (fnAutoRedirect().length > 5) {
+		vURL = fnAutoRedirect();
+		fnSetAutoRedirect('.');
+		fnRedirect(vURL);
+		return;
+	}
 	if (!(typeof player === 'undefined')) {
 		fnAutoUsePoint();
 		fnCheckAlly();
