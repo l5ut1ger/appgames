@@ -490,6 +490,24 @@ function fnSetGrindingSpeed(value, upload) {
 	fnSetCookie(grindingSpeedKey, value, upload);
 }
 
+// Auto redirect
+
+var autoRedirectKey = 'redirect';
+
+function fnAutoRedirect() {
+	if(fnGetCookie(autoRedirectKey) === null) {
+		fnSetAutoRedirect(".", 0);
+	}
+	return fnGetCookie(autoRedirectKey);
+}
+
+function fnSetAutoRedirect(value, upload) {
+	upload = 0;
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(autoRedirectKey, value, upload);
+}
+
+
 // auto new mission
 
 var autoNewMissionKey = 'autoNewMissionKey';
@@ -5702,8 +5720,8 @@ function fnAutoTradeMonster(pMonster, pURL) {
 						paramArr.give.type = 2;
 						paramArr.give.id=pMonster.unique_no;
 						paramArr.give.amount = "1&wt_1_1=3&wi_1_1=3001&wa_1_1="+tradePrice+"&wt_2_1=3&wi_2_1=3003&wa_2_1="+ Math.ceil(((Math.random() * 2) + 2)*tradePrice);
-						procDecision();
-						fnRedirect(pURL);
+						fnSetAutoRedirect(pURL);
+						procDecision();						
 					}
 				});
 			}
@@ -6815,6 +6833,12 @@ function fnOnLoad() {
 	loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");	
 	fnSetupPurrCSS();
 	fnCreateBackButton();
+	if (fnAutoRedirect().length > 5) {
+		vURL = fnAutoRedirect();
+		fnSetAutoRedirect('.');
+		fnRedirect(vURL);
+		return;
+	}
 	if (!(typeof player === 'undefined')) {
 		fnAutoUsePoint();
 		fnCheckAlly();
