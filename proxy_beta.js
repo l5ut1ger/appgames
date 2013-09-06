@@ -5654,24 +5654,24 @@ function fnAutoTrade() {
 						if (sell_monster_array.length > 0) {
 							sell_monster_array.sort(function(a,b){
 								if (parseInt(b.tribe,10) == 4 && parseInt(a.tribe,10) < 4) {
-									return true;
+									return 1;
 								}
 								else if (parseInt(b.tribe,10) == 1 && (parseInt(a.tribe,10) == 2 || parseInt(a.tribe,10) == 3)) {
-									return true;
+									return 1;
 								}
 								else if (parseInt(b.tribe,10) == 3 && parseInt(a.tribe,10) == 2) {
-									return true;
+									return 1;
 								}
 								else if (parseInt(b.m.skill_id,10) == 24 && parseInt(a.m.skill_id,10) != 24) {
-									return true;
+									return 1;
 								}
 								else if (parseInt(a.m.skill_id,10) == 24) {
-									return false;
+									return -1;
 								}
 								else if (parseInt(b.m.bp,10) > parseInt(a.m.bp,10)) {
-									return true;
+									return 1;
 								}
-								return parseInt(b.monster_id,10) > parseInt(a.monster_id,10);
+								return parseInt(b.monster_id,10) - parseInt(a.monster_id,10);
 							});
 						}
 						for (var i=0;i<sell_monster_array.length;i++) {
