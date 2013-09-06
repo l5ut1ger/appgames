@@ -5701,7 +5701,7 @@ function fnAutoTradeMonster(pMonster) {
 						paramArr = new Object();
 						paramArr.give = new Object();
 						paramArr.give.type = 2;
-						paramArr.give.id=sell_monster_array[i].unique_no;
+						paramArr.give.id=pMonster.unique_no;
 						paramArr.give.amount = "1&wt_1_1=3&wi_1_1=3001&wa_1_1="+tradePrice+"&wt_2_1=3&wi_2_1=3003&wa_2_1="+ (Math.floor(Math.random() * 2) + 2)*tradePrice;
 						alert('hi');
 						alert(procDecision);
