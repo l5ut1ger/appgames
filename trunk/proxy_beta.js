@@ -5650,11 +5650,11 @@ var sell_monster_array = new Array();
 
 function fnAutoTradeMonster(pMonster, pURL) {
 	var divTag = document.createElement("div");
-	divTag.id = "autoTrade";
+	divTag.id = "autoTrade"+pMonster.unique_no;
 	divTag.style.display = "none";
 	document.body.appendChild(divTag);
 	var divTag2 = document.createElement("div");
-	divTag2.id = "autoSell";
+	divTag2.id = "autoSell"+pMonster.unique_no;
 	divTag2.style.display = "none";
 	document.body.appendChild(divTag2);
 	$.ajax({
@@ -5662,7 +5662,7 @@ function fnAutoTradeMonster(pMonster, pURL) {
 		url: '/en/'+platform+'/market/othersExhibitList?type=2&permanent_id='+pMonster.m.monster_id,
 		dataType: "html",
 		success: function(html){
-			$('#autoTrade').html(html);
+			$('#autoTrade'+pMonster.unique_no).html(html);
 			var tradeObject;
 			var tradeCandidate1;
 			var tradeCandidate2;
@@ -5714,7 +5714,7 @@ function fnAutoTradeMonster(pMonster, pURL) {
 					url: '/en/'+platform+'/market/exhibitSelect?',
 					dataType: "html",
 					success: function(html){
-						$('#autoSell').html(html);
+						$('#autoSell'+pMonster.unique_no).html(html);
 						paramArr = new Object();
 						paramArr.give = new Object();
 						paramArr.give.type = 2;
@@ -5726,7 +5726,7 @@ function fnAutoTradeMonster(pMonster, pURL) {
 				});
 			}
 			else {
-				if (sell_monster_array.length > 0) {
+				if (sell_monster_array.length) {
 					fnAutoTradeMonster(sell_monster_array.splice(0,1)[0], pURL);
 				}
 				else {
