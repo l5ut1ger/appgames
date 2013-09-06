@@ -2585,8 +2585,7 @@ function fnTowerCatchFriendCage(pType, pCount) {
 						red_flower_confirm_id = confirm_id;
 						fnTowerCollectRedFlower();
 					}
-				});
-		
+				});		
 			}
 		});
 	if (pCount > 0) {
@@ -5647,7 +5646,7 @@ function fnAutoTrade() {
 						var sell_monster_array = new Array();
 						for (var i=0;i<monsters.length;i++) {
 							var monster = monsters[i];
-							if (parseInt(monster.is_locked,10) == 0 && parseInt(monster.is_much_locked,10) == 0 && parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && parseInt(monster.grade,10) == 6 && parseInt(monster.m.bp,10) >= 30) {
+							if (parseInt(monster.is_locked,10) == 0 && parseInt(monster.is_much_locked,10) == 0 && parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && parseInt(monster.grade,10) == 6 && parseInt(monster.m.bp,10) >= 40) {
 								sell_monster_array.push(monster);
 							}
 						}
@@ -5680,14 +5679,57 @@ function fnAutoTrade() {
 								else if (parseInt(a.m.skill_id,10) == 24) {
 									return -1;
 								}
-								else if (parseInt(b.m.bp,10) > parseInt(a.m.bp,10)) {
+								else if (parseInt(b.bp,10) > parseInt(a.bp,10)) {
 									return 1;
+								}
+								else if (parseInt(a.bp,10) > parseInt(b.bp,10)) {
+									return -1;
 								}
 								return parseInt(b.monster_id,10) - parseInt(a.monster_id,10);
 							});
 						}
+						var divTag = document.createElement("div");
+						divTag.id = "autoTrade";
+						divTag.style.display = "none";
+						document.body.appendChild(divTag); 
 						for (var i=0;i<sell_monster_array.length;i++) {
 							alert(sell_monster_array[i].m.name);
+							$.ajax({
+								type: "GET",
+								url: '/en/'+platform+'/market/othersExhibitList?type=2&permanent_id='+sell_monster_array[i].m.monster_id,
+								dataType: "html",
+								success: function(html){
+									$('#autoTrade').html(html);
+									var tradeObject;
+									var tradeCandidate1;
+									var tradeCandidate2;
+									var lowestPrice = 0;
+									var lowestPriceIsSkype = false;
+									var lowestPriceUpdated = false;
+									for (var j=0;j<permanents.length;j++) {
+										tradeObject = permanents[j];
+										tradeCandidate1 = tradeObject.want_permanent_desc[0];
+										if (tradeObject.want_permanent_desc.length > 1) {
+											tradeCandidate2 = tradeObject.want_permanent_desc[1];
+										}
+										else {
+											tradeCandidate2 = null;
+										}
+										if (tradeCandidate1.length == 1 && parseInt(tradeCandidate1[0].permanent_type,10) == 3 && parseInt(tradeCandidate1[0].permanent_id,10) == 3001) {
+											if (lowestPrice == 0 || parseInt(tradeCandidate1[0].amount,10) < lowestPrice) {
+												lowestPrice = parseInt(tradeCandidate1[0].amount,10);
+												lowestPriceUpdated = true;
+											}
+										} 
+										if (tradeCandidate2 != null && tradeCandidate2.length == 1 && parseInt(tradeCandidate2[0].permanent_type,10) == 3 && parseInt(tradeCandidate2[0].permanent_id,10) == 3001) {
+											if (lowestPrice == 0 || parseInt(tradeCandidate2[0].amount,10) < lowestPrice) {
+												lowestPrice = parseInt(tradeCandidate2[0].amount,10);
+												lowestPriceUpdated = true;
+											}
+										} 
+									}
+								}
+							});
 						}
 					});
 				}
