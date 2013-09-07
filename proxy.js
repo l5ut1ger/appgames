@@ -2580,10 +2580,12 @@ function fnTowerCollectRedFlower() {
 		fnGrowl('Picking Flower');
 	}
 	else {
-		setTimeout(fnRedirect,180000,'/en/'+platform+'/tower/friendCage');
-		fnSellAllSellableMonsters();		
-		fnPresentBoxOrganize();
-		fnAutoTrade('/en/'+platform+'/tower/friendCage');
+		setTimeout(fnAutoTrade,180000,'/en/'+platform+'/tower/friendCage');
+		fnSellAllSellableMonsters();
+		if (window.location.pathname === '/en/'+platform+'/home' || (new Date()).getTime() - fnOrganizeGiftBoxTimer() > organizeGiftBoxInterval) {
+			fnSetOrganizeGiftBoxTimer((new Date()).getTime(), 0);
+			fnPresentBoxOrganize();
+		}
 	}
 }
 
@@ -5646,6 +5648,23 @@ function fnTrade() {
 
 // trade market
 
+var organizeGiftBoxInterval = 1000 * 60 * 30; // organize every 30 minutes
+var organizeGiftBoxTimerKey = 'orGift';
+
+function fnOrganizeGiftBoxTimer() {
+	if (fnGetCookie(organizeGiftBoxTimerKey) === null) {
+		fnSetCheckAllyTimer(0, 0);
+	}
+	return fnGetCookie(organizeGiftBoxTimerKey);
+}
+
+function fnSetOrganizeGiftBoxTimer(value, upload) {
+	if(upload != 0) { 
+		upload = 0;
+	}
+	fnSetCookie(organizeGiftBoxTimerKey, value, 0);
+}
+
 var sell_monster_array = new Array();
 
 function fnAutoTradeMonster(pMonster, pURL) {
@@ -5754,11 +5773,15 @@ function fnAutoTrade(pURL) {
 						var monsters = data.payload;
 						if (monsters.length < 1) {return; }
 						var to_sell_monster = null;
+						var sell_monster_id_array = new Array();
 						sell_monster_array = new Array();
 						for (var i=0;i<monsters.length;i++) {
 							var monster = monsters[i];
 							if (parseInt(monster.is_locked,10) == 0 && parseInt(monster.is_much_locked,10) == 0 && parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && parseInt(monster.grade,10) == 6 && parseInt(monster.m.bp,10) >= 40) {
-								sell_monster_array.push(monster);
+								if ($.inArray(monster.monster_id,sell_monster_id_array) == -1) {
+									sell_monster_array.push(monster);
+									sell_monster_id_array.push(monster.monster_id);
+								}
 							}
 						}
 						if (sell_monster_array.length > 0) {
