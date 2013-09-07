@@ -2577,7 +2577,7 @@ function fnTowerCollectRedFlower() {
 		})
 		player.power = parseInt(player.power,10)-1;
 		setTimeout(fnTowerCollectRedFlower,Math.max(500,fnGetGrindingSpeed()));
-		fnGrowl('Picking Flower');
+		fnGrowl('Picking Flower. Energy Left:' + player.power);
 	}
 	else {
 		setTimeout(fnAutoTrade,180000,'/en/'+platform+'/tower/friendCage');
@@ -5383,6 +5383,9 @@ function fnPresentBoxOrganizePerPage(pPage) {
 
 function fnPresentBoxOrganize() {
 	fnGrowl("Receiving Goodies and sell all sellables");
+	$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {});
+	$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=3&check=4%2C7%2C1', { }, function(data) {});
+	fnPresentBoxOrganizePerPage(0);
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page=0', { }, function(metaData) {
 		setTimeout(fnPresentBoxOrganizePerPage,0,parseInt(metaData.payload.pages,10)-1);
 	});
@@ -5745,6 +5748,7 @@ function fnAutoTradeMonster(pMonster, pURL) {
 						},1000);						
 					}
 				});
+				fnGrowl('Auto Trade: Selling Monster:'+pMonster.m.name);
 			}
 			else {
 				if (sell_monster_array.length) {
@@ -5756,6 +5760,7 @@ function fnAutoTradeMonster(pMonster, pURL) {
 			}
 		}
 	});
+	fnGrowl('Auto Trade: Checking Monster:'+pMonster.m.name);
 }
 
 function fnAutoTrade(pURL) {
