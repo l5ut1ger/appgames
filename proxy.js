@@ -2586,6 +2586,9 @@ function fnTowerCollectRedFlower() {
 			fnSetOrganizeGiftBoxTimer((new Date()).getTime(), 0);
 			fnPresentBoxOrganize();
 		}
+		else {
+			fnSyncServer();
+		}
 	}
 }
 
