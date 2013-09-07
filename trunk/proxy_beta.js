@@ -2580,13 +2580,12 @@ function fnTowerCollectRedFlower() {
 		fnGrowl('Picking Flower');
 	}
 	else {
-		setTimeout(fnRedirect,180000,'/en/'+platform+'/tower/friendCage');
+		setTimeout(fnAutoTrade,180000,'/en/'+platform+'/tower/friendCage');
 		fnSellAllSellableMonsters();
 		if (window.location.pathname === '/en/'+platform+'/home' || (new Date()).getTime() - fnOrganizeGiftBoxTimer() > organizeGiftBoxInterval) {
 			fnSetOrganizeGiftBoxTimer((new Date()).getTime(), 0);
 			fnPresentBoxOrganize();
-		}		
-		fnAutoTrade('/en/'+platform+'/tower/friendCage');
+		}
 	}
 }
 
