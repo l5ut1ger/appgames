@@ -6566,6 +6566,21 @@ function fnHome() {
 	fnProfileAddWallBookmarkSelector();
 	fnDeckAddFormationSelector();
 	document.getElementById('formationDiv').style.top = "100px";
+	var divTag = document.createElement("div"); 
+	divTag.id = "autoTradeButton"; 
+	divTag.className =("btn __red");
+	divTag.style.position = "relative"; 
+	divTag.style.width = "250px"; 
+	divTag.style.height = "40px"; 
+	divTag.style.margin = "10px auto"; 
+	divTag.style.left = "25px"; 		
+	//divTag.style.top = "-80px"; 
+	divTag.innerHTML = 'Auto Trade'; 
+	document.body.appendChild(divTag);
+
+	$('#autoTradeButton').click(function() {
+		fnAutoTrade('/en/'+platform+'/market/myExhibitList?');
+	});
 	fnSyncServer();
 }
 
