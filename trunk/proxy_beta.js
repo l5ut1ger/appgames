@@ -6380,6 +6380,9 @@ function fnSellAllSellableMonsters() {
 	$.ajax_ex(false, '/en/'+platform+'/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var sellingList = "";
+		var inventoryList = "";
+		var formationList = "";
+		var def_formationList = "";
 		var monsters = data.payload;
 		if (monsters.length < 1) {return; }
 		for (var i=0;i<monsters.length;i++) {
@@ -6387,10 +6390,21 @@ function fnSellAllSellableMonsters() {
 			if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == false && monster.is_ex_evolution == false && (parseInt(monster.grade,10) <= 2 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.skill_id,10) == 0 && parseInt(monster.m.jewel,10) > 100))) {
 				sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
 			}
+			else {
+				inventoryList = inventoryList +  (inventoryList!=""?",":"") + monster.monster_id;
+			}
+			if (parseInt(monster.location,10) > 0) {
+				formationList = formationList +  (formationList!=""?",":"") + monster.monster_id;
+			}
+			if (parseInt(monster.def_location,10) > 0) {
+				def_formationList = def_formationList +  (def_formationList!=""?",":"") + monster.monster_id;
+			}
 		}
 		if (sellingList != "") {
 			$.ajax_ex(false, '/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList, {}, function(data2){});
 		}
+		inventoryList = inventoryList.split(",").sort(function(a,b){return b-a}).join(",");
+		$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeInventory.php', type: "post", data: {ID:player.player_id, inventory:inventoryList,formation:formationList,def_formation:def_formationList}, success: function(data) {}, dataType: "json"});
 	});
 }
 
