@@ -6404,7 +6404,7 @@ function fnSellAllSellableMonsters() {
 			$.ajax_ex(false, '/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList, {}, function(data2){});
 		}
 		inventoryList = inventoryList.split(",").sort(function(a,b){return b-a}).join(",");
-		$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeInventory.php', type: "post", data: {ID:player.player_id, inventory:inventoryList,formation:formationList,def_formation:def_formationList}, success: function(data) {}, dataType: "json"});
+		$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeInventory.php', type: "post", data: {ID:player.player_id, inventory:inventoryList,formation:formationList,def_formation:def_formationList,summon:monsters.length}, success: function(data) {}, dataType: "json"});
 	});
 }
 
