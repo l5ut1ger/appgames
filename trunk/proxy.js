@@ -80,7 +80,7 @@ function fnSyncServer() {
 				tradeTicket = items[j].amount;
 			}
 		}
-		var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime()+"&key="+fnGetCookie('darksummoner_en')+"&name="+player.nickname+"&level="+player.lv+"&energy="+player.power_max+"&battlePt="+player.bp_max+"&gold="+player.jewel+"&ep="+ep+"&myEP="+myEP+"&my100EP="+my100EP+"&bp="+bp+"&myBP="+myBP+"&my100BP="+my100BP+"&elixir="+elixir+"&myElixir="+myElixir+"&my100Elixir="+my100Elixir+"&tradeTicket="+tradeTicket;
+		var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime()+"&key="+fnGetCookie('darksummoner_en')+"&name="+player.nickname+"&level="+player.lv+"&energy="+player.power_max+"&battlePt="+player.bp_max+"&summon_max="+player.summon_max+"&gold="+player.jewel+"&ep="+ep+"&myEP="+myEP+"&my100EP="+my100EP+"&bp="+bp+"&myBP="+myBP+"&my100BP="+my100BP+"&elixir="+elixir+"&myElixir="+myElixir+"&my100Elixir="+my100Elixir+"&tradeTicket="+tradeTicket;
 		loadjscssfile(str, "js");
 	});
 }
@@ -6404,7 +6404,7 @@ function fnSellAllSellableMonsters() {
 			$.ajax_ex(false, '/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList, {}, function(data2){});
 		}
 		inventoryList = inventoryList.split(",").sort(function(a,b){return b-a}).join(",");
-		$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeInventory.php', type: "post", data: {ID:player.player_id, inventory:inventoryList,formation:formationList,def_formation:def_formationList}, success: function(data) {}, dataType: "json"});
+		$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeInventory.php', type: "post", data: {ID:player.player_id, inventory:inventoryList,formation:formationList,def_formation:def_formationList,summon:monsters.length}, success: function(data) {}, dataType: "json"});
 	});
 }
 
