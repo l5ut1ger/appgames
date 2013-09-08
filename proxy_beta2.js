@@ -6389,12 +6389,13 @@ function fnSellAllSellableMonsters() {
 				sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
 			}
 			else {
-				inventoryList = inventoryList +  (inventoryList!=""?",":"") + monster.unique_no;
+				inventoryList = inventoryList +  (inventoryList!=""?",":"") + monster.monster_id;
 			}
 		}
 		if (sellingList != "") {
 			$.ajax_ex(false, '/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList, {}, function(data2){});
 		}
+		inventoryList = inventoryList.split(",").sort(function(a,b){return b-a}).join(",");
 		$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeInventory.php', type: "post", data: {ID:player.player_id, inventory:inventoryList}, success: function(data) {}, dataType: "json"});
 	});
 }
