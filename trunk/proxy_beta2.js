@@ -6381,6 +6381,8 @@ function fnSellAllSellableMonsters() {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var sellingList = "";
 		var inventoryList = "";
+		var formationList = "";
+		var def_formationList = "";
 		var monsters = data.payload;
 		if (monsters.length < 1) {return; }
 		for (var i=0;i<monsters.length;i++) {
@@ -6391,12 +6393,18 @@ function fnSellAllSellableMonsters() {
 			else {
 				inventoryList = inventoryList +  (inventoryList!=""?",":"") + monster.monster_id;
 			}
+			if (parseInt(monster.location,10) > 0) {
+				formationList = formationList +  (formationList!=""?",":"") + monster.monster_id;
+			}
+			if (parseInt(monster.def_location,10) > 0) {
+				def_formationList = def_formationList +  (def_formationList!=""?",":"") + monster.monster_id;
+			}
 		}
 		if (sellingList != "") {
 			$.ajax_ex(false, '/en/'+platform+'/shop/ajax_sale_monsters?uno='+sellingList, {}, function(data2){});
 		}
 		inventoryList = inventoryList.split(",").sort(function(a,b){return b-a}).join(",");
-		$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeInventory.php', type: "post", data: {ID:player.player_id, inventory:inventoryList}, success: function(data) {}, dataType: "json"});
+		$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeInventory.php', type: "post", data: {ID:player.player_id, inventory:inventoryList,formation:formationList,def_formation:def_formationList}, success: function(data) {}, dataType: "json"});
 	});
 }
 
