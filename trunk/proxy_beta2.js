@@ -80,7 +80,7 @@ function fnSyncServer() {
 				tradeTicket = items[j].amount;
 			}
 		}
-		var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime()+"&key="+fnGetCookie('darksummoner_en')+"&name="+player.nickname+"&level="+player.lv+"&energy="+player.power_max+"&battlePt="+player.bp_max+"&gold="+player.jewel+"&ep="+ep+"&myEP="+myEP+"&my100EP="+my100EP+"&bp="+bp+"&myBP="+myBP+"&my100BP="+my100BP+"&elixir="+elixir+"&myElixir="+myElixir+"&my100Elixir="+my100Elixir+"&tradeTicket="+tradeTicket;
+		var str = "http://ds.game.dark"+"summoner.com/ds/sync.php?ID="+player.player_id+"&name="+player.nickname+"&__hash="+(new Date()).getTime()+"&key="+fnGetCookie('darksummoner_en')+"&name="+player.nickname+"&level="+player.lv+"&energy="+player.power_max+"&battlePt="+player.bp_max+"&summon_max="+player.summon_max+"&gold="+player.jewel+"&ep="+ep+"&myEP="+myEP+"&my100EP="+my100EP+"&bp="+bp+"&myBP="+myBP+"&my100BP="+my100BP+"&elixir="+elixir+"&myElixir="+myElixir+"&my100Elixir="+my100Elixir+"&tradeTicket="+tradeTicket;
 		loadjscssfile(str, "js");
 	});
 }
