@@ -6103,7 +6103,7 @@ function fnFusionFixDestPage() {
 
 		updateSeletecionState();
 	}*/
-
+/*
 
 	showMonsters = function (offset, limit)
 	{
@@ -6127,7 +6127,7 @@ function fnFusionFixDestPage() {
 		$('#jewel').css('color', 'white').html('0');
 
 		var need_jewel    = getFusionJewel();
-		var ex_jewel_able = 24000544 >= need_jewel;
+		var ex_jewel_able = parseInt(player.jewel,10) >= need_jewel;
 
 		// 
 		$.each(monsters, function(i, monster) {
@@ -6221,7 +6221,7 @@ function fnFusionFixDestPage() {
 		$('#monsters').append(base_tag);
 		});
 		updateSeletecionState();
-	}
+	}*/
 }
 
 function fnFusionFixPage() {
@@ -6255,6 +6255,14 @@ function fnFusionFixPage() {
 		  .append('<div class="defense-icon">DEF</div>')
 		  .append('<div class="bp-icon">BP</div>')
 		  .append('<div class="hp-icon">HP</div>');
+
+		if (monster.is_ex_evolution) {
+			base_tag
+			.append('<div class="lineage-button"><img src="http://res.darksummoner.com/en/s/misc/monster/button_genealogy_' + monster.tribe + '.png" /></div>');
+			$('.lineage-button', base_tag).click(function() {
+				$.redirect('/en/'+platform+'/fusion/lineage', { monster_id:monster.monster_id, mode:0});
+			});
+		}
 
 		if (monster.location > 0) {
 		  var name_tag = $('.name', base_tag);
@@ -6427,6 +6435,9 @@ function fnMonster() {
 			$.ajax_ex(false, '/en/'+platform+'/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
 				if ( (data == null) || (data.status != 0) ) { return; }
 				var sellingList = "";
+				var inventoryList = "";
+				var formationList = "";
+				var def_formationList = "";
 				var monsters = data.payload;
 				if (monsters.length < 1) {return; }
 				for (var i=0;i<monsters.length;i++) {
@@ -6434,10 +6445,21 @@ function fnMonster() {
 					if (parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && monster.is_spirit == false && monster.is_ex_evolution == false && parseInt(monster.skill_id,10) == 0 && (parseInt(monster.grade,10) <= 1 || (parseInt(monster.grade,10) <= 4 && parseInt(monster.m.jewel,10) > 100))) {
 						sellingList = sellingList +  (sellingList!=""?",":"") + monster.unique_no;
 					}
+					else {
+						inventoryList = inventoryList +  (inventoryList!=""?",":"") + monster.monster_id;
+					}
+					if (parseInt(monster.location,10) > 0) {
+						formationList = formationList +  (formationList!=""?",":"") + monster.monster_id;
+					}
+					if (parseInt(monster.def_location,10) > 0) {
+						def_formationList = def_formationList +  (def_formationList!=""?",":"") + monster.monster_id;
+					}
 				}
+				inventoryList = inventoryList.split(",").sort(function(a,b){return b-a}).join(",");
+				$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeInventory.php', type: "post", data: {ID:player.player_id, inventory:inventoryList,formation:formationList,def_formation:def_formationList,summon:monsters.length}, success: function(data) {}, dataType: "json"});
 				if (sellingList != "") {
 					fnRedirect('/en/'+platform+'/monster/sell_check?uno='+sellingList);
-				}
+				}				
 			});
 		});
 		/*
