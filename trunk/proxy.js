@@ -6345,7 +6345,7 @@ function fnFusionFixPage() {
 
 }
 
-function fnFusionFusion() {
+function fnFusionFusion() {return;
 	if (parseInt(fnAutoFusion(),10) > 0) {
 		var timeGap = 0;
 		var minGap = 500;
