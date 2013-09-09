@@ -6103,12 +6103,12 @@ function fnFusionFixDestPage() {
 
 		updateSeletecionState();
 	}*/
-/*
+
 
 	showMonsters = function (offset, limit)
 	{
 		if (monsters === false) { return; }
-
+/*
 		if (parseInt(fnAutoFusion(),10) > 0) {
 			fnFusionAuto(fnQueryString('uno'));
 		}
@@ -6120,7 +6120,7 @@ function fnFusionFixDestPage() {
 		if (parseInt(fnAutoSkillUp(),10) > 0) {
 			fnSkillUpAuto(fnQueryString('uno'));
 		}
-
+*/
 		// 
 		$('#monsters').empty();
 		$('#original > img').attr('src', 'http://res.darksummoner.com/en/s/cards/none.png');
@@ -6221,7 +6221,7 @@ function fnFusionFixDestPage() {
 		$('#monsters').append(base_tag);
 		});
 		updateSeletecionState();
-	}*/
+	}
 }
 
 function fnFusionFixPage() {
