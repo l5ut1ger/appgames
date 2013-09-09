@@ -6131,7 +6131,7 @@ function fnFusionFixDestPage() {
 
 		// 
 		$.each(monsters, function(i, monster) {
-		if ( (i < offset) ) { return true; }
+		if ( (i < offset) || (i >= (offset + limit)) ) { return true; }
 
 		var id = 'monster_' + i;
 		var base_tag      = $('<div id="' + id + '" class="monster"></div>');
