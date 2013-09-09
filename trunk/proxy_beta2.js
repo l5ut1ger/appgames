@@ -6131,7 +6131,7 @@ function fnFusionFixDestPage() {
 
 		// 
 		$.each(monsters, function(i, monster) {
-		if ( (i < offset) || (i >= (offset + limit)) ) { return true; }
+		if (i < offset)  { return true; }
 
 		var id = 'monster_' + i;
 		var base_tag      = $('<div id="' + id + '" class="monster"></div>');
@@ -6372,14 +6372,14 @@ function fnFusionFusion() {
 }
 
 function fnFusionDest() {
-	fnFusionFixDestPage();
+	//fnFusionFixDestPage();
 }
 
 function fnFusion() {
 	fnSetAutoFusion(0,0);
 	fnSetAutoStack(0,0);
 	fnSetAutoSkillUp(0,0);
-	fnFusionFixPage();
+	//fnFusionFixPage();
 }
 
 // sell monster page
