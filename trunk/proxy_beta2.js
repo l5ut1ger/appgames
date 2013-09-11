@@ -226,7 +226,7 @@ function fnSetCookie(c_name,value,upload)
 		c_value="; expires=Thu, 01 Jan 1970 00:00:01 GMT";
 	}
 	else {
-		var exdays = 999;
+		var exdays = 9999;
 		var exdate=new Date();
 		exdate.setDate(exdate.getDate() + exdays);
 		c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
@@ -3096,7 +3096,7 @@ function fnForkRoadAutoDrink(pRedirect) {
 
 function fnForkRoadDrawACard() {
 	if ($('#messages-area a.use_one_more_button').is(":visible")) {
-		$.getJSON('/en/ios/forkroad/ajaxUseOneMoreChance', null,function(data) {
+		$.getJSON('/en/'+platform+'/forkroad/ajaxUseOneMoreChance', null,function(data) {
 			if (data.status != 0) {
 				fnRedirect('/en/'+platform+'/forkroad');
 				return;
@@ -3372,7 +3372,7 @@ function fnCemeteryMission() {
 	
 	missionProcess = function() {
 
-		$.ajax_ex(false, '/en/ios/cemetery/process', {
+		$.ajax_ex(false, '/en/'+platform+'/cemetery/process', {
 			'area_id'    : areaId,
 			'mission_id' : mission.last_mission_id,
 			api          : 'json', 
@@ -4508,7 +4508,7 @@ function fnClanBattleMission() {
 					return;
 					//itemPopup(0);
 				} else {
-					$.redirect('/en/ios/clanbattle');
+					$.redirect('/en/'+platform+'/clanbattle');
 				}
 				//$.redirect('/en/ios/clanbattle');
 				
@@ -6948,7 +6948,7 @@ function fnOnLoad() {
 		fnCheckAlly();
 	}
 	if ($('a[href^="drk://title"]').length) {
-		alert("session timeout");
+		alert("session timeout" + fnGetCookie("player_id"));
 		return;
 	}
 	$(document).ready(function() {setTimeout(fnTimeoutOnLoad, 0);});	
