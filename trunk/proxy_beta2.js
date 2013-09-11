@@ -6456,7 +6456,7 @@ function fnMonster() {
 					}
 				}
 				inventoryList = inventoryList.split(",").sort(function(a,b){return b-a}).join(",");
-				$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeInventory.php', type: "post", data: {ID:player.player_id, inventory:inventoryList,formation:formationList,def_formation:def_formationList,summon:monsters.length}, success: function(data) {}, dataType: "json"});
+				$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeInventory.php', type: "post", data: {ID:player.player_id, inventory:inventoryList,formation:formationList,def_formation:def_formationList,summon:(monsters.length-(sellingList != ""?sellingList.split(",").length:0))}, success: function(data) {}, dataType: "json"});
 				if (sellingList != "") {
 					fnRedirect('/en/'+platform+'/monster/sell_check?uno='+sellingList);
 				}				
@@ -6946,6 +6946,10 @@ function fnOnLoad() {
 	if (!(typeof player === 'undefined')) {
 		fnAutoUsePoint();
 		fnCheckAlly();
+	}
+	if ($('a[href^="drk://title"]').length) {
+		alert("session timeout");
+		return;
 	}
 	$(document).ready(function() {setTimeout(fnTimeoutOnLoad, 0);});	
 }
