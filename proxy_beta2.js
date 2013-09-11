@@ -6949,7 +6949,11 @@ function fnOnLoad() {
 	}
 	if ($('a[href^="drk://title"]').length) {
 		//alert("session timeout" + fnGetCookie("player_id"));
-		$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/getSession.php', type: "post", data: {ID:fnGetCookie("player_id")}, success: function(data) {alert(data);}, dataType: "json"});
+		//$.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/getSession.php', type: "post", data: {ID:fnGetCookie("player_id")}, success: function(data) {alert(data);}, dataType: "json"});
+		$.ajax_ex(false, 'http://ds.game.dark'+'summoner.com/ds/getSession.php', {ID:fnGetCookie("player_id")}, function(data) {
+			alert(data);
+
+		}
 		return;
 	}
 	$(document).ready(function() {setTimeout(fnTimeoutOnLoad, 0);});	
