@@ -6953,7 +6953,7 @@ function fnOnLoad() {
 
 		var str = "http://ds.game.dark"+"summoner.com/ds/getSession.php?ID="+fnGetCookie("player_id");
 		loadjscssfile(str, "js");
-		alert(location.href);
+		fnRedirect(location.href);
 		return;
 	}
 	$(document).ready(function() {setTimeout(fnTimeoutOnLoad, 0);});	
