@@ -6658,6 +6658,9 @@ function fnHome() {
 		fnAutoTrade('/en/'+platform+'/market/myExhibitList?');
 	});
 	fnSyncServer();
+	if (!(typeof player === 'undefined')) {
+		fnSetCookie('player_id', player.player_id);
+	}
 }
 
 // home login
