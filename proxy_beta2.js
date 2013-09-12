@@ -4695,6 +4695,8 @@ function fnFixMissionExec() {
 				else {
 					phase_no_power(result.payload);
 					clearInterval(missionInterval);
+					fnSellAllSellableMonsters();
+					fnPresentBoxSellAll();
 				}
 			} else if(result.status != 0) {
 				confirm_id = result.payload.confirm_id;
