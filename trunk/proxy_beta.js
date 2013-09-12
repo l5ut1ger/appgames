@@ -3688,7 +3688,7 @@ function fnSubjugationFixAttack() {
 				//short_of_bp = true;
 				//timer_stop = false;
 				//return;
-				fnSubjucatorRaidAddAttackOption();
+				setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
 				return;
 			}
 			if (data.status == -5 || data.status == 2) {
@@ -3698,7 +3698,7 @@ function fnSubjugationFixAttack() {
 			if (data.status == -2) {
 				//retry
 				if (fnGetGrindingSpeed()>0) {
-					fnSubjucatorRaidAddAttackOption();
+					setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
 				}
 				return;
 			}
@@ -3717,7 +3717,7 @@ function fnSubjugationFixAttack() {
 				return;
 			}
 			if (data.status == -10) {
-				fnSubjucatorRaidAddAttackOption();
+				setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
 				return;
 			}
 			if (data.payload.short_of_bp) {
@@ -3778,7 +3778,7 @@ function fnSubjugationFixAttack() {
 					fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 					return;
 				}
-				fnSubjucatorRaidAddAttackOption();
+				setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
 			
 				/*
 				var obj = document.getElementById('effect_attack_damage');
