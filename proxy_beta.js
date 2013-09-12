@@ -5684,6 +5684,28 @@ function fnAutoTradeMonster(pMonster, pURL) {
 	divTag2.id = "autoSell"+pMonster.unique_no;
 	divTag2.style.display = "none";
 	document.body.appendChild(divTag2);
+
+	if (parseInt(pMonster.m.monster_id,10) == 50073 || parseInt(pMonster.m.monster_id,10) == 40073) {
+		$.ajax({
+			type: "GET",
+			url: '/en/'+platform+'/market/exhibitSelect?',
+			dataType: "html",
+			success: function(html){
+				$('#autoSell'+pMonster.unique_no).html(html);
+				setTimeout(function(){
+					paramArr = new Object();
+					paramArr.give = new Object();
+					paramArr.give.type = 2;
+					paramArr.give.id=pMonster.unique_no;
+					paramArr.give.amount = "1&wt_1_1=3&wi_1_1=3001&wa_1_1="+(parseInt(pMonster.m.monster_id,10)==50073?25:12)+"&wt_2_1=3&wi_2_1=3003&wa_2_1="+ (parseInt(pMonster.m.monster_id,10)==50073?20:10);
+					fnSetAutoRedirect(pURL);
+					procDecision();
+				},1000);						
+			}
+		});
+		fnGrowl('Auto Trade: Selling Monster:'+pMonster.m.name);
+		return;
+	}
 	$.ajax({
 		type: "GET",
 		url: '/en/'+platform+'/market/othersExhibitList?type=2&permanent_id='+pMonster.m.monster_id,
@@ -5787,7 +5809,7 @@ function fnAutoTrade(pURL) {
 						sell_monster_array = new Array();
 						for (var i=0;i<monsters.length;i++) {
 							var monster = monsters[i];
-							if (parseInt(monster.is_locked,10) == 0 && parseInt(monster.is_much_locked,10) == 0 && parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && parseInt(monster.lv,10) == 1 && parseInt(monster.grade,10) == 6 && parseInt(monster.m.bp,10) >= 40) {
+							if (parseInt(monster.is_locked,10) == 0 && parseInt(monster.is_much_locked,10) == 0 && parseInt(monster.location,10) == 0 && parseInt(monster.def_location,10) == 0 && (parseInt(monster.lv,10) == 1 && parseInt(monster.grade,10) == 6 && parseInt(monster.m.bp,10) >= 40 || parseInt(monster.m.monster_id,10) == 50073 || parseInt(monster.m.monster_id,10) == 40073)) {
 								if ($.inArray(monster.monster_id,sell_monster_id_array) == -1) {
 									sell_monster_array.push(monster);
 									sell_monster_id_array.push(monster.monster_id);
@@ -5796,7 +5818,19 @@ function fnAutoTrade(pURL) {
 						}
 						if (sell_monster_array.length > 0) {
 							sell_monster_array.sort(function(a,b){
-								if (parseInt(b.tribe,10) != parseInt(a.tribe,10)) {
+								if (parseInt(b.monster_id,10) == 50073 && parseInt(a.monster_id,10) != 50073) {
+									return 1;
+								}
+								else if (parseInt(a.monster_id,10) == 50073) {
+									return -1;
+								}
+								else if (parseInt(b.monster_id,10) == 40073 && parseInt(a.monster_id,10) != 40073) {
+									return 1;
+								}
+								else if (parseInt(a.monster_id,10) == 40073) {
+									return -1;
+								}
+								else if (parseInt(b.tribe,10) != parseInt(a.tribe,10)) {
 									if (parseInt(a.tribe,10) == 4) {
 										return -1;
 									}
