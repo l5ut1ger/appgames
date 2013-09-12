@@ -5897,6 +5897,10 @@ function fnMarket() {
 	});
 }
 
+function fnMarketHelp() {
+	fnRedirect('/en/'+platform+'/market/checkConsent?');
+}
+
 // fusion
 
 function fnFusionGenerateMonsterFromAllySummon() {
@@ -6757,6 +6761,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/market') {
 		fnMarket();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/market/help') {
+		fnMarketHelp();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/loginDays') {
 		fnLoginDays();
