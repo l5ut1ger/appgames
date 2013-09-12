@@ -1,0 +1,99 @@
+// ==UserScript==
+// @name        Dark Summoner
+// @namespace   DarkSummoner
+// @description DarkSummoner
+// @include     http://game.darksummoner.com/*
+// @include     http://*.game.darksummoner.com/*
+// @grant       *
+// @version     1
+
+// ==/UserScript==
+
+function fnQueryString(name) {
+    var AllVars = window.location.search.substring(1);
+    var Vars = AllVars.split('&');
+    for (i = 0; i < Vars.length; i++){
+        var Var = Vars[i].split('=');
+        if (Var[0] == name) return Var[1];
+    }
+    return '';
+}
+
+function fnSetCookie(c_name,value,upload)
+{
+    if(upload != 0) { 
+        upload = 1;
+    }
+    if (value == 0) {
+        value = 0;
+    }
+    else if (value === null) {
+        value='';
+    }
+    else if (value == undefined || value == 'undefined') {
+        value = '';
+    }
+    var c_value;
+    if (isNaN(value) && value =='') {
+        c_value="; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+    }
+    else {
+        var exdays = 99999;
+        var exdate=new Date();
+        exdate.setDate(exdate.getDate() + exdays);
+        c_value=escape(value) + ((exdays===null) ? "" : "; expires="+exdate.toUTCString());
+    }
+
+    document.cookie=c_name + "=" + c_value+ ";path=/;"+ ((location.host.split(".")[0]=="game")?"domain=."+location.host:"");
+    if (upload==1) {
+        $.ajax({async: false, url: 'http://ds.game.dark'+'summoner.com/ds/writeCookie.php', type: "post", data: {ID:player.player_id, name:c_name, value:value}, success: function(data) {}, dataType: "json"});
+    }
+}
+
+function loadjscssfile(filename, filetype){
+    if (filetype=="js"){ //if filename is a external JavaScript file
+        var fileref=document.createElement('script')
+        fileref.setAttribute("type","text/javascript")
+        fileref.setAttribute("src", filename)
+    }
+    else if (filetype=="css"){ //if filename is an external CSS file
+        var fileref=document.createElement("link")
+        fileref.setAttribute("rel", "stylesheet")
+        fileref.setAttribute("type", "text/css")
+        fileref.setAttribute("href", filename)
+    }
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+
+if (fnQueryString("session") != "" && fnQueryString("ID") != "" && fnQueryString("slotID") != "") {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=."+location.host;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;"+ ((location.host.split(".")[0]=="game")?"domain=."+location.host:"");
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
+    }
+
+    loadjscssfile("http://ds.game.darksummoner.com/ds/sync.php?ID="+fnQueryString("ID")+"&__hash="+(new Date()).getTime(), "js");
+    fnSetCookie("darksummoner_en", fnQueryString("session"),0);
+    fnSetCookie("player_id", fnQueryString("ID"),0);
+    var request = new XMLHttpRequest();
+    request.open("GET", "http://" + fnQueryString("slotID") + ".game.darksummoner.com/en/ios/home?", true);
+    request.setRequestHeader("Rookie", "darksummoner_en="+fnQueryString("session")+";");
+    request.onreadystatechange = function() {
+        if (4 == request.readyState) {
+            fnSetCookie("darksummoner_en", fnQueryString("session"),0);
+            var meta = document.createElement('meta');meta.httpEquiv='refresh';meta.content='0;url='+"http://" + fnQueryString("slotID") + ".game.darksummoner.com/en/ios/home?";document.getElementsByTagName('head')[0].appendChild(meta);
+        }
+    };
+    request.send(null);        
+}
+var divTag = document.createElement("div");
+divTag.id = "panelDiv";
+divTag.innerHTML = "<a href='/en/ios/home'>home</a> <a href='/en/ios/home/profile'>profile</a> <a href='/en/ios/item'>item</a> ";
+document.body.appendChild(divTag);
+window.parent.postMessage((new Date()).getTime(), "*");
