@@ -4696,7 +4696,7 @@ function fnFixMissionExec() {
 				else if (fnAutoDrink() == 2) {
 					for (var i=0;i<result.payload.item_ids.length;i++) {
 						if (result.payload.item_ids[i]==3018) {
-							if (result.payload.amount[i] > 0)) {
+							if (result.payload.amount[i] > 0) {
 								$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3018}, function(data) {});
 								return;
 								break;
