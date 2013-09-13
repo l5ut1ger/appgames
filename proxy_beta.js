@@ -1286,7 +1286,10 @@ function fnProfileFixTabs() {
 	autoDrinkSelectorHTML += '<select name="sel" onchange="fnSetAutoDrink(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Drink \'+this.options[this.options.selectedIndex].text);">';
 	autoDrinkSelectorHTML += '<option ' + (fnAutoDrink() == -1 ?'selected':'') + ' value="-1">Off</option>'
 	autoDrinkSelectorHTML += '<option ' + (fnAutoDrink() == 1 ?'selected':'') + ' value="1">On</option>';
+	autoDrinkSelectorHTML += '<option ' + (fnAutoDrink() == 2 ?'selected':'') + ' value="2">Infinity My EP</option>';
 	autoDrinkSelectorHTML += '</select><br/><br/>'; 
+
+	var bpSelectorHTML =  'Auto BP<select name="autoBP" onchange="fnSetAutoBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto BP:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnAutoBP(),10)==0?'selected':'') + ' value="0">Auto Off</option><option ' + (parseInt(fnAutoBP(),10)==3003?'selected':'') + ' value="3003">Real BP</option><option ' + (parseInt(fnAutoBP(),10)==3019?'selected':'') + ' value="3019">My BP</option><option ' + (parseInt(fnAutoBP(),10)==3043?'selected':'') + ' value="3043">My 100 BP</option><option ' + (parseInt(fnAutoBP(),10)==3011?'selected':'') + ' value="3011">Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3020?'selected':'') + ' value="3020">My Elixir</option><option ' + (parseInt(fnAutoBP(),10)==3024?'selected':'') + ' value="3024">My 100 Elixir</option></select><br/>';	
 	
 	// auto ally setting
 	var autoAllySelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto Ally (per 3 mins.)</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
@@ -1357,7 +1360,7 @@ function fnProfileFixTabs() {
 	towerTrapSelectorHTML+='</select><br/><br/>'; 
 	
  
-	divTag.innerHTML = resetHTML + ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML+towerTrapSelectorHTML; 
+	divTag.innerHTML = resetHTML + ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + bpSelectorHTML+ autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML+towerTrapSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 	
 	fnProfileFillAltOption();
@@ -3558,9 +3561,19 @@ function fnSubjucatorRaidAddAttackOption() {
 			attack(false, 0);
 		}
 		else { // not enough bp
-			if (fnAutoDrink() == 1) {
+			/*if (fnAutoDrink() == 1) {
 				fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+			}*/
+			if (parseInt(fnAutoBP(),10) > 0) {
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnAutoBP()}, function(data) {});
+				fnTimeOutRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				return;
 			}
+			else if (parseInt(fnSubjucationMissionStay(),10)==0) {
+				fnRedirect('/en/'+platform+'/subjugation/mission?');
+			}
+			fnTimeOutRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+			return;
 		}
 	}
 	myRate = Math.floor(parseInt(player.bp,10)/parseInt(player.deck_total_bp,10)*100);
@@ -3568,7 +3581,10 @@ function fnSubjucatorRaidAddAttackOption() {
 }
 
 function fnSubjugationDrinkBP(pRedirect) {
-	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnAutoBP()}, function(data) {});
+	fnRedirect(pRedirect);
+	return;
+	/*$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
 		for (var j=0;j<items.length;j++) {
@@ -3617,7 +3633,7 @@ function fnSubjugationDrinkBP(pRedirect) {
 		}
 		// no bp to drink, do mission to gain bp
 		fnRedirect('/en/'+platform+'/subjugation/mission?');
-	});	
+	});	*/
 }
 
 function fnSubjugationDrinkEP() {
@@ -3655,6 +3671,21 @@ function fnSubjugationDrinkEP() {
 	});	
 }
 
+function fnSubjugationDrinkMyEP() {
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		var items = data.payload.items;
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3018) { // consume my e potions
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect('/en/'+platform+'/subjugation/mission?');
+				return;
+			}
+		}
+		fnGetFreeMyEP('/en/'+platform+'/subjugation/mission?');
+	});	
+}
+
 function fnSubjugationFixAttack() {
 	attack = function (bonus, debug_attack) {
 		//if (timer_stop) return;
@@ -3681,25 +3712,25 @@ function fnSubjugationFixAttack() {
 			'fever_rate': '3',
 			'__hash':  (new Date()).getTime(),
 		}, function(data) {
-			if (data.status == -6) {
-				short_of_bp = true;
-			}
-			if (data.status == -9) {
-				//short_of_bp = true;
-				//timer_stop = false;
-				//return;
-				setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
-				return;
-			}
-			if (data.status == -5 || data.status == 2) {
-				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
-				return;
-			}
 			if (data.status == -2) {
 				//retry
 				if (fnGetGrindingSpeed()>0) {
 					setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
 				}
+				return;
+			}
+			if (data.status == -6) {
+				short_of_bp = true;
+				if (fnAutoBP() > 0) {
+					fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				}
+				else if (parseInt(fnSubjucationMissionStay(),10)==0) {
+					fnRedirect('/en/'+platform+'/subjugation/mission?');
+				}
+				return;
+			}
+			if (data.status == -5 || data.status == 2) {
+				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 				return;
 			}
 			if (data.status == -7) {
@@ -3716,12 +3747,30 @@ function fnSubjugationFixAttack() {
 				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 				return;
 			}
+			if (data.status == -9) {
+				//short_of_bp = true;
+				//timer_stop = false;
+				//return;
+				//setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
+				if (parseInt(fnAutoBP(),10) > 0) {
+					fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				}
+				else if (parseInt(fnSubjucationMissionStay(),10)==0) {
+					fnRedirect('/en/'+platform+'/subjugation/mission?');
+				}
+				return;
+			}
 			if (data.status == -10) {
 				setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
 				return;
 			}
 			if (data.payload.short_of_bp) {
-				fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				if (parseInt(fnAutoBP(),10) > 0) {
+					fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				}
+				else if (parseInt(fnSubjucationMissionStay(),10)==0) {
+					fnRedirect('/en/'+platform+'/subjugation/mission?');
+				}
 				return;
 				/*
 				timer_stop = false;
@@ -3870,7 +3919,7 @@ function fnSubjugationRaid() {
 				attack(true, 0);
 			}
 			else {
-				fnSubjucatorRaidAddAttackOption();
+				setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
 			}
 		});
 	}
@@ -3931,7 +3980,7 @@ function fnSubjugationRewardGuild() {
 }
 
 function fnSubjugationRaidBoss() {
-	$.redirect('/en/'+platform+'/subjugation/raid?subjugation_id=6&pid='+player.player_id+'&fever_rate=3');
+	fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id=6&pid='+player.player_id+'&fever_rate=3');
 }
 
 function fnSubjugationMission() {
@@ -3953,6 +4002,7 @@ function fnSubjugationMission() {
 	mission_exec = function(superroll) {
 		if ($('#raid_boss').length) {
 			if (parseInt(player.bp, 10) >= parseInt(player.deck_total_bp,10)) {
+				setInterval($('#raid_boss').trigger, 1000,'click');
 				$('#raid_boss').trigger('click');
 				mission_exec = null;
 				clearInterval(missionInterval);
@@ -3971,6 +4021,11 @@ function fnSubjugationMission() {
 				if (fnAutoDrink() == 1) {
 					//$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
 					fnSubjugationDrinkEP();
+					mission_exec = null;					
+				}
+				else if (fnAutoDrink() == 2) {
+					//$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
+					fnSubjugationDrinkMyEP();
 					mission_exec = null;					
 				}
 				clearInterval(missionInterval);
@@ -4002,6 +4057,7 @@ function fnSubjugationMission() {
 			if (parseInt(event.subjugation_id,10) > 0) {
 				mission_exec = null;
 				clearInterval(missionInterval);
+				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+ event.subjugation_id + '&pid='+player.player_id+'&fever_rate=3');
 			}
 
 			$('#clock_count').html("guild_raid_point"      .replace('%point%',  1));
@@ -4690,6 +4746,20 @@ function fnFixMissionExec() {
 					if (fnGetGrindingSpeed() == 1) {
 						mission_exec();
 					}
+					return;
+				}
+				else if (fnAutoDrink() == 2) {
+					for (var i=0;i<result.payload.item_ids.length;i++) {
+						if (result.payload.item_ids[i]==3018) {
+							if (result.payload.amount[i] > 0) {
+								$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3018}, function(data) {});
+								return;
+								break;
+							}
+						}
+					}
+					// no my ep, so get some!
+					fnGetFreeMyEP('');
 					return;
 				}
 				else {
@@ -5897,6 +5967,10 @@ function fnMarket() {
 	});
 }
 
+function fnMarketHelp() {
+	fnRedirect('/en/'+platform+'/market/checkConsent?');
+}
+
 // fusion
 
 function fnFusionGenerateMonsterFromAllySummon() {
@@ -6654,6 +6728,9 @@ function fnHome() {
 		fnAutoTrade('/en/'+platform+'/market/myExhibitList?');
 	});
 	fnSyncServer();
+	if (!(typeof player === 'undefined')) {
+		fnSetCookie('player_id', player.player_id);
+	}
 }
 
 // home login
@@ -6689,6 +6766,18 @@ function fnSetupPurrCSS() {
 	var sheet = document.createElement('style')
 	sheet.innerHTML = "#purr-container {z-index:9999;			position: fixed;			top: 0;			right: 0;		}				.notice {			position: relative;			width: 324px;		}			.notice .close	{position: absolute; top: 12px; right: 12px; display: block; width: 18px; height: 17px; text-indent: -9999px; background: url(http://kitchen.net-perspective.com/purr-example/purrClose.png) no-repeat 0 10px;}			.notice-body {			min-height: 5px;			padding: 5px 5px 0 5px;			background: url(http://kitchen.net-perspective.com/purr-example/purrTop.png) no-repeat left top;			color: #f9f9f9;		}			.notice-body img	{width: 50px; margin: 0 10px 0 0; float: left;}			.notice-body h3	{margin: 0; font-size: 1.1em;}			.notice-body p		{margin: 10px 0px 0 15px;font-size: 0.8em; line-height: 1.4em;}				.notice-bottom {			height: 5px;			background: url(http://kitchen.net-perspective.com/purr-example/purrBottom.png) no-repeat left top;		}";
 	document.body.appendChild(sheet);	
+}
+
+// infinity my ep
+
+function fnGetFreeMyEP(pURL) {
+	$.ajax_ex(false, '/en/'+platform+'/event/inviteThirtyReward', {}, function(data) {});
+	$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {
+		$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3018}, function(data) {});
+		if (pURL != '') {
+			fnRedirect(pURL);
+		}
+	});
 }
 
 function fnAutoUsePoint() {
@@ -6757,6 +6846,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/market') {
 		fnMarket();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/market/help') {
+		fnMarketHelp();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/loginDays') {
 		fnLoginDays();
@@ -6989,7 +7081,7 @@ function fnOnLoad() {
 
 		var str = "http://ds.game.dark"+"summoner.com/ds/getSession.php?ID="+fnGetCookie("player_id");
 		loadjscssfile(str, "js");
-		setTimeout(fnRedirect, 60000, location.href);
+		setTimeout(fnRedirect, 60000, location.href.indexOf('noauth') >= 0?'/en/'+platform+'/home':location.href);
 		return;
 	}
 	$(document).ready(function() {setTimeout(fnTimeoutOnLoad, 0);});	
