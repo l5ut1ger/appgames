@@ -4002,6 +4002,7 @@ function fnSubjugationMission() {
 	mission_exec = function(superroll) {
 		if ($('#raid_boss').length) {
 			if (parseInt(player.bp, 10) >= parseInt(player.deck_total_bp,10)) {
+				setTimeout($('#raid_boss').trigger, 1000,'click');
 				$('#raid_boss').trigger('click');
 				mission_exec = null;
 				clearInterval(missionInterval);
