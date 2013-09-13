@@ -3576,7 +3576,10 @@ function fnSubjucatorRaidAddAttackOption() {
 }
 
 function fnSubjugationDrinkBP(pRedirect) {
-	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnAutoBP()}, function(data) {});
+	fnRedirect(pRedirect);
+	return;
+	/*$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
 		if ( (data == null) || (data.status != 0) ) { return; }
 		var items = data.payload.items;
 		for (var j=0;j<items.length;j++) {
@@ -3625,7 +3628,7 @@ function fnSubjugationDrinkBP(pRedirect) {
 		}
 		// no bp to drink, do mission to gain bp
 		fnRedirect('/en/'+platform+'/subjugation/mission?');
-	});	
+	});	*/
 }
 
 function fnSubjugationDrinkEP() {
@@ -3704,25 +3707,25 @@ function fnSubjugationFixAttack() {
 			'fever_rate': '3',
 			'__hash':  (new Date()).getTime(),
 		}, function(data) {
-			if (data.status == -6) {
-				short_of_bp = true;
-			}
-			if (data.status == -9) {
-				//short_of_bp = true;
-				//timer_stop = false;
-				//return;
-				setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
-				return;
-			}
-			if (data.status == -5 || data.status == 2) {
-				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
-				return;
-			}
 			if (data.status == -2) {
 				//retry
 				if (fnGetGrindingSpeed()>0) {
 					setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
 				}
+				return;
+			}
+			if (data.status == -6) {
+				short_of_bp = true;
+				if (fnAutoBP() > 0) {
+					fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				}
+				else if (parseInt(fnSubjucationMissionStay(),10)==0) {
+					fnRedirect('/en/'+platform+'/subjugation/mission?');
+				}
+				return;
+			}
+			if (data.status == -5 || data.status == 2) {
+				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 				return;
 			}
 			if (data.status == -7) {
@@ -3739,12 +3742,30 @@ function fnSubjugationFixAttack() {
 				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 				return;
 			}
+			if (data.status == -9) {
+				//short_of_bp = true;
+				//timer_stop = false;
+				//return;
+				//setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
+				if (fnAutoBP() > 0) {
+					fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				}
+				else if (parseInt(fnSubjucationMissionStay(),10)==0) {
+					fnRedirect('/en/'+platform+'/subjugation/mission?');
+				}
+				return;
+			}
 			if (data.status == -10) {
 				setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
 				return;
 			}
 			if (data.payload.short_of_bp) {
-				fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				if (fnAutoBP() > 0) {
+					fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+				}
+				else if (parseInt(fnSubjucationMissionStay(),10)==0) {
+					fnRedirect('/en/'+platform+'/subjugation/mission?');
+				}
 				return;
 				/*
 				timer_stop = false;
