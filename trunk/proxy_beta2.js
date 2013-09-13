@@ -3954,7 +3954,7 @@ function fnSubjugationRewardGuild() {
 }
 
 function fnSubjugationRaidBoss() {
-	$.redirect('/en/'+platform+'/subjugation/raid?subjugation_id=6&pid='+player.player_id+'&fever_rate=3');
+	fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id=6&pid='+player.player_id+'&fever_rate=3');
 }
 
 function fnSubjugationMission() {
@@ -4030,6 +4030,7 @@ function fnSubjugationMission() {
 			if (parseInt(event.subjugation_id,10) > 0) {
 				mission_exec = null;
 				clearInterval(missionInterval);
+				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+ event.subjugation_id + '&pid='+player.player_id+'&fever_rate=3');
 			}
 
 			$('#clock_count').html("guild_raid_point"      .replace('%point%',  1));
