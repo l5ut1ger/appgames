@@ -3546,12 +3546,12 @@ function fnSubjucatorRaidAddAttackOption() {
    if (isNaN(myRate)) {
    fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 			return;
-  }alert('myRate='+myRate);
+  }
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)optimized</option>');
 	$('#raid_normal_use_power_text option:last').attr("selected", "selected");
-	if (fnGetGrindingSpeed()>0 && parseInt(raid_data.boss_hp,10)>0) {alert('decision');
+	if (fnGetGrindingSpeed()>0 && parseInt(raid_data.boss_hp,10)>0) {
 		// too heavy bp consume, call for sos help
-		if ($('#under_sos').is(":visible") && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.power_max,10)/10 && parseInt(player.power,10) > parseInt(player.power_max,10)/10 && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.deck_total_bp,10)) {alert('a');
+		if ($('#under_sos').is(":visible") && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.power_max,10)/10 && parseInt(player.power,10) > parseInt(player.power_max,10)/10 && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.deck_total_bp,10)) {
 			sos_call();
 			fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 			return;
@@ -3563,12 +3563,17 @@ function fnSubjucatorRaidAddAttackOption() {
 		else { // not enough bp
 			/*if (fnAutoDrink() == 1) {
 				fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
-			}*/alert('c' + fnAutoBP());
+			}*/
 			if (parseInt(fnAutoBP(),10) > 0) {
 				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnAutoBP()}, function(data) {});
 				fnTimeOutRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 				return;
 			}
+			else if (parseInt(fnSubjucationMissionStay(),10)==0) {
+				fnRedirect('/en/'+platform+'/subjugation/mission?');
+			}
+			fnTimeOutRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
+			return;
 		}
 	}
 	myRate = Math.floor(parseInt(player.bp,10)/parseInt(player.deck_total_bp,10)*100);
