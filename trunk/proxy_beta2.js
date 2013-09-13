@@ -3536,7 +3536,7 @@ function fnSubjugationRaidDamageDisplay() {
 	$('#raid_normal_attack_text').html($('#raid_normal_attack_value').html() + '-'+raid_data.boss_defense+'='+(parseInt($('#raid_normal_attack_value').html(),10)-parseInt(raid_data.boss_defense,10)));
 }
 
-function fnSubjucatorRaidAddAttackOption() {
+function fnSubjucatorRaidAddAttackOption() {alert('attack option');
   if (isNaN(parseInt($('#raid_normal_attack_value').html(),10))) {
    fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 			return;
@@ -3914,7 +3914,7 @@ function fnSubjugationRaid() {
 				attack(true, 0);
 			}
 			else {
-				fnSubjucatorRaidAddAttackOption();
+				setTimeout(fnSubjucatorRaidAddAttackOption, fnGetGrindingSpeed());
 			}
 		});
 	}
