@@ -3546,24 +3546,24 @@ function fnSubjucatorRaidAddAttackOption() {alert('attack option');
    if (isNaN(myRate)) {
    fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 			return;
-  }
+  }alert('myRate='+myRate);
 	$('#raid_normal_use_power_text').append('<option value='+myRate+'>'+ Math.ceil(myRate/100*parseInt(player.deck_total_bp,10))+ ' ('+myRate+'%)optimized</option>');
 	$('#raid_normal_use_power_text option:last').attr("selected", "selected");
-	if (fnGetGrindingSpeed()>0 && parseInt(raid_data.boss_hp,10)>0) {
+	if (fnGetGrindingSpeed()>0 && parseInt(raid_data.boss_hp,10)>0) {alert('decision');
 		// too heavy bp consume, call for sos help
-		if ($('#under_sos').is(":visible") && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.power_max,10)/10 && parseInt(player.power,10) > parseInt(player.power_max,10)/10 && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.deck_total_bp,10)) {
+		if ($('#under_sos').is(":visible") && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.power_max,10)/10 && parseInt(player.power,10) > parseInt(player.power_max,10)/10 && Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)) > parseInt(player.deck_total_bp,10)) {alert('a');
 			sos_call();
 			fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 			return;
 		}
 		// attack
-		else if (parseInt(player.bp,10) >=  Math.min(parseInt(player.deck_total_bp,10), Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)))) {
+		else if (parseInt(player.bp,10) >=  Math.min(parseInt(player.deck_total_bp,10), Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)))) {alert('b');
 			attack(false, 0);
 		}
 		else { // not enough bp
 			/*if (fnAutoDrink() == 1) {
 				fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
-			}*/
+			}*/alert('c');
 			if (parseInt(fnAutoBP(),10) > 0) {
 				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnAutoBP()}, function(data) {});
 				fnTimeOutRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
