@@ -3747,7 +3747,7 @@ function fnSubjugationFixAttack() {
 				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 				return;
 			}
-			if (data.status == -9) {alert("status -9");
+			if (data.status == -9) {
 				//short_of_bp = true;
 				//timer_stop = false;
 				//return;
