@@ -3682,7 +3682,7 @@ function fnSubjugationDrinkMyEP() {
 }
 
 function fnSubjugationFixAttack() {
-	attack = function (bonus, debug_attack) {
+	attack = function (bonus, debug_attack) {alert('attack');
 		//if (timer_stop) return;
 
 		debug_attack = debug_attack || 0;
@@ -3706,7 +3706,7 @@ function fnSubjugationFixAttack() {
 			'bonus': bonus && (raid_data.boss_mhp == raid_data.boss_hp),
 			'fever_rate': '3',
 			'__hash':  (new Date()).getTime(),
-		}, function(data) {
+		}, function(data) {alert("raid_attack_result");
 			if (data.status == -2) {
 				//retry
 				if (fnGetGrindingSpeed()>0) {
