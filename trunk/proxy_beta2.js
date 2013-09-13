@@ -3682,7 +3682,7 @@ function fnSubjugationDrinkMyEP() {
 }
 
 function fnSubjugationFixAttack() {
-	attack = function (bonus, debug_attack) {alert('attack');
+	attack = function (bonus, debug_attack) {
 		//if (timer_stop) return;
 
 		debug_attack = debug_attack || 0;
