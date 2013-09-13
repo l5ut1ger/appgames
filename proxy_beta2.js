@@ -1286,6 +1286,7 @@ function fnProfileFixTabs() {
 	autoDrinkSelectorHTML += '<select name="sel" onchange="fnSetAutoDrink(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Drink \'+this.options[this.options.selectedIndex].text);">';
 	autoDrinkSelectorHTML += '<option ' + (fnAutoDrink() == -1 ?'selected':'') + ' value="-1">Off</option>'
 	autoDrinkSelectorHTML += '<option ' + (fnAutoDrink() == 1 ?'selected':'') + ' value="1">On</option>';
+	autoDrinkSelectorHTML += '<option ' + (fnAutoDrink() == 2 ?'selected':'') + ' value="2">Infinity My EP</option>';
 	autoDrinkSelectorHTML += '</select><br/><br/>'; 
 	
 	// auto ally setting
@@ -4692,6 +4693,20 @@ function fnFixMissionExec() {
 					}
 					return;
 				}
+				else if (fnAutoDrink() == 2) {
+					for (var i=0;i<result.payload.item_ids.length;i++) {
+						if (result.payload.item_ids[i]==3018) {
+							if (result.payload.amount[i] > 0)) {
+								$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3018}, function(data) {});
+								return;
+								break;
+							}
+						}
+					}
+					// no my ep, so get some!
+					fnGetFreeMyEP('');
+					return;
+				}
 				else {
 					phase_no_power(result.payload);
 					clearInterval(missionInterval);
@@ -6696,6 +6711,19 @@ function fnSetupPurrCSS() {
 	var sheet = document.createElement('style')
 	sheet.innerHTML = "#purr-container {z-index:9999;			position: fixed;			top: 0;			right: 0;		}				.notice {			position: relative;			width: 324px;		}			.notice .close	{position: absolute; top: 12px; right: 12px; display: block; width: 18px; height: 17px; text-indent: -9999px; background: url(http://kitchen.net-perspective.com/purr-example/purrClose.png) no-repeat 0 10px;}			.notice-body {			min-height: 5px;			padding: 5px 5px 0 5px;			background: url(http://kitchen.net-perspective.com/purr-example/purrTop.png) no-repeat left top;			color: #f9f9f9;		}			.notice-body img	{width: 50px; margin: 0 10px 0 0; float: left;}			.notice-body h3	{margin: 0; font-size: 1.1em;}			.notice-body p		{margin: 10px 0px 0 15px;font-size: 0.8em; line-height: 1.4em;}				.notice-bottom {			height: 5px;			background: url(http://kitchen.net-perspective.com/purr-example/purrBottom.png) no-repeat left top;		}";
 	document.body.appendChild(sheet);	
+}
+
+// infinity my ep
+
+function fnGetFreeMyEP(pURL) {
+	$.ajax_ex(false, '/en/'+platform+'/event/inviteThirtyReward', {}, function(data) {
+		$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {
+			//fnRedirect(pURL);
+		});
+		if (pURL != '') {
+			fnRedirect(pURL);
+		}
+	});
 }
 
 function fnAutoUsePoint() {
