@@ -3656,6 +3656,21 @@ function fnSubjugationDrinkEP() {
 	});	
 }
 
+function fnSubjugationDrinkMyEP() {
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		var items = data.payload.items;
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3018) { // consume my e potions
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				fnRedirect('/en/'+platform+'/subjugation/mission?');
+				return;
+			}
+		}
+		fnGetFreeMyEP('/en/'+platform+'/subjugation/mission?');
+	});	
+}
+
 function fnSubjugationFixAttack() {
 	attack = function (bonus, debug_attack) {
 		//if (timer_stop) return;
@@ -3972,6 +3987,11 @@ function fnSubjugationMission() {
 				if (fnAutoDrink() == 1) {
 					//$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
 					fnSubjugationDrinkEP();
+					mission_exec = null;					
+				}
+				else if (fnAutoDrink() == 2) {
+					//$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
+					fnSubjugationDrinkMyEP();
 					mission_exec = null;					
 				}
 				clearInterval(missionInterval);
@@ -6718,11 +6738,12 @@ function fnSetupPurrCSS() {
 function fnGetFreeMyEP(pURL) {
 	$.ajax_ex(false, '/en/'+platform+'/event/inviteThirtyReward', {}, function(data) {
 		$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {
-			//fnRedirect(pURL);
+			$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3018}, function(data) {});
+			if (pURL != '') {
+				fnRedirect(pURL);
+			}
 		});
-		if (pURL != '') {
-			fnRedirect(pURL);
-		}
+		
 	});
 }
 
