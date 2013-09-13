@@ -3711,7 +3711,7 @@ function fnSubjugationFixAttack() {
 			'bonus': bonus && (raid_data.boss_mhp == raid_data.boss_hp),
 			'fever_rate': '3',
 			'__hash':  (new Date()).getTime(),
-		}, function(data) {alert("raid_attack_result");
+		}, function(data) {
 			if (data.status == -2) {
 				//retry
 				if (fnGetGrindingSpeed()>0) {
