@@ -3536,7 +3536,7 @@ function fnSubjugationRaidDamageDisplay() {
 	$('#raid_normal_attack_text').html($('#raid_normal_attack_value').html() + '-'+raid_data.boss_defense+'='+(parseInt($('#raid_normal_attack_value').html(),10)-parseInt(raid_data.boss_defense,10)));
 }
 
-function fnSubjucatorRaidAddAttackOption() {alert('attack option');
+function fnSubjucatorRaidAddAttackOption() {
   if (isNaN(parseInt($('#raid_normal_attack_value').html(),10))) {
    fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 			return;
@@ -3557,13 +3557,13 @@ function fnSubjucatorRaidAddAttackOption() {alert('attack option');
 			return;
 		}
 		// attack
-		else if (parseInt(player.bp,10) >=  Math.min(parseInt(player.deck_total_bp,10), Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)))) {alert('b');
+		else if (parseInt(player.bp,10) >=  Math.min(parseInt(player.deck_total_bp,10), Math.ceil(myRate/100*parseInt(player.deck_total_bp,10)))) {
 			attack(false, 0);
 		}
 		else { // not enough bp
 			/*if (fnAutoDrink() == 1) {
 				fnSubjugationDrinkBP('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
-			}*/alert('c');
+			}*/alert('c' + fnAutoBP());
 			if (parseInt(fnAutoBP(),10) > 0) {
 				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:fnAutoBP()}, function(data) {});
 				fnTimeOutRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
