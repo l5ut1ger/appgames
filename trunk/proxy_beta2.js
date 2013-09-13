@@ -6771,14 +6771,12 @@ function fnSetupPurrCSS() {
 // infinity my ep
 
 function fnGetFreeMyEP(pURL) {
-	$.ajax_ex(false, '/en/'+platform+'/event/inviteThirtyReward', {}, function(data) {
-		$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {
-			$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3018}, function(data) {});
-			if (pURL != '') {
-				fnRedirect(pURL);
-			}
-		});
-		
+	$.ajax_ex(false, '/en/'+platform+'/event/inviteThirtyReward', {}, function(data) {});
+	$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {
+		$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3018}, function(data) {});
+		if (pURL != '') {
+			fnRedirect(pURL);
+		}
 	});
 }
 
