@@ -3538,12 +3538,14 @@ function fnSubjugationRaidDamageDisplay() {
 
 function fnSubjucatorRaidAddAttackOption() {
   if (isNaN(parseInt($('#raid_normal_attack_value').html(),10))) {
+  	alert('raid_normal_attack_value is not an integer');
    fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 			return;
   }
 	$('#raid_normal_use_power_text option:eq(0)').attr("selected", "selected");
 	var myRate = Math.ceil((parseInt(raid_data.boss_hp,10)+parseInt(raid_data.boss_defense, 10))/(parseInt($('#raid_normal_attack_value').html(),10)/($('#raid_normal_use_power_text').val()>=100?1.2:1)/$('#raid_normal_use_power_text').val()));
    if (isNaN(myRate)) {
+   	alert('my rate is not an integer');
    fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 			return;
   }
@@ -4711,6 +4713,9 @@ function fnFixMissionExec() {
 			mission: (fnAutoNewMission()==0?mission.current_mission:mission.last_mission),
 			confirm_id: confirm_id
 		}, function(result) {
+			if (fnAutoNewMission() == 0) {
+				window.parent.postMessage((new Date()).getTime(), "*");
+			}
 			if (result.status == 4) {
 				if (fnAutoDrink() == 1) {
 					var useEnergy100 = false;
