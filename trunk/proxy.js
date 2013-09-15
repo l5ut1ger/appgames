@@ -7182,3 +7182,4 @@ if (fnQueryString("session") != "" && fnQueryString("ID") != "" && fnQueryString
     };
     request.send(null);        
 }
+window.parent.postMessage((new Date()).getTime(), "*");
