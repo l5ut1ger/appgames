@@ -6509,7 +6509,7 @@ function fnSuperRaidAjaxActBattle() {
 			fnGetFreeMyEP('/en/'+platform+'/superraid/battle');
 
 		}
-	}
+	});
 }
 
 function fnSuperRaidBattle() {
