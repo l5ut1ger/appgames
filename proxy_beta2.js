@@ -3571,6 +3571,7 @@ function fnSubjucatorRaidAddAttackOption() {
 			}
 			else if (parseInt(fnSubjucationMissionStay(),10)==0) {
 				fnRedirect('/en/'+platform+'/subjugation/mission?');
+				return;
 			}
 			fnTimeOutRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 			return;
