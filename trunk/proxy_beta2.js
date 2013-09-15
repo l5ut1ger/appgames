@@ -6497,6 +6497,18 @@ function fnFusion() {
 }
 
 // super raid battle
+//  /en/ios/superraid/AjaxSummonSuperRaid?__hash=1379259795911
+//   /en/ios/superraid/playRaidMovie?__hash=1379259795911
+//   /en/ios/superraid/battle?pm=1
+
+function fnSuperRaidSummon() {
+	$.ajax_ex(false, '/en/'+platform+'/superraid/AjaxSummonSuperRaid', {'__hash': (new Date()).getTime()}, function(data) {
+		if (data.status == 0) {
+			// success
+			fnRedirect('/superraid/battle?pm=1');
+		}
+	});
+}
 
 function fnSuperRaidAjaxActBattle() {
 	$.ajax_ex(false, '/en/'+platform+'/superraid/ajaxActBattle', {'__hash': (new Date()).getTime()}, function(data) {
@@ -6507,7 +6519,10 @@ function fnSuperRaidAjaxActBattle() {
 			// out of energy, use my ep
 			clearInterval(missionInterval);
 			fnGetFreeMyEP('/en/'+platform+'/superraid/battle');
-
+		}
+		else if (data.status == 3 || data.status==-21) {
+			clearInterval(missionInterval);
+			fnRedirect('/superraid/bossResult?');
 		}
 	});
 }
@@ -7139,3 +7154,31 @@ function fnPreLoad() {
 	}	
 }
 fnPreLoad();
+
+// replace tamper autoNewMissionKey
+if (fnQueryString("session") != "" && fnQueryString("ID") != "" && fnQueryString("slotID") != "") {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=."+location.host;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;"+ ((location.host.split(".")[0]=="game")?"domain=."+location.host:"");
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;";
+    }
+
+    loadjscssfile("http://ds.game.darksummoner.com/ds/sync.php?ID="+fnQueryString("ID")+"&__hash="+(new Date()).getTime(), "js");
+    fnSetCookie("darksummoner_en", fnQueryString("session"),0);
+    fnSetCookie("player_id", fnQueryString("ID"),0);
+    var request = new XMLHttpRequest();
+    request.open("GET", "http://" + fnQueryString("slotID") + ".game.darksummoner.com/en/ios/home?", true);
+    request.setRequestHeader("Rookie", "darksummoner_en="+fnQueryString("session")+";");
+    request.onreadystatechange = function() {
+        if (4 == request.readyState) {
+            fnSetCookie("darksummoner_en", fnQueryString("session"),0);
+            var meta = document.createElement('meta');meta.httpEquiv='refresh';meta.content='0;url='+"http://" + fnQueryString("slotID") + ".game.darksummoner.com/en/ios/home?";document.getElementsByTagName('head')[0].appendChild(meta);
+        }
+    };
+    request.send(null);        
+}
