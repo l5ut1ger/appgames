@@ -6496,6 +6496,30 @@ function fnFusion() {
 	//fnFusionFixPage();
 }
 
+// super raid battle
+
+function fnSuperRaidAjaxActBattle() {
+	$.ajax_ex(false, '/en/'+platform+'/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
+		if (data.status == 0) {
+			// success
+		}
+		else if (data.status == 1) {
+			// out of energy, use my ep
+			clearInterval(missionInterval);
+			fnGetFreeMyEP('/en/'+platform+'/superraid/battle');
+
+		}
+	}
+}
+
+function fnSuperRaidBattle() {
+	if (fnGetGrindingSpeed() == -1) {
+		// user press by himself, dont automate
+		return;
+	}
+	missionInterval = setInterval(fnSuperRaidAjaxActBattle,fnGetGrindingSpeed());
+}
+
 // sell monster page
 
 function fnSellAllSellableMonsters() {
@@ -6877,6 +6901,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/mission/battleResult') {
 		fnMissionBattleResult();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/superraid/battle') {
+		fnSuperRaidBattle();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower') {
 		fnTower();
