@@ -3571,6 +3571,7 @@ function fnSubjucatorRaidAddAttackOption() {
 			}
 			else if (parseInt(fnSubjucationMissionStay(),10)==0) {
 				fnRedirect('/en/'+platform+'/subjugation/mission?');
+				return;
 			}
 			fnTimeOutRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+fnQueryString('subjugation_id')+'&pid='+player.player_id+'&fever_rate=3');
 			return;
@@ -4002,7 +4003,7 @@ function fnSubjugationMission() {
 	mission_exec = function(superroll) {
 		if ($('#raid_boss').length) {
 			if (parseInt(player.bp, 10) >= parseInt(player.deck_total_bp,10)) {
-				setInterval($('#raid_boss').trigger, 1000,'click');
+				setInterval($('#raid_boss').trigger, 10000,'click');
 				$('#raid_boss').trigger('click');
 				mission_exec = null;
 				clearInterval(missionInterval);
@@ -4711,6 +4712,9 @@ function fnFixMissionExec() {
 			mission: (fnAutoNewMission()==0?mission.current_mission:mission.last_mission),
 			confirm_id: confirm_id
 		}, function(result) {
+			if (fnAutoNewMission() == 0) {
+				window.parent.postMessage((new Date()).getTime(), "*");
+			}
 			if (result.status == 4) {
 				if (fnAutoDrink() == 1) {
 					var useEnergy100 = false;
