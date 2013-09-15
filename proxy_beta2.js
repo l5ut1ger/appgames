@@ -6499,7 +6499,7 @@ function fnFusion() {
 // super raid battle
 
 function fnSuperRaidAjaxActBattle() {
-	$.ajax_ex(false, '/en/'+platform+'/fusion/list', { types:0, sort:11, api:'json' }, function(data) {
+	$.ajax_ex(false, '/en/'+platform+'/superraid/ajaxActBattle', {'__hash': (new Date()).getTime()}, function(data) {
 		if (data.status == 0) {
 			// success
 		}
