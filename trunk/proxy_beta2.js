@@ -3542,7 +3542,7 @@ function fnSubjugation() {
 
 	var missionSelectorHTML =  'Mission:<select name="mission" onchange="fnSetSubjucationMissionStay(this.options[this.options.selectedIndex].value);fnGrowl(\'Mission:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnSubjucationMissionStay(),10)==0?'selected':'') + ' value="0">Move on</option><option ' + (parseInt(fnSubjucationMissionStay(),10)==1?'selected':'') + ' value="1">Stay at current mission</option></select><br/>';
 
-	var weeklyBattleSelectorHTML =  'Free Weekly Battle:<select name="battle" onchange="fnSetSubjucationFreeBattle(this.options[this.options.selectedIndex].value);fnGrowl(\'Mission:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnSubjucationFreeBattle(),10)==0?'selected':'') + ' value="0">Off</option><option ' + (parseInt(fnSubjucationMissionStay(),10)==1?'selected':'') + ' value="1">On</option></select><br/>';	
+	var weeklyBattleSelectorHTML =  'Free Weekly Battle:<select name="battle" onchange="fnSetSubjucationFreeBattle(this.options[this.options.selectedIndex].value);fnGrowl(\'Free Battle:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnSubjucationFreeBattle(),10)==0?'selected':'') + ' value="0">Off</option><option ' + (parseInt(fnSubjucationFreeBattle(),10)==1?'selected':'') + ' value="1">On</option></select><br/>';	
 
 	divTag.innerHTML = missionSelectorHTML + weeklyBattleSelectorHTML;
 	document.body.appendChild(divTag);
