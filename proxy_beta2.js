@@ -4029,7 +4029,36 @@ function fnSubjugationMission() {
 		if ($('#raid_boss').length) {
 			if (parseInt(player.bp, 10) >= parseInt(player.deck_total_bp,10)) {
 				if (parseInt(fnSubjucationFreeBattle(),10)==1) {
-					alert('free battle');
+					mission_exec = null;
+					clearInterval(missionInterval);
+					var divTag2 = document.createElement("div");
+					divTag2.id = "battleDiv";
+					divTag2.style.display = "none";
+					document.body.appendChild(divTag2);				
+					$.ajax({
+						type: "GET",
+						url: '/en/'+platform+'/battle/indexProd?',
+						dataType: "html",
+						success: function(html){
+							$('#battleDiv').html(html);
+							setTimeout(function(){
+								var weakestIndex=0;
+								var weakestBP = 9999;
+								var weakestPID = 0;
+								for (i=0;i<$('div .bp').length;i++) {
+									if (parseInt($('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1),10) < weakestBP) {
+										weakestIndex = i;
+										weakestBP = parseInt($('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1),10);
+										weakestPID = (String($('.submit_button_result').eq(i).attr('onclick')).substr(String($('.submit_button_result').eq(i).attr('onclick')).indexOf("'")+1,10));
+									}
+									//alert(i + ':' + $('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1));
+								}
+								$.ajax_ex(false, '/en/'+platform+'/battle/battleact', {pid:weakestPID,skip:1},function(data){});
+								fnRedirect('/en/'+platform+'/subjugation/mission?');
+							},1000);						
+						}
+					});	
+					return;				
 				}
 				else {
 					setInterval($('#raid_boss').trigger, 10000,'click');
