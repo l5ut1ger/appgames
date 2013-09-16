@@ -6665,7 +6665,6 @@ function fnMonster() {
 // battle
 
 function fnBattleIndexProd() {
-	alert($('div .bp').length);
 	var weakestIndex=0;
 	var weakestBP = 9999;
 	var weakestPID = 0;
@@ -6673,11 +6672,13 @@ function fnBattleIndexProd() {
 		if (parseInt($('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1),10) < weakestBP) {
 			weakestIndex = i;
 			weakestBP = parseInt($('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1),10);
-			alert(String($('.submit_button_result').eq(i).attr('onclick')).substr(String($('.submit_button_result').eq(i).attr('onclick')).indexOf("'")+1,10));
+			weakestPID = (String($('.submit_button_result').eq(i).attr('onclick')).substr(String($('.submit_button_result').eq(i).attr('onclick')).indexOf("'")+1,10));
 		}
 		//alert(i + ':' + $('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1));
 	}
-	//fnRedirect('/en/ios/battle/battleact?pid=' + pid + '&skip=1');
+	if (parseInt(player.bp,10) >=  parseInt(player.deck_total_bp,10)) {
+		fnRedirect('/en/ios/battle/battleact?pid=' + weakestPID + '&skip=1');
+	}
 }
 
 // tutorial
