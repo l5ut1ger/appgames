@@ -3898,6 +3898,7 @@ function fnSubjugationRaid() {
 			var raid   = payload.raid;
 
 			if (parseInt(raid.end_at_u,10) < 0) {
+				$.ajax_ex(false, '/en/'+platform+'/subjugation/ajax_raid_finalize', {'subjugation_id':raid_data.subjugation_id}, function(data) {});				
 				$.ajax_ex(false, '/en/'+platform+'/subjugation?intentional=1', {}, function(data) {});				
 				fnRedirect('/en/'+platform+'/subjugation/mission?');
 				return;
