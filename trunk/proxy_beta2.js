@@ -6694,6 +6694,7 @@ function fnMonster() {
 // battle
 
 function fnBattleIndexProd() {
+	return;
 	var weakestIndex=0;
 	var weakestBP = 9999;
 	var weakestPID = 0;
