@@ -6660,6 +6660,13 @@ function fnMonster() {
 		});*/
 	}
 }
+
+// battle
+
+function fnBattleIndexProd() {
+	alert($('div > bp').length);
+}
+
 // tutorial
 
 function fnTutorialStartPage() {
@@ -6902,6 +6909,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/event/comeback') {
 		fnEventComeBack();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/battle/indexProd') {
+		fnBattleIndexProd();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/home/profile') {
 		fnProfile();
