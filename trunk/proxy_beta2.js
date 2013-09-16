@@ -6667,7 +6667,7 @@ function fnBattleIndexProd() {
 	alert($('div .bp').length);
 	var weakestIndex=0;
 	var weakestBP = 9999;
-	var weakestPID = 
+	var weakestPID = 0;
 	for (i=0;i<$('div .bp').length;i++) {
 		if (parseInt($('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1),10) < weakestBP) {
 			weakestIndex = i;
