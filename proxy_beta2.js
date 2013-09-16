@@ -4113,7 +4113,7 @@ function fnSubjugationMission() {
 			use_item_count = result.payload.use_item_count;
 			raid_point = result.payload;
 			subjugation_id = event.subjugation_id;
-			if (parseInt(event.subjugation_id,10) > 0) {
+			if (parseInt(event.subjugation_id,10) > 0 && parseInt(fnSubjucationFreeBattle(),10)==0) {
 				mission_exec = null;
 				clearInterval(missionInterval);
 				fnRedirect('/en/'+platform+'/subjugation/raid?subjugation_id='+ event.subjugation_id + '&pid='+player.player_id+'&fever_rate=3');
