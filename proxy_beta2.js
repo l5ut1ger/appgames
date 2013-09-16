@@ -6664,7 +6664,7 @@ function fnMonster() {
 // battle
 
 function fnBattleIndexProd() {
-	alert($('div > bp').length);
+	alert($('div .bp').length);
 }
 
 // tutorial
