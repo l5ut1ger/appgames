@@ -4027,7 +4027,7 @@ function fnSubjugationMission() {
 	mission_exec = function(superroll) {
 		if ($('#raid_boss').length) {
 			if (parseInt(player.bp, 10) >= parseInt(player.deck_total_bp,10)) {
-				if (fnSubjucationFreeBattle()) {
+				if (parseInt(fnSubjucationFreeBattle(),10)==1) {
 					alert('free battle');
 				}
 				else {
