@@ -6665,9 +6665,18 @@ function fnMonster() {
 
 function fnBattleIndexProd() {
 	alert($('div .bp').length);
+	var weakestIndex=0;
+	var weakestBP = 9999;
+	var weakestPID = 
 	for (i=0;i<$('div .bp').length;i++) {
-		alert(i + ':' + $('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1));
+		if (parseInt($('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1),10) < weakestBP) {
+			weakestIndex = i;
+			weakestBP = parseInt($('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1),10);
+			alert($('img .submit_button_result').eq(i).attr('onclick'));
+		}
+		//alert(i + ':' + $('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1));
 	}
+	//fnRedirect('/en/ios/battle/battleact?pid=' + pid + '&skip=1');
 }
 
 // tutorial
