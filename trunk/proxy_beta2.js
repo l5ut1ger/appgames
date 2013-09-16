@@ -6673,7 +6673,7 @@ function fnBattleIndexProd() {
 		if (parseInt($('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1),10) < weakestBP) {
 			weakestIndex = i;
 			weakestBP = parseInt($('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1),10);
-			alert($('.submit_button_result').eq(i).attr('onclick').substr($('.submit_button_result').eq(i).attr('onclick').indexOf("'")+1,10));
+			alert(String($('.submit_button_result').eq(i).attr('onclick')).substr(String($('.submit_button_result').eq(i).attr('onclick')).indexOf("'")+1,10));
 		}
 		//alert(i + ':' + $('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1));
 	}
