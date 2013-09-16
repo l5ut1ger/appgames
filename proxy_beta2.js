@@ -3695,11 +3695,12 @@ function fnSubjugationDrinkMyEP() {
 		for (var j=0;j<items.length;j++) {
 			if (items[j].item_id == 3018) { // consume my e potions
 				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
-				fnRedirect('/en/'+platform+'/subjugation/mission?');
+				//fnRedirect('/en/'+platform+'/subjugation/mission?');
 				return;
 			}
 		}
 		//fnGetFreeMyEP('/en/'+platform+'/subjugation/mission?');
+		fnGetFreeMyEP('');
 	});	
 }
 
@@ -6672,7 +6673,7 @@ function fnBattleIndexProd() {
 		if (parseInt($('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1),10) < weakestBP) {
 			weakestIndex = i;
 			weakestBP = parseInt($('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1),10);
-			alert($('.submit_button_result').length);//eq(i).attr('src'));
+			alert($('.submit_button_result').eq(i).attr('onclick'));
 		}
 		//alert(i + ':' + $('div .bp').eq(i).html().substr($('div .bp').eq(i).html().indexOf(">")+1));
 	}
