@@ -6666,7 +6666,7 @@ function fnMonster() {
 function fnBattleIndexProd() {
 	alert($('div .bp').length);
 	for (i=0;i<$('div .bp').length;i++) {
-		alert(i + ':' + $('div .bp:nth-child(2)').html());
+		alert(i + ':' + $('div .bp').html());
 	}
 }
 
