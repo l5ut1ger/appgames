@@ -886,6 +886,20 @@ function fnSetSubjucationMissionStay(value, upload) {
 	fnSetCookie(subjucationMissionStayKey, value, upload);
 }
 
+var subjucationFreeBattleKey = 'sjB';
+
+function fnSubjucationFreeBattle() {
+	if(fnGetCookie(subjucationFreeBattleKey) === null) {
+		fnSetSubjucationFreeBattle(0, 0);
+	}
+	return fnGetCookie(subjucationFreeBattleKey);
+}
+
+function fnSetSubjucationFreeBattle(value, upload) {
+	if(upload != 0) { upload = 1;}
+	fnSetCookie(subjucationFreeBattleKey, value, upload);
+}
+
 // book mark function
 
 function fnGetSeparator() {
@@ -3526,9 +3540,11 @@ function fnSubjugation() {
 	var divTag = document.createElement("div");
 	divTag.id = "subDiv";
 
-	var missionSelectorHTML =  'Mission:<select name="mission" onchange="fnSetSubjucationMissionStay(this.options[this.options.selectedIndex].value);fnGrowl(\'Mission:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnSubjucationMissionStay(),10)==0?'selected':'') + ' value="0">Move on</option><option ' + (parseInt(fnSubjucationMissionStay(),10)==1?'selected':'') + ' value="1">Stay at current mission</option></select><br/>';	
+	var missionSelectorHTML =  'Mission:<select name="mission" onchange="fnSetSubjucationMissionStay(this.options[this.options.selectedIndex].value);fnGrowl(\'Mission:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnSubjucationMissionStay(),10)==0?'selected':'') + ' value="0">Move on</option><option ' + (parseInt(fnSubjucationMissionStay(),10)==1?'selected':'') + ' value="1">Stay at current mission</option></select><br/>';
 
-	divTag.innerHTML = missionSelectorHTML;
+	var weeklyBattleSelectorHTML =  'Free Weekly Battle:<select name="battle" onchange="fnSetSubjucationFreeBattle(this.options[this.options.selectedIndex].value);fnGrowl(\'Mission:\'+this.options[this.options.selectedIndex].text);"><option ' + (parseInt(fnSubjucationFreeBattle(),10)==0?'selected':'') + ' value="0">Off</option><option ' + (parseInt(fnSubjucationMissionStay(),10)==1?'selected':'') + ' value="1">On</option></select><br/>';	
+
+	divTag.innerHTML = missionSelectorHTML + weeklyBattleSelectorHTML;
 	document.body.appendChild(divTag);
 }
 
@@ -3683,7 +3699,7 @@ function fnSubjugationDrinkMyEP() {
 				return;
 			}
 		}
-		fnGetFreeMyEP('/en/'+platform+'/subjugation/mission?');
+		//fnGetFreeMyEP('/en/'+platform+'/subjugation/mission?');
 	});	
 }
 
@@ -4011,11 +4027,16 @@ function fnSubjugationMission() {
 	mission_exec = function(superroll) {
 		if ($('#raid_boss').length) {
 			if (parseInt(player.bp, 10) >= parseInt(player.deck_total_bp,10)) {
-				setInterval($('#raid_boss').trigger, 10000,'click');
-				$('#raid_boss').trigger('click');
-				mission_exec = null;
-				clearInterval(missionInterval);
-				return;
+				if (fnSubjucationFreeBattle()) {
+					alert('free battle');
+				}
+				else {
+					setInterval($('#raid_boss').trigger, 10000,'click');
+					$('#raid_boss').trigger('click');
+					mission_exec = null;
+					clearInterval(missionInterval);
+					return;
+				}
 			}
 		}
 		$.ajax_ex(false, '/en/'+platform+'/subjugation/process', {
@@ -4030,14 +4051,13 @@ function fnSubjugationMission() {
 				if (fnAutoDrink() == 1) {
 					//$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
 					fnSubjugationDrinkEP();
-					mission_exec = null;					
+					mission_exec = null;	
+					clearInterval(missionInterval);				
 				}
 				else if (fnAutoDrink() == 2) {
 					//$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
 					fnSubjugationDrinkMyEP();
-					mission_exec = null;					
-				}
-				clearInterval(missionInterval);
+				}				
 				return;
 			}
 			//      if (result.status == 5) {
