@@ -1322,10 +1322,16 @@ function fnProfileFixTabs() {
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == -1 ?'selected':'') + ' value="-1">Off</option>'
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 1 ?'selected':'') + ' value="1">On, EP</option>';
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 2 ?'selected':'') + ' value="2">On, BP</option>';
-	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 3 ?'selected':'') + ' value="3">On, 100EP, Rest BP</option>';
-	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 4 ?'selected':'') + ' value="4">On, 200BP, Rest EP</option>';
-	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 5 ?'selected':'') + ' value="5">On, 150BP, Rest EP</option>';
-	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 6 ?'selected':'') + ' value="6">On, 100BP, Rest EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 3 ?'selected':'') + ' value="3">On, 100 EP, Rest BP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 4 ?'selected':'') + ' value="4">On, 200 BP, Rest EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 5 ?'selected':'') + ' value="5">On, 150 BP, Rest EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 6 ?'selected':'') + ' value="6">On, 100 BP, Rest EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 7 ?'selected':'') + ' value="7">On, 250 BP, Rest EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 8 ?'selected':'') + ' value="8">On, 500 BP, Rest EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 9 ?'selected':'') + ' value="9">On, 1000 BP, Rest EP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 10 ?'selected':'') + ' value="10">On, 100 EP, 500 BP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 11 ?'selected':'') + ' value="11">On, 100 EP, 1000 BP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 12 ?'selected':'') + ' value="12">On, 500 EP, 500 BP</option>';
 	autoStatsUpselectorHTML += '</select><br/><br/>'; 
 	
 	// Auto Stack BP Settings
@@ -4223,6 +4229,20 @@ function fnFixAdventureMission() {
 					}
 					return;
 				}
+				else if (fnAutoDrink() == 2) {
+					for (var i=0;i<result.payload.item_ids.length;i++) {
+						if (result.payload.item_ids[i]==3018) {
+							if (result.payload.amount[i] > 0) {
+								$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3018}, function(data) {});
+								return;
+								break;
+							}
+						}
+					}
+					// no my ep, so get some!
+					fnGetFreeMyEP('');
+					return;
+				}
 				else {
 					phase_no_power(result.payload);
 					clearInterval(missionInterval);
@@ -6746,7 +6766,6 @@ function fnLoginStamp() {
 // First Day of the Month Stamp
 
 function fnFirstDayOfMonth() {
-	$.ajax_ex(false, '/en/'+platform+'/present/fpAll', {},function(result) {return;}) ;
 	fnRedirect('/en/'+platform+'/home');
 }
 
@@ -6858,15 +6877,12 @@ function fnHome() {
 // home login
 
 function fnHomeLogin() {
-	$.ajax_ex(false, '/en/'+platform+'/present/fpAll', {},function(result) {return;}) ;
 	fnRedirect('/en/'+platform+'/home');
 }
 
 // home bonus
 
 function fnHomeBonus() {
-	$.ajax_ex(false, '/en/'+platform+'/present/fpAll', {},function(result) {return;}) ;
-	$.ajax_ex(false, '/en/'+platform+'/present/jewelAll', {},function(result) {return;}) ;
 	fnRedirect('/en/'+platform+'/home');
 }
 
@@ -6925,6 +6941,39 @@ function fnAutoUsePoint() {
 		else if (fnAutoStatsUp() == 6) {
 			var battleToAdd = Math.min(Math.max(0, 100-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
 			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + (parseInt(player.remain_point,10)-battleToAdd) + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
+		else if (fnAutoStatsUp() == 7) {
+			var battleToAdd = Math.min(Math.max(0, 250-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + (parseInt(player.remain_point,10)-battleToAdd) + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
+		else if (fnAutoStatsUp() == 8) {
+			var battleToAdd = Math.min(Math.max(0, 500-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + (parseInt(player.remain_point,10)-battleToAdd) + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
+		else if (fnAutoStatsUp() == 9) {
+			var battleToAdd = Math.min(Math.max(0, 1000-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + (parseInt(player.remain_point,10)-battleToAdd) + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+		}
+		else if (fnAutoStatsUp() == 10) {
+			var battleToAdd = Math.min(Math.max(0, 100-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			var energyToAdd = Math.min(Math.max(0, 500-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
+			if (battleToAdd > 0 || energyToAdd > 0) {
+				$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + energyToAdd + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+			}
+		}
+		else if (fnAutoStatsUp() == 11) {
+			var battleToAdd = Math.min(Math.max(0, 100-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			var energyToAdd = Math.min(Math.max(0, 1000-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
+			if (battleToAdd > 0 || energyToAdd > 0) {
+				$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + energyToAdd + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+			}
+		}
+		else if (fnAutoStatsUp() == 12) {
+			var battleToAdd = Math.min(Math.max(0, 500-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			var energyToAdd = Math.min(Math.max(0, 500-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
+			if (battleToAdd > 0 || energyToAdd > 0) {
+				$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + energyToAdd + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+			}
 		}
 	}
 }
