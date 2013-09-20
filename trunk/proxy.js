@@ -4184,7 +4184,24 @@ function fnSubjugationMission() {
 
 // adventure mission
 
-function fnAdventure() {return;
+var adventureItemArray = new Array();
+var adventureItemStep = 0;
+
+function fnAdventureCheckItem() {
+	if (adventureItemArray.length) {
+		$.ajax_ex(true, '/en/'+platform+'/adventure/ajaxGetTreasureInfo', {item_id:adventureItemArray[0]},function(data) {
+			if (data.payload.limited_flag == false) {
+				fnRedirect('/en/'+platform+'/adventure/mission?area='+data.payload.area_id+"&mission=1&collect=1");
+			}
+			else {
+				adventureItemArray.splice(0,1);
+				fnAdventureCheckItem();
+			}
+		});
+	}
+}
+
+function fnAdventureSearchLoot() {
 	var divTag2 = document.createElement("div");
 	divTag2.id = "tradeShop";
 	divTag2.style.display = "none";
@@ -4196,19 +4213,26 @@ function fnAdventure() {return;
 		success: function(html){
 			$('#tradeShop').html(html);
 			setTimeout(function(){
-				alert(resource_list);
-				alert(resource_list[0]);
-				alert(resource_list[0][0]);
-				alert(resource_list[0][0]["t_count_0"]);
-				alert(resource_list[0][0]["have_t_count_0"]);
-				$.ajax_ex(true, '/en/'+platform+'/adventure/ajaxGetTreasureInfo', {item_id:8031},function(data) {
-					alert(data.payload.area_id);
-					alert(data.payload.limited_flag);
-				});
-
+				adventureItemArray = new Array();
+				for (i=0;i<Object.keys(resource_list).length;i++) {
+					for (j=0;j<Object.keys(resource_list[i]).length;j++) {
+						if (parseInt(resource_list[i][j]["stock"],10) > 0) {
+							for (k=0;k<=2;k++) {
+								if (parseInt(resource_list[i][j]["have_t_count_"+k],10) < parseInt(resource_list[i][j]["stock"],10) * parseInt(resource_list[i][j]["t_count_"+k],10)) {
+									adventureItemArray.push(resource_list[i][j]["t_id_"+k]);
+								}
+							}
+						}						
+					}
+				}
+				fnAdventureCheckItem();
 			},1000);            
 		}
 	}); 
+}
+
+function fnAdventure() {
+	setTimeout(fnRedirect,30000,'/en/'+platform+'/adventure/mission?area=1&mission=1');
 }
 
 function fnFixAdventureMission() {
@@ -4275,7 +4299,7 @@ function fnFixAdventureMission() {
 	    
 			$(document).queue(function() {
 				// å®ç®±çºè¦
-				if (window.adventureEvent.found_treasure_box) {
+				if (window.adventureEvent.found_treasure_box && parseInt(fnQueryString("area"),10) == 10001) {
 					$.ajax_ex(false, '/en/'+platform+'/adventure/ajaxOpenTreasureBox', {
 						area_id: result.payload.mission.area_id,
 						'__hash': ('' + (new Date()).getTime())
@@ -4310,18 +4334,23 @@ function fnFixAdventureMission() {
 				fnRedirect('/en/'+platform+'/adventure/');
 			}
 			else if (parseInt(result.payload.mission.last_mission,10)==1) {
-				clearInterval(missionInterval);
 				
+				/*
 				$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', {
 					area_id: result.payload.mission.area_id,
 					'__hash': ('' + (new Date()).getTime())
 				}, function(result) {
-				});
-
-				if (parseInt(window.adventureMission.area_id,10) <= 4) {
-					fnRedirect('/en/'+platform+'/adventure/mission?area='+(parseInt(window.adventureMission.area_id,10)+1));
+				});*/
+				if (fnQueryString("collect") == '') {
+					if (parseInt(window.adventureMission.area_id,10) <= 4) {
+						clearInterval(missionInterval);
+						fnRedirect('/en/'+platform+'/adventure/mission?area='+(parseInt(window.adventureMission.area_id,10)+1));
+					}
+					else {
+						clearInterval(missionInterval);
+						fnAdventureSearchLoot();
+					}
 				}
-
 			}
 
 
@@ -4331,8 +4360,15 @@ function fnFixAdventureMission() {
 
 	adventureGrind = function() {
 		$('#tap-target-area p.target').eq(0).trigger("click");
-		if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area") == 10001)) {
+		adventureItemStep++;
+		if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area"),10) == 10001) {
 			adventureGrind();
+		}
+		else {
+			if (adventureItemStep >= 100 && fnQueryString("collect") != '') {
+				clearInterval(missionInterval);
+				fnAdventureSearchLoot();
+			}
 		}
 	}
 
@@ -4340,7 +4376,7 @@ function fnFixAdventureMission() {
 		// user press by himself, dont automate
 		return;
 	}
-	if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area") == 10001)) {
+	if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area"),10) == 10001) {
 		adventureGrind();
 	}
 	else {
@@ -4350,12 +4386,6 @@ function fnFixAdventureMission() {
 
 function fnAdventureMission() {
 	fnFixAdventureMission();
-	if (fnGetGrindingSpeed() == 1) {
-		mission_exec();
-	}
-	else {
-		missionInterval = setInterval(mission_exec,fnGetGrindingSpeed());
-	}
 }
 
 // dungeon mission
