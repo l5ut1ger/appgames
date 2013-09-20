@@ -4299,7 +4299,7 @@ function fnFixAdventureMission() {
 	    
 			$(document).queue(function() {
 				// å®ç®±çºè¦
-				if (window.adventureEvent.found_treasure_box) {
+				if (window.adventureEvent.found_treasure_box && parseInt(fnQueryString("area"),10) == 10001) {
 					$.ajax_ex(false, '/en/'+platform+'/adventure/ajaxOpenTreasureBox', {
 						area_id: result.payload.mission.area_id,
 						'__hash': ('' + (new Date()).getTime())
@@ -4361,7 +4361,7 @@ function fnFixAdventureMission() {
 	adventureGrind = function() {
 		$('#tap-target-area p.target').eq(0).trigger("click");
 		adventureItemStep++;
-		if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area") == 10001)) {
+		if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area"),10) == 10001) {
 			adventureGrind();
 		}
 		else {
@@ -4376,7 +4376,7 @@ function fnFixAdventureMission() {
 		// user press by himself, dont automate
 		return;
 	}
-	if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area") == 10001)) {
+	if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area"),10) == 10001) {
 		adventureGrind();
 	}
 	else {
