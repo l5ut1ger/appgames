@@ -4198,9 +4198,14 @@ function fnAdventure() {
 			setTimeout(function(){
 				alert(resource_list);
 				alert(resource_list[0]);
-				alert(resource_list[0][0]);
+				alert(resource_list[0][0]);t_id_0
 				alert(resource_list[0][0]["t_count_0"]);
 				alert(resource_list[0][0]["have_t_count_0"]);
+				$.ajax_ex(true, '/en/'+platform+'/adventure/ajaxGetTreasureInfo', {item_id:8031},function(data) {
+					alert(data.payload.area_id);
+					alert(data.payload.limited_flag);
+				});
+
 			},1000);            
 		}
 	}); 
