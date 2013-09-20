@@ -4184,101 +4184,167 @@ function fnSubjugationMission() {
 
 // adventure mission
 
-function fnFixAdventureMission() {
-	mission_exec = function() {
+function fnAdventure() {return;
+	var divTag2 = document.createElement("div");
+	divTag2.id = "tradeShop";
+	divTag2.style.display = "none";
+	document.body.appendChild(divTag2);       
+	$.ajax({
+		type: "GET",
+		url: '/en/'+platform+'/adventure/tradeShop?',
+		dataType: "html",
+		success: function(html){
+			$('#tradeShop').html(html);
+			setTimeout(function(){
+				alert(resource_list);
+				alert(resource_list[0]);
+				alert(resource_list[0][0]);
+				alert(resource_list[0][0]["t_count_0"]);
+				alert(resource_list[0][0]["have_t_count_0"]);
+				$.ajax_ex(true, '/en/'+platform+'/adventure/ajaxGetTreasureInfo', {item_id:8031},function(data) {
+					alert(data.payload.area_id);
+					alert(data.payload.limited_flag);
+				});
 
-		$.ajax_ex(false, '/en/'+platform+'/adventure/process', {
-			area_id: area_id,
-			mission: mission.current_mission,
-			confirm_id: confirm_id
+			},1000);            
+		}
+	}); 
+}
+
+function fnFixAdventureMission() {
+	window.adventureMission = new Object();
+	window.adventureMission.area_id = fnQueryString("area");
+	tapTargetClick = function (tapTarget, p, x, y) {
+		window.parent.postMessage((new Date()).getTime(), "*");
+
+		$.ajax_ex(true, '/en/'+platform+'/adventure/process', {
+			area_id: window.adventureMission.area_id,
+			mission: 0,
+			confirm_id: confirm_id,
+			p: p,
+			x: x,
+			y: y
 		}, function(result) {
-			if (result.status == 4) {
-				if (fnAutoDrink() == 1) {
-					var useEnergy100 = false;
-					for (var i=0;i<result.payload.item_ids.length;i++) {
-						if (result.payload.item_ids[i]==3022) {
-							if (player.power_max <= 300 && (player.next_exp - player.now_exp < result.payload.amount[i] * 100)) {
-								// max energy too low, drink enenrgy100 to level up instead of full ep
-								useEnergy100 = true;
-								break;
-							}
-							if (player.next_exp - player.now_exp > player.power_max) {
-								// not close to level up, so drink full ep
-								break;
-							}
-							if (player.next_exp - player.now_exp > 400) {
-								// close to level up, but not going to spend five energy100 to level up, so drink full ep anyway
-								break;
-							}
-							if (player.next_exp - player.now_exp <= result.payload.amount[i] * 100) {
-								// close to level up, and player has enough my energy 100 potion, drink enenrgy100 to level up instead of full ep
-								useEnergy100 = true;
-								break;
-							}
-							break;
-						}
-					}
-					if (useEnergy100) {
-						$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3022}, function(data) {});
-					}
-					else {
-						$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:result.payload.item_ids[0]}, function(data) {});
-					}
-					if (fnGetGrindingSpeed() == 1) {
-						mission_exec();
-					}
-					return;
+		    if (result.status == 4) {
+				if (typeof(result.payload.confirm_id) != 'undefined') {
+					confirm_id = result.payload.confirm_id;
 				}
-				else if (fnAutoDrink() == 2) {
-					for (var i=0;i<result.payload.item_ids.length;i++) {
-						if (result.payload.item_ids[i]==3018) {
-							if (result.payload.amount[i] > 0) {
-								$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3018}, function(data) {});
+
+				if (fnAutoDrink() == 2) {
+					$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+						if ( (data == null) || (data.status != 0) ) { return; }
+						var items = data.payload.items;
+						for (var j=0;j<items.length;j++) {
+							if (items[j].item_id == 3018) { // consume my e potions
+								$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
 								return;
-								break;
 							}
 						}
-					}
-					// no my ep, so get some!
-					fnGetFreeMyEP('');
-					return;
+						fnGetFreeMyEP('');
+					});	
 				}
 				else {
-					phase_no_power(result.payload);
-					clearInterval(missionInterval);
+					return;
 				}
+				return;
 			} else if(result.status != 0) {
 				confirm_id = result.payload.confirm_id;
+				fnRedirect('/en/'+platform+'/adventure/mission?area='+window.adventureMission.area_id);
+
+				window.isBusy = false;
 				return;
 			}
 
-			//console.log(result);
+			window.remainingCount--;
+
 			confirm_id = result.payload.confirm_id;
 
-			mission = result.payload.mission;
-			event = result.payload.event;
-			event.phase = new Array();
+			window.adventureMission = result.payload.mission;
+			window.adventureEvent = result.payload.event;
 
-			draw();
+			if (adventureEvent.exp.lvup > 0) {
+				window.lvUpRp = ~~player['remain_point'] + ~~(adventureEvent.exp.lvup * 3);
+				window.lvUpPr = ~~player['power_max'];
+				window.lvUpBp = ~~player['bp_max'];
+			}
 
 
-			//      if(mission.last_mission == 5)event.phase.push('enemy_summoner');
-			if(event.clear)
-			if(event.next_area) {
-				$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', { area_id: area_id, '__hash': ('' + (new Date()).getTime()) }, function(result) {
-					if (result.status != 0) {
-						return;
-					}
-					$.redirect('/en/'+platform+'/adventure/mission');
+			if (adventureEvent.bouns_time_effect) {
+				countDownFeverTime(300);
+			}
+	    
+			$(document).queue(function() {
+				// å®ç®±çºè¦
+				if (window.adventureEvent.found_treasure_box) {
+					$.ajax_ex(false, '/en/'+platform+'/adventure/ajaxOpenTreasureBox', {
+						area_id: result.payload.mission.area_id,
+						'__hash': ('' + (new Date()).getTime())
+					}, function(result) {});
+				} else {
+					$(document).dequeue();
+				}
+			}).queue(function() {
+				// ç§å®çºè¦
+				if (window.adventureEvent.event_resource.result) {
+					/*
+					window.adventureEvent.event_resource.result['item_id'],
+					window.adventureEvent.event_resource.result.name,
+					window.adventureEvent.event_resource.result.amount,
+					window.adventureEvent.mul_rate,
+					window.adventureEvent.add_adventure_point,
+					window.adventureEvent.adventure_point
+					*/
+				} else {
+					$(document).dequeue();
+	      		}
+	   		}).queue(function() {
+
+				window.isBusy = false;
+				$(document).dequeue();
+			});
+
+			updateRemainingCount();
+
+			$.refreshStatus();
+			if (result.payload.event.all_area_clear) {
+				fnRedirect('/en/'+platform+'/adventure/');
+			}
+			else if (parseInt(result.payload.mission.last_mission,10)==1) {
+				clearInterval(missionInterval);
+				
+				$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', {
+					area_id: result.payload.mission.area_id,
+					'__hash': ('' + (new Date()).getTime())
+				}, function(result) {
 				});
+
+				if (parseInt(window.adventureMission.area_id,10) <= 4) {
+					fnRedirect('/en/'+platform+'/adventure/mission?area='+(parseInt(window.adventureMission.area_id,10)+1));
+				}
+
 			}
 
-			event = eventManager(event);
-			if (fnGetGrindingSpeed() == 1) {
-				mission_exec();
-			}
 
 		});
+		return true;
+	}
+
+	adventureGrind = function() {
+		$('#tap-target-area p.target').eq(0).trigger("click");
+		if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area") == 10001)) {
+			adventureGrind();
+		}
+	}
+
+	if (fnGetGrindingSpeed() == -1) {
+		// user press by himself, dont automate
+		return;
+	}
+	if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area") == 10001)) {
+		adventureGrind();
+	}
+	else {
+		missionInterval = setInterval(adventureGrind,fnGetGrindingSpeed());
 	}
 }
 
@@ -6986,6 +7052,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower/finalRanking') {
 		fnTowerFinalRanking();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/adventure') {
+		fnAdventure();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/adventure/mission') {
 		fnAdventureMission();
