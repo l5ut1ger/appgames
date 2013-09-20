@@ -4269,11 +4269,12 @@ function fnFixAdventureMission() {
 				} else {
 					$(document).dequeue();
 	      		}
-	   		}).queue(function() {
+	   		}).queue(function() {alert('update');
 				updateRemainingCount();
 
 				$.refreshStatus();
-
+alert('all area clear?');
+alert(window.adventureEvent.all_area_clear);
 				if (window.adventureEvent.all_area_clear) {
 					fnRedirect('/en/'+platform+'/adventure/');
 				}
