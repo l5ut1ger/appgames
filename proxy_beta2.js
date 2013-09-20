@@ -4184,6 +4184,28 @@ function fnSubjugationMission() {
 
 // adventure mission
 
+function fnAdventure() {
+	var divTag2 = document.createElement("div");
+	divTag2.id = "tradeShop";
+	divTag2.style.display = "none";
+	document.body.appendChild(divTag2);       
+	$.ajax({
+		type: "GET",
+		url: '/en/'+platform+'/adventure/tradeShop?',
+		dataType: "html",
+		success: function(html){
+			$('#tradeShop').html(html);
+			setTimeout(function(){
+				alert(resource_list);
+				alert(resource_list[0]);
+				alert(resource_list[0][0]);
+				alert(resource_list[0][0]["t_count_0"]);
+				alert(resource_list[0][0]["have_t_count_0"]);
+			},1000);            
+		}
+	}); 
+}
+
 function fnFixAdventureMission() {
 	window.adventureMission = new Object();
 	window.adventureMission.area_id = fnQueryString("area");
@@ -4275,7 +4297,6 @@ function fnFixAdventureMission() {
 				$(document).dequeue();
 			});
 
-			alert('last_mission='+ parseInt(result.payload.mission.last_mission,10));
 			updateRemainingCount();
 
 			$.refreshStatus();
@@ -4283,24 +4304,17 @@ function fnFixAdventureMission() {
 				fnRedirect('/en/'+platform+'/adventure/');
 			}
 			else if (parseInt(result.payload.mission.last_mission,10)==1) {
-				alert('end of mission');
 				clearInterval(missionInterval);
 				
 				$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', {
 					area_id: result.payload.mission.area_id,
 					'__hash': ('' + (new Date()).getTime())
 				}, function(result) {
-					/*if (result.status != 0) {
-						return;
-					}
-
-					$(document).oneTime(250, function() {
-						showOverlay('animation-area', function() {
-							$.redirect('/en/ios/adventure');
-							$(document).dequeue();
-						});
-					});*/
 				});
+
+				if (parseInt(window.adventureMission.area_id,10) <= 4) {
+					fnRedirect('/en/'+platform+'/adventure/mission?area='+(parseInt(window.adventureMission.area_id,10)+1));
+				}
 
 			}
 
@@ -4311,7 +4325,7 @@ function fnFixAdventureMission() {
 
 	adventureGrind = function() {
 		$('#tap-target-area p.target').eq(0).trigger("click");
-		if (fnGetGrindingSpeed() == 1) {
+		if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area") == 10001)) {
 			adventureGrind();
 		}
 	}
@@ -4320,7 +4334,7 @@ function fnFixAdventureMission() {
 		// user press by himself, dont automate
 		return;
 	}
-	if (fnGetGrindingSpeed() == 1) {
+	if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area") == 10001)) {
 		adventureGrind();
 	}
 	else {
@@ -7032,6 +7046,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower/finalRanking') {
 		fnTowerFinalRanking();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/adventure') {
+		fnAdventure();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/adventure/mission') {
 		fnAdventureMission();
