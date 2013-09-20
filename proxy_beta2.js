@@ -6065,7 +6065,7 @@ function fnFusionGenerateMonsterFromAllySummon() {
 	//$.ajax_ex(false, '/en/'+platform+'/summon/act', {"type":0}, function(data) {});	
 }
 
-function fnFusionAuto(pUniqueNo) {
+function fnFusionAuto(pUniqueNo) {alert("fusion auto");
 	var sacStr = "";
 	var sacCount = 0;
 	if (parseInt(source.lv_max,10) - parseInt(source.lv,10) == 0) {
@@ -6097,12 +6097,8 @@ function fnFusionAuto(pUniqueNo) {
 			}
 		}
 	}
-	if (sacCount > 0) {
-		
-		var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false&mode=0';
-		//location = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-		setTimeout(function(){$.redirect(link);}, 1000);
-		setTimeout(function(){$.redirect(link);}, 6000);
+	if (sacCount > 0) {	alert("fusion sac");
+		fnRedirect('/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false&mode=0');
 	}
 	else {
 		alert("You have no monsters to sacrifice.");
