@@ -4190,12 +4190,12 @@ function fnFixAdventureMission() {
 	tapTargetClick = function (tapTarget, p, x, y) {
 
 		$.ajax_ex(true, '/en/'+platform+'/adventure/process', {
-			area_id: 10001, //window.adventureMission.area_id,
+			area_id: window.adventureMission.area_id,
 			mission: 0,
 			confirm_id: confirm_id,
-			p: 0,//p,
-			x: 226,//x,
-			y: 177//y
+			p: p,
+			x: x,
+			y: y
 		}, function(result) {
 		    if (result.status == 4) {
 				if (typeof(result.payload.confirm_id) != 'undefined') {
@@ -4270,6 +4270,7 @@ function fnFixAdventureMission() {
 					$(document).dequeue();
 	      		}
 	   		}).queue(function() {
+	   			alert('last_mission='+ parseInt(result.payload.mission.last_mission,10));
 				updateRemainingCount();
 
 				$.refreshStatus();
