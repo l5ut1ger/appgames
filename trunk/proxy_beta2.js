@@ -4215,6 +4215,7 @@ function fnFixAdventureMission() {
 	window.adventureMission = new Object();
 	window.adventureMission.area_id = fnQueryString("area");
 	tapTargetClick = function (tapTarget, p, x, y) {
+		window.parent.postMessage((new Date()).getTime(), "*");
 
 		$.ajax_ex(true, '/en/'+platform+'/adventure/process', {
 			area_id: window.adventureMission.area_id,
