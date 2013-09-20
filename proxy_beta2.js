@@ -6433,9 +6433,8 @@ function fnFusionFixPage() {
 
 }
 
-function fnFusionFusion() {return;
+function fnFusionFusion() {
 	if (parseInt(fnAutoFusion(),10) > 0) {
-		alert('auto fusion 1');
 		var timeGap = 0;
 		var minGap = 500;
 		for (var j=0;j<10;j++) {
@@ -6444,7 +6443,6 @@ function fnFusionFusion() {return;
 			//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 		}
 		timeGap+=minGap;
-	alert ('auto fusion 2');
 		setTimeout(fnRedirect,timeGap,'/en/'+platform+'/fusion/dest?uno='+fnAutoFusion()+'&mode=0');
 		
 	}
