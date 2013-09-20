@@ -4214,7 +4214,13 @@ function fnAdventure() {
 			$('#tradeShop').html(html);
 			setTimeout(function(){
 				alert('test');
+
 				adventureItemArray = new Array();
+				alert(resource_list);
+				alert(resource_list[0]);
+				alert(resource_list[0][0]);
+				alert(resource_list[0][0]["t_count_0"]);
+				alert(resource_list[0][0]["have_t_count_0"]);
 				alert("resource list length:"+resource_list.length);
 				for (i=0;i<resource_list.length;i++) {alert("resource list " + i + " length:"+resource_list[i].length);
 					for (j=0;j<resource_list[i].length;j++) {
