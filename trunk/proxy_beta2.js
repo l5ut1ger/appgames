@@ -4215,7 +4215,8 @@ function fnAdventure() {
 			setTimeout(function(){
 				alert('test');
 				adventureItemArray = new Array();
-				for (i=0;i<resource_list.length;i++) {
+				alert("resource list length:"+resource_list.length);
+				for (i=0;i<resource_list.length;i++) {alert("resource list " + i + " length:"+resource_list[i].length);
 					for (j=0;j<resource_list[i].length;j++) {
 						alert("stock:"+parseInt(resource_list[i][j]["stock"],10));
 						if (parseInt(resource_list[i][j]["stock"],10) > 0) {
