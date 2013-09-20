@@ -6505,28 +6505,28 @@ function fnFusionFixPage() {
 					fnFusionGenerateMonsterFromAllySummon();
 					//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 				}				
-				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, timeGap);
-				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, timeGap+5000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });}, timeGap);
+				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });}, timeGap+5000);
 			});
 			if (monster.skill_id > 0 && monster.skill_lv < 20 && monster.grade >= 5) {
 				base_tag.append('<div class="autoSkill-button btn __red __WS __HS" style="position:absolute; top: 2px; left: 160px;">Skill^</div>');
 				$('> .autoSkill-button', base_tag).click(function () {
 					fnSetAutoSkillUp(monster.unique_no);		
-					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0);
-					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0+5000);
+					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });}, 0);
+					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });}, 0+5000);
 				});
 			}
 			else if (monster.skill_id > 0 && monster.skill_lv < 4) {
 				base_tag.append('<div class="autoStack-button btn __red __WS __HS" style="position:absolute; top: 2px; left: 160px;">Stack</div>');
 				$('> .autoStack-button', base_tag).click(function () {
 					fnSetAutoStack(monster.unique_no);		
-					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0);
-					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0+5000);
+					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });}, 0);
+					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });}, 0+5000);
 				});
 			}
 			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
 			$('> .decide-button', base_tag).click(function () {
-				$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });
+				$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });
 			});
 		}
 		
@@ -6571,7 +6571,7 @@ function fnFusion() {
 	fnSetAutoFusion(0,0);
 	fnSetAutoStack(0,0);
 	fnSetAutoSkillUp(0,0);
-	//fnFusionFixPage();
+	fnFusionFixPage();
 }
 
 // super raid battle
