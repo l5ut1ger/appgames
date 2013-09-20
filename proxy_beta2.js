@@ -4365,7 +4365,7 @@ function fnFixAdventureMission() {
 			adventureGrind();
 		}
 		else {
-			if (adventureItemStep >= 200) {
+			if (adventureItemStep >= 100 && fnQueryString("collect") != '') {
 				clearInterval(missionInterval);
 				fnRedirect('/en/'+platform+'/adventure');
 			}
