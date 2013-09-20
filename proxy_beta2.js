@@ -6434,6 +6434,19 @@ function fnFusionFixPage() {
 }
 
 function fnFusionFusion() {
+	onDeviceReady = function ()
+	{
+		startExpAnimation();
+		startMonsterGradation();
+
+		if (!(ex_mode && ex_species_flg)) {
+			$(document).oneTime(100, showEffect);
+		} else {
+			$(document).oneTime(100, showExEffect);
+		}
+	}
+
+
 	if (parseInt(fnAutoFusion(),10) > 0) {
 		var timeGap = 0;
 		var minGap = 500;
@@ -6451,6 +6464,12 @@ function fnFusionFusion() {
 	}
 	if (parseInt(fnAutoSkillUp(),10) > 0) {
 		fnRedirect('/en/'+platform+'/fusion/dest?uno='+fnAutoSkillUp()+'&mode=0');
+	}
+}
+
+function fnFusionConfirm() {
+	if ($('a[href^="/en/'+platform+'/fusion/fusion"]').length) {
+		fnRedirect($('a[href^="/en/'+platform+'/fusion/fusion"]').eq(0).attr("href"));
 	}
 }
 
@@ -7046,6 +7065,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/fusion/dest') {
 		fnFusionDest();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/fusion/confirm') {
+		fnFusionConfirm();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/fusion/fusion') {
 		fnFusionFusion();
