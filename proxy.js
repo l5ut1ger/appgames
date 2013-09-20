@@ -6097,12 +6097,8 @@ function fnFusionAuto(pUniqueNo) {
 			}
 		}
 	}
-	if (sacCount > 0) {
-		
-		var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-		//location = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
-		setTimeout(function(){$.redirect(link);}, 1000);
-		setTimeout(function(){$.redirect(link);}, 6000);
+	if (sacCount > 0) {	
+		fnRedirect('/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false&mode=0');
 	}
 	else {
 		alert("You have no monsters to sacrifice.");
@@ -6141,7 +6137,7 @@ function fnSkillUpAuto(pUniqueNo) {
 		//}
 	}
 	if (sacCount > 0) {		
-		var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+		var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false&mode=0';
 		//location = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 6000);
@@ -6183,7 +6179,7 @@ function fnStackAuto(pUniqueNo) {
 		}
 	}
 	if (sacCount > 0) {		
-		var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
+		var link = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false&mode=0';
 		//location = '/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false';
 		setTimeout(function(){$.redirect(link);}, 1000);
 		setTimeout(function(){$.redirect(link);}, 6000);
@@ -6195,112 +6191,11 @@ function fnStackAuto(pUniqueNo) {
 }
 
 function fnFusionFixDestPage() {
-	/*showMonsters = function (offset, limit)
-	{
-		if (parseInt(fnAutoFusion(),10) > 0) {
-			fnFusionAuto(fnQueryString('uno'));
-		}
-		
-		if (parseInt(fnAutoStack(),10) > 0) {
-			fnStackAuto(fnQueryString('uno'));
-		}
-		
-		if (parseInt(fnAutoSkillUp(),10) > 0) {
-			fnSkillUpAuto(fnQueryString('uno'));
-		}
-	
-		if (monsters === false) { return; }
-
-		// 
-		$('#monsters').empty();
-		$('#original > img').attr('src', 'http://res.dark'+'summoner.com/en/s/cards/none.png');
-		$('#jewel').css('color', 'white').html('0');
-
-		// 
-		$.each(monsters, function(i, monster) {
-			if ( (i < offset) || (i >= (offset + limit)) ) { return true; }
-
-			var id = 'monster_' + i;
-
-			var base_tag = $('<div id="' + id + '" class="monster"></div>');
-
-			base_tag
-				.append('<div class="thumb"><img src="http://res.dark'+'summoner.com/en/s/' + monster.small_thumb_image + '" /></div>')
-				.append('<div class="information"><img src="http://res.dark'+'summoner.com/en/s/misc/monster/information_' + monster.tribe + '.png" /></div>')
-				.append('<div class="party"></div>')
-				.append('<div class="name">' + monster.m.name + '</div>')
-				.append('<div class="' + ((~~monster.lv >= ~~monster.m.lv_max) ? 'lv_max' : 'lv') + '">' + monster.lv + '</div>')
-				.append('<div class="bp">' + monster.bp + '</div>')
-				.append('<div class="attack">' + monster.attack + '</div>')
-				.append('<div class="defense">' + monster.defense + '</div>')
-				.append('<div class="hp">' + monster.hp + '</div>')
-				.append('<div class="skill">' + SKILLS[monster.skill_id][monster.skill_lv]['name'] + '</div>')
-				.append('<div class="lv-icon">Lv</div>')
-				.append('<div class="attack-icon">ATK</div>')
-				.append('<div class="defense-icon">DEF</div>')
-				.append('<div class="bp-icon">BP</div>')
-				.append('<div class="hp-icon">HP</div>')
-				.data('monster', monster);
-
-			$('> .thumb > img', base_tag).click(function() {
-				monster.skill   = SKILLS[monster.skill_id][monster.skill_lv];
-				monster.species = SPECIES[monster.m.species];
-				$.showMonsterInformation(monster);
-			});
-
-			// 
-			var reason_for_disable = false;
-
-			if (~~monster.is_locked != 0) {
-			reason_for_disable = 1;
-			}
-
-			if (reason_for_disable !== false) {
-			var disable_tag = $('<div class="disable"></div>');
-			disable_tag
-			.append('<img class="disable-icon" src="http://res.dark'+'summoner.com/en/s/misc/icons/exclamation.png" />')
-			.append('<div class="disable-label">' + DISABLE_REASONS[reason_for_disable] + '</div>');
-
-			base_tag
-			.append(disable_tag)
-			.addClass('monster-tribe-' + monster.tribe)
-			.append('<div class="check-icon"><img src="http://res.dark'+'summoner.com/en/s/misc/icons/check_box_lock.png" /></div>');
-			}
-			else {
-			var index = findIndex(monster);
-
-			if (index === false) {
-			base_tag
-			.append('<div class="check-icon"><img src="' + check_off + '" /></div>')
-			.addClass('monster-tribe-' + monster.tribe);
-
-			}
-			else {
-			base_tag
-			.append('<div class="check-icon"><img src="' + check_on + '" /></div>')
-			.addClass('monster-tribe-' + monster.tribe + '-selected');
-			}
-
-			// 
-			var select_tag = $('<div class="selection"></div>');
-			base_tag.append(select_tag);
-
-			select_tag.click(function() {
-			onEntry(base_tag, monster);
-			});
-			}
-
-			$('#monsters').append(base_tag);
-		});
-
-		updateSeletecionState();
-	}*/
-
 
 	showMonsters = function (offset, limit)
 	{
 		if (monsters === false) { return; }
-/*
+
 		if (parseInt(fnAutoFusion(),10) > 0) {
 			fnFusionAuto(fnQueryString('uno'));
 		}
@@ -6312,7 +6207,7 @@ function fnFusionFixDestPage() {
 		if (parseInt(fnAutoSkillUp(),10) > 0) {
 			fnSkillUpAuto(fnQueryString('uno'));
 		}
-*/
+
 		// 
 		$('#monsters').empty();
 		$('#original > img').attr('src', 'http://res.darksummoner.com/en/s/cards/none.png');
@@ -6414,6 +6309,7 @@ function fnFusionFixDestPage() {
 		});
 		updateSeletecionState();
 	}
+	showMonsters(0, LIST_PAGER);
 }
 
 function fnFusionFixPage() {
@@ -6505,28 +6401,28 @@ function fnFusionFixPage() {
 					fnFusionGenerateMonsterFromAllySummon();
 					//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 				}				
-				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, timeGap);
-				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, timeGap+5000);
+				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });}, timeGap);
+				setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });}, timeGap+5000);
 			});
 			if (monster.skill_id > 0 && monster.skill_lv < 20 && monster.grade >= 5) {
 				base_tag.append('<div class="autoSkill-button btn __red __WS __HS" style="position:absolute; top: 2px; left: 160px;">Skill^</div>');
 				$('> .autoSkill-button', base_tag).click(function () {
 					fnSetAutoSkillUp(monster.unique_no);		
-					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0);
-					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0+5000);
+					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });}, 0);
+					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });}, 0+5000);
 				});
 			}
 			else if (monster.skill_id > 0 && monster.skill_lv < 4) {
 				base_tag.append('<div class="autoStack-button btn __red __WS __HS" style="position:absolute; top: 2px; left: 160px;">Stack</div>');
 				$('> .autoStack-button', base_tag).click(function () {
 					fnSetAutoStack(monster.unique_no);		
-					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0);
-					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });}, 0+5000);
+					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });}, 0);
+					setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });}, 0+5000);
 				});
 			}
 			base_tag.append('<div class="decide-button btn __red __WS __HS">OK</div>');
 			$('> .decide-button', base_tag).click(function () {
-				$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no });
+				$.redirect('/en/'+platform+'/fusion/dest', { uno:monster.unique_no, mode:0 });
 			});
 		}
 		
@@ -6537,7 +6433,20 @@ function fnFusionFixPage() {
 
 }
 
-function fnFusionFusion() {return;
+function fnFusionFusion() {
+	onDeviceReady = function ()
+	{
+		startExpAnimation();
+		startMonsterGradation();
+
+		if (!(ex_mode && ex_species_flg)) {
+			$(document).oneTime(100, showEffect);
+		} else {
+			$(document).oneTime(100, showExEffect);
+		}
+	}
+
+
 	if (parseInt(fnAutoFusion(),10) > 0) {
 		var timeGap = 0;
 		var minGap = 500;
@@ -6547,31 +6456,34 @@ function fnFusionFusion() {return;
 			//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 		}
 		timeGap+=minGap;
-	
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoFusion() });}, timeGap);
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoFusion() });}, timeGap+5000);
+		setTimeout(fnRedirect,timeGap,'/en/'+platform+'/fusion/dest?uno='+fnAutoFusion()+'&mode=0');
+		
 	}
 	if (parseInt(fnAutoStack(),10) > 0) {
-		var timeGap = 0;
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoStack() });}, timeGap);
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoStack() });}, timeGap+5000);
+		fnRedirect('/en/'+platform+'/fusion/dest?uno='+fnAutoStack()+'&mode=0');
 	}
 	if (parseInt(fnAutoSkillUp(),10) > 0) {
-		var timeGap = 0;
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoSkillUp() });}, timeGap);
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoSkillUp() });}, timeGap+5000);
+		fnRedirect('/en/'+platform+'/fusion/dest?uno='+fnAutoSkillUp()+'&mode=0');
+	}
+}
+
+function fnFusionConfirm() {
+	if (parseInt(fnAutoStack(),10) > 0 || parseInt(fnAutoFusion(),10) > 0 || parseInt(fnAutoSkillUp(),10) > 0) {
+		if ($('a[href^="/en/'+platform+'/fusion/fusion"]').length) {
+			fnRedirect($('a[href^="/en/'+platform+'/fusion/fusion"]').eq(0).attr("href"));
+		}
 	}
 }
 
 function fnFusionDest() {
-	//fnFusionFixDestPage();
+	fnFusionFixDestPage();
 }
 
 function fnFusion() {
 	fnSetAutoFusion(0,0);
 	fnSetAutoStack(0,0);
 	fnSetAutoSkillUp(0,0);
-	//fnFusionFixPage();
+	fnFusionFixPage();
 }
 
 // super raid battle
@@ -7155,6 +7067,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/fusion/dest') {
 		fnFusionDest();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/fusion/confirm') {
+		fnFusionConfirm();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/fusion/fusion') {
 		fnFusionFusion();
