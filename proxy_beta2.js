@@ -4274,7 +4274,10 @@ function fnFixAdventureMission() {
 
 				$.refreshStatus();
 
-				if (window.adventureEvent.nextArea) {
+				if (window.adventureEvent.all_area_clear) {
+					fnRedirect('/en/'+platform+'/adventure/');
+				}
+				else if (window.adventureEvent.nextArea) {
 					$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', {
 						area_id: result.payload.mission.area_id,
 						'__hash': ('' + (new Date()).getTime())
@@ -4294,14 +4297,28 @@ function fnFixAdventureMission() {
 				window.isBusy = false;
 				$(document).dequeue();
 			});
+
+
 		});
 		return true;
 	}
 
+	adventureGrind = function() {
+		$('#tap-target-area p.target').eq(0).trigger("click");
+		if (fnGetGrindingSpeed() == 1) {
+			adventureGrind();
+		}
+	}
 
-	alert("target size:"+$('#tap-target-area p.target').size());
-	if ($('#tap-target-area p.target').size()) {
-		alert("target click function:"+$('#tap-target-area p.target').eq(0).trigger("click"));
+	if (fnGetGrindingSpeed() == -1) {
+		// user press by himself, dont automate
+		return;
+	}
+	if (fnGetGrindingSpeed() == 1) {
+		adventureGrind();
+	}
+	else {
+		missionInterval = setInterval(adventureGrind,fnGetGrindingSpeed());
 	}
 }
 
