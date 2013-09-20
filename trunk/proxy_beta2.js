@@ -4213,7 +4213,7 @@ function fnAdventure() {
 		success: function(html){
 			$('#tradeShop').html(html);
 			setTimeout(function(){
-				var adventureItemArray = new Array();
+				adventureItemArray = new Array();
 				for (i=0;i<resource_list.length;i++) {
 					for (j=0;j<resource_list[i].length;j++) {
 						if (parseInt(resource_list[i][j].stock,10) > 0) {
