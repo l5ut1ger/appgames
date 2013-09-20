@@ -6468,8 +6468,10 @@ function fnFusionFusion() {
 }
 
 function fnFusionConfirm() {
-	if ($('a[href^="/en/'+platform+'/fusion/fusion"]').length) {
-		fnRedirect($('a[href^="/en/'+platform+'/fusion/fusion"]').eq(0).attr("href"));
+	if (parseInt(fnAutoStack(),10) > 0 || parseInt(fnAutoFusion(),10) > 0 || parseInt(fnAutoSkillUp(),10) > 0) {
+		if ($('a[href^="/en/'+platform+'/fusion/fusion"]').length) {
+			fnRedirect($('a[href^="/en/'+platform+'/fusion/fusion"]').eq(0).attr("href"));
+		}
 	}
 }
 
