@@ -4270,37 +4270,39 @@ function fnFixAdventureMission() {
 					$(document).dequeue();
 	      		}
 	   		}).queue(function() {
-	   			alert('last_mission='+ parseInt(result.payload.mission.last_mission,10));
-				updateRemainingCount();
 
-				$.refreshStatus();
-				if (result.payload.event.all_area_clear) {
-					fnRedirect('/en/'+platform+'/adventure/');
-				}
-				else if (parseInt(result.payload.mission.last_mission,10)==1) {
-					alert('end of mission');
-					clearInterval(missionInterval);
-					
-					$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', {
-						area_id: result.payload.mission.area_id,
-						'__hash': ('' + (new Date()).getTime())
-					}, function(result) {
-						/*if (result.status != 0) {
-							return;
-						}
-
-						$(document).oneTime(250, function() {
-							showOverlay('animation-area', function() {
-								$.redirect('/en/ios/adventure');
-								$(document).dequeue();
-							});
-						});*/
-					});
-
-				}
 				window.isBusy = false;
 				$(document).dequeue();
 			});
+
+			alert('last_mission='+ parseInt(result.payload.mission.last_mission,10));
+			updateRemainingCount();
+
+			$.refreshStatus();
+			if (result.payload.event.all_area_clear) {
+				fnRedirect('/en/'+platform+'/adventure/');
+			}
+			else if (parseInt(result.payload.mission.last_mission,10)==1) {
+				alert('end of mission');
+				clearInterval(missionInterval);
+				
+				$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', {
+					area_id: result.payload.mission.area_id,
+					'__hash': ('' + (new Date()).getTime())
+				}, function(result) {
+					/*if (result.status != 0) {
+						return;
+					}
+
+					$(document).oneTime(250, function() {
+						showOverlay('animation-area', function() {
+							$.redirect('/en/ios/adventure');
+							$(document).dequeue();
+						});
+					});*/
+				});
+
+			}
 
 
 		});
