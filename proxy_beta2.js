@@ -6193,7 +6193,7 @@ function fnStackAuto(pUniqueNo) {
 function fnFusionFixDestPage() {
 
 	showMonsters = function (offset, limit)
-	{
+	{alert("show monsters");
 		if (monsters === false) { return; }
 
 		if (parseInt(fnAutoFusion(),10) > 0) {
