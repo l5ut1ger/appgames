@@ -6309,6 +6309,7 @@ function fnFusionFixDestPage() {
 		});
 		updateSeletecionState();
 	}
+	showMonsters(0, LIST_PAGER);
 }
 
 function fnFusionFixPage() {
