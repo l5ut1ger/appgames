@@ -4273,10 +4273,10 @@ function fnFixAdventureMission() {
 				updateRemainingCount();
 
 				$.refreshStatus();
-				if (window.adventureEvent.all_area_clear) {
+				if (result.payload.event.all_area_clear) {
 					fnRedirect('/en/'+platform+'/adventure/');
 				}
-				else if (parseInt(window.adventureMission.last_mission,10)==1) {
+				else if (parseInt(result.payload.mission.last_mission,10)==1) {
 					clearInterval(missionInterval);
 					alert('end of mission');
 					$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', {
