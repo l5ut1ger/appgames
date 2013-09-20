@@ -4277,7 +4277,7 @@ function fnFixAdventureMission() {
 				if (window.adventureEvent.all_area_clear) {
 					fnRedirect('/en/'+platform+'/adventure/');
 				}
-				else if (parseInt(window.adventureEvent.last_mission,10)==1) {
+				else if (parseInt(window.adventureMission.last_mission,10)==1) {
 					$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', {
 						area_id: result.payload.mission.area_id,
 						'__hash': ('' + (new Date()).getTime())
