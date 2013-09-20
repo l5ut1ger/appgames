@@ -4367,7 +4367,7 @@ function fnFixAdventureMission() {
 		else {
 			if (adventureItemStep >= 100 && fnQueryString("collect") != '') {
 				clearInterval(missionInterval);
-				fnRedirect('/en/'+platform+'/adventure');
+				fnAdventureSearchLoot();
 			}
 		}
 	}
