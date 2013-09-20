@@ -6396,7 +6396,7 @@ function fnFusionFixPage() {
 				fnGrowl('Please wait, using Ally Summon...');
 				var timeGap = 0;
 				var minGap = 500;
-				for (var j=0;j<10 && parseInt(monsters.length,10)+j < parseInt(player.summon_max,10);j++) {
+				for (var j=0;j<12 && parseInt(monsters.length,10)+j < parseInt(player.summon_max,10);j++) {
 					timeGap+=minGap;
 					fnFusionGenerateMonsterFromAllySummon();
 					//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
@@ -6450,7 +6450,7 @@ function fnFusionFusion() {
 	if (parseInt(fnAutoFusion(),10) > 0) {
 		var timeGap = 0;
 		var minGap = 500;
-		for (var j=0;j<10;j++) {
+		for (var j=0;j<12;j++) {
 			timeGap+=minGap;
 			fnFusionGenerateMonsterFromAllySummon();
 			//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
