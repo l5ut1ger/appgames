@@ -6065,7 +6065,7 @@ function fnFusionGenerateMonsterFromAllySummon() {
 	//$.ajax_ex(false, '/en/'+platform+'/summon/act', {"type":0}, function(data) {});	
 }
 
-function fnFusionAuto(pUniqueNo) {alert("fusion auto");
+function fnFusionAuto(pUniqueNo) {
 	var sacStr = "";
 	var sacCount = 0;
 	if (parseInt(source.lv_max,10) - parseInt(source.lv,10) == 0) {
@@ -6097,7 +6097,7 @@ function fnFusionAuto(pUniqueNo) {alert("fusion auto");
 			}
 		}
 	}
-	if (sacCount > 0) {	alert("fusion sac");
+	if (sacCount > 0) {	
 		fnRedirect('/en/'+platform+'/fusion/confirm?len=' + sacCount + sacStr + '&evolve=false&mode=0');
 	}
 	else {
@@ -6193,7 +6193,7 @@ function fnStackAuto(pUniqueNo) {
 function fnFusionFixDestPage() {
 
 	showMonsters = function (offset, limit)
-	{alert("show monsters");
+	{
 		if (monsters === false) { return; }
 
 		if (parseInt(fnAutoFusion(),10) > 0) {
@@ -6435,6 +6435,7 @@ function fnFusionFixPage() {
 
 function fnFusionFusion() {return;
 	if (parseInt(fnAutoFusion(),10) > 0) {
+		alert('auto fusion 1');
 		var timeGap = 0;
 		var minGap = 500;
 		for (var j=0;j<10;j++) {
@@ -6443,19 +6444,15 @@ function fnFusionFusion() {return;
 			//setTimeout(fnFusionGenerateMonsterFromAllySummon, timeGap);
 		}
 		timeGap+=minGap;
-	
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoFusion(),mode:0 });}, timeGap);
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoFusion(),mode:0 });}, timeGap+5000);
+	alert ('auto fusion 2');
+		setTimeout(fnRedirect,timeGap,'/en/'+platform+'/fusion/dest?uno='+fnAutoFusion()+'&mode=0');
+		
 	}
 	if (parseInt(fnAutoStack(),10) > 0) {
-		var timeGap = 0;
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoStack(),mode:0 });}, timeGap);
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoStack(),mode:0 });}, timeGap+5000);
+		fnRedirect('/en/'+platform+'/fusion/dest?uno='+fnAutoStack()+'&mode=0');
 	}
 	if (parseInt(fnAutoSkillUp(),10) > 0) {
-		var timeGap = 0;
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoSkillUp(),mode:0 });}, timeGap);
-		setTimeout(function(){$.redirect('/en/'+platform+'/fusion/dest', { uno:fnAutoSkillUp(),mode:0 });}, timeGap+5000);
+		fnRedirect('/en/'+platform+'/fusion/dest?uno='+fnAutoSkillUp()+'&mode=0');
 	}
 }
 
