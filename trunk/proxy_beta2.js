@@ -4191,7 +4191,7 @@ function fnAdventureCheckItem() {
 	if (adventureItemArray.length) {
 		$.ajax_ex(true, '/en/'+platform+'/adventure/ajaxGetTreasureInfo', {item_id:adventureItemArray[0]},function(data) {
 			if (data.payload.limited_flag == false) {
-				fnRedirect('/en/'+platform+'/adventure/mission?area='+data.payload.area_id+"&mission=1");
+				fnRedirect('/en/'+platform+'/adventure/mission?area='+data.payload.area_id+"&mission=1&collect=1");
 			}
 			else {
 				adventureItemArray.splice(0,1);
@@ -4201,7 +4201,7 @@ function fnAdventureCheckItem() {
 	}
 }
 
-function fnAdventure() {
+function fnAdventureSearchLoot() {
 	var divTag2 = document.createElement("div");
 	divTag2.id = "tradeShop";
 	divTag2.style.display = "none";
@@ -4214,10 +4214,8 @@ function fnAdventure() {
 			$('#tradeShop').html(html);
 			setTimeout(function(){
 				adventureItemArray = new Array();
-				alert("resource list length:"+Object.keys(resource_list).length);
-				for (i=0;i<Object.keys(resource_list).length;i++) {alert("resource list " + i + " length:"+Object.keys(resource_list[i]).length);
+				for (i=0;i<Object.keys(resource_list).length;i++) {
 					for (j=0;j<Object.keys(resource_list[i]).length;j++) {
-						alert("stock:"+parseInt(resource_list[i][j]["stock"],10));
 						if (parseInt(resource_list[i][j]["stock"],10) > 0) {
 							for (k=0;k<=2;k++) {
 								if (parseInt(resource_list[i][j]["have_t_count_"+k],10) < parseInt(resource_list[i][j]["stock"],10) * parseInt(resource_list[i][j]["t_count_"+k],10)) {
@@ -4231,6 +4229,10 @@ function fnAdventure() {
 			},1000);            
 		}
 	}); 
+}
+
+function fnAdventure() {
+	setTimeout(fnRedirect,30000,'/en/'+platform+'/adventure/mission?area=1&mission=1');
 }
 
 function fnFixAdventureMission() {
@@ -4332,18 +4334,23 @@ function fnFixAdventureMission() {
 				fnRedirect('/en/'+platform+'/adventure/');
 			}
 			else if (parseInt(result.payload.mission.last_mission,10)==1) {
-				clearInterval(missionInterval);
 				
+				/*
 				$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', {
 					area_id: result.payload.mission.area_id,
 					'__hash': ('' + (new Date()).getTime())
 				}, function(result) {
-				});
-
-				if (parseInt(window.adventureMission.area_id,10) <= 4) {
-					fnRedirect('/en/'+platform+'/adventure/mission?area='+(parseInt(window.adventureMission.area_id,10)+1));
+				});*/
+				if (fnQueryString("collect") == '') {
+					if (parseInt(window.adventureMission.area_id,10) <= 4) {
+						clearInterval(missionInterval);
+						fnRedirect('/en/'+platform+'/adventure/mission?area='+(parseInt(window.adventureMission.area_id,10)+1));
+					}
+					else {
+						clearInterval(missionInterval);
+						fnAdventureSearchLoot();
+					}
 				}
-
 			}
 
 
