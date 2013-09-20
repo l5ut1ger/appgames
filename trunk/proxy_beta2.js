@@ -4269,16 +4269,16 @@ function fnFixAdventureMission() {
 				} else {
 					$(document).dequeue();
 	      		}
-	   		}).queue(function() {alert('update');
+	   		}).queue(function() {
 				updateRemainingCount();
 
 				$.refreshStatus();
-alert('all area clear?');
-alert(window.adventureEvent.all_area_clear);
 				if (window.adventureEvent.all_area_clear) {
 					fnRedirect('/en/'+platform+'/adventure/');
 				}
 				else if (parseInt(window.adventureMission.last_mission,10)==1) {
+					clearInterval(missionInterval);
+					alert('end of mission');
 					$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', {
 						area_id: result.payload.mission.area_id,
 						'__hash': ('' + (new Date()).getTime())
@@ -4294,6 +4294,7 @@ alert(window.adventureEvent.all_area_clear);
 							});
 						});*/
 					});
+
 				}
 				window.isBusy = false;
 				$(document).dequeue();
