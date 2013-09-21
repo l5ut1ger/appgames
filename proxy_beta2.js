@@ -4190,7 +4190,7 @@ var adventureItemStep = 0;
 function fnAdventureCheckItem() {
 	if (adventureItemArray.length) {
 		$.ajax_ex(true, '/en/'+platform+'/adventure/ajaxGetTreasureInfo', {item_id:adventureItemArray[0]},function(data) {
-			if (data.payload.limited_flag == false) {
+			if (data.payload.limited_flag == true || data.payload.area_id != 10001) {
 				fnRedirect('/en/'+platform+'/adventure/mission?area='+data.payload.area_id+"&mission=1&collect=1");
 			}
 			else {
