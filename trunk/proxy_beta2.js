@@ -4883,6 +4883,7 @@ function fnGetMissionLoot(pArea, pMission) {
 		player.power = player.power_max;
 	}
 	$.ajax_ex(false, '/en/'+platform+'/mission/process?area_id=' + pArea + '&mission='+pMission+'&confirm_id='+loot_confirm_id, {}, function(result2) {
+		window.parent.postMessage((new Date()).getTime(), "*");
 		loot_confirm_id = result2.payload.confirm_id;
 		if (result2.payload.event && result2.payload.event.use_power) {
 			player.power = parseInt(player.power,10) - parseInt(result2.payload.event.use_power,10);
