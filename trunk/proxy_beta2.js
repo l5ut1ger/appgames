@@ -4926,6 +4926,12 @@ function fnSearchForNextMissionLoot() {
 			if (summon_items.length == 0) {
 				lowestCount = 0;
 				lowestRaid = 0;
+				break;
+			}
+			if (typeof(summon_items[i]) == 'undefined') {
+				lowestCount = 0;
+				lowestRaid = i;
+				break;
 			}
 			if (summon_items[i] && parseInt(summon_items[i]["amount"],10)==0) {
 				lowestCount = 0;
