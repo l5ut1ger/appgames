@@ -4362,11 +4362,11 @@ function fnFixAdventureMission() {
 		$('#tap-target-area p.target').eq(0).trigger("click");
 		adventureItemStep++;
 		if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area"),10) == 10001) {
-			alert("100001");
-			adventureGrind();
+			//alert("100001");
+			//adventureGrind();
 		}
 		else {
-			if (adventureItemStep >= 100 && fnQueryString("collect") != '') {
+			if (adventureItemStep >= 100 && fnQueryString("collect") != '' && parseInt(window.adventureMission.area_id,10) <=5) {
 				clearInterval(missionInterval);
 				fnAdventureSearchLoot();
 			}
@@ -4377,7 +4377,7 @@ function fnFixAdventureMission() {
 		// user press by himself, dont automate
 		return;
 	}
-	if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area"),10) == 10001) {
+	if (false) {//fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area"),10) == 10001) {
 		adventureGrind();
 	}
 	else {
