@@ -4944,8 +4944,13 @@ function fnSearchForNextMissionLoot() {
 					}
 				}
 
+				if (lowestCount > 0) {
+					fnSuperRaidSummon();
+					return;
+				}
+
 				for (j=1;j<=6;j++) {
-					if (parseInt(treasures[i]["item_"+j],10)==0) {
+					if (parseInt(treasures[lowestRaid]["item_"+j],10)==0) {
 						//raid this loot
 						$.ajax({
 							type: "GET",
