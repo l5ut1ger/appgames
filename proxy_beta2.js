@@ -6707,7 +6707,7 @@ function fnSuperRaidSummon() {
 	$.ajax_ex(false, '/en/'+platform+'/superraid/AjaxSummonSuperRaid', {'__hash': (new Date()).getTime()}, function(data) {
 		if (data.status == 0) {
 			// success
-			fnRedirect('/superraid/battle?pm=1');
+			fnRedirect('/en/'+platform+'/superraid/battle?pm=1');
 		}
 	});
 }
@@ -6724,7 +6724,7 @@ function fnSuperRaidAjaxActBattle() {
 		}
 		else if (data.status == 3 || data.status==-21) {
 			clearInterval(missionInterval);
-			fnRedirect('/superraid/bossResult?');
+			fnRedirect('/en/'+platform+'/superraid/bossResult?');
 		}
 	});
 }
