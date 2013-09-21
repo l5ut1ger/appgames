@@ -5040,13 +5040,13 @@ function fnFixMissionExec() {
 				}
 				else {
 					if (player.guild_id != undefined && parseInt(player.guild_id,10)>0) {
-						// collect loot
-						//alert('collect loot');
+						clearInterval(missionInterval);
+						fnSearchForNextMissionLoot();
+						return;
 					}
 					else {
 						fnSetAutoNewMission(0);
-					}
-					
+					}					
 				}
 				return;
 			
