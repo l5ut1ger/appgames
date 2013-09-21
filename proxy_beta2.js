@@ -4939,7 +4939,7 @@ function fnSearchForNextMissionLoot() {
 			fnSuperRaidSummon();
 			return;
 		}
-
+		alert('b');
 		for (j=1;j<=6;j++) {
 			if (parseInt(treasures[lowestRaid]["item_"+j],10)==0) {
 				//raid this loot
@@ -4956,6 +4956,7 @@ function fnSearchForNextMissionLoot() {
 				return;
 			}
 		}
+		alert('c');
 	}); 
 }
 
