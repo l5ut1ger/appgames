@@ -4891,9 +4891,8 @@ function fnGetMissionLoot(pArea, pMission) {
 			fnSearchForNextMissionLoot();
 			return;
 		}
-	})
-	
-	setTimeout(fnGetMissionLoot,Math.max(500,fnGetGrindingSpeed()),pArea,pMission);
+		setTimeout(fnGetMissionLoot,Math.max(500,fnGetGrindingSpeed()),pArea,pMission);
+	})	
 }
 
 function fnSearchForNextMissionLoot() {
