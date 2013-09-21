@@ -4946,6 +4946,17 @@ function fnFixMissionExec() {
 					fnSellAllSellableMonsters();
 					fnPresentBoxSellAll();
 				}
+			} else if(result.status == 1) {
+				if (fnAutoNewMission()==1 && $('a[href^="/en/'+platform+'/mission?area='+(parseInt(area_id,10)+1)+'"]').length) {
+					clearInterval(missionInterval);					
+					fnRedirect($('a[href^="/en/'+platform+'/mission?area='+(parseInt(area_id,10)+1)+'"]').eq(0).attr("href"));
+				}
+				else {
+					// collect loot
+					//alert('collect loot');
+				}
+				return;
+			
 			} else if(result.status != 0) {
 				confirm_id = result.payload.confirm_id;
 				//clearInterval(missionInterval);
