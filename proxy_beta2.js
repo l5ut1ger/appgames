@@ -4903,70 +4903,55 @@ function fnGetMissionLoot(pArea, pMission) {
 }
 
 function fnSearchForNextMissionLoot() {
-	if (player.guild_id != undefined && parseInt(player.guild_id,10)>0) {
-	}
-	else {
-		return;
-	}
-	var divTag2 = document.createElement("div");
-	divTag2.id = "searchLoot";
-	divTag2.style.display = "none";
-	document.body.appendChild(divTag2);   
 	var divTag3 = document.createElement("div");
 	divTag3.id = "searchLoot2";
 	divTag3.style.display = "none";
-	document.body.appendChild(divTag3);       
-	$.ajax({
-		type: "GET",
-		url: '/en/'+platform+'/guild/contribution?tab=tab_treasure',
-		dataType: "html",
-		success: function(html){
-			$('#searchLoot').html(html);
-			setTimeout(function(){
-				// find the lowest count
-				var lowestCount=999999;
-				var lowestRaid = 0;
-				for (i=1001;i<=1039;i++) {
-					while (parseInt(treasures[i]["item_1"],10)>0 && parseInt(treasures[i]["item_2"],10)>0 && parseInt(treasures[i]["item_3"],10)>0 && parseInt(treasures[i]["item_4"],10)>0 && parseInt(treasures[i]["item_5"],10)>0 && parseInt(treasures[i]["item_6"],10)>0) {
-						$.ajax_ex(false, '/en/'+platform+'/raid/ajax_raid_create_item', {tid:i}, function(data) {});
-						treasures[i]["complete_count"] = parseInt(treasures[i]["complete_count"],10)+1;
-						for (j=1;j<=6;j++) {
-							treasures[i]["item_"+j] = parseInt(treasures[i]["item_"+j],10)-1;
-						}
-					}					
-					if (parseInt(treasures[i]["complete_count"],10)==0) {
-						lowestCount = 0;
-						lowestRaid = i;
-						break;
-					}
-					else if (parseInt(treasures[i]["complete_count"],10) < lowestCount) {
-						lowestCount = parseInt(treasures[i]["complete_count"],10);
-						lowestRaid = i;
-					}
-				}
-
-				if (lowestCount > 0) {
-					//fnSuperRaidSummon();
-					//return;
-				}
-
+	document.body.appendChild(divTag3); 
+	$.ajax_ex(false, '/en/'+platform+'/raid/ajax_raid_get?offset=0', {}, function(result) {
+		// find the lowest count
+		var lowestCount=999999;
+		var lowestRaid = 0;
+		var treasures = result.payload.treasures;
+		var summon_items = result.payload.summon_items;
+		for (i=1001;i<=1039;i++) {
+			while (parseInt(treasures[i]["item_1"],10)>0 && parseInt(treasures[i]["item_2"],10)>0 && parseInt(treasures[i]["item_3"],10)>0 && parseInt(treasures[i]["item_4"],10)>0 && parseInt(treasures[i]["item_5"],10)>0 && parseInt(treasures[i]["item_6"],10)>0) {
+				$.ajax_ex(false, '/en/'+platform+'/raid/ajax_raid_create_item', {tid:i}, function(data) {});
+				summon_items[i]["amount"] = parseInt(summon_items[i]["amount"],10)+1;
 				for (j=1;j<=6;j++) {
-					if (parseInt(treasures[lowestRaid]["item_"+j],10)==0) {
-						//raid this loot
-						$.ajax({
-							type: "GET",
-							url: '/en/'+platform+'/mission?area='+lootPlacement[(lowestRaid-1001)*6+(j-1)][0],
-							dataType: "html",
-							success: function(html){
-								$('#searchLoot2').html(html);
-								loot_confirm_id = confirm_id;
-								fnGetMissionLoot(lootPlacement[(lowestRaid-1001)*6+(j-1)][0], lootPlacement[(lowestRaid-1001)*6+(j-1)][1]-1);
-							}
-						});
-						return;
-					}
+					treasures[i]["item_"+j] = parseInt(treasures[i]["item_"+j],10)-1;
 				}
-			},1000);            
+			}					
+			if (parseInt(summon_items[i]["amount"],10)==0) {
+				lowestCount = 0;
+				lowestRaid = i;
+				break;
+			}
+			else if (parseInt(summon_items[i]["amount"],10) < lowestCount) {
+				lowestCount = parseInt(summon_items[i]["amount"],10);
+				lowestRaid = i;
+			}
+		}
+
+		if (lowestCount > 0) {
+			fnSuperRaidSummon();
+			return;
+		}
+
+		for (j=1;j<=6;j++) {
+			if (parseInt(treasures[lowestRaid]["item_"+j],10)==0) {
+				//raid this loot
+				$.ajax({
+					type: "GET",
+					url: '/en/'+platform+'/mission?area='+lootPlacement[(lowestRaid-1001)*6+(j-1)][0],
+					dataType: "html",
+					success: function(html){
+						$('#searchLoot2').html(html);
+						loot_confirm_id = confirm_id;
+						fnGetMissionLoot(lootPlacement[(lowestRaid-1001)*6+(j-1)][0], lootPlacement[(lowestRaid-1001)*6+(j-1)][1]-1);
+					}
+				});
+				return;
+			}
 		}
 	}); 
 }
@@ -5052,14 +5037,9 @@ function fnFixMissionExec() {
 					fnRedirect($('a[href^="/en/'+platform+'/mission?area='+(parseInt(area_id,10)+1)+'"]').eq(0).attr("href"));
 				}
 				else {
-					if (player.guild_id != undefined && parseInt(player.guild_id,10)>0) {
-						clearInterval(missionInterval);
-						fnSearchForNextMissionLoot();
-						return;
-					}
-					else {
-						fnSetAutoNewMission(0);
-					}					
+					clearInterval(missionInterval);
+					fnSearchForNextMissionLoot();
+					return;				
 				}
 				return;
 			
