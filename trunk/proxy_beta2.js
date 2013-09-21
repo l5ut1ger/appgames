@@ -4362,6 +4362,7 @@ function fnFixAdventureMission() {
 		$('#tap-target-area p.target').eq(0).trigger("click");
 		adventureItemStep++;
 		if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area"),10) == 10001) {
+			alert("100001");
 			adventureGrind();
 		}
 		else {
