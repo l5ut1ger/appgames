@@ -4880,6 +4880,7 @@ var lootPlacement = [[1,1],[1,2],[1,3],[2,1],[2,3],[2,5],[3,1],[3,4],[3,5],[4,2]
 function fnGetMissionLoot(pArea, pMission) {
 	if (parseInt(player.power,10) < 20) {
 		fnGetFreeMyEP('');
+		player.power = player.power_max;
 	}
 	$.ajax_ex(false, '/en/'+platform+'/mission/process?area_id=' + pArea + '&mission='+pMission+'&confirm_id='+loot_confirm_id, {}, function(result2) {
 		loot_confirm_id = result2.payload.confirm_id;
