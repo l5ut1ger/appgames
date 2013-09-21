@@ -4946,8 +4946,8 @@ function fnSearchForNextMissionLoot() {
 				}
 
 				if (lowestCount > 0) {
-					fnSuperRaidSummon();
-					return;
+					//fnSuperRaidSummon();
+					//return;
 				}
 
 				for (j=1;j<=6;j++) {
