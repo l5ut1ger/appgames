@@ -6699,6 +6699,7 @@ function fnSuperRaidSummon() {
 
 function fnSuperRaidAjaxActBattle() {
 	$.ajax_ex(false, '/en/'+platform+'/superraid/ajaxActBattle', {'__hash': (new Date()).getTime()}, function(data) {
+		window.parent.postMessage((new Date()).getTime(), "*");
 		if (data.status == 0) {
 			// success
 		}
