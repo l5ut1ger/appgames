@@ -4225,6 +4225,7 @@ function fnAdventureSearchLoot() {
 						}						
 					}
 				}
+				alert(adventureItemArray.join(","));
 				fnAdventureCheckItem();
 			},1000);            
 		}
