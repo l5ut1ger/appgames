@@ -4879,7 +4879,7 @@ var lootPlacement = [[1,1],[1,2],[1,3],[2,1],[2,3],[2,5],[3,1],[3,4],[3,5],[4,2]
 
 function fnGetMissionLoot(pArea, pMission) {
 	if (parseInt(player.power,10) < 20) {
-		fnGetFreeMyEP('');
+		fnDrinkMyEP('');
 		player.power = player.power_max;
 	}
 	$.ajax_ex(false, '/en/'+platform+'/mission/process?area_id=' + pArea + '&mission='+pMission+'&confirm_id='+loot_confirm_id, {}, function(result2) {
@@ -7019,6 +7019,22 @@ function fnSetupPurrCSS() {
 }
 
 // infinity my ep
+
+function fnDrinkMyEP() {
+	$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+		if ( (data == null) || (data.status != 0) ) { return; }
+		var items = data.payload.items;
+		for (var j=0;j<items.length;j++) {
+			if (items[j].item_id == 3018) { // consume my e potions
+				$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:items[j].item_id}, function(data) {});
+				//fnRedirect('/en/'+platform+'/subjugation/mission?');
+				return;
+			}
+		}
+		//fnGetFreeMyEP('/en/'+platform+'/subjugation/mission?');
+		fnGetFreeMyEP('');
+	});	
+}
 
 function fnGetFreeMyEP(pURL) {
 	$.ajax_ex(false, '/en/'+platform+'/event/inviteThirtyReward', {}, function(data) {});
