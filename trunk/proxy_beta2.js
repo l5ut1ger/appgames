@@ -6719,8 +6719,9 @@ function fnSuperRaidAjaxActBattle() {
 		}
 		else if (data.status == 1) {
 			// out of energy, use my ep
-			clearInterval(missionInterval);
-			fnGetFreeMyEP('/en/'+platform+'/superraid/battle');
+			//clearInterval(missionInterval);
+			//fnGetFreeMyEP('/en/'+platform+'/superraid/battle');
+			fnDrinkMyEP();
 		}
 		else if (data.status == 3 || data.status==-21) {
 			clearInterval(missionInterval);
@@ -6734,7 +6735,7 @@ function fnSuperRaidBattle() {
 		// user press by himself, dont automate
 		return;
 	}
-	missionInterval = setInterval(fnSuperRaidAjaxActBattle,Math.min(5000,fnGetGrindingSpeed()));
+	missionInterval = setInterval(fnSuperRaidAjaxActBattle,Math.min(3000,fnGetGrindingSpeed()));
 }
 
 // sell monster page
