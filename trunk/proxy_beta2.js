@@ -4946,8 +4946,8 @@ function fnFixMissionExec() {
 					fnSellAllSellableMonsters();
 					fnPresentBoxSellAll();
 				}
-			} else if(result.status == 1) {
-				if (fnAutoNewMission()==1 && $('a[href^="/en/'+platform+'/mission?area='+(parseInt(area_id,10)+1)+'"]').length) {
+			} else if(result.status == 1 && fnAutoNewMission()==1) {
+				if ($('a[href^="/en/'+platform+'/mission?area='+(parseInt(area_id,10)+1)+'"]').length) {
 					clearInterval(missionInterval);					
 					fnRedirect($('a[href^="/en/'+platform+'/mission?area='+(parseInt(area_id,10)+1)+'"]').eq(0).attr("href"));
 				}
