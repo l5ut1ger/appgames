@@ -4914,7 +4914,6 @@ function fnSearchForNextMissionLoot() {
 		var treasures = result.payload.treasures;
 		var summon_items = result.payload.summon_items;
 		for (i=1001;i<=1039;i++) {
-			alert(i);
 			while (parseInt(treasures[i]["item_1"],10)>0 && parseInt(treasures[i]["item_2"],10)>0 && parseInt(treasures[i]["item_3"],10)>0 && parseInt(treasures[i]["item_4"],10)>0 && parseInt(treasures[i]["item_5"],10)>0 && parseInt(treasures[i]["item_6"],10)>0) {
 				$.ajax_ex(false, '/en/'+platform+'/raid/ajax_raid_create_item', {tid:i}, function(data) {});
 				if (summon_items.length && summon_items[i]) {
