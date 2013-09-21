@@ -7196,6 +7196,9 @@ function fnTimeoutOnLoad() {
 	else if (window.location.pathname === '/en/'+platform+'/superraid/battle') {
 		fnSuperRaidBattle();
 	}
+	else if (window.location.pathname === '/en/'+platform+'/superraid/bossResult') {
+		fnSuperRaidBossResult();
+	}
 	else if (window.location.pathname === '/en/'+platform+'/tower') {
 		fnTower();
 	}
