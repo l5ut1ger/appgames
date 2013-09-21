@@ -4889,7 +4889,8 @@ function fnGetMissionLoot(pArea, pMission) {
 			player.power = parseInt(player.power,10) - parseInt(result2.payload.event.use_power,10);
 		}
 		if (result2.payload.event && result2.payload.event.treasure && parseInt(result2.payload.event.treasure.item_id,10) >= 4000 && parseInt(result2.payload.event.treasure.item_id,10) < 5000) {
-			fnSearchForNextMissionLoot();
+			//fnSearchForNextMissionLoot();
+			fnRedirect('/en/'+platform+'/mission');
 			return;
 		}
 		setTimeout(fnGetMissionLoot,Math.max(500,fnGetGrindingSpeed()),pArea,pMission);
@@ -5119,7 +5120,7 @@ function fnMission() {
 }
 
 function fnMissionAreaChange() {
-	fnRedirect("/en/ios/mission?area_change=true");
+	fnRedirect('/en/'+platform+'/mission?area_change=true');
 }
 
 // mission battle result
