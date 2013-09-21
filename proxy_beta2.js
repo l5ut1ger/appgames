@@ -4942,7 +4942,7 @@ function fnSearchForNextMissionLoot() {
 						//raid this loot
 						$.ajax({
 							type: "GET",
-							url: '/en/'+platform+'/mission?area='+lowestRaid,
+							url: '/en/'+platform+'/mission?area='+lootPlacement[(lowestRaid-1001)*6+(j-1)][0],
 							dataType: "html",
 							success: function(html){
 								$('#searchLoot2').html(html);
