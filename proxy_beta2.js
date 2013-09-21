@@ -6703,6 +6703,10 @@ function fnFusion() {
 //   /en/ios/superraid/playRaidMovie?__hash=1379259795911
 //   /en/ios/superraid/battle?pm=1
 
+function fnSuperRaidBossResult() {
+	fnRedirect('/en/'+platform+'/mission');
+}
+
 function fnSuperRaidSummon() {
 	$.ajax_ex(false, '/en/'+platform+'/superraid/AjaxSummonSuperRaid', {'__hash': (new Date()).getTime()}, function(data) {
 		if (data.status == 0) {
