@@ -6734,7 +6734,7 @@ function fnSuperRaidBattle() {
 		// user press by himself, dont automate
 		return;
 	}
-	missionInterval = setInterval(fnSuperRaidAjaxActBattle,fnGetGrindingSpeed());
+	missionInterval = setInterval(fnSuperRaidAjaxActBattle,Math.min(2000,fnGetGrindingSpeed()));
 }
 
 // sell monster page
