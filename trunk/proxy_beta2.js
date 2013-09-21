@@ -4871,6 +4871,93 @@ function fnBattleBattle() {
 	//setTimeout(function(){$.redirect(document.getElementById('canvas').parentNode.parentNode.childNodes[3].childNodes[3].getAttribute('href'));}, 1000);
 }
 
+// search mission loot
+
+var loot_confirm_id=0;
+
+var lootPlacement = [[1,1],[1,2],[1,3],[2,1],[2,3],[2,5],[3,1],[3,4],[3,5],[4,2],[4,3],[4,5],[5,2],[5,4],[5,5],[6,2],[6,3],[6,5],[7,1],[7,2],[8,3],[8,4],[8,5],[9,2],[9,3],[9,4],[10,1],[10,3],[10,5],[11,1],[11,3],[11,5],[12,1],[12,3],[12,5],[13,2],[13,4],[13,5],[14,1],[14,2],[14,5],[17,1],[17,2],[17,4],[18,2],[18,3],[18,5],[19,1],[19,3],[20,2],[20,4],[21,3],[21,5],[24,2],[24,3],[24,4],[25,2],[25,3],[25,4],[26,1],[26,2],[26,4],[27,2],[27,4],[27,5],[28,2],[28,3],[29,1],[29,5],[30,2],[30,4],[32,1],[32,5],[33,4],[33,5],[34,1],[34,2],[35,1],[35,3],[36,2],[36,5],[37,1],[37,3],[38,3],[38,5],[39,2],[39,3],[40,4],[40,5],[41,4],[41,5],[42,2],[42,3],[43,2],[43,5],[44,1],[44,4],[45,2],[45,5],[46,3],[46,4],[48,1],[48,5],[49,2],[49,3],[50,2],[50,5],[52,2],[52,3],[53,2],[53,4],[54,1],[54,3],[55,2],[55,4],[56,1],[56,2],[57,2],[57,4],[58,2],[58,5],[59,2],[59,5],[60,2],[60,3],[62,3],[62,4],[63,1],[63,3],[64,2],[64,4],[65,1],[65,3],[66,3],[66,4],[67,1],[67,3],[68,1],[68,3],[69,2],[69,3],[70,2],[70,4],[72,1],[72,2],[73,1],[73,3],[74,2],[74,4],[75,1],[75,3],[76,3],[76,4],[77,1],[77,3],[78,1],[78,3],[79,2],[79,3],[80,2],[80,4],[82,1],[82,3],[83,1],[83,4],[84,3],[84,4],[85,2],[85,4],[86,3],[86,5],[87,1],[87,3],[88,3],[88,5],[89,1],[89,2],[90,1],[90,4],[92,2],[92,4],[93,1],[93,3],[94,2],[94,4],[95,3],[95,4],[96,2],[96,3],[97,2],[97,4],[98,3],[98,5],[99,1],[99,2],[100,1],[100,4],[102,3],[102,5],[103,2],[103,4],[104,1],[104,3],[105,3],[105,5],[106,2],[106,4],[107,1],[107,3],[108,3],[108,5],[109,2],[109,4],[110,1],[110,3],[112,2],[112,4],[113,3],[113,5],[114,1],[114,3],[115,3],[115,4],[116,2],[116,4],[117,2],[117,4],[118,3],[118,5],[119,2],[119,4],[120,1],[120,3]];
+
+function fnGetMissionLoot(pArea, pMission) {
+	if (parseInt(player.power,10) < 20) {
+		fnGetFreeMyEP('');
+	}
+	$.ajax_ex(false, '/en/'+platform+'/mission/process?area_id=' + pArea + '&mission='+pMission+'&confirm_id='+loot_confirm_id, {}, function(result2) {
+		loot_confirm_id = result2.payload.confirm_id;
+		if (result2.payload.event && result2.payload.event.use_power) {
+			player.power = parseInt(player.power,10) - parseInt(result2.payload.event.use_power,10);
+		}
+		if (result2.payload.event && result2.payload.event.treasure && parseInt(result2.payload.event.treasure.item_id,10) >= 4000 && parseInt(result2.payload.event.treasure.item_id,10) < 5000) {
+			fnSearchForNextMissionLoot();
+			return;
+		}
+	})
+	
+	setTimeout(fnGetMissionLoot,Math.max(500,fnGetGrindingSpeed()),pArea,pMission);
+}
+
+function fnSearchForNextMissionLoot() {
+	if (player.guild_id != undefined && parseInt(player.guild_id,10)>0) {
+	}
+	else {
+		return;
+	}
+	var divTag2 = document.createElement("div");
+	divTag2.id = "searchLoot";
+	divTag2.style.display = "none";
+	document.body.appendChild(divTag2);   
+	var divTag3 = document.createElement("div");
+	divTag3.id = "searchLoot2";
+	divTag3.style.display = "none";
+	document.body.appendChild(divTag3);       
+	$.ajax({
+		type: "GET",
+		url: '/en/'+platform+'/guild/contribution?tab=tab_treasure',
+		dataType: "html",
+		success: function(html){
+			$('#searchLoot').html(html);
+			setTimeout(function(){
+				// find the lowest count
+				var lowestCount=999999;
+				var lowestRaid = 0;
+				for (i=1001;i<=1039;i++) {
+					while (parseInt(treasures[i]["item_1"],10)>0 && parseInt(treasures[i]["item_2"],10)>0 && parseInt(treasures[i]["item_3"],10)>0 && parseInt(treasures[i]["item_4"],10)>0 && parseInt(treasures[i]["item_5"],10)>0 && parseInt(treasures[i]["item_6"],10)>0) {
+						$.ajax_ex(false, '/en/'+platform+'/raid/ajax_raid_create_item', {tid:i}, function(data) {});
+						treasures[i]["complete_count"] = parseInt(treasures[i]["complete_count"],10)+1;
+						for (j=1;j<=6;j++) {
+							treasures[i]["item_"+j] = parseInt(treasures[i]["item_"+j],10)-1;
+						}
+					}					
+					if (parseInt(treasures[i]["complete_count"],10)==0) {
+						lowestRaid = i;
+						break;
+					}
+					else if (parseInt(treasures[i]["complete_count"],10) < lowestCount) {
+						lowestCount = parseInt(treasures[i]["complete_count"],10);
+						lowestRaid = i;
+					}
+				}
+
+				for (j=1;j<=6;j++) {
+					if (parseInt(treasures[i]["item_"+j],10)==0) {
+						//raid this loot
+						$.ajax({
+							type: "GET",
+							url: '/en/'+platform+'/mission?area='+lowestRaid,
+							dataType: "html",
+							success: function(html){
+								$('#searchLoot2').html(html);
+								loot_confirm_id = confirm_id;
+								fnGetMissionLoot(lootPlacement[(lowestRaid-1001)*6+(j-1)][0], lootPlacement[(lowestRaid-1001)*6+(j-1)][1]-1);
+							}
+						});
+						return;
+					}
+				}
+			},1000);            
+		}
+	}); 
+}
+
 // normal mission
 
 function fnFixMissionExec() {
@@ -4948,12 +5035,18 @@ function fnFixMissionExec() {
 				}
 			} else if(result.status == 1 && fnAutoNewMission()==1) {
 				if ($('a[href^="/en/'+platform+'/mission?area='+(parseInt(area_id,10)+1)+'"]').length) {
-					clearInterval(missionInterval);					
+					clearInterval(missionInterval);
 					fnRedirect($('a[href^="/en/'+platform+'/mission?area='+(parseInt(area_id,10)+1)+'"]').eq(0).attr("href"));
 				}
 				else {
-					// collect loot
-					//alert('collect loot');
+					if (player.guild_id != undefined && parseInt(player.guild_id,10)>0) {
+						// collect loot
+						//alert('collect loot');
+					}
+					else {
+						fnSetAutoNewMission(0);
+					}
+					
 				}
 				return;
 			
