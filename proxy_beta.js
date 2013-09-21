@@ -4935,6 +4935,7 @@ function fnSearchForNextMissionLoot() {
 						}
 					}					
 					if (parseInt(treasures[i]["complete_count"],10)==0) {
+						lowestCount = 0;
 						lowestRaid = i;
 						break;
 					}
