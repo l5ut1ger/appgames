@@ -4217,7 +4217,7 @@ function fnAdventureSearchLoot() {
 				for (i=0;i<Object.keys(resource_list).length;i++) {
 					for (j=0;j<Object.keys(resource_list[i]).length;j++) {
 						if (parseInt(resource_list[i][j]["stock"],10) > 0) {
-							for (k=0;k<=2;k++) {
+							for (k=2;k>=0;k--) {
 								if (parseInt(resource_list[i][j]["have_t_count_"+k],10) < parseInt(resource_list[i][j]["stock"],10) * parseInt(resource_list[i][j]["t_count_"+k],10)) {
 									adventureItemArray.push(resource_list[i][j]["t_id_"+k]);
 								}
