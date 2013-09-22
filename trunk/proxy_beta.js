@@ -4179,6 +4179,7 @@ function fnSubjugationMission() {
 // adventure mission
 
 var adventureItemArray = new Array();
+var adventureItemCountArray = new Array();
 var adventureItemStep = 0;
 
 function fnAdventureCheckItem() {
@@ -4208,17 +4209,22 @@ function fnAdventureSearchLoot() {
 			$('#tradeShop').html(html);
 			setTimeout(function(){
 				adventureItemArray = new Array();
+				adventureItemCountArray = new Array();
 				for (i=0;i<Object.keys(resource_list).length;i++) {
 					for (j=0;j<Object.keys(resource_list[i]).length;j++) {
 						if (parseInt(resource_list[i][j]["stock"],10) > 0) {
 							for (k=2;k>=0;k--) {
 								if (parseInt(resource_list[i][j]["have_t_count_"+k],10) < parseInt(resource_list[i][j]["stock"],10) * parseInt(resource_list[i][j]["t_count_"+k],10)) {
-									adventureItemArray.push(resource_list[i][j]["t_id_"+k]);
+									if ($.inArray(resource_list[i][j]["t_id_"+k],adventureItemArray) == -1) {
+										adventureItemArray.push(resource_list[i][j]["t_id_"+k]);
+										adventureItemCountArray[resource_list[i][j]["t_id_"+k]] = parseInt(resource_list[i][j]["have_t_count_"+k],10);
+									}
 								}
 							}
-						}						
+						}		
 					}
 				}
+				adventureItemArray.sort(function(a,b){return adventureItemCountArray[a]-adventureItemCountArray[b]});
 				fnAdventureCheckItem();
 			},1000);            
 		}
