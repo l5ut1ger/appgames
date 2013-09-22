@@ -4216,18 +4216,16 @@ function fnAdventureSearchLoot() {
 				
 				for (i=0;i<Object.keys(resource_list).length;i++) {
 					for (j=0;j<Object.keys(resource_list[i]).length;j++) {
-						if (parseInt(resource_list[i][j]["stock"],10) > 0) {
-							if (parseInt(resource_list[i][j]["have_t_count_"+0],10) >= parseInt(resource_list[i][j]["t_count_"+0],10) && parseInt(resource_list[i][j]["have_t_count_"+1],10) >= parseInt(resource_list[i][j]["t_count_"+1],10) && parseInt(resource_list[i][j]["have_t_count_"+2],10) >= parseInt(resource_list[i][j]["t_count_"+2],10)) {
-								traded = true;
-								$.ajax_ex(false, '/en/'+platform+'/adventure/ajaxTrade?catalog_id='+resource_list[i][j]["catalog_id"], { }, function(data) {});
+						if (!traded && parseInt(resource_list[i][j]["stock"],10) > 0 && parseInt(resource_list[i][j]["have_t_count_"+0],10) >= parseInt(resource_list[i][j]["t_count_"+0],10) && parseInt(resource_list[i][j]["have_t_count_"+1],10) >= parseInt(resource_list[i][j]["t_count_"+1],10) && parseInt(resource_list[i][j]["have_t_count_"+2],10) >= parseInt(resource_list[i][j]["t_count_"+2],10)) {
+							traded = true;
+							$.ajax_ex(false, '/en/'+platform+'/adventure/ajaxTrade?catalog_id='+resource_list[i][j]["catalog_id"], { }, function(data) {});
+						}
+						for (k=2;k>=0;k--) {
+							if ($.inArray(resource_list[i][j]["t_id_"+k],adventureItemArray) == -1) {
+								adventureItemArray.push(resource_list[i][j]["t_id_"+k]);
+								adventureItemCountArray[resource_list[i][j]["t_id_"+k]] = parseInt(resource_list[i][j]["have_t_count_"+k],10);											
 							}
-							for (k=2;k>=0;k--) {
-								if ($.inArray(resource_list[i][j]["t_id_"+k],adventureItemArray) == -1) {
-									adventureItemArray.push(resource_list[i][j]["t_id_"+k]);
-									adventureItemCountArray[resource_list[i][j]["t_id_"+k]] = parseInt(resource_list[i][j]["have_t_count_"+k],10);											
-								}
-							}
-						}		
+						}
 					}
 				}
 				
@@ -4249,16 +4247,14 @@ function fnAdventureSearchLoot() {
 							traded = false;							
 							for (i=0;i<Object.keys(resource_list).length;i++) {
 								for (j=0;j<Object.keys(resource_list[i]).length;j++) {
-									if (parseInt(resource_list[i][j]["stock"],10) > 0) {
-										if (parseInt(resource_list[i][j]["have_t_count_"+0],10) >= parseInt(resource_list[i][j]["t_count_"+0],10) && parseInt(resource_list[i][j]["have_t_count_"+1],10) >= parseInt(resource_list[i][j]["t_count_"+1],10) && parseInt(resource_list[i][j]["have_t_count_"+2],10) >= parseInt(resource_list[i][j]["t_count_"+2],10)) {
-											traded = true;
-											$.ajax_ex(false, '/en/'+platform+'/adventure/ajaxTrade?catalog_id='+resource_list[i][j]["catalog_id"], { }, function(data) {});
-										}
-										for (k=2;k>=0;k--) {
-											if ($.inArray(resource_list[i][j]["t_id_"+k],adventureItemArray) == -1) {
-												adventureItemArray.push(resource_list[i][j]["t_id_"+k]);
-												adventureItemCountArray[resource_list[i][j]["t_id_"+k]] = parseInt(resource_list[i][j]["have_t_count_"+k],10);											
-											}
+									if (!traded && parseInt(resource_list[i][j]["stock"],10) > 0 && parseInt(resource_list[i][j]["have_t_count_"+0],10) >= parseInt(resource_list[i][j]["t_count_"+0],10) && parseInt(resource_list[i][j]["have_t_count_"+1],10) >= parseInt(resource_list[i][j]["t_count_"+1],10) && parseInt(resource_list[i][j]["have_t_count_"+2],10) >= parseInt(resource_list[i][j]["t_count_"+2],10)) {
+										traded = true;
+										$.ajax_ex(false, '/en/'+platform+'/adventure/ajaxTrade?catalog_id='+resource_list[i][j]["catalog_id"], { }, function(data) {});
+									}
+									for (k=2;k>=0;k--) {
+										if ($.inArray(resource_list[i][j]["t_id_"+k],adventureItemArray) == -1) {
+											adventureItemArray.push(resource_list[i][j]["t_id_"+k]);
+											adventureItemCountArray[resource_list[i][j]["t_id_"+k]] = parseInt(resource_list[i][j]["have_t_count_"+k],10);											
 										}
 									}
 								}
