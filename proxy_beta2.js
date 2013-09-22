@@ -4919,7 +4919,7 @@ function fnSearchForNextMissionLoot() {
 			}
 			if (summon_items.length == 0) {
 				lowestCount = 0;
-				lowestRaid = 0;
+				lowestRaid = 1001;
 				break;
 			}
 			if (typeof(summon_items[i]) == 'undefined') {
@@ -4937,13 +4937,12 @@ function fnSearchForNextMissionLoot() {
 				lowestRaid = i;
 			}
 		}
-		alert('b');
 		if (lowestCount > 0) {
 			fnSuperRaidSummon();
 			return;
 		}
-		for (j=1;j<=6;j++) {alert('c'+lowestRaid);alert('count:'+treasures[lowestRaid]["item_"+j]);
-			if (parseInt(treasures[lowestRaid]["item_"+j],10)==0) {alert('d');
+		for (j=1;j<=6;j++) {
+			if (parseInt(treasures[lowestRaid]["item_"+j],10)==0) {
 				//raid this loot
 				$.ajax({
 					type: "GET",
