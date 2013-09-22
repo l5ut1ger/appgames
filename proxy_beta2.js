@@ -4942,7 +4942,7 @@ function fnSearchForNextMissionLoot() {
 			fnSuperRaidSummon();
 			return;
 		}
-		for (j=1;j<=6;j++) {alert('c');
+		for (j=1;j<=6;j++) {alert('c'+lowestRaid);alert('count:'+treasures[lowestRaid]["item_"+j]);
 			if (parseInt(treasures[lowestRaid]["item_"+j],10)==0) {alert('d');
 				//raid this loot
 				$.ajax({
