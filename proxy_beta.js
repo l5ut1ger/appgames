@@ -1332,15 +1332,9 @@ function fnProfileFixTabs() {
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 10 ?'selected':'') + ' value="10">On, 100 EP, 500 BP</option>';
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 11 ?'selected':'') + ' value="11">On, 100 EP, 1000 BP</option>';
 	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 12 ?'selected':'') + ' value="12">On, 500 EP, 500 BP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 13 ?'selected':'') + ' value="13">On, 200 EP, 500 BP</option>';
+	autoStatsUpselectorHTML += '<option ' + (fnAutoStatsUp() == 14 ?'selected':'') + ' value="14">On, 200 EP, 1000 BP</option>';
 	autoStatsUpselectorHTML += '</select><br/><br/>'; 
-	
-	// Auto Stack BP Settings
-	var stackSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto Stack Rank A max BP</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
-	stackSelectorHTML += '<select name="sel" onchange="fnSetAutoStackBP(this.options[this.options.selectedIndex].value);fnGrowl(\'Auto Stack Rank A max BP \'+this.options[this.options.selectedIndex].text);">';
-	for (var i=1;i<=30;i++) {
-		stackSelectorHTML += '<option ' + (fnAutoStackBP() == (i) ?'selected':'') + ' value="' + (i) + '">' + (i) + '</option>';
-	}	
-	stackSelectorHTML += '</select><br/><br/>';
 	
 	// Tower Event Target Settings
 	var towerSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Tower Event</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>Target Floor<br/>';
@@ -1380,7 +1374,7 @@ function fnProfileFixTabs() {
 	towerTrapSelectorHTML+='</select><br/><br/>'; 
 	
  
-	divTag.innerHTML = resetHTML + ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + bpSelectorHTML+ autoAllySelectorHTML + autoStatsUpselectorHTML + stackSelectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML+towerTrapSelectorHTML; 
+	divTag.innerHTML = resetHTML + ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + bpSelectorHTML+ autoAllySelectorHTML + autoStatsUpselectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML+towerTrapSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 	
 	fnProfileFillAltOption();
@@ -4925,7 +4919,7 @@ function fnSearchForNextMissionLoot() {
 			}
 			if (summon_items.length == 0) {
 				lowestCount = 0;
-				lowestRaid = 0;
+				lowestRaid = 1001;
 				break;
 			}
 			if (typeof(summon_items[i]) == 'undefined') {
@@ -4943,7 +4937,6 @@ function fnSearchForNextMissionLoot() {
 				lowestRaid = i;
 			}
 		}
-
 		if (lowestCount > 0) {
 			fnSuperRaidSummon();
 			return;
@@ -6323,7 +6316,7 @@ function fnSkillUpAuto(pUniqueNo) {
 		//if (parseInt(monsters[i].lv, 10)== 1) {  //sac level 1
 			if (parseInt(monsters[i].skill_id,10) == parseInt(source.skill_id,10)) { // same skill
 				if (parseInt(monsters[i].skill_lv,10) == (parseInt(source.skill_lv,10) < 6?1:4)) {  // sac skill level 1 for skill < 6, else sac 4
-					if (parseInt(monsters[i].grade,10) <= 3 || (parseInt(monsters[i].grade,10) == 4 && parseInt(monsters[i].bp,10) <= fnAutoStackBP() && parseInt(monsters[i].monster_id, 10) != parseInt(source.monster_id, 10))) { // <= rank B+ or low bp rank A
+					if (parseInt(monsters[i].grade,10) <= 3 || (parseInt(monsters[i].grade,10) == 4 && parseInt(monsters[i].monster_id, 10) != parseInt(source.monster_id, 10))) { // <= rank B+ or low bp rank A
 						if (parseInt(monsters[i].grade,10) > parseInt(sacGrade, 10)) { // prefer sac higher grade
 							if (parseInt(monsters[i].bp,10) > 1) { // dont sac spirit!
 								if (monsters[i].unique_no != pUniqueNo) {
@@ -6365,7 +6358,7 @@ function fnStackAuto(pUniqueNo) {
 		if (parseInt(monsters[i].lv, 10)== 1) {  //sac level 1
 			if (parseInt(monsters[i].skill_id,10) == parseInt(source.skill_id,10)) { // same skill
 				if (parseInt(monsters[i].skill_lv,10) == 1) {  // skill 1
-					if (parseInt(monsters[i].grade,10) <= 3 || (parseInt(monsters[i].grade,10) == 4 && parseInt(monsters[i].bp,10) <= fnAutoStackBP() && parseInt(monsters[i].monster_id, 10) != parseInt(source.monster_id, 10))) { // <= rank B+ or low bp rank A
+					if (parseInt(monsters[i].grade,10) <= 3 || (parseInt(monsters[i].grade,10) == 4 && parseInt(monsters[i].monster_id, 10) != parseInt(source.monster_id, 10))) { // <= rank B+ or low bp rank A
 						if (parseInt(monsters[i].grade,10) > parseInt(sacGrade, 10)) { // prefer sac higher grade
 							if (parseInt(monsters[i].bp,10) > 1) { // dont sac spirit!
 								if (monsters[i].unique_no != pUniqueNo) {
@@ -6701,10 +6694,10 @@ function fnSuperRaidBossResult() {
 
 function fnSuperRaidSummon() {
 	$.ajax_ex(false, '/en/'+platform+'/superraid/AjaxSummonSuperRaid', {'__hash': (new Date()).getTime()}, function(data) {
-		if (data.status == 0) {
+		//if (data.status == 0) {
 			// success
 			fnRedirect('/en/'+platform+'/superraid/battle?pm=1');
-		}
+		//}
 	});
 }
 
@@ -7109,6 +7102,20 @@ function fnAutoUsePoint() {
 		else if (fnAutoStatsUp() == 12) {
 			var battleToAdd = Math.min(Math.max(0, 500-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
 			var energyToAdd = Math.min(Math.max(0, 500-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
+			if (battleToAdd > 0 || energyToAdd > 0) {
+				$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + energyToAdd + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+			}
+		}
+		else if (fnAutoStatsUp() == 13) {
+			var battleToAdd = Math.min(Math.max(0, 200-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			var energyToAdd = Math.min(Math.max(0, 500-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
+			if (battleToAdd > 0 || energyToAdd > 0) {
+				$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + energyToAdd + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
+			}
+		}
+		else if (fnAutoStatsUp() == 14) {
+			var battleToAdd = Math.min(Math.max(0, 200-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
+			var energyToAdd = Math.min(Math.max(0, 1000-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
 			if (battleToAdd > 0 || energyToAdd > 0) {
 				$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + energyToAdd + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 			}
