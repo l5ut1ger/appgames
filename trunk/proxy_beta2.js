@@ -7086,36 +7086,36 @@ function fnAutoUsePoint() {
 			$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + (parseInt(player.remain_point,10)-battleToAdd) + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 		}
 		else if (fnAutoStatsUp() == 10) {
-			var battleToAdd = Math.min(Math.max(0, 100-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
-			var energyToAdd = Math.min(Math.max(0, 500-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
+			var battleToAdd = Math.min(Math.max(0, 100-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10));
+			var energyToAdd = Math.min(Math.max(0, 500-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
 			if (battleToAdd > 0 || energyToAdd > 0) {
 				$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + energyToAdd + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 			}
 		}
 		else if (fnAutoStatsUp() == 11) {
-			var battleToAdd = Math.min(Math.max(0, 100-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
-			var energyToAdd = Math.min(Math.max(0, 1000-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
+			var battleToAdd = Math.min(Math.max(0, 100-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10));
+			var energyToAdd = Math.min(Math.max(0, 1000-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
 			if (battleToAdd > 0 || energyToAdd > 0) {
 				$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + energyToAdd + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 			}
 		}
 		else if (fnAutoStatsUp() == 12) {
-			var battleToAdd = Math.min(Math.max(0, 500-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
-			var energyToAdd = Math.min(Math.max(0, 500-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
+			var battleToAdd = Math.min(Math.max(0, 500-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10));
+			var energyToAdd = Math.min(Math.max(0, 500-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
 			if (battleToAdd > 0 || energyToAdd > 0) {
 				$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + energyToAdd + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 			}
 		}
 		else if (fnAutoStatsUp() == 13) {
-			var battleToAdd = Math.min(Math.max(0, 200-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
-			var energyToAdd = Math.min(Math.max(0, 500-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
+			var battleToAdd = Math.min(Math.max(0, 200-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10));
+			var energyToAdd = Math.min(Math.max(0, 500-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
 			if (battleToAdd > 0 || energyToAdd > 0) {
 				$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + energyToAdd + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 			}
 		}
 		else if (fnAutoStatsUp() == 14) {
-			var battleToAdd = Math.min(Math.max(0, 200-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10));
-			var energyToAdd = Math.min(Math.max(0, 1000-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
+			var battleToAdd = Math.min(Math.max(0, 200-parseInt(player.power_max, 10)), parseInt(player.remain_point, 10));
+			var energyToAdd = Math.min(Math.max(0, 1000-parseInt(player.bp_max, 10)), parseInt(player.remain_point, 10)-battleToAdd);
 			if (battleToAdd > 0 || energyToAdd > 0) {
 				$.ajax_ex(false, '/en/'+platform+'/home/stup?bp='+battleToAdd+'&pr=' + energyToAdd + '&api=json', { '__hash' : ('' + (new Date()).getTime()) },function(result) {return;}) ;
 			}
