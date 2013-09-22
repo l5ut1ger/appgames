@@ -4908,9 +4908,7 @@ function fnSearchForNextMissionLoot() {
 		var treasures = result.payload.treasures;
 		var summon_items = result.payload.summon_items;
 		for (i=1001;i<=1039;i++) {
-			alert(i);
 			while (parseInt(treasures[i]["item_1"],10)>0 && parseInt(treasures[i]["item_2"],10)>0 && parseInt(treasures[i]["item_3"],10)>0 && parseInt(treasures[i]["item_4"],10)>0 && parseInt(treasures[i]["item_5"],10)>0 && parseInt(treasures[i]["item_6"],10)>0) {
-				alert('pre');
 				$.ajax_ex(false, '/en/'+platform+'/raid/ajax_raid_create_item', {tid:i}, function(data) {});
 				if (summon_items.length && summon_items[i]) {
 					summon_items[i]["amount"] = parseInt(summon_items[i]["amount"],10)+1;
@@ -4918,21 +4916,17 @@ function fnSearchForNextMissionLoot() {
 				for (j=1;j<=6;j++) {
 					treasures[i]["item_"+j] = parseInt(treasures[i]["item_"+j],10)-1;
 				}
-				alert('inside');
 			}
-			alert('a');
-			if (summon_items.length == 0) {alert('a2');
+			if (summon_items.length == 0) {
 				lowestCount = 0;
 				lowestRaid = 0;
 				break;
 			}
-			alert('b');
 			if (typeof(summon_items[i]) == 'undefined') {
 				lowestCount = 0;
 				lowestRaid = i;
 				break;
 			}
-			alert('c');
 			if (summon_items[i] && parseInt(summon_items[i]["amount"],10)==0) {
 				lowestCount = 0;
 				lowestRaid = i;
@@ -4942,15 +4936,14 @@ function fnSearchForNextMissionLoot() {
 				lowestCount = parseInt(summon_items[i]["amount"],10);
 				lowestRaid = i;
 			}
-			alert('d');
 		}
-
+		alert('b');
 		if (lowestCount > 0) {
 			fnSuperRaidSummon();
 			return;
 		}
-		for (j=1;j<=6;j++) {
-			if (parseInt(treasures[lowestRaid]["item_"+j],10)==0) {
+		for (j=1;j<=6;j++) {alert('c');
+			if (parseInt(treasures[lowestRaid]["item_"+j],10)==0) {alert('d');
 				//raid this loot
 				$.ajax({
 					type: "GET",
