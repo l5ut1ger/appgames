@@ -4921,7 +4921,7 @@ function fnSearchForNextMissionLoot() {
 				alert('inside');
 			}
 			alert('a');
-			if (summon_items.length == 0) {
+			if (summon_items.length == 0) {alert('a2');
 				lowestCount = 0;
 				lowestRaid = 0;
 				break;
