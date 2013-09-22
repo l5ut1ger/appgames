@@ -4179,6 +4179,7 @@ function fnSubjugationMission() {
 // adventure mission
 
 var adventureItemArray = new Array();
+var adventureItemCountArray = new Array();
 var adventureItemStep = 0;
 
 function fnAdventureCheckItem() {
@@ -4196,6 +4197,7 @@ function fnAdventureCheckItem() {
 }
 
 function fnAdventureSearchLoot() {
+	fnSellAllSellableMonsters();
 	var divTag2 = document.createElement("div");
 	divTag2.id = "tradeShop";
 	divTag2.style.display = "none";
@@ -4208,18 +4210,67 @@ function fnAdventureSearchLoot() {
 			$('#tradeShop').html(html);
 			setTimeout(function(){
 				adventureItemArray = new Array();
+				adventureItemCountArray = new Array();
+				
+				var traded = false;
+				
 				for (i=0;i<Object.keys(resource_list).length;i++) {
 					for (j=0;j<Object.keys(resource_list[i]).length;j++) {
-						if (parseInt(resource_list[i][j]["stock"],10) > 0) {
-							for (k=2;k>=0;k--) {
-								if (parseInt(resource_list[i][j]["have_t_count_"+k],10) < parseInt(resource_list[i][j]["stock"],10) * parseInt(resource_list[i][j]["t_count_"+k],10)) {
-									adventureItemArray.push(resource_list[i][j]["t_id_"+k]);
-								}
+						if (!traded && parseInt(resource_list[i][j]["stock"],10) > 0 && parseInt(resource_list[i][j]["have_t_count_"+0],10) >= parseInt(resource_list[i][j]["t_count_"+0],10) && parseInt(resource_list[i][j]["have_t_count_"+1],10) >= parseInt(resource_list[i][j]["t_count_"+1],10) && parseInt(resource_list[i][j]["have_t_count_"+2],10) >= parseInt(resource_list[i][j]["t_count_"+2],10)) {
+							traded = true;
+							$.ajax_ex(false, '/en/'+platform+'/adventure/ajaxTrade?catalog_id='+resource_list[i][j]["catalog_id"], { }, function(data) {});
+						}
+						for (k=2;k>=0;k--) {
+							if ($.inArray(resource_list[i][j]["t_id_"+k],adventureItemArray) == -1) {
+								adventureItemArray.push(resource_list[i][j]["t_id_"+k]);
+								adventureItemCountArray[resource_list[i][j]["t_id_"+k]] = parseInt(resource_list[i][j]["have_t_count_"+k],10);											
 							}
-						}						
+						}
 					}
 				}
-				fnAdventureCheckItem();
+				
+				if (traded) {
+					$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {});
+					$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=3&check=4%2C7%2C1', { }, function(data) {});
+					fnPresentBoxOrganizePerPage(0);
+				}
+				
+				$.ajax({
+					type: "GET",
+					url: '/en/'+platform+'/adventure/tradeShop?permanent_type=3',
+					dataType: "html",
+					success: function(html){
+						$('#tradeShop').html(html);
+						setTimeout(function(){
+							adventureItemArray = new Array();
+							adventureItemCountArray = new Array();
+							traded = false;							
+							for (i=0;i<Object.keys(resource_list).length;i++) {
+								for (j=0;j<Object.keys(resource_list[i]).length;j++) {
+									if (!traded && parseInt(resource_list[i][j]["stock"],10) > 0 && parseInt(resource_list[i][j]["have_t_count_"+0],10) >= parseInt(resource_list[i][j]["t_count_"+0],10) && parseInt(resource_list[i][j]["have_t_count_"+1],10) >= parseInt(resource_list[i][j]["t_count_"+1],10) && parseInt(resource_list[i][j]["have_t_count_"+2],10) >= parseInt(resource_list[i][j]["t_count_"+2],10)) {
+										traded = true;
+										$.ajax_ex(false, '/en/'+platform+'/adventure/ajaxTrade?catalog_id='+resource_list[i][j]["catalog_id"], { }, function(data) {});
+									}
+									for (k=2;k>=0;k--) {
+										if ($.inArray(resource_list[i][j]["t_id_"+k],adventureItemArray) == -1) {
+											adventureItemArray.push(resource_list[i][j]["t_id_"+k]);
+											adventureItemCountArray[resource_list[i][j]["t_id_"+k]] = parseInt(resource_list[i][j]["have_t_count_"+k],10);											
+										}
+									}
+								}
+							}
+							
+							if (traded) {					
+								$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {});
+								$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=3&check=4%2C7%2C1', { }, function(data) {});
+								fnPresentBoxOrganizePerPage(0);
+							}
+
+							adventureItemArray.sort(function(a,b){return adventureItemCountArray[a]-adventureItemCountArray[b]});
+							fnAdventureCheckItem();
+						},1000);            
+					}
+				}); 
 			},1000);            
 		}
 	}); 
@@ -4235,7 +4286,7 @@ function fnFixAdventureMission() {
 	tapTargetClick = function (tapTarget, p, x, y) {
 		window.parent.postMessage((new Date()).getTime(), "*");
 
-		$.ajax_ex(true, '/en/'+platform+'/adventure/process', {
+		$.ajax_ex(false, '/en/'+platform+'/adventure/process', {
 			area_id: window.adventureMission.area_id,
 			mission: 0,
 			confirm_id: confirm_id,
