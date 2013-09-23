@@ -4181,6 +4181,7 @@ function fnSubjugationMission() {
 var adventureItemArray = new Array();
 var adventureItemCountArray = new Array();
 var adventureItemStep = 0;
+var adventurePriorityLoot = 8031;
 
 function fnAdventureCheckItem() {
 	if (adventureItemArray.length) {
@@ -4210,7 +4211,9 @@ function fnAdventureSearchLoot() {
 			$('#tradeShop').html(html);
 			setTimeout(function(){
 				adventureItemArray = new Array();
+				adventureItemArray.push(adventurePriorityLoot);
 				adventureItemCountArray = new Array();
+				adventureItemCountArray[adventurePriorityLoot] = 0;
 				
 				var traded = false;
 				
@@ -5404,6 +5407,13 @@ function fnAuctionDetail() {
 }
 
 // present box
+
+function fnReceiveReward_Generic() {
+	fnSellAllSellableMonsters();
+	$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {});
+	$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=3&check=4%2C7%2C1', { }, function(data) {});
+	fnPresentBoxOrganizePerPage(0);
+}
 
 function fnPresentBoxReceiveAllGoodiesPerPage(pPage) {
 	fnGrowl('Receiving Page ' + pPage);
@@ -6740,6 +6750,7 @@ function fnFusion() {
 //   /en/ios/superraid/battle?pm=1
 
 function fnSuperRaidBossResult() {
+	fnReceiveReward_Generic();
 	fnRedirect('/en/'+platform+'/mission');
 }
 

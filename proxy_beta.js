@@ -5405,6 +5405,13 @@ function fnAuctionDetail() {
 
 // present box
 
+function fnReceiveReward_Generic() {
+	fnSellAllSellableMonsters();
+	$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=2&check=0', { }, function(data) {});
+	$.ajax_ex(false, '/en/'+platform+'/present/itemAll?page=0&mode=3&check=4%2C7%2C1', { }, function(data) {});
+	fnPresentBoxOrganizePerPage(0);
+}
+
 function fnPresentBoxReceiveAllGoodiesPerPage(pPage) {
 	fnGrowl('Receiving Page ' + pPage);
 	$.ajax_ex(false, '/en/'+platform+'/present/list?api=json&page='+pPage, { }, function(data) {
@@ -6740,6 +6747,7 @@ function fnFusion() {
 //   /en/ios/superraid/battle?pm=1
 
 function fnSuperRaidBossResult() {
+	fnReceiveReward_Generic();
 	fnRedirect('/en/'+platform+'/mission');
 }
 
