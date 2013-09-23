@@ -4996,7 +4996,7 @@ function fnSearchForNextMissionLoot() {
 			}
 			if (summon_items.length == 0) {
 				lowestCount = 0;
-				lowestRaid = 1001;
+				lowestRaid = i;
 				break;
 			}
 			if (typeof(summon_items[i]) == 'undefined') {
@@ -5013,6 +5013,7 @@ function fnSearchForNextMissionLoot() {
 				lowestCount = parseInt(summon_items[i]["amount"],10);
 				lowestRaid = i;
 			}
+			alert('end of '+i);
 		}
 		alert('lowestRaid:'+lowestRaid);
 		if (lowestCount > 0 && parseInt(fnAutoSuperRaid(),10) > 0) {
