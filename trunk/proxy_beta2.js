@@ -532,7 +532,7 @@ var superRaidKey = 'sr';
 
 function fnAutoSuperRaid() {
 	if (fnGetCookie(superRaidKey) === null) {
-		fnSetAutoSuperRaid(0);
+		fnSetAutoSuperRaid(0,0);
 	}
 	return fnGetCookie(superRaidKey);
 }
@@ -550,7 +550,7 @@ var autoDrinkKey = 'autoDrink';
 
 function fnAutoDrink() {
 	if(fnGetCookie(autoDrinkKey) === null) {
-			fnSetAutoDrink(-1, 0);
+		fnSetAutoDrink(-1, 0);
 	}
 	return fnGetCookie(autoDrinkKey);
 }
