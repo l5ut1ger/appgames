@@ -4245,8 +4245,6 @@ function fnAdventureSearchLoot() {
 					success: function(html){
 						$('#tradeShop').html(html);
 						setTimeout(function(){
-							adventureItemArray = new Array();
-							adventureItemCountArray = new Array();
 							traded = false;							
 							for (i=0;i<Object.keys(resource_list).length;i++) {
 								for (j=0;j<Object.keys(resource_list[i]).length;j++) {
