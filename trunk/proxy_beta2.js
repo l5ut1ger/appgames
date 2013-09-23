@@ -5013,6 +5013,9 @@ function fnSearchForNextMissionLoot() {
 				lowestCount = parseInt(summon_items[i]["amount"],10);
 				lowestRaid = i;
 			}
+			alert(summon_items.length);
+			alert(typeof(summon_items[i]) != 'undefined');
+			alert(parseInt(summon_items[i]["amount"],10) < lowestCount);
 		}
 		if (lowestCount > 0 && parseInt(fnAutoSuperRaid(),10) > 0) {
 			fnSuperRaidSummon();
