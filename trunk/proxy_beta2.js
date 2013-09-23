@@ -4381,7 +4381,7 @@ function fnFixAdventureMission() {
 			if (result.payload.event.all_area_clear) {
 				fnRedirect('/en/'+platform+'/adventure/');
 			}
-			else if (parseInt(result.payload.mission.last_mission,10)==1) {
+			else if (parseInt(result.payload.mission.last_mission,10)==1 && document.referrer.indexOf('/adventure/tradeShop') < 0) {
 				
 				/*
 				$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', {
