@@ -4409,13 +4409,12 @@ function fnFixAdventureMission() {
 	adventureGrind = function() {
 		$('#tap-target-area p.target').eq(0).trigger("click");
 		adventureItemStep++;
-		fnGrowl('Step:'+adventureItemStep);
 		if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area"),10) == 10001) {
 			//alert("100001");
 			//adventureGrind();
 		}
 		else {
-			if (adventureItemStep >= 300 && fnQueryString("collect") != '' && parseInt(window.adventureMission.area_id,10) <=5) {
+			if (adventureItemStep >= 300 && (fnQueryString("collect") != '' || document.referrer.indexOf('/adventure/tradeShop') >= 0) && parseInt(window.adventureMission.area_id,10) <=5) {
 				clearInterval(missionInterval);
 				fnAdventureSearchLoot();
 			}
