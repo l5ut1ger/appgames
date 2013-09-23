@@ -5014,7 +5014,7 @@ function fnSearchForNextMissionLoot() {
 				lowestRaid = i;
 			}
 		}
-		if (lowestCount > 0 && fnAutoSuperRaid() > 0) {
+		if (lowestCount > 0 && parseInt(fnAutoSuperRaid(),10) > 0) {
 			fnSuperRaidSummon();
 			return;
 		}
