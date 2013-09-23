@@ -526,13 +526,31 @@ function fnSetAutoNewMission(value, upload) {
 	fnSetCookie(autoNewMissionKey, value, upload);
 }
 
+// super raid
+
+var superRaidKey = 'sr';
+
+function fnAutoSuperRaid() {
+	if (fnGetCookie(superRaidKey) === null) {
+		fnSetAutoSuperRaid(0,0);
+	}
+	return fnGetCookie(superRaidKey);
+}
+
+function fnSetAutoSuperRaid(value, upload) {
+	if(upload != 0) { 
+		upload = 1;
+	}
+	fnSetCookie(superRaidKey, value, upload);
+}
+
 // Auto EP Toggle
 
 var autoDrinkKey = 'autoDrink';
 
 function fnAutoDrink() {
 	if(fnGetCookie(autoDrinkKey) === null) {
-			fnSetAutoDrink(-1, 0);
+		fnSetAutoDrink(-1, 0);
 	}
 	return fnGetCookie(autoDrinkKey);
 }
@@ -1294,6 +1312,13 @@ function fnProfileFixTabs() {
 	autoNewMissionSelectorHTML += '<option ' + (fnAutoNewMission() == 0 ?'selected':'') + ' value="0">Off</option>'
 	autoNewMissionSelectorHTML += '<option ' + (fnAutoNewMission() == 1 ?'selected':'') + ' value="1">On</option>';
 	autoNewMissionSelectorHTML += '</select><br/><br/>'; 
+
+	// super raid setting
+	var superRaidSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto Super Raid (turn on to auto summon super raid when grinding mission)</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	superRaidSelectorHTML += '<select name="sel" onchange="fnSetAutoSuperRaid(this.options[this.options.selectedIndex].value);fnGrowl(\'Super Raid \'+this.options[this.options.selectedIndex].text);">';
+	superRaidSelectorHTML += '<option ' + (fnAutoSuperRaid() == 0 ?'selected':'') + ' value="0">Off</option>'
+	superRaidSelectorHTML += '<option ' + (fnAutoSuperRaid() == 1 ?'selected':'') + ' value="1">On</option>';
+	superRaidSelectorHTML += '</select><br/><br/>'; 
 	
 	// auto drink setting
 	var autoDrinkSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto Drink</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
@@ -1374,7 +1399,7 @@ function fnProfileFixTabs() {
 	towerTrapSelectorHTML+='</select><br/><br/>'; 
 	
  
-	divTag.innerHTML = resetHTML + ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + bpSelectorHTML+ autoAllySelectorHTML + autoStatsUpselectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML+towerTrapSelectorHTML; 
+	divTag.innerHTML = resetHTML + ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + superRaidSelectorHTML + autoDrinkSelectorHTML + bpSelectorHTML+ autoAllySelectorHTML + autoStatsUpselectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML+towerTrapSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 	
 	fnProfileFillAltOption();
@@ -4962,16 +4987,16 @@ function fnSearchForNextMissionLoot() {
 		for (i=1001;i<=1039;i++) {
 			while (parseInt(treasures[i]["item_1"],10)>0 && parseInt(treasures[i]["item_2"],10)>0 && parseInt(treasures[i]["item_3"],10)>0 && parseInt(treasures[i]["item_4"],10)>0 && parseInt(treasures[i]["item_5"],10)>0 && parseInt(treasures[i]["item_6"],10)>0) {
 				$.ajax_ex(false, '/en/'+platform+'/raid/ajax_raid_create_item', {tid:i}, function(data) {});
-				if (summon_items.length && summon_items[i]) {
+				if (Object.keys(summon_items).length && summon_items[i]) {
 					summon_items[i]["amount"] = parseInt(summon_items[i]["amount"],10)+1;
 				}
 				for (j=1;j<=6;j++) {
 					treasures[i]["item_"+j] = parseInt(treasures[i]["item_"+j],10)-1;
 				}
 			}
-			if (summon_items.length == 0) {
+			if (Object.keys(summon_items).length == 0) {
 				lowestCount = 0;
-				lowestRaid = 1001;
+				lowestRaid = i;
 				break;
 			}
 			if (typeof(summon_items[i]) == 'undefined') {
@@ -4984,12 +5009,12 @@ function fnSearchForNextMissionLoot() {
 				lowestRaid = i;
 				break;
 			}
-			else if (summon_items.length && summon_items[i] && parseInt(summon_items[i]["amount"],10) < lowestCount) {
+			else if (Object.keys(summon_items).length && typeof(summon_items[i]) != 'undefined' && parseInt(summon_items[i]["amount"],10) < lowestCount) {
 				lowestCount = parseInt(summon_items[i]["amount"],10);
 				lowestRaid = i;
 			}
 		}
-		if (lowestCount > 0) {
+		if (lowestCount > 0 && parseInt(fnAutoSuperRaid(),10) > 0) {
 			fnSuperRaidSummon();
 			return;
 		}
