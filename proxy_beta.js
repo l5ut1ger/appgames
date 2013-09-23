@@ -4181,6 +4181,7 @@ function fnSubjugationMission() {
 var adventureItemArray = new Array();
 var adventureItemCountArray = new Array();
 var adventureItemStep = 0;
+var adventurePriorityLoot = 8031;
 
 function fnAdventureCheckItem() {
 	if (adventureItemArray.length) {
@@ -4210,7 +4211,9 @@ function fnAdventureSearchLoot() {
 			$('#tradeShop').html(html);
 			setTimeout(function(){
 				adventureItemArray = new Array();
+				adventureItemArray.push(adventurePriorityLoot);
 				adventureItemCountArray = new Array();
+				adventureItemCountArray[adventurePriorityLoot] = 0;
 				
 				var traded = false;
 				
@@ -4242,8 +4245,6 @@ function fnAdventureSearchLoot() {
 					success: function(html){
 						$('#tradeShop').html(html);
 						setTimeout(function(){
-							adventureItemArray = new Array();
-							adventureItemCountArray = new Array();
 							traded = false;							
 							for (i=0;i<Object.keys(resource_list).length;i++) {
 								for (j=0;j<Object.keys(resource_list[i]).length;j++) {
@@ -4378,7 +4379,7 @@ function fnFixAdventureMission() {
 			if (result.payload.event.all_area_clear) {
 				fnRedirect('/en/'+platform+'/adventure/');
 			}
-			else if (parseInt(result.payload.mission.last_mission,10)==1) {
+			else if (parseInt(result.payload.mission.last_mission,10)==1 && document.referrer.indexOf('/adventure/tradeShop') < 0) {
 				
 				/*
 				$.ajax_ex(false, '/en/'+platform+'/adventure/nextArea', {
@@ -4411,7 +4412,7 @@ function fnFixAdventureMission() {
 			//adventureGrind();
 		}
 		else {
-			if (adventureItemStep >= 100 && fnQueryString("collect") != '' && parseInt(window.adventureMission.area_id,10) <=5) {
+			if (adventureItemStep >= 300 && (fnQueryString("collect") != '' || document.referrer.indexOf('/adventure/tradeShop') >= 0) && parseInt(window.adventureMission.area_id,10) <=5) {
 				clearInterval(missionInterval);
 				fnAdventureSearchLoot();
 			}
