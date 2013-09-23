@@ -4409,15 +4409,17 @@ function fnFixAdventureMission() {
 	adventureGrind = function() {
 		$('#tap-target-area p.target').eq(0).trigger("click");
 		adventureItemStep++;
-		fnGrowl(adventureItemStep);
-		fnGrowl((fnQueryString("collect") != '' || document.referrer.indexOf('/adventure/tradeShop') >= 0));
-		fnGrowl(parseInt(window.adventureMission.area_id,10) <=5);
 		if (fnGetGrindingSpeed() == 1 || parseInt(fnQueryString("area"),10) == 10001) {
+			fnGrowl('stay');
 			//alert("100001");
 			//adventureGrind();
 		}
 		else {
+			fnGrowl(adventureItemStep);
+			fnGrowl((fnQueryString("collect") != '' || document.referrer.indexOf('/adventure/tradeShop') >= 0));
+			fnGrowl(parseInt(window.adventureMission.area_id,10) <=5);
 			if (adventureItemStep >= 300 && (fnQueryString("collect") != '' || document.referrer.indexOf('/adventure/tradeShop') >= 0) && parseInt(window.adventureMission.area_id,10) <=5) {
+				fnGrowl('go');
 				clearInterval(missionInterval);
 				fnAdventureSearchLoot();
 			}
