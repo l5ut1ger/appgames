@@ -526,6 +526,24 @@ function fnSetAutoNewMission(value, upload) {
 	fnSetCookie(autoNewMissionKey, value, upload);
 }
 
+// super raid
+
+var superRaidKey = 'sr';
+
+function fnAutoSuperRaid() {
+	if (fnGetCookie(superRaidKey) === null) {
+		fnSetAutoSuperRaid(0);
+	}
+	return fnGetCookie(superRaidKey);
+}
+
+function fnSetAutoSuperRaid(value, upload) {
+	if(upload != 0) { 
+		upload = 1;
+	}
+	fnSetCookie(superRaidKey, value, upload);
+}
+
 // Auto EP Toggle
 
 var autoDrinkKey = 'autoDrink';
@@ -1294,6 +1312,13 @@ function fnProfileFixTabs() {
 	autoNewMissionSelectorHTML += '<option ' + (fnAutoNewMission() == 0 ?'selected':'') + ' value="0">Off</option>'
 	autoNewMissionSelectorHTML += '<option ' + (fnAutoNewMission() == 1 ?'selected':'') + ' value="1">On</option>';
 	autoNewMissionSelectorHTML += '</select><br/><br/>'; 
+
+	// super raid setting
+	var superRaidSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto Super Raid (turn on to auto summon super raid when grinding mission)</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
+	superRaidSelectorHTML += '<select name="sel" onchange="fnSetAutoSuperRaid(this.options[this.options.selectedIndex].value);fnGrowl(\'Super Raid \'+this.options[this.options.selectedIndex].text);">';
+	superRaidSelectorHTML += '<option ' + (fnAutoSuperRaid() == 0 ?'selected':'') + ' value="0">Off</option>'
+	superRaidSelectorHTML += '<option ' + (fnAutoSuperRaid() == 1 ?'selected':'') + ' value="1">On</option>';
+	superRaidSelectorHTML += '</select><br/><br/>'; 
 	
 	// auto drink setting
 	var autoDrinkSelectorHTML = '<div style="position:relative;color:#ae0000;"><img style="position:relative;" src="http://res.dark'+'summoner.com/en/s/misc/icons/summon.png" /> Auto Drink</div><div style="position:relative; width:285px; height:1px;" class="separator-item"></div><br/>';
@@ -1374,7 +1399,7 @@ function fnProfileFixTabs() {
 	towerTrapSelectorHTML+='</select><br/><br/>'; 
 	
  
-	divTag.innerHTML = resetHTML + ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + autoDrinkSelectorHTML + bpSelectorHTML+ autoAllySelectorHTML + autoStatsUpselectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML+towerTrapSelectorHTML; 
+	divTag.innerHTML = resetHTML + ownerHTML + altHTML + allyAllAltHTML + compensationHTML + grindSelectorHTML + autoNewMissionSelectorHTML + superRaidSelectorHTML + autoDrinkSelectorHTML + bpSelectorHTML+ autoAllySelectorHTML + autoStatsUpselectorHTML + towerSelectorHTML + progTeamSelectorHTML + mcFlyTeamSelectorHTML+towerTrapSelectorHTML; 
 	document.getElementById('profile-current-login').parentNode.appendChild(divTag);
 	
 	fnProfileFillAltOption();
@@ -4989,7 +5014,7 @@ function fnSearchForNextMissionLoot() {
 				lowestRaid = i;
 			}
 		}
-		if (lowestCount > 0) {
+		if (lowestCount > 0 && fnAutoSuperRaid() > 0) {
 			fnSuperRaidSummon();
 			return;
 		}
