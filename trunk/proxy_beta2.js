@@ -4184,7 +4184,6 @@ var adventureItemStep = 0;
 var adventurePriorityLoot = 8031;
 
 function fnAdventureCheckItem() {
-	alert("item array length:"+adventureItemArray.length);
 	if (adventureItemArray.length) {
 		$.ajax_ex(true, '/en/'+platform+'/adventure/ajaxGetTreasureInfo', {item_id:adventureItemArray[0]},function(data) {
 			if (typeof(data.payload) != 'undefined' && (data.payload.limited_flag == true || data.payload.area_id != 10001)) {
