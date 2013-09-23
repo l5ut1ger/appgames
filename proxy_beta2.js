@@ -4414,7 +4414,7 @@ function fnFixAdventureMission() {
 			//adventureGrind();
 		}
 		else {
-			if (adventureItemStep >= 100 && fnQueryString("collect") != '' && parseInt(window.adventureMission.area_id,10) <=5) {
+			if (adventureItemStep >= 300 && fnQueryString("collect") != '' && parseInt(window.adventureMission.area_id,10) <=5) {
 				clearInterval(missionInterval);
 				fnAdventureSearchLoot();
 			}
