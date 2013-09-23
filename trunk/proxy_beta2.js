@@ -5009,13 +5009,11 @@ function fnSearchForNextMissionLoot() {
 				lowestRaid = i;
 				break;
 			}
-			else if (summon_items.length && summon_items[i] && parseInt(summon_items[i]["amount"],10) < lowestCount) {
+			else if (summon_items.length && typeof(summon_items[i]) != 'undefined' && parseInt(summon_items[i]["amount"],10) < lowestCount) {
 				lowestCount = parseInt(summon_items[i]["amount"],10);
 				lowestRaid = i;
 			}
-			alert('end of '+i);
 		}
-		alert('lowestRaid:'+lowestRaid);
 		if (lowestCount > 0 && parseInt(fnAutoSuperRaid(),10) > 0) {
 			fnSuperRaidSummon();
 			return;
