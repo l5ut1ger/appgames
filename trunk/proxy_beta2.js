@@ -5014,10 +5014,13 @@ function fnSearchForNextMissionLoot() {
 				lowestRaid = i;
 			}
 		}
+		alert('a');
+		alert(fnAutoSuperRaid());
 		if (lowestCount > 0 && parseInt(fnAutoSuperRaid(),10) > 0) {
 			fnSuperRaidSummon();
 			return;
 		}
+		alert('b');
 		for (j=1;j<=6;j++) {
 			if (parseInt(treasures[lowestRaid]["item_"+j],10)==0) {
 				//raid this loot
