@@ -1045,7 +1045,7 @@ function fnSkypeClanSelectorOption(pDefault) {
 	option += '<option value="2171680461" ' + (pDefault=="2171680461"?"selected":"") + '>Byce</option>';
 	option += '<option value="2687205744" ' + (pDefault=="2687205744"?"selected":"") + '>Beastly(Josh)</option>';
 	option += '<option value="2747200019" ' + (pDefault=="2747200019"?"selected":"") + '>Getr3kt</option>';
-	option += '<option value="2578795263" ' + (pDefault=="2578795263"?"selected":"") + '>Joe</option>';
+	option += '<option value="2210931238" ' + (pDefault=="2210931238"?"selected":"") + '>Will</option>';
 	//option += '<option value="2121751804" ' + (pDefault=="2121751804"?"selected":"") + '>Josh</option>';
 	//option += '<option value="2337077116" ' + (pDefault=="2337077116"?"selected":"") + '>devistator(Josh)</option>';
 	option += '<option value="2993558878" ' + (pDefault=="2993558878"?"selected":"") + '>mr_saving</option>';
@@ -6504,7 +6504,7 @@ function fnFusionFixDestPage() {
 		var id = 'monster_' + i;
 		var base_tag      = $('<div id="' + id + '" class="monster"></div>');
 
-		// EXé²åæã®ã¢ã¤ãã æ¬è¡¨ç¤º
+		// EXé²åæã®ã¢ã¤ãã æ¬è¡¨ç¤º
 		showExItems(monster, i);
 
 		base_tag
