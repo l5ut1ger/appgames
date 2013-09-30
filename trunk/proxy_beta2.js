@@ -2465,44 +2465,45 @@ function fnFixMissionProcess() {
 				sampleTrap: result.payload.sampleTrap,
 				player: result.payload.player
 				});*/
+				if (fnTowerTrap() == 4002) {
+					clearInterval(missionInterval);
 
-				clearInterval(missionInterval);
-
-				red_flower_count = 0;
-				red_flower_target = 1;
-				$.ajax({
-					type: "GET",
-					url: '/en/'+platform+'/mission?area=1',
-					dataType: "html",
-					success: function(html){
-						$('#flower').html(html);
-						red_flower_confirm_id = confirm_id;
-						getRedFlower = function() {
-							if (parseInt(player.power,10)) {
-								player.power = parseInt(player.power,10)-1;
-								$.ajax_ex(false, '/en/'+platform+'/mission/process?area_id=1&mission=0&confirm_id='+red_flower_confirm_id, {}, function(result2) {
-									red_flower_confirm_id = result2.payload.confirm_id;
-									if (result2.payload.event && result2.payload.event.treasure && parseInt(result2.payload.event.treasure.item_id,10)==4002) {
-										red_flower_count++;
-										if (fnGetGrindingSpeed() == 1) {
-											missionProcess();
+					red_flower_count = 0;
+					red_flower_target = 1;
+					$.ajax({
+						type: "GET",
+						url: '/en/'+platform+'/mission?area=1',
+						dataType: "html",
+						success: function(html){
+							$('#flower').html(html);
+							red_flower_confirm_id = confirm_id;
+							getRedFlower = function() {
+								if (parseInt(player.power,10)) {
+									player.power = parseInt(player.power,10)-1;
+									$.ajax_ex(false, '/en/'+platform+'/mission/process?area_id=1&mission=0&confirm_id='+red_flower_confirm_id, {}, function(result2) {
+										red_flower_confirm_id = result2.payload.confirm_id;
+										if (result2.payload.event && result2.payload.event.treasure && parseInt(result2.payload.event.treasure.item_id,10)==4002) {
+											red_flower_count++;
+											if (fnGetGrindingSpeed() == 1) {
+												missionProcess();
+											}
+											else {
+												missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
+											}
 										}
 										else {
-											missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
+											setTimeout(getRedFlower,Math.max(1000,fnGetGrindingSpeed()));
 										}
-									}
-									else {
-										setTimeout(getRedFlower,Math.max(1000,fnGetGrindingSpeed()));
-									}
-								});
-							}
-							else {
-								fnRedirect('/en/'+platform+'/mission/');
-							}
-						};
-						getRedFlower();
-					}
-				});		
+									});
+								}
+								else {
+									fnRedirect('/en/'+platform+'/mission/');
+								}
+							};
+							getRedFlower();
+						}
+					});
+				}
 			}
 			if (result.payload.process.fortitude) {
 				clearInterval(missionInterval);
