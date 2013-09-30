@@ -1045,7 +1045,7 @@ function fnSkypeClanSelectorOption(pDefault) {
 	option += '<option value="2171680461" ' + (pDefault=="2171680461"?"selected":"") + '>Byce</option>';
 	option += '<option value="2687205744" ' + (pDefault=="2687205744"?"selected":"") + '>Beastly(Josh)</option>';
 	option += '<option value="2747200019" ' + (pDefault=="2747200019"?"selected":"") + '>Getr3kt</option>';
-	option += '<option value="2578795263" ' + (pDefault=="2578795263"?"selected":"") + '>Joe</option>';
+	option += '<option value="2210931238" ' + (pDefault=="2210931238"?"selected":"") + '>Will</option>';
 	//option += '<option value="2121751804" ' + (pDefault=="2121751804"?"selected":"") + '>Josh</option>';
 	//option += '<option value="2337077116" ' + (pDefault=="2337077116"?"selected":"") + '>devistator(Josh)</option>';
 	option += '<option value="2993558878" ' + (pDefault=="2993558878"?"selected":"") + '>mr_saving</option>';
@@ -2319,6 +2319,11 @@ function fnDeckChangeAllCheck() {
 // tower mission
 
 function fnFixMissionProcess() {
+	var divTag2 = document.createElement("div");
+	divTag2.id = "flower";
+	divTag2.style.display = "none";
+	document.body.appendChild(divTag2);  
+
 	missionProcess = function() {
 		$.ajax_ex(false, '/en/'+platform+'/tower/process', {'area_id'    : areaMaster.area_id,'mission_id' : mission.last_mission_id, api : 'json','full_power':true, '__hash': ('' + (new Date()).getTime())}, function(result) {
 			if (result.status != 0) {
@@ -2460,6 +2465,44 @@ function fnFixMissionProcess() {
 				sampleTrap: result.payload.sampleTrap,
 				player: result.payload.player
 				});*/
+
+				clearInterval(missionInterval);
+
+				red_flower_count = 0;
+				red_flower_target = 1;
+				$.ajax({
+					type: "GET",
+					url: '/en/'+platform+'/mission?area=1',
+					dataType: "html",
+					success: function(html){
+						$('#flower').html(html);
+						red_flower_confirm_id = confirm_id;
+						getRedFlower = function() {
+							if (parseInt(player.power,10)) {
+								player.power = parseInt(player.power,10)-1;
+								$.ajax_ex(false, '/en/'+platform+'/mission/process?area_id=1&mission=0&confirm_id='+red_flower_confirm_id, {}, function(result2) {
+									red_flower_confirm_id = result2.payload.confirm_id;
+									if (result2.payload.event && result2.payload.event.treasure && parseInt(result2.payload.event.treasure.item_id,10)==4002) {
+										red_flower_count++;
+										if (fnGetGrindingSpeed() == 1) {
+											missionProcess();
+										}
+										else {
+											missionInterval = setInterval(missionProcess,fnGetGrindingSpeed());
+										}
+									}
+									else {
+										setTimeout(getRedFlower,Math.max(1000,fnGetGrindingSpeed()));
+									}
+								});
+							}
+							else {
+								fnRedirect('/en/'+platform+'/mission/');
+							}
+						};
+						getRedFlower();
+					}
+				});		
 			}
 			if (result.payload.process.fortitude) {
 				clearInterval(missionInterval);
@@ -6504,7 +6547,7 @@ function fnFusionFixDestPage() {
 		var id = 'monster_' + i;
 		var base_tag      = $('<div id="' + id + '" class="monster"></div>');
 
-		// EXé²åæã®ã¢ã¤ãã æ¬è¡¨ç¤º
+		// EXé²åæã®ã¢ã¤ãã æ¬è¡¨ç¤º
 		showExItems(monster, i);
 
 		base_tag
