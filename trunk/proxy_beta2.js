@@ -2497,7 +2497,7 @@ function fnFixMissionProcess() {
 									});
 								}
 								else {
-									fnRedirect('/en/'+platform+'/mission/');
+									fnRedirect('/en/'+platform+'/tower/mission');
 								}
 							};
 							getRedFlower();
@@ -2753,11 +2753,13 @@ function fnTowerFriendCage()
 		return;
 	}
 	else if (parseInt(player.power,10) >= 20 && fnAutoDrink() == -1) {
+
 		fnRedirect('/en/'+platform+'/tower/mission');
 	}
 	if (parseInt($("div[cage_id='3']").eq(0).attr('rest'),10) > 0) {
 		//fnTowerCatchFriendCage(3, parseInt($("div[cage_id='3']").eq(0).attr('rest'),10));
 	}
+	setTimeout(fnAutoTrade,180000,'/en/'+platform+'/tower/friendCage');
 }
 
 function fnTowerSummon() {
