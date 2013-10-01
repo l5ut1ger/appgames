@@ -2760,6 +2760,11 @@ function fnTowerFriendCage()
 		//fnTowerCatchFriendCage(3, parseInt($("div[cage_id='3']").eq(0).attr('rest'),10));
 	}
 	setTimeout(fnAutoTrade,180000,'/en/'+platform+'/tower/friendCage');
+	fnSellAllSellableMonsters();
+	if ((new Date()).getTime() - fnOrganizeGiftBoxTimer() > organizeGiftBoxInterval) {
+		fnSetOrganizeGiftBoxTimer((new Date()).getTime(), 0);
+		fnPresentBoxOrganize();
+	}
 }
 
 function fnTowerSummon() {
