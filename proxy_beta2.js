@@ -2752,7 +2752,7 @@ function fnTowerFriendCage()
 		fnTowerCatchFriendCage(5, parseInt($("div[cage_id='5']").eq(0).attr('rest'),10));
 		return;
 	}
-	else if (parseInt(player.power,10) >= 20 && fnAutoDrink() == 0) {
+	else if (parseInt(player.power,10) >= 20 && fnAutoDrink() == -1) {
 		fnRedirect('/en/'+platform+'/tower/mission');
 	}
 	if (parseInt($("div[cage_id='3']").eq(0).attr('rest'),10) > 0) {
