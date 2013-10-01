@@ -2757,7 +2757,8 @@ function fnTowerFriendCage()
 		fnRedirect('/en/'+platform+'/tower/mission');
 	}
 	if (parseInt($("div[cage_id='3']").eq(0).attr('rest'),10) > 0) {
-		//fnTowerCatchFriendCage(3, parseInt($("div[cage_id='3']").eq(0).attr('rest'),10));
+		fnTowerCatchFriendCage(3, parseInt($("div[cage_id='3']").eq(0).attr('rest'),10));
+		return;
 	}
 	setTimeout(fnAutoTrade,180000,'/en/'+platform+'/tower/friendCage');
 	fnSellAllSellableMonsters();
