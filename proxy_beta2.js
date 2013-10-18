@@ -2437,6 +2437,7 @@ function fnFixMissionProcess() {
 				// halloween
 				$.ajax_ex(false, '/en/'+platform+'/tower/ajaxDiceSlotStop', {'__hash' : ('' + (new Date()).getTime()) }, function(data) {
 					if (data.payload.doubleChance) {
+						$.ajax_ex(false, '/en/'+platform+'/tower/diceSlot', {}, function(data) {});
 						$.ajax_ex(false, '/en/'+platform+'/tower/ajaxDiceSlotStop', {'__hash' : ('' + (new Date()).getTime()) }, function(data) {});
 					}
 					//$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id, {}, function(data) {});
