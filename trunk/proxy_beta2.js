@@ -2440,6 +2440,7 @@ function fnFixMissionProcess() {
 						$.ajax_ex(false, '/en/'+platform+'/tower/ajaxDiceSlotStop', {'__hash' : ('' + (new Date()).getTime()) }, function(data) {});
 					}
 					$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id, {}, function(data) {});
+					fnRedirect('/en/'+platform+'/tower/bossResult');
 				});
 				// end halloween
 				return;
