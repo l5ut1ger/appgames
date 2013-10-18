@@ -2604,6 +2604,18 @@ function fnTowerStory() {
 	fnRedirect('/en/'+platform+'/tower/mission?intentional=1');
 }
 
+function fnTowerDiceSlot() {
+	$.ajax_ex(false, '/en/'+platform+'/tower/ajaxDiceSlotStop', {'__hash' : ('' + (new Date()).getTime()) }, function(data) {
+		if (data.payload.doubleChance) {
+			$.ajax_ex(false, '/en/'+platform+'/tower/diceSlot', {}, function(data) {});
+			$.ajax_ex(false, '/en/'+platform+'/tower/ajaxDiceSlotStop', {'__hash' : ('' + (new Date()).getTime()) }, function(data) {});
+		}
+		//$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id, {}, function(data) {});
+		//fnRedirect('/en/'+platform+'/tower/bossResult');
+		fnRedirect('/en/'+platform+'/tower/mission');
+	});
+}
+
 function fnTowerMission() {
 	$('#fade').hide();
 	$('#tips').hide();
@@ -7432,6 +7444,9 @@ function fnTimeoutOnLoad() {
 	}
 	else if (window.location.pathname === '/en/'+platform+'/tower/finalRanking') {
 		fnTowerFinalRanking();
+	}
+	else if (window.location.pathname === '/en/'+platform+'/tower/diceSlot') {
+		fnTowerDiceSlot();
 	}
 	else if (window.location.pathname === '/en/'+platform+'/adventure') {
 		fnAdventure();
