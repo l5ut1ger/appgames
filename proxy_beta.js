@@ -2361,6 +2361,14 @@ function fnFixMissionProcess() {
 						}
 					}
 					else {
+						for (var i=0;i<result.payload.recoverItems.length;i++) {
+							if (result.payload.recoverItems[i].item_id==3095) {
+								$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3095}, function(data) {});
+								clearInterval(missionInterval);
+								fnRedirect('/en/'+platform+'/tower/mission');
+								return;
+							}
+						}
 						clearInterval(missionInterval);
 						fnRedirect('/en/'+platform+'/tower/friendCage');
 						EfectMng.clear()
@@ -2426,6 +2434,19 @@ function fnFixMissionProcess() {
 			  isShadow = true;
 			  if (mission.is_boss) {
 				clearInterval(missionInterval);
+				// halloween
+				$.ajax_ex(false, '/en/'+platform+'/tower/ajaxDiceSlotStop', {'__hash' : ('' + (new Date()).getTime()) }, function(data) {
+					if (data.payload.doubleChance) {
+						$.ajax_ex(false, '/en/'+platform+'/tower/diceSlot', {}, function(data) {});
+						$.ajax_ex(false, '/en/'+platform+'/tower/ajaxDiceSlotStop', {'__hash' : ('' + (new Date()).getTime()) }, function(data) {});
+					}
+					//$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id, {}, function(data) {});
+					//fnRedirect('/en/'+platform+'/tower/bossResult');
+					fnRedirect('/en/'+platform+'/tower/mission');
+				});
+				// end halloween
+				return;
+
 				if (fnTowerMcFlyTeam() != null && fnTowerProgTeam() != null) {
 					fnSetIsBattlingMcFly(1);
 					fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id);});
@@ -2659,6 +2680,18 @@ function fnTowerMission() {
 		}
 	}
 	else {	
+
+		// halloween
+
+		$.ajax_ex(false, '/en/'+platform+'/tower/ajaxDiceSlotStop', {'__hash' : ('' + (new Date()).getTime()) }, function(data) {
+			if (data.payload.doubleChance) {
+				$.ajax_ex(false, '/en/'+platform+'/tower/ajaxDiceSlotStop', {'__hash' : ('' + (new Date()).getTime()) }, function(data) {});
+			}
+			$.ajax_ex(false, '/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id, {}, function(data) {});
+		});
+		return;
+		// end halloween
+
 		if (fnTowerMcFlyTeam() != null && fnTowerProgTeam() != null) {
 			fnSetIsBattlingMcFly(1);
 			fnDeckChangeAdvance(fnTowerMcFlyTeam(), false, function(){fnRedirect('/en/'+platform+'/battle/battleact?tower=1&aid='+areaMaster.area_id+'&bossType=1003');});
