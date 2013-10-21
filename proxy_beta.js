@@ -2737,8 +2737,19 @@ function fnTowerCollectRedFlower() {
 		fnGrowl('Picking Flower. Energy Left:' + player.power);
 	}
 	else {
+		$.ajax_ex(false, '/en/'+platform+'/item/ajax_get_items?offset=0', { }, function(data) {
+			if ( (data == null) || (data.status != 0) ) { return; }
+			var items = data.payload.items;
+			for (var j=0;j<items.length;j++) {
+				if (items[j].item_id == 3095) { // consume fading my 100 energy
+					$.ajax_ex(false, '/en/'+platform+'/item/ajax_use', {item_id:3095}, function(data) {});
+					return;
+				}
+			}
+		});
 		setTimeout(fnAutoTrade,180000,'/en/'+platform+'/tower/friendCage');
 		fnSellAllSellableMonsters();
+		$.ajax_ex(false, '/en/'+platform+'/event/loginStamp', {}, function(data) {});
 		if (window.location.pathname === '/en/'+platform+'/home' || (new Date()).getTime() - fnOrganizeGiftBoxTimer() > organizeGiftBoxInterval) {
 			fnSetOrganizeGiftBoxTimer((new Date()).getTime(), 0);
 			fnPresentBoxOrganize();
