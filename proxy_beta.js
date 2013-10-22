@@ -2749,6 +2749,7 @@ function fnTowerCollectRedFlower() {
 		});
 		setTimeout(fnAutoTrade,180000,'/en/'+platform+'/tower/friendCage');
 		fnSellAllSellableMonsters();
+		$.ajax_ex(false, '/en/'+platform+'/home', {}, function(data) {});
 		$.ajax_ex(false, '/en/'+platform+'/event/loginStamp', {}, function(data) {});
 		if (window.location.pathname === '/en/'+platform+'/home' || (new Date()).getTime() - fnOrganizeGiftBoxTimer() > organizeGiftBoxInterval) {
 			fnSetOrganizeGiftBoxTimer((new Date()).getTime(), 0);
