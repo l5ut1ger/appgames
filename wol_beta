@@ -1,1 +1,302 @@
-test
+// 743
+
+var platform = window.location.pathname.indexOf("android") >= 0 ? 'android' : 'ios';
+
+// define
+var missionInterval;
+var progressionGuildSpecific = false;
+var progressionList=[50113, 53113, 56113];
+var skillArray = {"1": "IPA", "4": "IPD", "7": "Heal", "10": "Heal All", "13": "Revive", "16": "Pre-Strike", "17": "DEA", "20": "DED", "24": "Agility", "27": "Critical", "30": "Dodge", "37": "Venom", "47": "HellBlaze", "50": "Artic", "53": "Lightning", "57": "HealthUp", "58": "ImpDown", "59": "CovDown", "60": "PsyDown", "61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown","69":"PartyAtk+","70":"PartyDef+","71":"Health+","72":"CypherDown","76":"IPA+","77":"IPD+","78":"DEA+","79":"DED+","80":"HealthUp+","81":"ImpDown+","82":"CovDown+","83":"PsyDown+","84":"CypherDown+","85":"SacDivinity","88":"EffDivinity","91":"AugDivinity"};
+var guildDownArray = {"58": "ImpDown", "59": "CovDown", "60": "PsyDown"};
+var speciesDownArray = {"61": "DemonDown", "62": "CreatDown", "63": "UndeadDown", "64": "BeastDown", "65": "MystDown", "66": "WyrmDown", "67": "CrawlDown", "68": "BruteDown"};
+var sacSkillList=[0,7,10,13,16,24,30,37];
+var bpItemList = [3043, 3024, 3019, 3020, 3003, 3011];
+var syncCount = 0;
+var serverCookieInterval=0;;
+/*
+if (typeof confirm_id == 'undefined') {
+  var confirm_id = 0;
+}*/
+// Tools
+
+
+function fnTimeoutOnLoad() {
+  if (window.location.pathname === '/en/'+platform+'/tutorial/start_page') {
+    fnTutorialStartPage();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/tutorial/tip2') {
+    fnTutorialTip2();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/making/opening') {
+    fnMakingOpening();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/rookiequest') {
+    fnRookieQuest();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/event/loginStamp') {
+    fnLoginStamp();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/event/loginStampContinuous') {
+    fnLoginStamp();
+  }
+     else if (window.location.pathname === '/en/'+platform+'/event/rewardToGetFirstDay') {
+    fnFirstDayOfMonth();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/event/comeback') {
+    fnEventComeBack();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/home/profile') {
+    fnProfile();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/home') {
+    fnHome();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/home/login') {
+    fnHomeLogin();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/home/bonus') {
+    fnHomeBonus();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/market') {
+    fnMarket();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/event/loginDays') {
+    fnLoginDays();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/monster') {
+    fnMonster(); // sell monster page
+  }
+  else if (window.location.pathname === '/en/'+platform+'/friends') {
+    fnFriend();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/friends/profile') {
+    fnFriendProfile();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/deck2/changeAllCheck') {
+    fnDeckChangeAllCheck();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/mission') {
+    fnMission();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/mission/areaChange') {
+    fnMissionAreaChange();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/mission/battleResult') {
+    fnMissionBattleResult();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/tower') {
+    fnTower();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/tower/friendCage') {
+    fnTowerFriendCage();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/tower/story') {
+    fnTowerStory();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/tower/summon') {
+    fnTowerSummon();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/tower/mission') {
+    fnTowerMission();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/tower/bossResult') {
+    fnTowerBossResult();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/tower/fortitudeAppeared') {
+    fnTowerFortitudeAppeared();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/tower/finalRanking') {
+    fnTowerFinalRanking();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/adventure/mission') {
+    fnAdventureMission();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/dungeon' || window.location.pathname === '/en/'+platform+'/dungeon/index') {
+    fnDungeon();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/dungeon/mission') {
+    fnDungeonMission();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/dungeon/battle') {
+    fnDungeonBattle();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/dungeon/win') {
+    fnDungeonWin();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/clanbattle') {
+    fnClanBattle();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleSelect') {
+    fnClanBattleSelect();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/clanbattle/mission') {
+    fnClanBattleMission();
+  }  
+  else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleAct') {
+    fnClanBattleAct();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/clanbattle/battle') {
+    fnClanBattleBattle();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleResult') {
+    fnClanBattleBattleResult();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionSelect') {
+    fnClanBattleExecutionSelect();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/clanbattle/execution') {
+    fnClanBattleExecution();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionAnimationCreateJS') {
+    fnClanBattleExecutionAnimationCreateJS();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionResult') {
+    fnClanBattleExecutionResult();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/battle/battle') {
+    fnBattleBattle();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/present/box') {
+    fnPresentBox();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/present/suggest') {
+    fnPresentSuggest();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/present/confirm') {
+    fnPresentConfirm();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/trade/suggest1') {
+    fnTradeSuggest();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/achievement/monster') {
+    fnMonsterCollection();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/achievement/monsterInformation') {
+    fnMonsterInfo();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/auction') {
+    fnAuction();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/auction/detail') {
+    fnAuctionDetail();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/trade') {
+    fnTrade();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/forkroad') {
+    fnForkRoad();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/forkroad/drawACard') {
+    fnForkRoadDrawACard();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/forkroad/mission') {
+    fnForkRoadMission();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/forkroad/list') {
+    fnForkRoadList();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/forkroad/complete') {
+    fnForkRoadComplete();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/forkroad/mileStone') {
+    fnForkRoadMileStone();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/forkroad/itemComplete') {
+    fnForkRoadItemComplete();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/forkroad/battleResult') {
+    fnForkRoadBattleResult();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/forkroad/bossResult') {
+    fnForkRoadBossResult();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/forkroad/summon') {
+    fnForkRoadSummon();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/cemetery') {
+    fnCemetery();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/cemetery/mission') {
+    fnCemeteryMission();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/cemetery/openGate') {
+    fnCemeteryOpenGate();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/cemetery/battleResult') {
+    fnCemeteryBattleResult();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/cemetery/battleList') {
+    fnCemeteryBattleList();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/subjugation') {
+    fnSubjugation();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/subjugation/mission') {
+    fnSubjugationMission();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/subjugation/raid') {
+    fnSubjugationRaid();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/subjugation/result') {
+    fnSubjugationResult();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/subjugation/rewardGuild') {
+    fnSubjugationRewardGuild();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/event/slotGame') {
+    fnSlotGame();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/event/slotReward') {
+    fnSlotReward();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/campaign/list') {
+    fnCampaignList();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/event/bingo') {
+    //fnEventBingo();
+  }
+  // /en/'+platform+'/dungeon/recovery
+  // /en/'+platform+'/dungeon/recoveryproc
+}
+
+function fnOnLoad() {
+  loadjscssfile("http://jquery-notice.googlecode.com/svn/trunk/jquery.notice.css?", "css");
+  loadjscssfile("http://sexybuttons.googlecode.com/svn/trunk/sexybuttons.css", "css");
+
+  loadjscssfile("http://kitchen.net-perspective.com/purr-example/jquery.purr.js", "js");  
+  fnSetupPurrCSS();
+  fnCreateBackButton();
+  if (fnAutoRedirect().length > 5) {
+    vURL = fnAutoRedirect();
+    fnSetAutoRedirect('.');
+    fnRedirect(vURL);
+    return;
+  }
+  if (!(typeof player === 'undefined')) {
+    fnAutoUsePoint();
+    fnCheckAlly();
+  }
+  $(document).ready(function() {setTimeout(fnTimeoutOnLoad, 0);});  
+}
+
+function fnPreLoad() {
+  if (window.location.pathname === '/en/'+platform+'/dungeon/mission') {
+    fnDungeonMissionPreload();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/dungeon/battle') {
+    fnDungeonBattlePreload();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/dungeon/win') {
+    fnDungeonWinPreload();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/event/slotInformation') {
+    fnSlotInformationPreload();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/event/slotGame') {
+    fnSlotGamePreload();
+  }
+  else if (window.location.pathname === '/en/'+platform+'/event/numberTicketInformation') {
+    fnEventNumberTicketInformationPreload();
+  }  
+}
+fnPreLoad();
