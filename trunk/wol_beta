@@ -19,244 +19,54 @@ if (typeof confirm_id == 'undefined') {
 }*/
 // Tools
 
+// home
+
+function fnHome() {
+  fnProfileAddWallBookmarkSelector();
+  fnDeckAddFormationSelector();
+  document.getElementById('formationDiv').style.top = "100px";
+  fnSyncServer();
+}
+
+function fnProfileAddWallBookmarkSelector() {
+   var i;
+   var divTag = document.createElement("div");
+
+   divTag.id = "wallBookmarkDiv";
+
+   divTag.style["z-index"] = 1000;
+
+   divTag.style.position = "absolute";
+
+   divTag.style.left = "200px";
+   divTag.style.top = "100px";
+
+   var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
+   selectorHTML += '<option value="weekly1">Weekly Rank1</option>'
+   selectorHTML += '<option value="overall1">Overall Rank1</option>'
+   var aFriendArray = fnGetBookmarkFriendArray();
+   for (i=0;i<aFriendArray.length;i++) {
+   if (typeof(aFriendArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
+   selectorHTML+='<option value="' + aFriendArray[i].split(fnGetConnector())[0] + '">' + aFriendArray[i].split(fnGetConnector())[1] + '</option>';
+   }
+   selectorHTML+='</select>';
+
+   divTag.innerHTML = selectorHTML;
+   document.body.appendChild(divTag);
+}
+
+// on load
+
+function fnSetupPurrCSS() {
+  var sheet = document.createElement('style')
+  sheet.innerHTML = "#purr-container {z-index:9999;      position: fixed;      top: 0;      right: 0;    }        .notice {      position: relative;      width: 324px;    }      .notice .close  {position: absolute; top: 12px; right: 12px; display: block; width: 18px; height: 17px; text-indent: -9999px; background: url(http://kitchen.net-perspective.com/purr-example/purrClose.png) no-repeat 0 10px;}      .notice-body {      min-height: 5px;      padding: 5px 5px 0 5px;      background: url(http://kitchen.net-perspective.com/purr-example/purrTop.png) no-repeat left top;      color: #f9f9f9;    }      .notice-body img  {width: 50px; margin: 0 10px 0 0; float: left;}      .notice-body h3  {margin: 0; font-size: 1.1em;}      .notice-body p    {margin: 10px 0px 0 15px;font-size: 0.8em; line-height: 1.4em;}        .notice-bottom {      height: 5px;      background: url(http://kitchen.net-perspective.com/purr-example/purrBottom.png) no-repeat left top;    }";
+  document.body.appendChild(sheet);  
+}
 
 function fnTimeoutOnLoad() {
-  if (window.location.pathname === '/en/'+platform+'/tutorial/start_page') {
-    fnTutorialStartPage();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/tutorial/tip2') {
-    fnTutorialTip2();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/making/opening') {
-    fnMakingOpening();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/rookiequest') {
-    fnRookieQuest();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/event/loginStamp') {
-    fnLoginStamp();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/event/loginStampContinuous') {
-    fnLoginStamp();
-  }
-     else if (window.location.pathname === '/en/'+platform+'/event/rewardToGetFirstDay') {
-    fnFirstDayOfMonth();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/event/comeback') {
-    fnEventComeBack();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/home/profile') {
-    fnProfile();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/home') {
+  if (window.location.pathname === '/en/?:TIPS') {
     fnHome();
   }
-  else if (window.location.pathname === '/en/'+platform+'/home/login') {
-    fnHomeLogin();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/home/bonus') {
-    fnHomeBonus();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/market') {
-    fnMarket();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/event/loginDays') {
-    fnLoginDays();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/monster') {
-    fnMonster(); // sell monster page
-  }
-  else if (window.location.pathname === '/en/'+platform+'/friends') {
-    fnFriend();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/friends/profile') {
-    fnFriendProfile();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/deck2/changeAllCheck') {
-    fnDeckChangeAllCheck();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/mission') {
-    fnMission();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/mission/areaChange') {
-    fnMissionAreaChange();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/mission/battleResult') {
-    fnMissionBattleResult();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/tower') {
-    fnTower();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/tower/friendCage') {
-    fnTowerFriendCage();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/tower/story') {
-    fnTowerStory();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/tower/summon') {
-    fnTowerSummon();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/tower/mission') {
-    fnTowerMission();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/tower/bossResult') {
-    fnTowerBossResult();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/tower/fortitudeAppeared') {
-    fnTowerFortitudeAppeared();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/tower/finalRanking') {
-    fnTowerFinalRanking();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/adventure/mission') {
-    fnAdventureMission();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/dungeon' || window.location.pathname === '/en/'+platform+'/dungeon/index') {
-    fnDungeon();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/dungeon/mission') {
-    fnDungeonMission();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/dungeon/battle') {
-    fnDungeonBattle();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/dungeon/win') {
-    fnDungeonWin();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/clanbattle') {
-    fnClanBattle();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleSelect') {
-    fnClanBattleSelect();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/clanbattle/mission') {
-    fnClanBattleMission();
-  }  
-  else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleAct') {
-    fnClanBattleAct();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/clanbattle/battle') {
-    fnClanBattleBattle();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/clanbattle/battleResult') {
-    fnClanBattleBattleResult();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionSelect') {
-    fnClanBattleExecutionSelect();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/clanbattle/execution') {
-    fnClanBattleExecution();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionAnimationCreateJS') {
-    fnClanBattleExecutionAnimationCreateJS();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/clanbattle/executionResult') {
-    fnClanBattleExecutionResult();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/battle/battle') {
-    fnBattleBattle();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/present/box') {
-    fnPresentBox();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/present/suggest') {
-    fnPresentSuggest();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/present/confirm') {
-    fnPresentConfirm();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/trade/suggest1') {
-    fnTradeSuggest();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/achievement/monster') {
-    fnMonsterCollection();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/achievement/monsterInformation') {
-    fnMonsterInfo();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/auction') {
-    fnAuction();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/auction/detail') {
-    fnAuctionDetail();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/trade') {
-    fnTrade();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/forkroad') {
-    fnForkRoad();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/forkroad/drawACard') {
-    fnForkRoadDrawACard();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/forkroad/mission') {
-    fnForkRoadMission();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/forkroad/list') {
-    fnForkRoadList();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/forkroad/complete') {
-    fnForkRoadComplete();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/forkroad/mileStone') {
-    fnForkRoadMileStone();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/forkroad/itemComplete') {
-    fnForkRoadItemComplete();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/forkroad/battleResult') {
-    fnForkRoadBattleResult();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/forkroad/bossResult') {
-    fnForkRoadBossResult();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/forkroad/summon') {
-    fnForkRoadSummon();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/cemetery') {
-    fnCemetery();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/cemetery/mission') {
-    fnCemeteryMission();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/cemetery/openGate') {
-    fnCemeteryOpenGate();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/cemetery/battleResult') {
-    fnCemeteryBattleResult();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/cemetery/battleList') {
-    fnCemeteryBattleList();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/subjugation') {
-    fnSubjugation();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/subjugation/mission') {
-    fnSubjugationMission();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/subjugation/raid') {
-    fnSubjugationRaid();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/subjugation/result') {
-    fnSubjugationResult();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/subjugation/rewardGuild') {
-    fnSubjugationRewardGuild();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/event/slotGame') {
-    fnSlotGame();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/event/slotReward') {
-    fnSlotReward();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/campaign/list') {
-    fnCampaignList();
-  }
-  else if (window.location.pathname === '/en/'+platform+'/event/bingo') {
-    //fnEventBingo();
-  }
-  // /en/'+platform+'/dungeon/recovery
-  // /en/'+platform+'/dungeon/recoveryproc
 }
 
 function fnOnLoad() {
