@@ -22,38 +22,9 @@ if (typeof confirm_id == 'undefined') {
 // home
 
 function fnHome() {
-  fnProfileAddWallBookmarkSelector();
-  fnDeckAddFormationSelector();
-  document.getElementById('formationDiv').style.top = "100px";
-  fnSyncServer();
-}
+ fnRedirect('/en/profile?tab=1');
+ }
 
-function fnProfileAddWallBookmarkSelector() {
-   var i;
-   var divTag = document.createElement("div");
-
-   divTag.id = "wallBookmarkDiv";
-
-   divTag.style["z-index"] = 1000;
-
-   divTag.style.position = "absolute";
-
-   divTag.style.left = "200px";
-   divTag.style.top = "100px";
-
-   var selectorHTML = '<select name="sel" onchange="fnProfileGotoWallBookmark(this.options[this.options.selectedIndex].value);"><option selected value="0">Wall Bookmark</option>';
-   selectorHTML += '<option value="weekly1">Weekly Rank1</option>'
-   selectorHTML += '<option value="overall1">Overall Rank1</option>'
-   var aFriendArray = fnGetBookmarkFriendArray();
-   for (i=0;i<aFriendArray.length;i++) {
-   if (typeof(aFriendArray[i].split(fnGetConnector())[1]) == 'undefined') continue;
-   selectorHTML+='<option value="' + aFriendArray[i].split(fnGetConnector())[0] + '">' + aFriendArray[i].split(fnGetConnector())[1] + '</option>';
-   }
-   selectorHTML+='</select>';
-
-   divTag.innerHTML = selectorHTML;
-   document.body.appendChild(divTag);
-}
 
 // on load
 
