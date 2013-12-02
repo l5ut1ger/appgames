@@ -22,7 +22,7 @@ if (typeof confirm_id == 'undefined') {
 // home
 
 function fnHome() {
- fnRedirect('/en/profile?tab=1');
+ fnRedirect('http://app.en.legionwargame.com/en/profile?tab=1');
  }
 
 
@@ -35,7 +35,7 @@ function fnSetupPurrCSS() {
 }
 
 function fnTimeoutOnLoad() {
-  if (window.location.pathname === '/en/?:TIPS') {
+  if (window.location.pathname === 'http://app.en.legionwargame.com/en/profile?:TIPS') {
     fnHome();
   }
 }
